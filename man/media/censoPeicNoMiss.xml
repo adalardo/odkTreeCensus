@@ -1,0 +1,1411 @@
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:jr="http://openrosa.org/javarosa" xmlns:odk="http://www.opendatakit.org/xforms" xmlns:orx="http://openrosa.org/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <h:head>
+    <h:title>censoPeicNoMiss</h:title>
+    <model>
+      <itext>
+        <translation default="true()" lang="default">
+          <text id="/censoPeicNoMiss/subquad/quad5x5:label">
+            <value> Selecione a subparcela da parcela <output value=" /censoPeicNoMiss/parcela/quadrat "/> </value><value form="image">jr://images/map20.svg</value>
+          </text>
+          <text id="/censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key:label">
+            <value> Selecione a placa (&lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_tag0 "/><output value=" /censoPeicNoMiss/subquad/tree/tree_tag00 "/>
+               &lt;/span&gt;) no mapa </value>
+            <value form="image"> jr://images/<output value=" /censoPeicNoMiss/subquad/mapname "/> </value></text>
+          <text id="/censoPeicNoMiss/subquad/tree/newmap_codpos:label">
+            <value>Mapeamento</value>
+            <value form="image">jr://images/gridMap.svg</value>
+          </text>
+        </translation>
+      </itext>
+      <instance>
+        <censoPeicNoMiss id="PeicNoMiss_2018">
+          <today/>
+          <start/>
+          <end/>
+          <deviceid/>
+          <subscriberid/>
+          <simserial/>
+          <phonenumber/>
+          <username/>
+          <email/>
+          <tree_gps/>
+          <equipe>
+            <equipe_nomes/>
+            <equipe_nomes_other/>
+            <lider/>
+          </equipe>
+          <parcela>
+            <coluna/>
+            <linha/>
+            <quadrat/>
+            <piquete>ok</piquete>
+            <obs_quad/>
+          </parcela>
+          <sub_selected/>
+          <subquad jr:template="">
+            <so_sub/>
+            <quad5x5/>
+            <sel_subquad/>
+            <mapname/>
+            <n_sub/>
+            <tag_selected/>
+            <tree jr:template="">
+              <n_tree/>
+              <tree_type/>
+              <so_far/>
+              <tree_tag0/>
+              <tree_tag00/>
+              <tree_tag_seminfo/>
+              <tag_ok/>
+              <dead_tree>
+                <tag_dead/>
+                <dead_obs/>
+              </dead_tree>
+              <tree_recenso>
+                <arvmap_key/>
+                <tree_tag_map/>
+                <tree_tag/>
+                <old_dap/>
+                <old_dbhcm/>
+                <old_papcm/>
+                <old_dbhmm/>
+                <old_alt/>
+                <old_quad/>
+                <old_dx/>
+                <old_dy/>
+                <old_xy/>
+                <old_fam/>
+                <old_gen/>
+                <old_sp/>
+                <old_nfuste/>
+                <old_nsec/>
+                <arvmap_conf/>
+              </tree_recenso>
+              <confplaq_map>
+                <generated_note_name_73/>
+                <generated_note_name_74/>
+                <generated_note_name_75/>
+                <generated_note_name_76/>
+                <generated_note_name_77/>
+                <ileg_conf/>
+              </confplaq_map>
+              <newmap_codpos/>
+              <new_data>
+                <generated_note_name_85/>
+                <new_tag/>
+                <new_tag_picture/>
+                <alt2009/>
+                <alt_max0/>
+                <alt_max1/>
+                <tipo_med/>
+              </new_data>
+              <num_tag/>
+              <new_dap>
+                <dap2009/>
+                <dap2018_mm/>
+                <dap2018_cm/>
+                <pap2018_cm/>
+                <one_fuste/>
+              </new_dap>
+              <sec_fuste jr:template="">
+                <mult_fuste_seq/>
+                <mult_note/>
+                <dap_mm_sec/>
+                <dap_cm_sec/>
+                <pap_cm_sec/>
+              </sec_fuste>
+              <info_id/>
+              <new_id>
+                <new_fam/>
+                <new_gen/>
+                <new_sp/>
+                <coleta/>
+                <id_picture/>
+                <id_same/>
+              </new_id>
+              <conf_info>
+                <map2018/>
+                <dap2018/>
+                <alt2018/>
+                <fam2018/>
+                <sp2018/>
+                <difdap/>
+                <difalt/>
+                <treetype_label/>
+                <tagdead_label/>
+                <conf_tag/>
+                <conf_map/>
+                <conf_dead/>
+                <conf_dap/>
+                <conf_alt/>
+                <conf_det/>
+                <obs_tree/>
+                <tree_picture/>
+                <conf_ok/>
+              </conf_info>
+              <conf_diff>
+                <difdapOK/>
+                <difaltOK/>
+                <diff_type/>
+                <diff_obs/>
+              </conf_diff>
+              <generated_note_name_154/>
+            </tree>
+          </subquad>
+          <meta>
+            <instanceID/>
+          </meta>
+        </censoPeicNoMiss>
+      </instance>
+      <instance id="peic09" src="jr://file-csv/peic09.csv">
+        <root>
+          <item>
+            <name>_</name>
+            <label>_</label>
+          </item>
+        </root>
+      </instance>
+      <bind jr:preload="date" jr:preloadParams="today" nodeset="/censoPeicNoMiss/today" type="date"/>
+      <bind jr:preload="timestamp" jr:preloadParams="start" nodeset="/censoPeicNoMiss/start" type="dateTime"/>
+      <bind jr:preload="timestamp" jr:preloadParams="end" nodeset="/censoPeicNoMiss/end" type="dateTime"/>
+      <bind jr:preload="property" jr:preloadParams="deviceid" nodeset="/censoPeicNoMiss/deviceid" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="subscriberid" nodeset="/censoPeicNoMiss/subscriberid" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="simserial" nodeset="/censoPeicNoMiss/simserial" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="phonenumber" nodeset="/censoPeicNoMiss/phonenumber" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="username" nodeset="/censoPeicNoMiss/username" type="string"/>
+      <bind jr:preload="property" jr:preloadParams="email" nodeset="/censoPeicNoMiss/email" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/tree_gps" type="geopoint"/>
+      <bind jr:requiredMsg="necessario indicar a equipe" nodeset="/censoPeicNoMiss/equipe/equipe_nomes" required="true()" type="select"/>
+      <bind nodeset="/censoPeicNoMiss/equipe/equipe_nomes_other" relevant="selected( /censoPeicNoMiss/equipe/equipe_nomes , 'convidado')" type="string"/>
+      <bind constraint="selected( /censoPeicNoMiss/equipe/equipe_nomes ,  /censoPeicNoMiss/equipe/lider )" jr:constraintMsg="O lider precisa fazer parte da equipe" jr:requiredMsg="precisa indicar responsavel" nodeset="/censoPeicNoMiss/equipe/lider" required="true()" type="select1"/>
+      <bind jr:requiredMsg="deve selecionar a linha" nodeset="/censoPeicNoMiss/parcela/coluna" required="true()" type="select1"/>
+      <bind jr:requiredMsg="deve selecionar a linha" nodeset="/censoPeicNoMiss/parcela/linha" required="true()" type="select1"/>
+      <bind calculate="concat( /censoPeicNoMiss/parcela/coluna ,  /censoPeicNoMiss/parcela/linha )" nodeset="/censoPeicNoMiss/parcela/quadrat" type="string"/>
+      <bind jr:requiredMsg="defina a condição do piquete" nodeset="/censoPeicNoMiss/parcela/piquete" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/parcela/obs_quad" type="string"/>
+      <bind calculate="join(' ',  /censoPeicNoMiss/subquad/quad5x5 )" nodeset="/censoPeicNoMiss/sub_selected" type="string"/>
+      <bind calculate="if (position(..) = 1, '~', once(substr( /censoPeicNoMiss/sub_selected , 0, string-length( /censoPeicNoMiss/sub_selected ))))" nodeset="/censoPeicNoMiss/subquad/so_sub" type="string"/>
+      <bind jr:requiredMsg="selecione a subparcela" nodeset="/censoPeicNoMiss/subquad/quad5x5" required="true()" type="select1"/>
+      <bind calculate="concat( /censoPeicNoMiss/parcela/quadrat ,  /censoPeicNoMiss/subquad/quad5x5 )" nodeset="/censoPeicNoMiss/subquad/sel_subquad" type="string"/>
+      <bind calculate="concat('map',  /censoPeicNoMiss/subquad/sel_subquad ,'.svg')" nodeset="/censoPeicNoMiss/subquad/mapname" type="string"/>
+      <bind calculate="position(..)" nodeset="/censoPeicNoMiss/subquad/n_sub" type="string"/>
+      <bind calculate="join(' ',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tag_selected" type="string"/>
+      <bind calculate="position(..)" nodeset="/censoPeicNoMiss/subquad/tree/n_tree" type="string"/>
+      <bind jr:requiredMsg="selecionar se há ou não placa" nodeset="/censoPeicNoMiss/subquad/tree/tree_type" required="true()" type="select1"/>
+      <bind calculate="if (position(..) = 1, '~', once(substr( /censoPeicNoMiss/subquad/tag_selected , 0, string-length( /censoPeicNoMiss/subquad/tag_selected ))))" nodeset="/censoPeicNoMiss/subquad/tree/so_far" type="string"/>
+      <bind constraint="not(selected( /censoPeicNoMiss/subquad/tree/so_far , .))" jr:constraintMsg="Placa já selecionada! Selecione outro número e/ou edite a árvore já anotada." nodeset="/censoPeicNoMiss/subquad/tree/tree_tag0" relevant=" /censoPeicNoMiss/subquad/tree/tree_type ='plaqueada' or  /censoPeicNoMiss/subquad/tree/tree_type ='plaq_dead'" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/tree_tag00" relevant="( /censoPeicNoMiss/subquad/tree/tree_type ='plaqueada' or  /censoPeicNoMiss/subquad/tree/tree_type ='plaq_dead') and  /censoPeicNoMiss/subquad/tree/tree_tag0 =''" type="select1"/>
+      <bind jr:requiredMsg="indique o número da árvore" nodeset="/censoPeicNoMiss/subquad/tree/tree_tag_seminfo" relevant="( /censoPeicNoMiss/subquad/tree/tree_type ='plaqueada' or  /censoPeicNoMiss/subquad/tree/tree_type ='plaq_dead') and  /censoPeicNoMiss/subquad/tree/tree_tag0 ='' and  /censoPeicNoMiss/subquad/tree/tree_tag00  = ''" required="true()" type="int"/>
+      <bind jr:requiredMsg="faltou a condição da placa" nodeset="/censoPeicNoMiss/subquad/tree/tag_ok" relevant=" /censoPeicNoMiss/subquad/tree/tree_type ='plaqueada'" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/dead_tree/tag_dead" relevant=" /censoPeicNoMiss/subquad/tree/tree_type ='plaq_dead'" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/dead_tree/dead_obs" relevant=" /censoPeicNoMiss/subquad/tree/tree_type ='plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso" relevant="( /censoPeicNoMiss/subquad/tree/tree_type ='plaqueada' or  /censoPeicNoMiss/subquad/tree/tree_type  ='plaq_ileg' or  /censoPeicNoMiss/subquad/tree/tree_type  ='plaq_dead' or  /censoPeicNoMiss/subquad/tree/tree_type  = 'sem_plaq_gr') and  /censoPeicNoMiss/subquad/tree/tree_tag_seminfo  = ''"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key" relevant=" /censoPeicNoMiss/subquad/tree/tree_type !='plaq_dead'" type="select1"/>
+      <bind calculate="pulldata('peic09', 'tag', 'arv_key',  /censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag_map" relevant=" /censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key  !=''" type="string"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/tree_tag0  !=''),  /censoPeicNoMiss/subquad/tree/tree_tag0 , if(( /censoPeicNoMiss/subquad/tree/tree_tag00  !=''),  /censoPeicNoMiss/subquad/tree/tree_tag00 , if(( /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag_map !=''),  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag_map , '')))" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag" type="string"/>
+      <bind calculate="pulldata('peic09', 'dap', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_dap" type="string"/>
+      <bind calculate="pulldata('peic09', 'dbhcm', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_dbhcm" type="string"/>
+      <bind calculate=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dbhcm * pi()" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_papcm" type="string"/>
+      <bind calculate=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dbhcm  * 10" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_dbhmm" type="string"/>
+      <bind calculate="pulldata('peic09', 'alt', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_alt" type="string"/>
+      <bind calculate="pulldata('peic09', 'quad', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_quad" type="string"/>
+      <bind calculate="pulldata('peic09', 'dx', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_dx" type="string"/>
+      <bind calculate="pulldata('peic09', 'dy', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_dy" type="string"/>
+      <bind calculate="concat( /censoPeicNoMiss/subquad/tree/tree_recenso/old_dx ,'; ',  /censoPeicNoMiss/subquad/tree/tree_recenso/old_dy  )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_xy" type="string"/>
+      <bind calculate="pulldata('peic09', 'fam', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_fam" type="string"/>
+      <bind calculate="pulldata('peic09', 'gen', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_gen" type="string"/>
+      <bind calculate="pulldata('peic09', 'species', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_sp" type="string"/>
+      <bind calculate="pulldata('peic09', 'nfuste', 'tag',  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag )" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_nfuste" type="string"/>
+      <bind calculate=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_nfuste  - 1" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/old_nsec" type="string"/>
+      <bind jr:requiredMsg="selecione opção em &quot;Confirme mapeamento&quot;" nodeset="/censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_conf" relevant=" /censoPeicNoMiss/subquad/tree/tree_type !='plaq_dead'" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map" relevant="( /censoPeicNoMiss/subquad/tree/tree_type ='plaq_ileg' or  /censoPeicNoMiss/subquad/tree/tree_type ='sem_plaq_gr') and  /censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key  !=''"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_73" readonly="true()" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_74" readonly="true()" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_75" readonly="true()" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_76" readonly="true()" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_77" readonly="true()" type="string"/>
+      <bind jr:requiredMsg="grau de confiança de placa ilegível" nodeset="/censoPeicNoMiss/subquad/tree/confplaq_map/ileg_conf" relevant=" /censoPeicNoMiss/subquad/tree/tree_type ='plaq_ileg' or  /censoPeicNoMiss/subquad/tree/tree_type  = 'sem_plaq_gr'" required="true()" type="decimal"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/newmap_codpos" relevant=" /censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_conf ='map_no' or  /censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_conf  = 'map_null' or  /censoPeicNoMiss/subquad/tree/tree_type ='sem_info' or  /censoPeicNoMiss/subquad/tree/tree_tag_seminfo  != ''" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_data" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_data/generated_note_name_85" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/tag_ok  = 'no' and  /censoPeicNoMiss/subquad/tree/tree_type  = 'plaqueada'" type="string"/>
+      <bind jr:requiredMsg="faltou o número da placa" nodeset="/censoPeicNoMiss/subquad/tree/new_data/new_tag" relevant=" /censoPeicNoMiss/subquad/tree/tag_ok  = 'no' or  /censoPeicNoMiss/subquad/tree/tree_type  = 'plaq_ileg' or  /censoPeicNoMiss/subquad/tree/tree_type ='sem_info' or  /censoPeicNoMiss/subquad/tree/tree_type  = 'sem_plaq_gr'" required="true()" type="int"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_data/new_tag_picture" relevant=" /censoPeicNoMiss/subquad/tree/tag_ok  = 'no' or  /censoPeicNoMiss/subquad/tree/tree_type  = 'plaq_ileg' or  /censoPeicNoMiss/subquad/tree/tree_type ='sem_info' or  /censoPeicNoMiss/subquad/tree/tree_type  = 'sem_plaq_gr'" type="binary"/>
+      <bind calculate="if( /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag  !='',  /censoPeicNoMiss/subquad/tree/tree_recenso/old_alt , 'sem info')" nodeset="/censoPeicNoMiss/subquad/tree/new_data/alt2009" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_data/alt_max0" type="decimal"/>
+      <bind constraint=" /censoPeicNoMiss/subquad/tree/new_data/alt_max0 =''" jr:constraintMsg="A altura deve ser anotada em apenas uma das escalas" nodeset="/censoPeicNoMiss/subquad/tree/new_data/alt_max1" type="int"/>
+      <bind jr:requiredMsg="qual o tipo de medida?" nodeset="/censoPeicNoMiss/subquad/tree/new_data/tipo_med" required="true()" type="select1"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/new_data/new_tag  !=''), /censoPeicNoMiss/subquad/tree/new_data/new_tag , if(( /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag !=''),  /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag , if(( /censoPeicNoMiss/subquad/tree/tree_tag_seminfo  != ''),  /censoPeicNoMiss/subquad/tree/tree_tag_seminfo , '')))" nodeset="/censoPeicNoMiss/subquad/tree/num_tag" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_dap" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag  != ''),  /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap , 'sem info')" nodeset="/censoPeicNoMiss/subquad/tree/new_dap/dap2009" type="string"/>
+      <bind constraint=".&gt;=10 and .&lt;= 80" jr:constraintMsg="O valor deve ser menor que 80 e maior que 10 mm" jr:requiredMsg="valor do dap" nodeset="/censoPeicNoMiss/subquad/tree/new_dap/dap2018_mm" relevant=" /censoPeicNoMiss/subquad/tree/new_data/tipo_med  ='dap_mm'" required="true()" type="decimal"/>
+      <bind constraint=".&gt;=5 and .&lt;= 250" jr:constraintMsg="O valor deve ser &gt; 5 &lt; 150 cm, caso esteja usando fita diamétrica" jr:requiredMsg="valor do dap" nodeset="/censoPeicNoMiss/subquad/tree/new_dap/dap2018_cm" relevant=" /censoPeicNoMiss/subquad/tree/new_data/tipo_med  ='dap_cm'" required="true()" type="decimal"/>
+      <bind constraint=".&gt;= 3 and .&lt;= 450" jr:constraintMsg="O valor deve ser &gt; 3 &lt; 450 cm, caso esteja usando fita métrica normal para medida de perímetro" jr:requiredMsg="valor do pap" nodeset="/censoPeicNoMiss/subquad/tree/new_dap/pap2018_cm" relevant=" /censoPeicNoMiss/subquad/tree/new_data/tipo_med  ='pap_cm'" required="true()" type="decimal"/>
+      <bind jr:requiredMsg="um ou mais fustes" nodeset="/censoPeicNoMiss/subquad/tree/new_dap/one_fuste" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste" relevant=" /censoPeicNoMiss/subquad/tree/new_dap/one_fuste ='no'"/>
+      <bind calculate="position(..)" nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste/mult_fuste_seq" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste/mult_note" readonly="true()" type="string"/>
+      <bind constraint=" /censoPeicNoMiss/subquad/tree/sec_fuste/dap_cm_sec ='' and  /censoPeicNoMiss/subquad/tree/sec_fuste/pap_cm_sec ='' and .&gt;=10 and .&lt;= 80" jr:constraintMsg="Medida de paquimetro: &gt; 10 e &lt; 80 (mm)" nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste/dap_mm_sec" type="decimal"/>
+      <bind constraint=" /censoPeicNoMiss/subquad/tree/sec_fuste/dap_mm_sec ='' and  /censoPeicNoMiss/subquad/tree/sec_fuste/pap_cm_sec ='' and .&gt;=5 and .&lt;= 150" jr:constraintMsg="Utilize apenas um tipo de medida (fita diamétrica &gt; 5 cm &lt; 150 cm)" nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste/dap_cm_sec" type="decimal"/>
+      <bind constraint=" /censoPeicNoMiss/subquad/tree/sec_fuste/dap_mm_sec ='' and  /censoPeicNoMiss/subquad/tree/sec_fuste/dap_cm_sec ='' and .&gt;=15 and .&lt;= 450" jr:constraintMsg="Utilize apenas um tipo de medida (fita métrica, perímetro &gt; 15 cm &lt; 450 cm)" nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste/pap_cm_sec" type="decimal"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/info_id" relevant=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_sp  !='' and  /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id" relevant=" /censoPeicNoMiss/subquad/tree/info_id !='yes' and  /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id/new_fam" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id/new_gen" relevant=" /censoPeicNoMiss/subquad/tree/new_id/new_fam  != 'fam_indet'" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id/new_sp" relevant=" /censoPeicNoMiss/subquad/tree/new_id/new_fam  != 'fam_indet' and  /censoPeicNoMiss/subquad/tree/new_id/new_gen  != 'gen_indet'" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id/coleta" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id/id_picture" relevant=" /censoPeicNoMiss/subquad/tree/new_id/coleta  = 'few_leaves'" type="binary"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/new_id/id_same" relevant=" /censoPeicNoMiss/subquad/tree/new_id/coleta  = 'sameid_as'" type="int"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/newmap_codpos  != ''),  /censoPeicNoMiss/subquad/tree/newmap_codpos ,  /censoPeicNoMiss/subquad/tree/tree_recenso/old_xy )" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/map2018" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/new_dap/dap2018_mm  !=''),  /censoPeicNoMiss/subquad/tree/new_dap/dap2018_mm , if(( /censoPeicNoMiss/subquad/tree/new_dap/dap2018_cm  !=''),  /censoPeicNoMiss/subquad/tree/new_dap/dap2018_cm *10, if(( /censoPeicNoMiss/subquad/tree/new_dap/pap2018_cm  !=''),  /censoPeicNoMiss/subquad/tree/new_dap/pap2018_cm *10 div pi() ,'')))" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/dap2018" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/new_data/alt_max0  =''),  /censoPeicNoMiss/subquad/tree/new_data/alt_max1 ,  /censoPeicNoMiss/subquad/tree/new_data/alt_max0 )" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/alt2018" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/new_id/new_fam  !=''),  /censoPeicNoMiss/subquad/tree/new_id/new_fam , if(( /censoPeicNoMiss/subquad/tree/tree_recenso/old_fam !=''), /censoPeicNoMiss/subquad/tree/tree_recenso/old_fam , 'fam_indet'))" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/fam2018" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate="if(( /censoPeicNoMiss/subquad/tree/new_id/new_sp  !=''),  /censoPeicNoMiss/subquad/tree/new_id/new_sp , if(( /censoPeicNoMiss/subquad/tree/tree_recenso/old_sp !=''), /censoPeicNoMiss/subquad/tree/tree_recenso/old_sp , 'sp_indet'))" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/sp2018" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate=" /censoPeicNoMiss/subquad/tree/conf_info/dap2018  -  /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap " nodeset="/censoPeicNoMiss/subquad/tree/conf_info/difdap" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate=" /censoPeicNoMiss/subquad/tree/conf_info/alt2018  -  /censoPeicNoMiss/subquad/tree/tree_recenso/old_alt " nodeset="/censoPeicNoMiss/subquad/tree/conf_info/difalt" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind calculate="jr:choice-name(  /censoPeicNoMiss/subquad/tree/tree_type , ' /censoPeicNoMiss/subquad/tree/tree_type ')" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/treetype_label" type="string"/>
+      <bind calculate="jr:choice-name(  /censoPeicNoMiss/subquad/tree/dead_tree/tag_dead , ' /censoPeicNoMiss/subquad/tree/dead_tree/tag_dead ')" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/tagdead_label" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  = 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_tag" readonly="true()" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_map" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_dead" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  = 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_dap" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_alt" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_det" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/obs_tree" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_info/tree_picture" relevant=" /censoPeicNoMiss/subquad/tree/tree_type  != 'plaq_dead'" type="binary"/>
+      <bind constraint="( /censoPeicNoMiss/subquad/tree/num_tag  !='' and  /censoPeicNoMiss/subquad/tree/tree_type  = 'plaq_dead') or ( /censoPeicNoMiss/subquad/tree/num_tag  !='' and  /censoPeicNoMiss/subquad/tree/conf_info/map2018  !='' and  /censoPeicNoMiss/subquad/tree/conf_info/alt2018  !='' and  /censoPeicNoMiss/subquad/tree/conf_info/dap2018  !='')" jr:constraintMsg="Todos os campos obrigatórios devem ser preenchidos" jr:requiredMsg="falta informações obrigatórias?" nodeset="/censoPeicNoMiss/subquad/tree/conf_info/conf_ok" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_diff" relevant=" /censoPeicNoMiss/subquad/tree/conf_info/difalt  &lt; 0 or  /censoPeicNoMiss/subquad/tree/conf_info/difdap  &lt; 0"/>
+      <bind jr:requiredMsg="precisa confirmar diminuição de dap" nodeset="/censoPeicNoMiss/subquad/tree/conf_diff/difdapOK" relevant=" /censoPeicNoMiss/subquad/tree/conf_info/difdap  &lt; 0" required="true()" type="select1"/>
+      <bind jr:requiredMsg="precisa confirmar diminuição de altura" nodeset="/censoPeicNoMiss/subquad/tree/conf_diff/difaltOK" relevant=" /censoPeicNoMiss/subquad/tree/conf_info/difalt  &lt; 0" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_diff/diff_type" required="true()" type="select1"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/conf_diff/diff_obs" type="string"/>
+      <bind nodeset="/censoPeicNoMiss/subquad/tree/generated_note_name_154" readonly="true()" relevant=" /censoPeicNoMiss/subquad/tree/conf_diff/difdapOK  = 'no' or  /censoPeicNoMiss/subquad/tree/conf_diff/difaltOK  = 'no'" type="string"/>
+      <bind calculate="concat('uuid:', uuid())" nodeset="/censoPeicNoMiss/meta/instanceID" readonly="true()" type="string"/>
+    </model>
+  </h:head>
+  <h:body class="pages">
+    <input accuracyThreshold="4" ref="/censoPeicNoMiss/tree_gps">
+      <label>Coordenada gps</label>
+      <hint>Localização do vertice esquerdo inferior da parcela</hint>
+    </input>
+    <group appearance="field-list" ref="/censoPeicNoMiss/equipe">
+      <label>Equipe</label>
+      <select ref="/censoPeicNoMiss/equipe/equipe_nomes">
+        <label>Equipe nomes</label>
+        <item>
+          <label>Renan</label>
+          <value>renan</value>
+        </item>
+        <item>
+          <label>Danilo</label>
+          <value>danilo</value>
+        </item>
+        <item>
+          <label>Haron</label>
+          <value>haron</value>
+        </item>
+        <item>
+          <label>Jennifer</label>
+          <value>jennifer</value>
+        </item>
+        <item>
+          <label>Rafael</label>
+          <value>rafael</value>
+        </item>
+        <item>
+          <label>Carlota</label>
+          <value>carlota</value>
+        </item>
+        <item>
+          <label>Marina</label>
+          <value>marina</value>
+        </item>
+        <item>
+          <label>Laurinei</label>
+          <value>laurinei</value>
+        </item>
+        <item>
+          <label>Novo integrante não cadastrado</label>
+          <value>convidado</value>
+        </item>
+      </select>
+      <input ref="/censoPeicNoMiss/equipe/equipe_nomes_other">
+        <label>Nome não cadastrado:</label>
+      </input>
+      <select1 ref="/censoPeicNoMiss/equipe/lider">
+        <label>Responsável pela Equipe</label>
+        <item>
+          <label>Renan</label>
+          <value>renan</value>
+        </item>
+        <item>
+          <label>Danilo</label>
+          <value>danilo</value>
+        </item>
+        <item>
+          <label>Haron</label>
+          <value>haron</value>
+        </item>
+        <item>
+          <label>Jennifer</label>
+          <value>jennifer</value>
+        </item>
+        <item>
+          <label>Rafael</label>
+          <value>rafael</value>
+        </item>
+        <item>
+          <label>Carlota</label>
+          <value>carlota</value>
+        </item>
+        <item>
+          <label>Marina</label>
+          <value>marina</value>
+        </item>
+        <item>
+          <label>Laurinei</label>
+          <value>laurinei</value>
+        </item>
+        <item>
+          <label>Novo integrante não cadastrado</label>
+          <value>convidado</value>
+        </item>
+      </select1>
+    </group>
+    <group appearance="field-list" ref="/censoPeicNoMiss/parcela">
+      <label>Parcela</label>
+      <select1 appearance="compact" ref="/censoPeicNoMiss/parcela/coluna">
+        <label>Coluna da parcela</label>
+        <item>
+          <label>A</label>
+          <value>A</value>
+        </item>
+        <item>
+          <label>B</label>
+          <value>B</value>
+        </item>
+        <item>
+          <label>C</label>
+          <value>C</value>
+        </item>
+        <item>
+          <label>D</label>
+          <value>D</value>
+        </item>
+        <item>
+          <label>E</label>
+          <value>E</value>
+        </item>
+        <item>
+          <label>F</label>
+          <value>F</value>
+        </item>
+        <item>
+          <label>G</label>
+          <value>G</value>
+        </item>
+        <item>
+          <label>H</label>
+          <value>H</value>
+        </item>
+        <item>
+          <label>I</label>
+          <value>I</value>
+        </item>
+        <item>
+          <label>J</label>
+          <value>J</value>
+        </item>
+        <item>
+          <label>K</label>
+          <value>K</value>
+        </item>
+        <item>
+          <label>L</label>
+          <value>L</value>
+        </item>
+        <item>
+          <label>M</label>
+          <value>M</value>
+        </item>
+        <item>
+          <label>N</label>
+          <value>N</value>
+        </item>
+        <item>
+          <label>O</label>
+          <value>O</value>
+        </item>
+        <item>
+          <label>P</label>
+          <value>P</value>
+        </item>
+      </select1>
+      <select1 appearance="compact" ref="/censoPeicNoMiss/parcela/linha">
+        <label>Linha da parcela</label>
+        <item>
+          <label>00</label>
+          <value>00</value>
+        </item>
+        <item>
+          <label>01</label>
+          <value>01</value>
+        </item>
+        <item>
+          <label>02</label>
+          <value>02</value>
+        </item>
+        <item>
+          <label>03</label>
+          <value>03</value>
+        </item>
+        <item>
+          <label>04</label>
+          <value>04</value>
+        </item>
+        <item>
+          <label>05</label>
+          <value>05</value>
+        </item>
+        <item>
+          <label>06</label>
+          <value>06</value>
+        </item>
+        <item>
+          <label>07</label>
+          <value>07</value>
+        </item>
+        <item>
+          <label>08</label>
+          <value>08</value>
+        </item>
+        <item>
+          <label>09</label>
+          <value>09</value>
+        </item>
+        <item>
+          <label>10</label>
+          <value>10</value>
+        </item>
+        <item>
+          <label>11</label>
+          <value>11</value>
+        </item>
+        <item>
+          <label>12</label>
+          <value>12</value>
+        </item>
+        <item>
+          <label>13</label>
+          <value>13</value>
+        </item>
+        <item>
+          <label>14</label>
+          <value>14</value>
+        </item>
+        <item>
+          <label>15</label>
+          <value>15</value>
+        </item>
+      </select1>
+      <select1 ref="/censoPeicNoMiss/parcela/piquete">
+        <label>Condição do piquete</label>
+        <item>
+          <label>Satisfatório</label>
+          <value>ok</value>
+        </item>
+        <item>
+          <label>Trocar</label>
+          <value>trocar</value>
+        </item>
+        <item>
+          <label>Substituído</label>
+          <value>trocado</value>
+        </item>
+      </select1>
+      <input ref="/censoPeicNoMiss/parcela/obs_quad">
+        <label>Observações sobre o quadrat:</label>
+      </input>
+    </group>
+    <group ref="/censoPeicNoMiss/subquad">
+      <label> Subquadrado da Parcela <output value=" /censoPeicNoMiss/parcela/quadrat "/> - <output value=" /censoPeicNoMiss/subquad/quad5x5 "/> </label><repeat nodeset="/censoPeicNoMiss/subquad">
+        <select1 appearance="image-map" ref="/censoPeicNoMiss/subquad/quad5x5">
+          <label ref="jr:itext('/censoPeicNoMiss/subquad/quad5x5:label')"/>
+          <hint> Já selecionados (<output value=" /censoPeicNoMiss/subquad/so_sub "/>) </hint>
+          <item>
+            <label>0_0</label>
+            <value>quad_0x0</value>
+          </item>
+          <item>
+            <label>0_5</label>
+            <value>quad_0x5</value>
+          </item>
+          <item>
+            <label>0_10</label>
+            <value>quad_0x10</value>
+          </item>
+          <item>
+            <label>0_15</label>
+            <value>quad_0x15</value>
+          </item>
+          <item>
+            <label>5_0</label>
+            <value>quad_5x0</value>
+          </item>
+          <item>
+            <label>5_5</label>
+            <value>quad_5x5</value>
+          </item>
+          <item>
+            <label>5_10</label>
+            <value>quad_5x10</value>
+          </item>
+          <item>
+            <label>5_15</label>
+            <value>quad_5x15</value>
+          </item>
+          <item>
+            <label>10_0</label>
+            <value>quad_10x0</value>
+          </item>
+          <item>
+            <label>10_5</label>
+            <value>quad_10x5</value>
+          </item>
+          <item>
+            <label>10_10</label>
+            <value>quad_10x10</value>
+          </item>
+          <item>
+            <label>10_15</label>
+            <value>quad_10x15</value>
+          </item>
+          <item>
+            <label>15_0</label>
+            <value>quad_15x0</value>
+          </item>
+          <item>
+            <label>15_5</label>
+            <value>quad_15x5</value>
+          </item>
+          <item>
+            <label>15_10</label>
+            <value>quad_15x10</value>
+          </item>
+          <item>
+            <label>15_15</label>
+            <value>quad_15x15</value>
+          </item>
+        </select1>
+        <group ref="/censoPeicNoMiss/subquad/tree">
+          <label> Árvore &lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/num_tag "/>&lt;/span&gt; </label>
+          <repeat nodeset="/censoPeicNoMiss/subquad/tree">
+            <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/tree_type">
+              <label> Presença de placa (subquadrat &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/sel_subquad "/>&lt;/span&gt;) </label>
+              <hint>árvore com ou sem placa.</hint>
+              <item>
+                <label>sem placa</label>
+                <value>sem_info</value>
+              </item>
+              <item>
+                <label>plaqueada</label>
+                <value>plaqueada</value>
+              </item>
+              <item>
+                <label>placa ilegível ou perdida</label>
+                <value>plaq_ileg</value>
+              </item>
+              <item>
+                <label>árvore grande sem placa</label>
+                <value>sem_plaq_gr</value>
+              </item>
+              <item>
+                <label>morta (placa encontrada)</label>
+                <value>plaq_dead</value>
+              </item>
+            </select1>
+            <select1 appearance="autocomplete search('peic09', 'matches', &quot;subquad&quot;,  /censoPeicNoMiss/subquad/sel_subquad )" ref="/censoPeicNoMiss/subquad/tree/tree_tag0">
+              <label> Árvores já anotadas: (&lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/so_far "/>&lt;/span&gt;) </label>
+              <hint>Caso não encontre na lista, siga sem selecionar.</hint>
+              <item>
+                <label>tag</label>
+                <value>tag</value>
+              </item>
+            </select1>
+            <select1 appearance="autocomplete search('peic09')" ref="/censoPeicNoMiss/subquad/tree/tree_tag00">
+              <label> Árvores já anotadas: (&lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/so_far "/>&lt;/span&gt;) </label>
+              <hint>Tente novamente entre todos os números existentes na parcela:</hint>
+              <item>
+                <label>tag</label>
+                <value>tag</value>
+              </item>
+            </select1>
+            <input appearance="thousands-sep" ref="/censoPeicNoMiss/subquad/tree/tree_tag_seminfo">
+              <label>Número da placa antiga</label>
+              <hint>Número não consta na lista de placas do censo 2009, mas é placa antiga.</hint>
+            </input>
+            <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/tag_ok">
+              <label>A placa está em boas condições?</label>
+              <hint>A placa está legível e bem fixada (Não será trocada).</hint>
+              <item>
+                <label>sim</label>
+                <value>yes</value>
+              </item>
+              <item>
+                <label>não</label>
+                <value>no</value>
+              </item>
+            </select1>
+            <group ref="/censoPeicNoMiss/subquad/tree/dead_tree">
+              <label>Árvore morta</label>
+              <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/dead_tree/tag_dead">
+                <label>Indique o tipo de evidência de morte</label>
+                <item>
+                  <label>Morta em pé</label>
+                  <value>stand</value>
+                </item>
+                <item>
+                  <label>Tombada</label>
+                  <value>fallen</value>
+                </item>
+                <item>
+                  <label>Cortada</label>
+                  <value>cut</value>
+                </item>
+                <item>
+                  <label>Quebrada sem rebroto</label>
+                  <value>broken</value>
+                </item>
+                <item>
+                  <label>Quebrada com rebroto</label>
+                  <value>broken_sprout</value>
+                </item>
+                <item>
+                  <label>Placa encontrada solta</label>
+                  <value>tag_only</value>
+                </item>
+              </select1>
+              <input ref="/censoPeicNoMiss/subquad/tree/dead_tree/dead_obs">
+                <label>Observações sobre a árvore morta:</label>
+              </input>
+            </group>
+            <group appearance="field-list" ref="/censoPeicNoMiss/subquad/tree/tree_recenso">
+              <label>Árvore recenso</label>
+              <select1 appearance="image-map search('peic09', 'matches', &quot;subquad&quot;,  /censoPeicNoMiss/subquad/sel_subquad )" ref="/censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key">
+                <label ref="jr:itext('/censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_key:label')"/>
+                <hint> Mesmo que o mapeamento esteja incorreto, selecione caso possível (placas já selecionadas: <output value=" /censoPeicNoMiss/subquad/tag_selected "/>) </hint>
+                <item>
+                  <label>arv_key</label>
+                  <value>arv_key</value>
+                </item>
+              </select1>
+              <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/tree_recenso/arvmap_conf">
+                <label>Confirme o mapeamento:</label>
+                <hint> Coordenas na parcela <output value=" /censoPeicNoMiss/parcela/quadrat "/>: x = <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dx "/> e y = <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dy "/> </hint><item>
+                  <label>corretamente localizada</label>
+                  <value>map_yes</value>
+                </item>
+                <item>
+                  <label>erro de coordenada</label>
+                  <value>map_no</value>
+                </item>
+                <item>
+                  <label>não aparece no mapa</label>
+                  <value>map_null</value>
+                </item>
+              </select1>
+            </group>
+            <group appearance="field-list" ref="/censoPeicNoMiss/subquad/tree/confplaq_map">
+              <label>Dados da árvore selecionada no mapa</label>
+              <input ref="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_73">
+                <label> Placa no. &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag "/> &lt;/span&gt; </label>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_74">
+                <label> Altura (m): &lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_alt "/>&lt;/span&gt; </label>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_75">
+                <label> DAP (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap "/> &lt;/span&gt; </label>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_76">
+                <label> Posição: &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_xy "/> &lt;/span&gt; </label>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/confplaq_map/generated_note_name_77">
+                <label> Identificação: &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_sp "/> &lt;/span&gt; (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_fam "/>) </label>
+              </input>
+              <range end="1" ref="/censoPeicNoMiss/subquad/tree/confplaq_map/ileg_conf" start="0" step="0.1">
+                <label>Qual o grau de confiança na atribuição do número da placa perdida ou ilegível?</label>
+                <hint>0 nenhuma, 1 total</hint>
+              </range>
+            </group>
+            <select1 appearance="quick image-map" ref="/censoPeicNoMiss/subquad/tree/newmap_codpos">
+              <label ref="jr:itext('/censoPeicNoMiss/subquad/tree/newmap_codpos:label')"/>
+              <hint>Selecione a posição no quadrante:</hint>
+              <item>
+                <label>quad_0x0</label>
+                <value>quad_0x0</value>
+              </item>
+              <item>
+                <label>quad_0x0.5</label>
+                <value>quad_0x0.5</value>
+              </item>
+              <item>
+                <label>quad_0x1</label>
+                <value>quad_0x1</value>
+              </item>
+              <item>
+                <label>quad_0x1.5</label>
+                <value>quad_0x1.5</value>
+              </item>
+              <item>
+                <label>quad_0x2</label>
+                <value>quad_0x2</value>
+              </item>
+              <item>
+                <label>quad_0x2.5</label>
+                <value>quad_0x2.5</value>
+              </item>
+              <item>
+                <label>quad_0x3</label>
+                <value>quad_0x3</value>
+              </item>
+              <item>
+                <label>quad_0x3.5</label>
+                <value>quad_0x3.5</value>
+              </item>
+              <item>
+                <label>quad_0x4</label>
+                <value>quad_0x4</value>
+              </item>
+              <item>
+                <label>quad_0x4.5</label>
+                <value>quad_0x4.5</value>
+              </item>
+              <item>
+                <label>quad_0.5x0</label>
+                <value>quad_0.5x0</value>
+              </item>
+              <item>
+                <label>quad_0.5x0.5</label>
+                <value>quad_0.5x0.5</value>
+              </item>
+              <item>
+                <label>quad_0.5x1</label>
+                <value>quad_0.5x1</value>
+              </item>
+              <item>
+                <label>quad_0.5x1.5</label>
+                <value>quad_0.5x1.5</value>
+              </item>
+              <item>
+                <label>quad_0.5x2</label>
+                <value>quad_0.5x2</value>
+              </item>
+              <item>
+                <label>quad_0.5x2.5</label>
+                <value>quad_0.5x2.5</value>
+              </item>
+              <item>
+                <label>quad_0.5x3</label>
+                <value>quad_0.5x3</value>
+              </item>
+              <item>
+                <label>quad_0.5x3.5</label>
+                <value>quad_0.5x3.5</value>
+              </item>
+              <item>
+                <label>quad_0.5x4</label>
+                <value>quad_0.5x4</value>
+              </item>
+              <item>
+                <label>quad_0.5x4.5</label>
+                <value>quad_0.5x4.5</value>
+              </item>
+              <item>
+                <label>quad_1x0</label>
+                <value>quad_1x0</value>
+              </item>
+              <item>
+                <label>quad_1x0.5</label>
+                <value>quad_1x0.5</value>
+              </item>
+              <item>
+                <label>quad_1x1</label>
+                <value>quad_1x1</value>
+              </item>
+              <item>
+                <label>quad_1x1.5</label>
+                <value>quad_1x1.5</value>
+              </item>
+              <item>
+                <label>quad_1x2</label>
+                <value>quad_1x2</value>
+              </item>
+              <item>
+                <label>quad_1x2.5</label>
+                <value>quad_1x2.5</value>
+              </item>
+              <item>
+                <label>quad_1x3</label>
+                <value>quad_1x3</value>
+              </item>
+              <item>
+                <label>quad_1x3.5</label>
+                <value>quad_1x3.5</value>
+              </item>
+              <item>
+                <label>quad_1x4</label>
+                <value>quad_1x4</value>
+              </item>
+              <item>
+                <label>quad_1x4.5</label>
+                <value>quad_1x4.5</value>
+              </item>
+              <item>
+                <label>quad_1.5x0</label>
+                <value>quad_1.5x0</value>
+              </item>
+              <item>
+                <label>quad_1.5x0.5</label>
+                <value>quad_1.5x0.5</value>
+              </item>
+              <item>
+                <label>quad_1.5x1</label>
+                <value>quad_1.5x1</value>
+              </item>
+              <item>
+                <label>quad_1.5x1.5</label>
+                <value>quad_1.5x1.5</value>
+              </item>
+              <item>
+                <label>quad_1.5x2</label>
+                <value>quad_1.5x2</value>
+              </item>
+              <item>
+                <label>quad_1.5x2.5</label>
+                <value>quad_1.5x2.5</value>
+              </item>
+              <item>
+                <label>quad_1.5x3</label>
+                <value>quad_1.5x3</value>
+              </item>
+              <item>
+                <label>quad_1.5x3.5</label>
+                <value>quad_1.5x3.5</value>
+              </item>
+              <item>
+                <label>quad_1.5x4</label>
+                <value>quad_1.5x4</value>
+              </item>
+              <item>
+                <label>quad_1.5x4.5</label>
+                <value>quad_1.5x4.5</value>
+              </item>
+              <item>
+                <label>quad_2x0</label>
+                <value>quad_2x0</value>
+              </item>
+              <item>
+                <label>quad_2x0.5</label>
+                <value>quad_2x0.5</value>
+              </item>
+              <item>
+                <label>quad_2x1</label>
+                <value>quad_2x1</value>
+              </item>
+              <item>
+                <label>quad_2x1.5</label>
+                <value>quad_2x1.5</value>
+              </item>
+              <item>
+                <label>quad_2x2</label>
+                <value>quad_2x2</value>
+              </item>
+              <item>
+                <label>quad_2x2.5</label>
+                <value>quad_2x2.5</value>
+              </item>
+              <item>
+                <label>quad_2x3</label>
+                <value>quad_2x3</value>
+              </item>
+              <item>
+                <label>quad_2x3.5</label>
+                <value>quad_2x3.5</value>
+              </item>
+              <item>
+                <label>quad_2x4</label>
+                <value>quad_2x4</value>
+              </item>
+              <item>
+                <label>quad_2x4.5</label>
+                <value>quad_2x4.5</value>
+              </item>
+              <item>
+                <label>quad_2.5x0</label>
+                <value>quad_2.5x0</value>
+              </item>
+              <item>
+                <label>quad_2.5x0.5</label>
+                <value>quad_2.5x0.5</value>
+              </item>
+              <item>
+                <label>quad_2.5x1</label>
+                <value>quad_2.5x1</value>
+              </item>
+              <item>
+                <label>quad_2.5x1.5</label>
+                <value>quad_2.5x1.5</value>
+              </item>
+              <item>
+                <label>quad_2.5x2</label>
+                <value>quad_2.5x2</value>
+              </item>
+              <item>
+                <label>quad_2.5x2.5</label>
+                <value>quad_2.5x2.5</value>
+              </item>
+              <item>
+                <label>quad_2.5x3</label>
+                <value>quad_2.5x3</value>
+              </item>
+              <item>
+                <label>quad_2.5x3.5</label>
+                <value>quad_2.5x3.5</value>
+              </item>
+              <item>
+                <label>quad_2.5x4</label>
+                <value>quad_2.5x4</value>
+              </item>
+              <item>
+                <label>quad_2.5x4.5</label>
+                <value>quad_2.5x4.5</value>
+              </item>
+              <item>
+                <label>quad_3x0</label>
+                <value>quad_3x0</value>
+              </item>
+              <item>
+                <label>quad_3x0.5</label>
+                <value>quad_3x0.5</value>
+              </item>
+              <item>
+                <label>quad_3x1</label>
+                <value>quad_3x1</value>
+              </item>
+              <item>
+                <label>quad_3x1.5</label>
+                <value>quad_3x1.5</value>
+              </item>
+              <item>
+                <label>quad_3x2</label>
+                <value>quad_3x2</value>
+              </item>
+              <item>
+                <label>quad_3x2.5</label>
+                <value>quad_3x2.5</value>
+              </item>
+              <item>
+                <label>quad_3x3</label>
+                <value>quad_3x3</value>
+              </item>
+              <item>
+                <label>quad_3x3.5</label>
+                <value>quad_3x3.5</value>
+              </item>
+              <item>
+                <label>quad_3x4</label>
+                <value>quad_3x4</value>
+              </item>
+              <item>
+                <label>quad_3x4.5</label>
+                <value>quad_3x4.5</value>
+              </item>
+              <item>
+                <label>quad_3.5x0</label>
+                <value>quad_3.5x0</value>
+              </item>
+              <item>
+                <label>quad_3.5x0.5</label>
+                <value>quad_3.5x0.5</value>
+              </item>
+              <item>
+                <label>quad_3.5x1</label>
+                <value>quad_3.5x1</value>
+              </item>
+              <item>
+                <label>quad_3.5x1.5</label>
+                <value>quad_3.5x1.5</value>
+              </item>
+              <item>
+                <label>quad_3.5x2</label>
+                <value>quad_3.5x2</value>
+              </item>
+              <item>
+                <label>quad_3.5x2.5</label>
+                <value>quad_3.5x2.5</value>
+              </item>
+              <item>
+                <label>quad_3.5x3</label>
+                <value>quad_3.5x3</value>
+              </item>
+              <item>
+                <label>quad_3.5x3.5</label>
+                <value>quad_3.5x3.5</value>
+              </item>
+              <item>
+                <label>quad_3.5x4</label>
+                <value>quad_3.5x4</value>
+              </item>
+              <item>
+                <label>quad_3.5x4.5</label>
+                <value>quad_3.5x4.5</value>
+              </item>
+              <item>
+                <label>quad_4x0</label>
+                <value>quad_4x0</value>
+              </item>
+              <item>
+                <label>quad_4x0.5</label>
+                <value>quad_4x0.5</value>
+              </item>
+              <item>
+                <label>quad_4x1</label>
+                <value>quad_4x1</value>
+              </item>
+              <item>
+                <label>quad_4x1.5</label>
+                <value>quad_4x1.5</value>
+              </item>
+              <item>
+                <label>quad_4x2</label>
+                <value>quad_4x2</value>
+              </item>
+              <item>
+                <label>quad_4x2.5</label>
+                <value>quad_4x2.5</value>
+              </item>
+              <item>
+                <label>quad_4x3</label>
+                <value>quad_4x3</value>
+              </item>
+              <item>
+                <label>quad_4x3.5</label>
+                <value>quad_4x3.5</value>
+              </item>
+              <item>
+                <label>quad_4x4</label>
+                <value>quad_4x4</value>
+              </item>
+              <item>
+                <label>quad_4x4.5</label>
+                <value>quad_4x4.5</value>
+              </item>
+              <item>
+                <label>quad_4.5x0</label>
+                <value>quad_4.5x0</value>
+              </item>
+              <item>
+                <label>quad_4.5x0.5</label>
+                <value>quad_4.5x0.5</value>
+              </item>
+              <item>
+                <label>quad_4.5x1</label>
+                <value>quad_4.5x1</value>
+              </item>
+              <item>
+                <label>quad_4.5x1.5</label>
+                <value>quad_4.5x1.5</value>
+              </item>
+              <item>
+                <label>quad_4.5x2</label>
+                <value>quad_4.5x2</value>
+              </item>
+              <item>
+                <label>quad_4.5x2.5</label>
+                <value>quad_4.5x2.5</value>
+              </item>
+              <item>
+                <label>quad_4.5x3</label>
+                <value>quad_4.5x3</value>
+              </item>
+              <item>
+                <label>quad_4.5x3.5</label>
+                <value>quad_4.5x3.5</value>
+              </item>
+              <item>
+                <label>quad_4.5x4</label>
+                <value>quad_4.5x4</value>
+              </item>
+              <item>
+                <label>quad_4.5x4.5</label>
+                <value>quad_4.5x4.5</value>
+              </item>
+            </select1>
+            <group appearance="field-list" ref="/censoPeicNoMiss/subquad/tree/new_data">
+              <label> Dados 2018 (<output value=" /censoPeicNoMiss/subquad/tree/tree_type "/>) </label>
+              <input ref="/censoPeicNoMiss/subquad/tree/new_data/generated_note_name_85">
+                <label> árvore placa antiga no. <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag "/><output value=" /censoPeicNoMiss/subquad/tree/tree_tag_seminfo "/> </label>
+              </input>
+              <input appearance="thousands-sep" ref="/censoPeicNoMiss/subquad/tree/new_data/new_tag">
+                <label>Número da placa nova</label>
+              </input>
+              <upload mediatype="image/*" ref="/censoPeicNoMiss/subquad/tree/new_data/new_tag_picture">
+                <label>Foto da nova Placa</label>
+                <hint>Tire uma foto da placa junto ao tronco da árvore, se possível junto a placa antiga.</hint>
+              </upload>
+              <range end="10" ref="/censoPeicNoMiss/subquad/tree/new_data/alt_max0" start="1.5" step="0.5">
+                <label>Anote a altura se a árvore</label>
+                <hint> placa antiga <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag "/>, altura em 2009: <output value=" /censoPeicNoMiss/subquad/tree/new_data/alt2009 "/> m </hint>
+              </range>
+              <range end="25" ref="/censoPeicNoMiss/subquad/tree/new_data/alt_max1" start="10" step="1">
+                <label>&lt;span style="color:red"&gt;mais de 10m&lt;/span&gt;</label>
+              </range>
+              <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/new_data/tipo_med">
+                <label>Tipo de medida que será tomada:</label>
+                <item>
+                  <label>DAP com paquimetro</label>
+                  <value>dap_mm</value>
+                </item>
+                <item>
+                  <label>DAP com fita diamêtrica</label>
+                  <value>dap_cm</value>
+                </item>
+                <item>
+                  <label>Perímetro com fita métrica</label>
+                  <value>pap_cm</value>
+                </item>
+              </select1>
+            </group>
+            <group appearance="field-list" ref="/censoPeicNoMiss/subquad/tree/new_dap">
+              <label>Medida de DAP</label>
+              <input ref="/censoPeicNoMiss/subquad/tree/new_dap/dap2018_mm">
+                <label>DAP 2018 em &lt;span style="color:red"&gt;mm&lt;/span&gt;</label>
+                <hint> dap em 2009: (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap "/>) mm </hint>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/new_dap/dap2018_cm">
+                <label>DAP 2018 em &lt;span style="color:red"&gt;cm &lt;/span&gt; :</label>
+                <hint> dap em 2009: (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dbhcm "/>) cm </hint>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/new_dap/pap2018_cm">
+                <label>PAP 2018 em &lt;span style="color:red"&gt;cm &lt;/span&gt; :</label>
+                <hint> pap em 2009: (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_papcm "/>) cm </hint>
+              </input>
+              <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/new_dap/one_fuste">
+                <label>Árvore com um fuste?</label>
+                <hint> fustes 2009: <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_nfuste "/> </hint><item>
+                  <label>sim</label>
+                  <value>yes</value>
+                </item>
+                <item>
+                  <label>não</label>
+                  <value>no</value>
+                </item>
+              </select1>
+            </group>
+            <group ref="/censoPeicNoMiss/subquad/tree/sec_fuste">
+              <label>Múltiplos fustes</label>
+              <repeat appearance="field-list" nodeset="/censoPeicNoMiss/subquad/tree/sec_fuste">
+                <input ref="/censoPeicNoMiss/subquad/tree/sec_fuste/mult_note">
+                  <label>Medida de fuste secundário</label>
+                  <hint> escolha apenas uma forma de medida (cm ou mm). &lt;br&gt; Dap em 2009: (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap "/>) mm </hint>
+                </input>
+                <input ref="/censoPeicNoMiss/subquad/tree/sec_fuste/dap_mm_sec">
+                  <label> Medida de paquímetro (fuste secundário no. <output value=" /censoPeicNoMiss/subquad/tree/sec_fuste/mult_fuste_seq "/>) &lt;span style=&quot;color:red&quot;&gt;mm&lt;/span&gt;: </label>
+                </input>
+                <input ref="/censoPeicNoMiss/subquad/tree/sec_fuste/dap_cm_sec">
+                  <label> Medida fita diamétrica (fuste secundário <output value=" /censoPeicNoMiss/subquad/tree/sec_fuste/mult_fuste_seq "/>) em &lt;span style=&quot;color:red&quot;&gt;cm&lt;/span&gt;: </label>
+                </input>
+                <input ref="/censoPeicNoMiss/subquad/tree/sec_fuste/pap_cm_sec">
+                  <label> Medida perímetro com fita métrica (fuste secundário <output value=" /censoPeicNoMiss/subquad/tree/sec_fuste/mult_fuste_seq "/>) em &lt;span style=&quot;color:red&quot;&gt;cm&lt;/span&gt;: </label>
+                </input>
+              </repeat>
+            </group>
+            <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/info_id">
+              <label>Confirme Identificação da árvore</label>
+              <hint>
+                <output value=" /censoPeicNoMiss/subquad/tree/num_tag "/> : <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_sp "/> (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_fam "/>) </hint>
+              <item>
+                <label>confirmo</label>
+                <value>yes</value>
+              </item>
+              <item>
+                <label>informação incorreta</label>
+                <value>no</value>
+              </item>
+              <item>
+                <label>não tenho certeza</label>
+                <value>maybe</value>
+              </item>
+            </select1>
+            <group ref="/censoPeicNoMiss/subquad/tree/new_id">
+              <label>Identificação Botânica</label>
+              <select1 appearance="autocomplete search('peic09splist')" ref="/censoPeicNoMiss/subquad/tree/new_id/new_fam">
+                <label>Selecione uma familia</label>
+                <item>
+                  <label>fam</label>
+                  <value>fam</value>
+                </item>
+              </select1>
+              <select1 appearance="quick search('peic09splist', 'matches', 'fam',  /censoPeicNoMiss/subquad/tree/new_id/new_fam )" ref="/censoPeicNoMiss/subquad/tree/new_id/new_gen">
+                <label> Selecione um gênero (<output value=" /censoPeicNoMiss/subquad/tree/new_id/new_fam "/>) </label>
+                <item>
+                  <label>gen</label>
+                  <value>gen</value>
+                </item>
+              </select1>
+              <select1 appearance="quick search('peic09splist', 'matches', 'gen',  /censoPeicNoMiss/subquad/tree/new_id/new_gen )" ref="/censoPeicNoMiss/subquad/tree/new_id/new_sp">
+                <label> Selecione uma espécie (<output value=" /censoPeicNoMiss/subquad/tree/new_id/new_gen "/>) </label>
+                <item>
+                  <label>species</label>
+                  <value>species</value>
+                </item>
+              </select1>
+              <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/new_id/coleta">
+                <label>Coletar amostra botânica:</label>
+                <item>
+                  <label>já coletada</label>
+                  <value>coletada</value>
+                </item>
+                <item>
+                  <label>coletar tesoura</label>
+                  <value>tesoura</value>
+                </item>
+                <item>
+                  <label>coletar podão</label>
+                  <value>podao</value>
+                </item>
+                <item>
+                  <label>coletar escalador</label>
+                  <value>escalador</value>
+                </item>
+                <item>
+                  <label>sem folhas</label>
+                  <value>no_leaves</value>
+                </item>
+                <item>
+                  <label>poucas folhas</label>
+                  <value>few_leaves</value>
+                </item>
+                <item>
+                  <label>mesma sp da planta coletada: ...</label>
+                  <value>sameid_as</value>
+                </item>
+                <item>
+                  <label>identificação de campo sem coleta</label>
+                  <value>field</value>
+                </item>
+              </select1>
+              <upload mediatype="image/*" ref="/censoPeicNoMiss/subquad/tree/new_id/id_picture">
+                <label> Foto do indivíduo <output value=" /censoPeicNoMiss/subquad/tree/num_tag "/> </label><hint>Tire uma foto do ramo com folhas.</hint>
+              </upload>
+              <input ref="/censoPeicNoMiss/subquad/tree/new_id/id_same">
+                <label><output value=" /censoPeicNoMiss/subquad/tree/num_tag "/> é similar a espécie da árvore: </label><hint>Caso tenha algum indivíduo similar nas proximidades digite o número da placa.</hint>
+              </input>
+            </group>
+            <group appearance="field-list" ref="/censoPeicNoMiss/subquad/tree/conf_info">
+              <label> Confirme informações da ávore <output value=" /censoPeicNoMiss/subquad/tree/num_tag "/>: </label>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_tag">
+                <label> Número da placa: &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/num_tag "/>&lt;/span&gt; </label>
+                <hint> Placa 2009: <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/tree_tag "/> </hint></input>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_map">
+                <label> Mapeamento: &lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/sel_subquad "/> (<output value=" /censoPeicNoMiss/subquad/tree/conf_info/map2018 "/>)&lt;/span&gt; </label>
+                <hint> Mapa 2009: <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_quad "/>: x = <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dx "/>; y = <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dy "/> </hint></input>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_dead">
+                <label> Árvore <output value=" /censoPeicNoMiss/subquad/tree/conf_info/treetype_label "/>: &lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/conf_info/tagdead_label "/>&lt;/span&gt; </label>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_dap">
+                <label> Diametro do fuste principal (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/conf_info/dap2018 "/> &lt;/span&gt; </label>
+                <hint> Dap 2009: <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap "/> </hint></input>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_alt">
+                <label> Altura (m): &lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/conf_info/alt2018 "/>&lt;/span&gt; </label>
+                <hint> Altura 2009: <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_alt "/> </hint></input>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_det">
+                <label> Identificação: &lt;span style=&quot;color:red&quot;&gt; <output value=" /censoPeicNoMiss/subquad/tree/conf_info/sp2018 "/> (<output value=" /censoPeicNoMiss/subquad/tree/conf_info/fam2018 "/>)&lt;/span&gt; </label>
+                <hint> Id 2009: <output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_sp "/> (<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_fam "/>) </hint>
+              </input>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_info/obs_tree">
+                <label>Observações adicionais:</label>
+                <hint> (&lt;span style=&quot;color:red&quot;&gt; arv # <output value=" /censoPeicNoMiss/subquad/tree/num_tag "/>&lt;/span&gt;) </hint>
+              </input>
+              <upload mediatype="image/*" ref="/censoPeicNoMiss/subquad/tree/conf_info/tree_picture">
+                <label> Foto da planta <output value=" /censoPeicNoMiss/subquad/tree/num_tag "/> </label></upload>
+              <select1 appearance="quick" ref="/censoPeicNoMiss/subquad/tree/conf_info/conf_ok">
+                <label>Confirme as informações:</label>
+                <hint>Caso as informações não estejam corretas, clique no icone &lt;span style="color:red"&gt; seta.ponto &lt;/span&gt; e ajuste os dados.</hint>
+                <item>
+                  <label>Sim e adicionar árvore</label>
+                  <value>yes_next</value>
+                </item>
+                <item>
+                  <label>Sim e não há mais árvores</label>
+                  <value>yes_end</value>
+                </item>
+              </select1>
+            </group>
+            <group appearance="field-list" ref="/censoPeicNoMiss/subquad/tree/conf_diff">
+              <label>Conflito de medidas</label>
+              <select1 ref="/censoPeicNoMiss/subquad/tree/conf_diff/difdapOK">
+                <label>Confirme diminuição de dap</label>
+                <hint> O dap passou de &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_dap "/>&lt;/span&gt; para &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/conf_info/dap2018 "/>&lt;/span&gt;, confirme a medida! </hint>
+                <item>
+                  <label>sim</label>
+                  <value>yes</value>
+                </item>
+                <item>
+                  <label>não</label>
+                  <value>no</value>
+                </item>
+              </select1>
+              <select1 ref="/censoPeicNoMiss/subquad/tree/conf_diff/difaltOK">
+                <label>Confirme diminuição de altura</label>
+                <hint> A altura passou de &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/tree_recenso/old_alt "/>&lt;/span&gt; para &lt;span style=&quot;color:red&quot;&gt;<output value=" /censoPeicNoMiss/subquad/tree/conf_info/alt2018 "/>&lt;/span&gt;, confirme a medida! </hint>
+                <item>
+                  <label>sim</label>
+                  <value>yes</value>
+                </item>
+                <item>
+                  <label>não</label>
+                  <value>no</value>
+                </item>
+              </select1>
+              <select1 ref="/censoPeicNoMiss/subquad/tree/conf_diff/diff_type">
+                <label>Qual a provável fonte da diferença nas medidas?</label>
+                <item>
+                  <label>quebrada</label>
+                  <value>quebrada</value>
+                </item>
+                <item>
+                  <label>Inclinada</label>
+                  <value>inclinada</value>
+                </item>
+                <item>
+                  <label>caída</label>
+                  <value>caida</value>
+                </item>
+                <item>
+                  <label>calo no ponto de medida</label>
+                  <value>calo</value>
+                </item>
+                <item>
+                  <label>muitas epifitas</label>
+                  <value>epifitas</value>
+                </item>
+                <item>
+                  <label>erro na medida anterior</label>
+                  <value>error</value>
+                </item>
+              </select1>
+              <input ref="/censoPeicNoMiss/subquad/tree/conf_diff/diff_obs">
+                <label>Outros motivos para a diferença de medidas:</label>
+              </input>
+            </group>
+            <input ref="/censoPeicNoMiss/subquad/tree/generated_note_name_154">
+              <label>Não foi confirmada a diminuição de dap ou de altura</label>
+              <hint>Refaça as medidas e corrija!</hint>
+            </input>
+          </repeat>
+        </group>
+      </repeat>
+    </group>
+  </h:body>
+</h:html>

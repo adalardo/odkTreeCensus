@@ -1,0 +1,270 @@
+det_key,fam,gen,species
+1,fam_indet,gen_indet,sp_indet
+2,Anacardiaceae,gen_indet,Anac_sp_indet
+3,Annonaceae,gen_indet,Anno_sp_indet
+4,Apocynaceae,gen_indet,Apoc_sp_indet
+5,Aquifoliaceae,gen_indet,Aqui_sp_indet
+6,Araliaceae,gen_indet,Aral_sp_indet
+7,Arecaceae,gen_indet,Arec_sp_indet
+8,Asteraceae,gen_indet,Aste_sp_indet
+9,Bignoniaceae,gen_indet,Bign_sp_indet
+10,Boraginaceae,gen_indet,Bora_sp_indet
+11,Burseraceae,gen_indet,Burs_sp_indet
+12,Celastraceae,gen_indet,Cela_sp_indet
+13,Chloranthaceae,gen_indet,Chlo_sp_indet
+14,Chrysobalanaceae,gen_indet,Chry_sp_indet
+15,Clethraceae,gen_indet,Clet_sp_indet
+16,Clusiaceae,gen_indet,Clus_sp_indet
+17,Cunoniaceae,gen_indet,Cuno_sp_indet
+18,Cyatheaceae,gen_indet,Cyat_sp_indet
+19,Elaeocarpaceae,gen_indet,Elae_sp_indet
+20,Erythroxylaceae,gen_indet,Eryt_sp_indet
+21,Euphorbiaceae,gen_indet,Euph_sp_indet
+22,Fabaceae,gen_indet,Faba_sp_indet
+23,Humiriaceae,gen_indet,Humi_sp_indet
+24,Lauraceae,gen_indet,Laur_sp_indet
+25,Malpighiaceae,gen_indet,Malp_sp_indet
+26,Melastomataceae,gen_indet,Mela_sp_indet
+27,Meliaceae,gen_indet,Meli_sp_indet
+28,Monimiaceae,gen_indet,Moni_sp_indet
+29,Moraceae,gen_indet,Mora_sp_indet
+30,Myrtaceae,gen_indet,Myrt_sp_indet
+31,Nyctaginaceae,gen_indet,Nyct_sp_indet
+32,Ochnaceae,gen_indet,Ochn_sp_indet
+33,Olacaceae,gen_indet,Olac_sp_indet
+34,Oleaceae,gen_indet,Olea_sp_indet
+35,Pentaphylacaceae,gen_indet,Pent_sp_indet
+36,Peraceae,gen_indet,Pera_sp_indet
+37,Podocarpaceae,gen_indet,Podo_sp_indet
+38,Primulaceae,gen_indet,Prim_sp_indet
+39,Rosaceae,gen_indet,Rosa_sp_indet
+40,Rubiaceae,gen_indet,Rubi_sp_indet
+41,Sapindaceae,gen_indet,Sapi_sp_indet
+42,Sapotaceae,gen_indet,Sapo_sp_indet
+43,Solanaceae,gen_indet,Sola_sp_indet
+44,Styracaceae,gen_indet,Styr_sp_indet
+45,Symplocaceae,gen_indet,Symp_sp_indet
+46,Theaceae,gen_indet,Thea_sp_indet
+47,Thymelaeaceae,gen_indet,Thym_sp_indet
+48,Urticaceae,gen_indet,Urti_sp_indet
+49,Vochysiaceae,gen_indet,Voch_sp_indet
+50,Anacardiaceae,Tapirira,Tapirira sp_indet
+51,Annonaceae,Annona,Annona sp_indet
+52,Annonaceae,Guatteria,Guatteria sp_indet
+53,Annonaceae,Xylopia,Xylopia sp_indet
+54,Apocynaceae,Malouetia,Malouetia sp_indet
+55,Aquifoliaceae,Ilex,Ilex sp_indet
+56,Araliaceae,Dendropanax,Dendropanax sp_indet
+57,Araliaceae,Schefflera,Schefflera sp_indet
+58,Arecaceae,Astrocaryum,Astrocaryum sp_indet
+59,Arecaceae,Bactris,Bactris sp_indet
+60,Arecaceae,Euterpe,Euterpe sp_indet
+61,Arecaceae,Geonoma,Geonoma sp_indet
+62,Arecaceae,Syagrus,Syagrus sp_indet
+63,Asteraceae,Piptocarpha,Piptocarpha sp_indet
+64,Bignoniaceae,Jacaranda,Jacaranda sp_indet
+65,Bignoniaceae,Tabebuia,Tabebuia sp_indet
+66,Boraginaceae,Cordia,Cordia sp_indet
+67,Burseraceae,Protium,Protium sp_indet
+68,Celastraceae,Maytenus,Maytenus sp_indet
+69,Chloranthaceae,Hedyosmum,Hedyosmum sp_indet
+70,Chrysobalanaceae,Hirtella,Hirtella sp_indet
+71,Clethraceae,Clethra,Clethra sp_indet
+72,Clusiaceae,Calophyllum,Calophyllum sp_indet
+73,Clusiaceae,Clusia,Clusia sp_indet
+74,Clusiaceae,Garcinia,Garcinia sp_indet
+75,Cunoniaceae,Weinmannia,Weinmannia sp_indet
+76,Cyatheaceae,Cyathea,Cyathea sp_indet
+77,Elaeocarpaceae,Sloanea,Sloanea sp_indet
+78,Erythroxylaceae,Erythroxylum,Erythroxylum sp_indet
+79,Euphorbiaceae,Alchornea,Alchornea sp_indet
+80,Euphorbiaceae,Aparisthmium,Aparisthmium sp_indet
+81,Euphorbiaceae,Croton,Croton sp_indet
+82,Euphorbiaceae,Maprounea,Maprounea sp_indet
+83,Fabaceae,Abarema,Abarema sp_indet
+84,Fabaceae,Albizia,Albizia sp_indet
+85,Fabaceae,Andira,Andira sp_indet
+86,Fabaceae,Hymenolobium,Hymenolobium sp_indet
+87,Fabaceae,Ormosia,Ormosia sp_indet
+88,Humiriaceae,Humiriastrum,Humiriastrum sp_indet
+89,Lauraceae,Aiouea,Aiouea sp_indet
+90,Lauraceae,Aniba,Aniba sp_indet
+91,Lauraceae,Endlicheria,Endlicheria sp_indet
+92,Lauraceae,Nectandra,Nectandra sp_indet
+93,Lauraceae,Ocotea,Ocotea sp_indet
+94,Lauraceae,Persea,Persea sp_indet
+95,Malpighiaceae,Byrsonima,Byrsonima sp_indet
+96,Melastomataceae,Miconia,Miconia sp_indet
+97,Melastomataceae,Tibouchina,Tibouchina sp_indet
+98,Meliaceae,Cabralea,Cabralea sp_indet
+99,Meliaceae,Guarea,Guarea sp_indet
+100,Monimiaceae,Mollinedia,Mollinedia sp_indet
+101,Moraceae,Ficus,Ficus sp_indet
+102,Myrtaceae,Blepharocalyx,Blepharocalyx sp_indet
+103,Myrtaceae,Calyptranthes,Calyptranthes sp_indet
+104,Myrtaceae,Eugenia,Eugenia sp_indet
+105,Myrtaceae,Marlierea,Marlierea sp_indet
+106,Myrtaceae,Myrceugenia,Myrceugenia sp_indet
+107,Myrtaceae,Myrcia,Myrcia sp_indet
+108,Myrtaceae,Neomitranthes,Neomitranthes sp_indet
+109,Myrtaceae,Pimenta,Pimenta sp_indet
+110,Myrtaceae,Psidium,Psidium sp_indet
+111,Myrtaceae,Siphoneugena,Siphoneugena sp_indet
+112,Nyctaginaceae,Guapira,Guapira sp_indet
+113,Ochnaceae,Ouratea,Ouratea sp_indet
+114,Olacaceae,Heisteria,Heisteria sp_indet
+115,Olacaceae,Ximenia,Ximenia sp_indet
+116,Oleaceae,Chionanthus,Chionanthus sp_indet
+117,Pentaphylacaceae,Ternstroemia,Ternstroemia sp_indet
+118,Peraceae,Pera,Pera sp_indet
+119,Podocarpaceae,Podocarpus,Podocarpus sp_indet
+120,Primulaceae,Cybianthus,Cybianthus sp_indet
+121,Primulaceae,Myrsine,Myrsine sp_indet
+122,Rosaceae,Prunus,Prunus sp_indet
+123,Rubiaceae,Amaioua,Amaioua sp_indet
+124,Rubiaceae,Cordiera,Cordiera sp_indet
+125,Rubiaceae,Ixora,Ixora sp_indet
+126,Rubiaceae,Posoqueria,Posoqueria sp_indet
+127,Rubiaceae,Psychotria,Psychotria sp_indet
+128,Rubiaceae,Rudgea,Rudgea sp_indet
+129,Sapindaceae,Matayba,Matayba sp_indet
+130,Sapotaceae,Ecclinusa,Ecclinusa sp_indet
+131,Sapotaceae,Manilkara,Manilkara sp_indet
+132,Sapotaceae,Pouteria,Pouteria sp_indet
+133,Solanaceae,Solanum,Solanum sp_indet
+134,Styracaceae,Styrax,Styrax sp_indet
+135,Symplocaceae,Symplocos,Symplocos sp_indet
+136,Theaceae,Laplacea,Laplacea sp_indet
+137,Thymelaeaceae,Daphnopsis,Daphnopsis sp_indet
+138,Urticaceae,Cecropia,Cecropia sp_indet
+139,Urticaceae,Coussapoa,Coussapoa sp_indet
+140,Vochysiaceae,Vochysia,Vochysia sp_indet
+141,Anacardiaceae,Tapirira,Tapirira guianensis
+142,Annonaceae,Annona,Annona neosericea
+143,Annonaceae,Guatteria,Guatteria australis
+144,Annonaceae,Xylopia,Xylopia brasiliensis
+145,Annonaceae,Xylopia,Xylopia langsdorffiana
+146,Apocynaceae,Malouetia,Malouetia cestroides
+147,Aquifoliaceae,Ilex,Ilex dumosa
+148,Aquifoliaceae,Ilex,Ilex pseudobuxus
+149,Aquifoliaceae,Ilex,Ilex theezans
+150,Araliaceae,Dendropanax,Dendropanax sp.1
+151,Araliaceae,Schefflera,Schefflera angustissima
+152,Arecaceae,Astrocaryum,Astrocaryum aculeatissimum
+153,Arecaceae,Bactris,Bactris hatschbachii
+154,Arecaceae,Bactris,Bactris setosa
+155,Arecaceae,Euterpe,Euterpe edulis
+156,Arecaceae,Geonoma,Geonoma schottiana
+157,Arecaceae,Syagrus,Syagrus romanzoffiana
+158,Asteraceae,Piptocarpha,Piptocarpha oblonga
+159,Asteraceae,Piptocarpha,Piptocarpha sp.1
+160,Bignoniaceae,Jacaranda,Jacaranda puberula
+161,Bignoniaceae,Tabebuia,Tabebuia alba
+162,Bignoniaceae,Tabebuia,Tabebuia cassinoides
+163,Boraginaceae,Cordia,Cordia sellowiana
+164,Burseraceae,Protium,Protium kleinii
+165,Celastraceae,Maytenus,Maytenus robusta
+166,Chloranthaceae,Hedyosmum,Hedyosmum brasiliense
+167,Chrysobalanaceae,Hirtella,Hirtella angustifolia
+168,Chrysobalanaceae,Hirtella,Hirtella hebeclada
+169,Clethraceae,Clethra,Clethra scabra
+170,Clusiaceae,Calophyllum,Calophyllum brasiliense
+171,Clusiaceae,Clusia,Clusia criuva
+172,Clusiaceae,Garcinia,Garcinia gardneriana
+173,Cunoniaceae,Weinmannia,Weinmannia paulliniifolia
+174,Cyatheaceae,Cyathea,Cyathea microdonta
+175,Elaeocarpaceae,Sloanea,Sloanea guianensis
+176,Erythroxylaceae,Erythroxylum,Erythroxylum amplifolium
+177,Euphorbiaceae,Alchornea,Alchornea triplinervia
+178,Euphorbiaceae,Aparisthmium,Aparisthmium cordatum
+179,Euphorbiaceae,Croton,Croton sphaerogynus
+180,Euphorbiaceae,Maprounea,Maprounea guianensis
+181,Fabaceae,Abarema,Abarema brachystachya
+182,Fabaceae,Abarema,Abarema langsdorffii
+183,Fabaceae,Albizia,Albizia pedicellaris
+184,Fabaceae,Andira,Andira anthelmia
+185,Fabaceae,Hymenolobium,Hymenolobium janeirense
+186,Fabaceae,Ormosia,Ormosia arborea
+187,Humiriaceae,Humiriastrum,Humiriastrum dentatum
+188,Lauraceae,Aiouea,Aiouea saligna
+189,Lauraceae,Aniba,Aniba viridis
+190,Lauraceae,Endlicheria,Endlicheria paniculata
+191,Lauraceae,Nectandra,Nectandra grandiflora
+192,Lauraceae,Nectandra,Nectandra oppositifolia
+193,Lauraceae,Ocotea,Ocotea aciphylla
+194,Lauraceae,Ocotea,Ocotea dispersa
+195,Lauraceae,Ocotea,Ocotea glaziovii
+196,Lauraceae,Ocotea,Ocotea pulchella
+197,Lauraceae,Ocotea,Ocotea pulchra
+198,Lauraceae,Ocotea,Ocotea venulosa
+199,Lauraceae,Persea,Persea willdenovii
+200,Malpighiaceae,Byrsonima,Byrsonima ligustrifolia
+201,Melastomataceae,Miconia,Miconia chartacea
+202,Melastomataceae,Miconia,Miconia cubatanensis
+203,Melastomataceae,Miconia,Miconia pusilliflora
+204,Melastomataceae,Miconia,Miconia saldanhaei
+205,Melastomataceae,Tibouchina,Tibouchina trichopoda
+206,Meliaceae,Cabralea,Cabralea canjerana
+207,Meliaceae,Guarea,Guarea macrophylla
+208,Monimiaceae,Mollinedia,Mollinedia boracensis
+209,Monimiaceae,Mollinedia,Mollinedia schottiana
+210,Moraceae,Ficus,Ficus eximia
+211,Moraceae,Ficus,Ficus luschnathiana
+212,Moraceae,Ficus,Ficus organensis
+213,Moraceae,Ficus,Ficus pulchella
+214,Myrtaceae,Blepharocalyx,Blepharocalyx salicifolius
+215,Myrtaceae,Calyptranthes,Calyptranthes concinna
+216,Myrtaceae,Eugenia,Eugenia neoglomerata
+217,Myrtaceae,Eugenia,Eugenia stigmatosa
+218,Myrtaceae,Eugenia,Eugenia sulcata
+219,Myrtaceae,Eugenia,Eugenia umbelliflora
+220,Myrtaceae,Marlierea,Marlierea racemosa
+221,Myrtaceae,Myrceugenia,Myrceugenia myrcioides
+222,Myrtaceae,Myrcia,Myrcia brasiliensis
+223,Myrtaceae,Myrcia,Myrcia glabra
+224,Myrtaceae,Myrcia,Myrcia hebepetala
+225,Myrtaceae,Myrcia,Myrcia ilheosensis
+226,Myrtaceae,Myrcia,Myrcia insularis
+227,Myrtaceae,Myrcia,Myrcia multiflora
+228,Myrtaceae,Myrcia,Myrcia pubipetala
+229,Myrtaceae,Myrcia,Myrcia pulchra
+230,Myrtaceae,Myrcia,Myrcia racemosa
+231,Myrtaceae,Myrcia,Myrcia sp.1
+232,Myrtaceae,Myrcia,Myrcia splendens
+233,Myrtaceae,Neomitranthes,Neomitranthes glomerata
+234,Myrtaceae,Pimenta,Pimenta pseudocaryophyllus
+235,Myrtaceae,Psidium,Psidium cattleyanum
+236,Myrtaceae,Siphoneugena,Siphoneugena guilfoyleiana
+237,Nyctaginaceae,Guapira,Guapira opposita
+238,Ochnaceae,Ouratea,Ouratea parviflora
+239,Olacaceae,Heisteria,Heisteria silvianii
+240,Olacaceae,Ximenia,Ximenia americana
+241,Oleaceae,Chionanthus,Chionanthus filiformis
+242,Pentaphylacaceae,Ternstroemia,Ternstroemia brasiliensis
+243,Peraceae,Pera,Pera glabrata
+244,Podocarpaceae,Podocarpus,Podocarpus sellowii
+245,Primulaceae,Cybianthus,Cybianthus brasiliensis
+246,Primulaceae,Myrsine,Myrsine guianensis
+247,Primulaceae,Myrsine,Myrsine umbellata
+248,Primulaceae,Myrsine,Myrsine venosa
+249,Rosaceae,Prunus,Prunus myrtifolia
+250,Rubiaceae,Amaioua,Amaioua intermedia
+251,Rubiaceae,Cordiera,Cordiera myrciifolia
+252,Rubiaceae,Ixora,Ixora sp.1
+253,Rubiaceae,Posoqueria,Posoqueria latifolia
+254,Rubiaceae,Psychotria,Psychotria hastisepala
+255,Rubiaceae,Psychotria,Psychotria hoffmannseggiana
+256,Rubiaceae,Psychotria,Psychotria mapourioides
+257,Rubiaceae,Rudgea,Rudgea villiflora
+258,Sapindaceae,Matayba,Matayba guianensis
+259,Sapotaceae,Ecclinusa,Ecclinusa ramiflora
+260,Sapotaceae,Manilkara,Manilkara subsericea
+261,Sapotaceae,Pouteria,Pouteria beaurepairei
+262,Solanaceae,Solanum,Solanum cinnamomeum
+263,Styracaceae,Styrax,Styrax glabratus
+264,Symplocaceae,Symplocos,Symplocos laxiflora
+265,Theaceae,Laplacea,Laplacea fructicosa
+266,Thymelaeaceae,Daphnopsis,Daphnopsis racemosa
+267,Urticaceae,Cecropia,Cecropia pachystachya
+268,Urticaceae,Coussapoa,Coussapoa microcarpa
+269,Vochysiaceae,Vochysia,Vochysia bifalcata

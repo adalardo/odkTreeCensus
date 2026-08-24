@@ -1,0 +1,701 @@
+% ODK Collect - PPSP
+\documentclass[12pt, a4paper]{article} %padrao letterpaper, 10pt
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[defaultfam,tabular,lining]{montserrat} %% Option 'defaultfam'
+%% only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+\renewcommand*\oldstylenums[1]{{\fontfamily{Montserrat-TOsF}\selectfont #1}}
+%% font Nimbus Roman ~ Times New Roman
+\usepackage{mathptmx}
+%\usepackage[latin1]{inputenc}
+% \usepackage{dejavu}
+% \renewcommand*\familydefault{\ttdefault}
+%\usepackage[T1]{fontenc}
+% \renewcommand*\familydefault{\sfdefault}
+%\usepackage{amsfonts,amssymb,graphicx,enumerate}
+% amssymb package, useful for mathematical symbols
+\usepackage[centertags]{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[sectionbib]{natbib}
+% \bibpunct{(}{)}{;}{a}{}{}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\usepackage[nottoc,numbib]{tocbibind}
+
+% \usepackage{etoolbox}
+% \patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+\usepackage{enumitem}
+\setlist{noitemsep}
+\usepackage[usenames,dvipsnames, table, xcdraw]{xcolor}
+%\definecolor{light-gray}{gray}{0.9}
+% Configuracoes de pagina
+\usepackage[lmargin=2.5cm,rmargin=2cm,tmargin=2.5cm,bmargin=2.5cm]{geometry}
+% Layout da pagina
+\usepackage{hyperref}
+\hypersetup{pdfnewwindow=true,
+    pdfpagelayout=SinglePage, % ou TwoPageLeft
+    colorlinks=true,
+    citecolor=Violet,
+    linkcolor=blue,
+    filecolor=ForestGreen,
+    urlcolor=ForestGreen,
+    pdftitle={Manual ODK Collect PPSP},
+    pdfauthor={Alexandre Adalardo de Oliveira}}
+%**********************************************
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{pdfpages}
+%********* boxes
+% Definindo novos comandos
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+% \providecommand{\sin}{} \renewcommand{\sin}{\hspace{2pt}\textrm{sen}}
+% \newcommand{\R}{\mathbb{R}} %simbolos de numeros 
+% \title(Relatório 
+% \author{R\'egis da Silva}
+% \date{2011}    %para ocultar a data digite: \date{ }
+\linespread{1.3}
+\usepackage{listings}
+\usepackage{graphicx}
+\graphicspath{{../media/}}
+\usepackage{sidecap}
+\usepackage{subcaption}
+\date{\today}
+\title{}
+\author{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagenumbering{gobble} % retira o numero das paginas
+%\maketitle  %cria o titulo na capa
+\input{capa.tex}
+\tableofcontents %Sumario
+%\listoffigures 
+\newpage
+\pagenumbering{arabic}
+%-------------------------------------------------------
+
+
+
+\section{Coleta de dados por dispositivo móvel}
+\label{sec:coleta_de_dados_por_dispositivo_movel}
+
+
+\href{https://opendatakit.org/}{Open Data Kit} é um projeto colaborativo de código aberto para coleta, armazenamento e gerenciamento de dados. A proposta é disponibilizar instrumentação de baixo custo para coleta de dados que possa ser utilizada em áreas remotas e sem infraestrutura de internet. Permite a coleta de dados tanto online quanto offline e tem a possibilidade de descarregar dados quando se conecta a alguma rede de internet.
+
+Desenvolvemos um formulário, baseado nessa plataforma, para fazer o censo da Parcela Permanente da Ilha do Cardoso, agora atualizado para coleta de dados de árvores em parcelas. 
+Para ter mais controle sobre o processo, decidimos usar apenas a interface de coleta de dados, chamada \textbf{ODK Collect} e não todo o ecossistema OKD. Para utilizá-lo é preciso instalar o \textbf{ODK Collect} através da \textbf{Play Store} em dispositivo móvel Android, de preferência um tablet, mas um smartphone dá conta do recado. Nossos testes utilizaram a versão do \textbf{ODK Collect v2024.2.4 e v2024.3.3}, como o projeto tem ido em uma rota de limitar o uso das ferramentas sem a conexão com todo o ecossistema, caso seja necessário é possível instalar versões antigas do app, utilizando o arquivo \textit{apk}, como o do link abaixo:
+
+\url{https://github.com/getodk/collect/releases/tag/v2024.3.3}
+
+
+Depois de instalado é necessário inserir os arquivos de formulários e dados do censo anterior da parcela no dispositivo para ativar o formulário.
+
+\subsection{Preparando o dispositivo móvel}
+\label{sec:preparando_o_dispositivo_movel}
+
+O \href{https://opendatakit.org/}{Open Data Kit} tem um mecanismo próprio para instalar formulários e retornar os dados coletados, chamado \textbf{ODK Central} que precisa estar instalado em um servidor para se comunicar com o \textbf{ODK Collect}. Uma possibilidade é usar o \textbf{ODK Cloud}, um serviço de núvem do ODK  com o Central instalado, uma pechincha de USD\$250.00 por mês... Não temos ainda o \textbf{ODK Central} instalado em nosso servidor, por isso iremos usar ``força bruta'' para instalar os formulário e extrair os dados do aplicativo móvel. Antes precisamos criar um projeto no  app \textbf{ODK Collect}. 
+
+\subsubsection{Criando um projeto ODK Collect}
+
+Entre no aplicativo \textbf{ODK Collect} e siga os passos solicitado para criar um novo projeto inserindo os dados diretamente no app selecionando a opção \textbf{Entrar com os detalhes do projeto manualmente} (Figura~\ref{fig:criaODK} a).
+Além de um usuário e senha, que precisam ser criados, há a necessidade de incluir uma url para a conexão com o \textbf{ODK Central}. Aqui podemos incluir o endereço que pretendemos instalar o \textbf{ODK Central} futuramente (http://odk.ib.usp.br). Não se preocupe com nenhum desses dados iniciais, apenas crie o projeto e preencha os campos solicitados (Figura~\ref{fig:criaODK} b). Caso seja solicitado permita que o ODK Collect emita notificações no seu dispositivo móvel (Figura~\ref{fig:criaODK} c) 
+
+Para incluir o formulário no \textbf{ODK Collect} precisamos de um projeto criado no app e acesso à memoria interna do dispositivo Android com permissão para edição das pastas do \textbf{ODK Collect}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{enterProjectManual}
+        \caption{}
+        \label{fig:enterManual}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{criaContaODK}
+        \caption{}
+        \label{fig:contaODK}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{perNota}
+        \caption{}
+        \label{fig:perNota}
+    \end{subfigure}
+    \caption{Criando conta manualmente no ODK Collect}\label{fig:criaODK}
+\end{figure}
+
+
+
+
+\subsubsection{Acessando as pastas do ODK Collect}
+
+
+Para utilizarmos o \textbf{ODK Collect} sem conexão com o \textbf{ODK Central} é necessário ter acesso à memória interna do dispositivo móvel android. Garanta que seu dispositivo permite o acesso a essas pastas quando conectado a um computador. Caso tenha problema em acessar a memoria interna do dispositivo androide veja o tutorial:
+
+\url{https://pt.wikihow.com/Acessar-um-Celular-Android-pelo-Computador} 
+
+Ao iniciar um projeto no \textbf{ODKCollect} uma pasta será criada na memória de \textbf{Armazenamento interno} do dispositivo. Essa pasta estará em um caminho similar a:\\
+
+\textbf{''/Android/data/org.odk.collect.android/files/projects/''}\\
+
+Esse caminho pode ser diferente dependendo da versão do Android e do \textbf{ODK Collect}. O diretório do projeto criado neste caminho terá como nome de pasta um código, similar a ``\textit{f00742c6-b995-48bd-8b7b-9fd8ef493a8d}''.  Conecte o dispositivo móvel em um computador e navegue até a pasta do projeto criado e verifique se contém ao menos as seguintes subpastas:
+
+\begin{itemize}
+\item instances
+\item forms
+\item metadata
+\item layer
+\end{itemize}
+
+
+
+
+Vamos copiar os formulários e arquivos de media na pasta  \textbf{forms}, caso a pasta não exista é necessário criá-la. 
+
+\subsection{Instalando o formulário PPSP2025}
+\label{sec:instalando_o_formulario_peic}
+
+No \href{https://drive.google.com/drive/folders/1qNq8HU8aRUsViPhPrBi12U1W9BIiYVTL?usp=sharing}{Google Drive ODKPPSP2025}\footnote{https://drive.google.com/drive/folders/1qNq8HU8aRUsViPhPrBi12U1W9BIiYVTL} tem um conjunto básico de arquivos que incluem arquivos de dados para alimentar o formulário e as figuras em \textit{svg} (mapas das árvores na parcelas e os grids de mapeamento) para a parcela de Assis (PEEA). Para o recenso vamos usar o formulário chamado \textbf{CensoPPSP2025}.
+
+%Esse formulário é chamado \emph{NoMiss} porque ao fechar uma subparcela, não solicita a conferência das árvores que não foram encontradas no censo atual e que estavam vivas no censo anterior, nessa mesma sub-parcela. No censo de 2019 usamos o formulário que faz essa checagem em testes e o processamento dessa parte era demorado, assim como a extração dos dados. Neste novo censo vamos ainda testar esse formulário para verificar se podemos utilizá-lo, os tablets utilizados me 2019 eram muito básicos e com pouca memoria é possível que essa checagem seja viável agora. Este procedimento é importante para evitar estimativas infladas de mortalidade pelas árvores que não foram encontradas nos censos.
+
+Na memória interna do dispositivo, na pasta  \textbf{forms}, copie os seguinte dados:
+
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+
+\begin{itemize}
+\item O formulário de entrada de dados, arquivo \textbf{censoPPSP2025.xml}, e a pasta de mídia \textbf{censoPPPSP2025-media}.
+\end{itemize}
+};
+\end{tikzpicture}
+\end{center}
+
+
+
+Para que o formulário funcionar a pasta de mídia \textbf{censoPPPSP2025-media} deve conter ao menos os seguintes arquivos:
+\begin{itemize}
+\item dados do censo anterior: \textbf{censoOld.csv} 
+\item lista das espécies: \textbf{splist.csv}
+\item lista de chave das árvores dos mapas: \textbf{subqkey.csv}
+\item lista das tags das árvores por subquadrat: \textbf{subqtags.csv}
+\item lista do grid das coordenadas do mapeamento: \textbf{gridid.csv}
+\item imagem para seleção do subquadrat: \textbf{subPar10.svg} ou \textbf{subPar05.svg}
+\item imagem com o mapeamento das árvores das parcelas que irá trabalhar nomeadas como: \textbf{$mapA00quad_0x0.svg$}, sendo A00 o código da parcela de 20m de lado e '0x0' o da subparcela de 5m ou 10m dependendo da unidade de trabalho em campo
+\item imagem com o grid de mapeamento da unidade de trabalho (10 ou 5 m) com a localização das árvores do censo anterior nomeadas como: \textbf{$grid10_A00quad_0x0.svg$}, 'A00' o código a parcela de 20m de lado e '0x0' o da subparcela de 5m ou 10m dependendo da unidade de trabalho em campo. O ínicio do nome 'grid10' ou 'grid05' são referência ao tamanho da unidade de trabalho.
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=0.8\textwidth]{dirEstrutura}
+  \caption{Estrutura básica de arquivos de projeto ODKCollect no dispositivo móvel}
+\end{figure}
+
+      
+        % \includegraphics[keepaspectratio=true,width=0.8\textwidth]{map20}
+        % \includegraphics[keepaspectratio=true,width=0.8\textwidth]{gridMap}
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+\subsection{Dicas:}
+    
+\begin{itemize}   
+\item suba no aplicativo apenas as imagens das parcelas que serão trabalhadas (grid10 e map) no dia, para não sobrecarregar a memória do dispositivo móvel;
+\item os arquivos das imagens devem estar diretamente na pasta \textbf{censoPPSP2025-media}, sem  subpastas tanto o 'map*' quanto o 'grid10*';
+\item os arquivos devem ter os nomes conforme grifado acima, não modifique o nome original dos arquivos do \href{https://drive.google.com/drive/folders/1qNq8HU8aRUsViPhPrBi12U1W9BIiYVTL?usp=sharing}{Google Drive ODKPPSP2025} .
+\item \textcolor{Cyan}{Para substituir arquivos do dispositivo móvel tanto de uma nova versão de um mesmo formulário ou novas versões de arquivos de mídia é muita vezes necessário despois de apagar os arquivos, desconectar e conectar o dispositivo móvel do computador antes de subir a nova versão, caso contrário ao tentar subir o arquivo irá aparecer uma mensagem de erro.}           
+\end{itemize}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+
+        
+\subsubsection*{Problemas de Acesso à pasta do ODK Collect}
+\label{sec:}
+
+Caso não consiga acesso à pasta do \textbf{ODK Collect} no seu dispositivo móvel, uma das seguintes opções pode funcionar:
+
+     \begin{enumerate}   
+     \item Apague as memorias do app \textbf{ODK Collect}:
+       \begin{itemize}
+       \item Acesse as configurações do seu dispositivo android,
+       \item Abra a configuração de \textbf{Aplicativos}
+       \item Selecione o app \textbf{ODK Collect}
+       \item Abra a aba de  \textbf{Armazenamento}
+       \item Apague as memorias de \textbf{Dados} e  \textbf{Cache} do app
+       \end{itemize}
+     \item Configure seu dispositivo para desenvolvimento:
+       \begin{itemize}
+       \item Abra as \textbf{Configurações} do seu dispositivo 
+       \item Selecione a opção \textbf{Sobre o telefone/tablet} 
+       \item Clique sobre \textbf{Informações de Software} ou \textbf{Número da versão} repetidas vezes até que a mensagem \textbf{Você agora é um desenvolvedor} seja exibida 
+       \item Retorne à tela de Configurações e role até o final para encontrar a  \textbf{Opções do Desenvolvedor}
+       \item Na \textbf{Opções do Desenvolvedor} ative o \textbf{Depurador de USB} 
+       \end{itemize}
+     \end{enumerate}
+Normalmente uma dessas opções abrirá o acesso à pasta do app para ser editada. 
+};
+
+\end{tikzpicture}
+\end{center}
+
+\subsubsection{Estrutura de arquivos}
+
+\label{sec:estrutura_de_arquivos}
+
+\begin{figure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=1\textwidth]{dirForm}
+  \caption{Estrutura básica de arquivos do formulário \textbf{censoPPSP2025} na pasta \textit{forms} do app ODK}
+    \label{fig:dirForm}
+\end{figure}
+
+
+Ao final do processo a pasta \textit{forms} do \textbf{ODKCollect} deve ter a  estrutura de arquivos no seu dispositivo móvel como na Figura~\ref{fig:dirForm}.
+
+%Essa estrutura de arquivos só será assim no momento que os arquivos são transferidos. Na primeira vez que abrir o aplicativo odk no seu dispositivo móvel, alguns arquivos (os com extensão .csv) serão transformados e armazenados em outra pasta. 
+
+\begin{SCfigure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=0.3\textwidth]{eraseData}
+  \caption{Para apagar um dado errado, clique no dado e espere aparecer a janela com a opção de apagar. }
+  \label{fig:deletar}
+\end{SCfigure}
+
+
+
+
+\subsubsection{Usando o formulário CensoPPSP2025}
+\label{sec:usando_o_formulario_censopeic}
+
+
+Abra o aplicativo e siga a sequência de eventos e seleções descritas abaixo. 
+
+
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+\subsubsection*{Dicas:}
+
+\begin{enumerate}
+  
+\item Para avançar entre as páginas do formulário pode se usar o gesto do indicador da esquerda para a direita ou clicar no caixa \textit{Próximo/Next}
+\item Para excluir algum valor coletado errado clique no valor até aparecer a caixa com a opção de exclusão como mostra a Figura~\ref{fig:deletar}.
+\end{enumerate}
+  
+};
+
+
+
+\end{tikzpicture}
+\end{center}
+
+
+
+
+\subsubsection{Pagina inicial}
+\label{sec:pagina_inicial}
+
+
+No \textbf{\emph{\underline{Menu Principal}}} do ODK Collect selecione a opção:\lstset{frame=single} \textbf{Preencher novo formulário}.
+
+\begin{SCfigure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=0.3\textwidth]{preencherForm}
+  \caption{Para Iniciar o preenchimento de formulário selecione \textit{Preencher novo formulário} }
+  \label{fig:newForm}
+\end{SCfigure}
+
+
+
+
+Na página seguinte deve aparecer o nome do formulário xml que foi copiado para o dispositivo. Caso não apareça, houve algum problema, verifique se foi copiado na pasta correta. Caso haja a opção selecione: \textbf{censoPPSP2025}
+
+\begin{SCfigure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=0.3\textwidth]{formPPSP}
+  \caption{Página de seleção de formulários para iniciar a coleta de dados}
+  \label{fig:formPPSP}
+\end{SCfigure}
+
+
+% \raggedleft\includegraphics[keepaspectratio=true,width=0.5\textwidth]{odkTelaIncial}
+
+% \raggedright\includegraphics[keepaspectratio=true,width=0.5\textwidth]{odkSelForm}
+
+
+\subsubsection{Coordenada GPS}
+\label{sec:coordenada_gps}
+
+
+Aqui é possível coletar o ponto de GPS caso seu dispositivo tenha essa funcionalidade. Não precisamos, mas caso queira coletar, faça no ponto de inicio da sub-parcela \footnote{canto inferior esquerdo em relação a origem da parcela A00}. O processo pode demorar alguns minutos, portanto, faça isso logo que chegar ao inicio da subparcela, enquanto organizam a equipe.\lstset{frame=single}
+
+
+Siga passando a página de georreferenciamento, sem selecionar.
+
+Caso tenha incluído algum registro errado ou onde não deveria, para apagar, inclusive em barra de rodagem ou novo grupo criado por engano, é preciso segurar o toque do dedo no registro por alguns segundos para aparecer a opção de apagar na tela.
+
+\subsubsection{Localidade da Parcela}
+
+Selecione a parcela em que o censo está ocorrendo. Caso seja uma parcela que não as do PPSP, selecione a opção \textit{Parcela não cadastrada} e em seguida forneça o nome ou código da parcela (Figura~\ref{fig:local}). Além disso, forneça as seguintes informações:
+\begin{itemize}
+\item{Número de digitos das placas}: o número de dígitos devera compreender apenas os dígtios variáveis, códigos fixo para o censo devem ser desperezados (p.ex: '25' ao início para indicar o ano da coleta de dados)
+\item{Menor e Maior valor de placa nova}: aqui deve-se restringir ao máximo os valores das placas, indicando a sequência de placas que estão sendo levandas a campo no dia de trabalho, o aplicativo não permitira a entrada de valores diferentes do que foi definido nesta parte. Como padrão de valores estão os limites de numeração das placas que foram feitas para o censo de 2025
+\item{A unidade de trabalho em campo}: aqui indique o tamanho do subquadrat que representa a unidade de trabalho, por enquanto só temos implementado a unidades de 10x10 ou 5x5m
+\item{Diâmetro de inclusão}: confira se o diâmetro mínimo de inclusão da parcela está correta, não será possível entrar valores menores que esse, a menos que seja checado e justificado
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{selLocalPlot01}
+    \caption{Seleção da localidade da parcela}
+    \label{fig:local}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \includegraphics[width=\textwidth]{selLocalPlot02}
+    \caption{Incluindo localidade não cadastrada}
+    \label{fig:newlocal}
+  \end{subfigure}
+  \caption{Localidade da Parcela}\label{fig:local}
+\end{figure}
+    
+    
+
+\subsubsection{Equipe}
+\label{sec:equipe}
+
+
+Aqui é selecionado o nome da equipe que irá coletar os dados e o responsável pela equipe. Ambos são campos que devem ser selecionados, a equipe permite múltipla seleção e o responsável apenas um dos selecionados no item equipe.  Quando algum integrante da equipe não estiver cadastrados, deve ser incluído os nomes das pessoas, selecionando \textit{não cadastrado 01 ou 02}.
+Caso tenha mais do que dois nomes novos para cadastrar, incluir vários nomes no campo \textit{não cadastrado 02}, separado por vírgula. Caso algum deles seja o responsável pela equipe selecione o campo correspondente.       
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{equipePage}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{equipeCadastrar}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \caption{ Páginas (a) da seleção da equipe de campo que irá coletar os dados  e (b) campo de cadastro de novo nome }\label{fig:equipe}
+  \end{figure}
+
+
+  
+
+
+\subsubsection{Parcela}
+\label{sec:parcela}
+
+
+Selecione a \textbf{\underline{Coluna da Parcela}} e \textbf{\underline{Linha da Parcela}} da parcela de 20 x 20 m que irá trabalhar. As colunas são designadas por letras de A a P e as linhas por números de 00 a 15. A \textbf{\underline{Condição do piquete}} e \textbf{\underline{Observações sobre o quadrat}} não são campos obrigatórios. Preencha se sentir necessidade.
+
+Selecione em seguida o quadrat de 10x10 m ou 5x5 m correspondente a unidade de trabalho em campo, diretamente no mapa da tela. Confira se a seleção está correta no campo \textbf{\underline{Selecionado:}} abaixo do mapa.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{selPlotA06}
+        \caption{}
+        \label{fig:subPar}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{selSubPlot00}
+        \caption{}
+        \label{fig:tiger}
+    \end{subfigure}
+    \caption{ Páginas (a) da seleção da subparcela de 20x20  e (b) da unidade de trabalho de 5x5m }\label{fig:subPar}
+\end{figure}
+
+
+
+% \raggedleft\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkSelParc}
+
+% \raggedright\includegraphics[keepaspectratio=true,width=0.8\textwidth]{}
+
+
+\subsubsection{Árvores}
+\label{sec:arvores}
+
+
+As informações coletadas para cada árvores, em parte, depende de algumas condições, a principal delas é a presença ou não da placa e se o indivíduo está ou não morto. A primeira seleção ao iniciar a coleta de dados de uma árvore é definir esses estados, como mostra a Figura~\ref{fig:treeStart}a.
+
+Caso a árvore já esteja plaqueada é preciso indicar o número da placa. A primeira página da árvore do tipo \underline{\textit{plaqueada}} apresenta os números de placa que estavam presentes nessa mesma unidade de trabalho no censo anterior. Caso o número não esteja nessa lista, siga para a página seguinte que apresenta todos os números de placas do censo anterior na localidade. Por fim, se o número ainda não estiver listado siga para a página que permite a inclusão do número de placa antigo que não esteja listada.  Nessa páginas é listada também o números que já foram anotados em {\underline{Árvores já anotadas:}}, para evitar que o mesmo número seja anotado mais de uma vez. 
+
+Na página seguinte é preciso responder se \textit{\underline{A placa está em boas condições?}}. Verifique se a placa está legível e bem fixadas, caso contrário anote \textbf{\underline{não}} e siga para os próximos passos que inclui a  troca da placa por um novo número (Figura~\ref{fig:treeStart}d).
+Nessa página é possível também tirar uma foto ou escolher uma imagem do dispositivo, aqui é desejável que seja \textcolor{Cyan}{fotografada a nova placa fixa na árvore junto com a antiga, para eventuais checagens}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{selTreeType}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{selTag}
+      \caption{}
+      \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{selTreeMap}
+      \caption{}
+      \label{}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{newTag_plaq}
+      \caption{}
+      \label{}
+    \end{subfigure}
+ 
+    \caption{ Páginas (a) da seleção da estado da árvore, (b) do número da placa, (c) da seleção da localização no mapa, (d) inclusão de nova placa }
+    \label{fig:treeStart}
+\end{figure}
+
+
+
+% \includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkTreePlaca}
+
+% \includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkTagNumbI}
+
+% \includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkNewNumbTag}
+
+
+
+\subsubsection{Mapeamento}
+\label{sec:mapeamento}
+
+
+%\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkMapea}
+
+
+Caso seja uma árvores ingressante, plaqueada com número antigo mas não listado no censo anterior ou com problemas de localização, a equipe deve fazer o mapeamento da árvore. Nestes casos, aparecerá um mapa com um grid em intervalos de 0,5 m. Esse grid representa a subparcela de 5 x 5 m. Deve-se selecionar a posição da árvore nesse grid, o que fornece uma precisão no mapeamento suficiente para análises que necessitam da posição da árvore. Ao selecionar alguma célula do grid, as coordenadas irão aparecer abaixo da imagem. Caso necessário utilize a trena em campo para confirmar a seleção no grid (Figura~\ref{fig:mapear}).   
+
+Caso a árvore já tenha sido mapeada em censos anteriores irá aparecer o mapa da parcela com a localização das árvores para confirmar o mapeamento. Caso não seja confirmado o mapeamento antigo, será solicitado que a árvore seja mapeada novamente, seguindo o mesmo procedimento de uma árvores nova.
+
+\begin{SCfigure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=0.5\textwidth]{selGrid10}
+  \caption{Página com o grid de mapeamento de 10x10 m, cada célula representa 20 cm dentro da unidade de trabalho de 10x10 m. Abaixo da figura é apresentado as coordenadas da célula selecionada, que representará as coordenadas cartesianas para a árvore. }
+  \label{fig:mapear}
+\end{SCfigure}
+
+
+\subsubsection{Altura }
+\label{sec:altura_e_tipo_de_medida}
+
+
+A página de coleta de altura da árvore apresenta duas escalas. Na primeira e utilizada \textit{\underline{se a altura é até 10m}}. Nesta escala é possível selecionar valores entre 1.5 m até 10 m em intervalos de 0.5. Na barra de seleção \textit{\underline{se a altura é mais de 10m}} a escala tem intervalos de 1m. Não é possível incluir valores em ambas as escalas, caso necessário remova a resposta clicando no valor até aparecer a janela com a opção de \textit{Remover a resposta}. 
+
+Caso a altura seja menor ou muito maior do que o valor anotado no censo anterior, aparecerá a informação que há inconsistência no valor e será solicitado  a equipe coletar novamente a altura da árvore. Em seguida será solicitado que a equipe indique o motivo da inconsistência e confirme o novo valor coletado. 
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{colAlt01}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{colAlt02}
+      \caption{}
+      \label{}
+    \end{subfigure}
+     \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{colAlt03}
+      \caption{}
+      \label{}
+    \end{subfigure}
+ 
+    \caption{ Páginas (a) seleção da escala e do valor de altura (b) caso haja discrepância entre o valor de altura anotado e o valor do censo anterior é necessário indicar o motivo e anotar novamente o valor da altura, (c) e seguida é necessário confirmar o valor informado.}
+    \label{fig:alt}
+\end{figure}
+
+
+
+
+
+
+\subsubsection{Medida de DAP ou PAP}
+\label{sec:medida_de_dap_ou_pap}
+
+
+A medida do diâmetro ou perímetro é tomado a 1,3 m do solo (altura do peito) o ponto de medida padrão. Entretanto, há três tipos básicos de medidas possíveis, duas associadas ao DAP (diâmetro a altura do peito) e uma associada ao PAP (perímetro a altura do peito), por isso a primeira fase da medida de DAP/PAP é selecionar o \textit{\underline{tipo de medida}} (Figura~\ref{fig:papDap} a):
+
+
+\begin{itemize}
+  \item \textbf{\underline{DAP com paquímetro}}: árvores pequenas, com menos de 5 cm (50 mm) de diâmetro \textbf{devem} ser medidas com paquímetro. O aplicativo permite que até diâmetros de 8 cm sejam medidos com paquímetro, diâmetros maiores devem necessariamente ser medidos com outro método. A medida aqui é feita em \textbf{mm} inteiros, sem casas decimais (Figura~\ref{fig:papDap} b).
+\end{itemize}
+
+\begin{itemize}
+  \item \textbf{\underline{DAP com fita diamétrica}}: um tipo especial de fita cuja escala retorna o diâmetro associado ao perímetro medido, ou seja uma fita com escala de $\pi$ cm.  
+\end{itemize}
+
+\begin{itemize}
+  \item \textbf{\underline{PAP com fita métrica}}: fita métrica normal, que mede o perímetro da árvores (cm).  
+\end{itemize}
+
+
+
+%\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkDAP}
+
+Meça o diâmetro ou perímetro conforme o método de medida definido. Lembre-se que as escalas podem estar em \emph{cm} ou \emph{mm}, verifique se está anotando na escala correta. 
+
+Caso haja discrepância na medida de DAP/PAP com relação ao censo anterior será solicitado à equipe que refaça a medida, indique possíveis causas da discrepância e confirme a nova medida (Figura~\ref{fig:papDap} c e d) ,  semelhante ao que foi feito com discrepâncias na medida de altura.
+
+Ao final responda à pergunta  \textbf{\underline{Árvore com um fuste?}} (tronco principal). Anote \textbf{\underline{não}} se a árvores tiver mais de um fuste (tronco) principal.
+
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{tipoMed}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{medidaDap}
+      \caption{}
+      \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{checkDap}
+      \caption{}
+      \label{}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{erroDap}
+      \caption{}
+      \label{}
+    \end{subfigure}
+ 
+    \caption{ Páginas (a) da seleção do tipo de medida DAP/PAP, (b) inclusão da medida, (c) checagem de discrepância com o censo anterior, (d) possível causa da discrepância na medida de DAP/PAP }
+    \label{fig:papDap}
+\end{figure}
+
+
+
+\subsubsection{{Fuste secundario}}
+\label{sec:fuste_secundario}
+
+
+%\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkMedSecFuste}
+
+
+Caso tenha anotado \textbf{\underline{não}} para fuste único, o aplicativo iniciará um ciclo de medidas de fustes. A cada ciclo aparecerá a página \textbf{\underline{Adicionar ``Multiplos Fustes''?}}. Selecione  \textbf{\underline{Adicionar}}, caso tenha mais fustes para serem medidos (Figura~\ref{fig:fuste}b).
+
+Após medir todos os  fustes deve selecionar \textbf{\underline{Não adicionar}} nessa janela, para prosseguir.
+
+Para cada fuste deve ser indicado o tipo de medida e tomada a medida de diâmetro (paquímetro ou fita diamétrica) ou perímetro (fita métrica). Não há checagem de discrepâncias na tomada dessas medidas pois os fustes não são plaqueados (Figura~\ref{fig:fuste}a).
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{fusteSec}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{newFuste}
+      \caption{}
+      \label{}
+    \end{subfigure}
+ 
+    \caption{ Páginas (a) coleta de DAP/PAP fuste secundário e (b) janela de inclusão de novo fuste.}
+    \label{fig:fuste}
+\end{figure}
+
+
+
+\subsubsection{{Identificão Botânica}}
+\label{sec:identificaao_botanica}
+
+
+Para identificação botânica será apresentada primeiro a identificação do censo  anterior, quando houver, solicitando para ser confirmada. Caso não seja confirmada ou a árvore é uma recruta irá aparecer a lista de famílias, gêneros e espécies nessa ordem, sempre que o nível hierárquico acima tenha sido identificado. Caso a família não tenha sido identificada é necessário selecionar \textit{{famindet}}. Caso a família seja selecionada, aparecerá a lista de gêneros e se o gênero for selecionado a lista de espécies para aquele gênero. Caso não tenha certeza da identificação em qualquer nível, selecione a opção \textit{\underline{indet}}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{confId}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{selFam}
+      \caption{}
+      \label{}
+    \end{subfigure}
+     \begin{subfigure}[b]{0.2\textwidth}
+        \includegraphics[width=\textwidth]{confGen}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.2\textwidth}
+      \includegraphics[width=\textwidth]{selSP}
+      \caption{}
+      \label{}
+    \end{subfigure}
+ 
+    \caption{ Páginas de identificação da árvore.}
+    \label{fig:bot}
+\end{figure}
+
+
+
+Em seguida aparecerá a janela \textbf{\underline{Coletar amostra botânica}} que não precisa ser anotada.
+
+\subsubsection{{Confere Árvore}}
+\label{sec:confere_arvore}
+
+
+O registro de dados de cada árvore se fecha com a tela com todos os dados anotados para a árvore para serem conferidos e confirmados. Caso todos os dados estejam corretos siga selecionando \textbf{\underline{Sim e adicionar árvore}} caso ainda tenham árvores na sub-parcela para serem anotados, ou \textbf{\underline{Sim, não há mais árvores}} caso seja a última árvore para tomar dados na parcela. Nesse caso, aparecerá a janela que pergunta se quer incluir novo grupo de árvore ou sub-parcelas. Depois de responder não a todos os grupos aparecerá a janela solicitando \textbf{\underline{Salvar e Sair}}.  Antes de sair, indique no nome do formulário a ser salvo a parcela e sub-parcela a que se refere, por exemplo: \textbf{\underline{assis2025A00-5-15}} indicando que os dados se referem a sub-parcela \textbf{\underline{5 x 15}} da parcela \textbf{\underline{A00}} em Assis.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{confTreeData01}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{confTreeData02}
+      \caption{}
+      \label{}
+    \end{subfigure}
+       \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{odkNewSubQuad}
+        \caption{}
+        \label{}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+      \includegraphics[width=\textwidth]{odkSalvaForm}
+      \caption{}
+      \label{}
+    \end{subfigure}
+ 
+    \caption{ Páginas (a,b) dados coletados da árvore para serem confirmados, (c) janela para inclusão de nova parcela de 20x20 e (d) salvar o formulário finalizado.}
+    \label{fig:close}
+\end{figure}
+
+
+
+
+\subsubsection{{Extraindo os dados do ODK}}
+\label{sec:encaminhando_os_dados}
+
+
+Cada equipe deve, ao final da atividade todos os dias, salvar a pasta do projeto \textbf{\underline{ODK Collect}} do dispositivo móvel \footnote{/Android/data/org.odk.collect.android/files/projects/} com todas as subpastas em um arquivo no computador que tenha a localidade e datacomo por exemplo ``assis19fev2024A06'', faça backup deste arquivo. Em breve iremos fazer um guia para mostrar  como extrair os dados usando o pacote do R desenvolvido para isso. 
+
+\end{document}

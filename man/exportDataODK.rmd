@@ -1,0 +1,141 @@
+
+---
+title: "Testando Função para Exportar Dados ODK Collect"
+date: 05 de novembro de 2024
+author: "Alexandre Adalardo de Oliveira"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+    
+```{r }
+ 
+library(knitr)
+library(rmarkdown)
+
+```
+
+
+# Funções odk Rppsp
+
+As funções **odk.R** no pacote **Rppsp** possibilita a exportação dos dados coletados no ODK através do R. No entanto, é necessário ter a funcionalidade java
+[ODK-Briefcase-v1.18.0.jar](https://github.com/getodk/briefcase/releases/download/v1.18.0/ODK-Briefcase-v1.18.0.jar) como executável localmente. O briefcase é a única forma de extração dos dados do ODK Collect sem a utilização da funcionalidade de um servidor ODK Central e sua manutenção foi descontinuada em 2020. Uma alternativa e o uso do KoboToolBox, baseado no ODK que tem uma nuvem básica que não é paga. 
+
+A função **odkexp** exporta os arquivos do odk usando a função java **ODK-Briefcase** através da do R system(). Não é eficiente, mas é funcional. Ela cria os arquivos csv com os dados brutos vindo do odk Collect. Os arquivos csv são exportados sempre  com o prefixo correspondente ao argumento **file_name**. O padrão caso não seja designado um nome é _censoPeic_ e é necessário cuidado para não sobrescrever arquivos antigos. As pastas do odk Collect vindo do tablet (forms, instances, metadata) deve ser colocadas em uma pasta nomeada com a data de exportação e o nome do quadrat (20x20) trabalhado. Essa é o diretório que deve constar no argumento **dir_col**. Além disso, por segurança ela deve ser compactada e guardada em outra pasta e no backup com esse mesmo nome.  Esses são os dados brutos do ODK Collect, na realidade é apenas um arquivo por sessão salva em formato xml estruturado com os dados coletados que ficam na pasta **instances** do app. 
+
+Argumentos da função:
+
+* *odkbrieficase*: localização do arquivo java odkbriefcase.jar. Tem que ser executável, para isso precisa rodar no terminal "chmod +x 'nomearquivo'.jar"
+* *dir_st*: diretório onde será criado a pasta "ODK Briefcase Storage" com os dados extraidos do ODK Collect.
+* *dir_col*: localização do diretório com as pastas vindo do '**odk**' do dispositivo movel(forms, instances, metadados). Em algum momento, ainda em campo, essa pasta deve ser compactada e armazenada em um backup externo com o nome odk+equipe+data ("odkRenan06nov2018.7z") por segurança.
+* *dir_exp*: diretório onde os arquivos exportados 'csv' serão armazenados. Esse diretório é que vai ser o repositório dos dados.
+* *file_name*: prefixo do nome dos arquivos exportados. Utilize um nome associado ou as parcelas tratadas ou que contenha data+equipe
+
+Os arquivos exportados tem os seguintes nomes:
+
+*  "filename".csv
+*  "filename"-rep_miss.csv
+*  "filename"-sec_fuste.csv
+*  "filename"-subquad.csv
+*  "filename"-tree.csv
+*  "media"
+
+
+
+
+```{r eval = FALSE, echo = TRUE}
+
+source("/home/aao/Ale2024/AleProjetos/Rppsp/R/odk.R")
+
+
+odkexp(odkbriefcase= "ODK-Briefcase-v1.18.0.jar", dir_st = "dados", dir_col = "dados/saveFormsData", dir_exp = "dados/expCSV", form_id="PeicNoMiss_2018", file_name="censoPeic06nov2024")
+    
+```
+
+
+
+## Organizando os dados
+
+A função **read.csvODK** organiza os dados das plantas recenseadas em uma única planilha. Além disso, cria o arquivo de dados das árvores perdidas ou desaparecidas. Os dados de perdidas será armazenado separadamente para ser confrontado com os dados do censo completo para verificar se a árvore perdida não estava em outra subparcela por erro de mapeamento. 
+Os dados exportados pelo briefcase do formulário censo Peic  são compostos por um diretorio *media* com as fotos e 5 arquivos csv. O prefixo dos nomes é o argumento **file_name** das funções aqui apresentadas.
+
+
+
+Os dados são conectados pelas chaves KEY e PARENT_KEY entre arquivos.
+
+## Exportanto com a função read.csvODK
+
+Os argumentos da função são:
+
+* *base_name*: caminho e nome base (*file_name*) dos arquivos exportados pela função **odkexp**. 
+* *form_rep*: nome dos grupos de repetições do formulário. Isso não deve mudar, a menos que o formulário tenho outros grupos. Note que é o complemento do nome dos arquivos exportados.
+* *save_file*: FALSE or TRUE: definindo se os arquivos serão salvos ou apenas carregados na área de trabalho. A funcão só cria o objeto na área de trabalho se o resultado da função for atribuído a algum objeto (<- ou =). Se não houver atribuição e save_file = FALSE, o resultado não é armazenado. Caso seja atribuido a um objeto e o save_file=TRUE, será criado um objeto com a versão resumida dos dados e todos os arquivos no diretório de exportação.
+* *dir_exp*: diretório onde os dados ajustados e organizados serão salvos. Junto serão salvos uma copia dos arquivos csv exportados pelo função *odkexp*. Os arquivos de entrada serão movidos para essa pasta com um nome padrão associado às parcelas tratadas em cada parcela. 
+
+**Atenção: os formulários devem ser exportados do tablet quando ao menos uma parcela de 20x20 for finalizada. Isso impede de termos arquivos com mesmos nomes**
+*Uma parcela pode ser exportada parcialmente,junto a outras parcelas e depois o restante ser exportado quando ela finalizar. O que não pode acontecer é exportar parte de uma única parcela e depois exportar o resto isoladamente. Nesse caso os primeiros arquivos exportados serão sobrescritos* 
+
+
+
+
+```{r, echo =TRUE, eval = FALSE}
+source("/home/aao/Ale2024/AleProjetos/Rppsp/R/odk.R")
+
+read.csvODK(base_name = "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkPeic/dados/expCSV/censoPeic06nov2024",   save_file = TRUE, dir_exp = "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkPeic/dados/dadosEstruturados")
+
+
+
+
+```
+
+
+
+## Auditorando dados do censo
+
+O objetivo da auditoria é fazer uma busca de dados com possiveis problemas no censo atual para que possa haver uma checagem em campo rapidamente, durante a vigência do trabalho de campo nas subparcelas próximas. Basicamente, os dados serão checados em relação à sua posição na distribuição total da população. Alguns dos parâmetros que pensei estão listados abaixo em dois níveis dos dados
+
+
+#### Parâmetros da parcela
+
+- area basal 
+- número de árvores vivas
+- número de árvores por subparcela
+- número de mortas (desaparecidas)
+- número de recrutas
+
+#### Parâmetros das árvores
+
+- número da placa único
+- quantil da distribuição diamétrica total
+- quantil da distribuição diamétrica da espécie
+- crescimento de diâmetro
+- crescimento de altura
+- crescimento de área basal (fuste multiplos)
+- quantils dos crescimentos
+- checar se dap principal é menor que algum secundário (antes de montar os arquivos de dados
+
+Pensar em algo para o mapeamento e ids..
+
+
+
+
+```{r, echo =TRUE, eval = FALSE}
+
+source("/home/aao/Ale2016/AleProjetos/Rppsp/R/odk.R")
+
+censoAudit(dir.exp = "/home/aao/Ale2016/AleProjetos/PPPeic/censo2018/dadosColetados", quadnames = "A02_A03_A04_A01", olddata = "/home/aao/Ale2016/AleProjetos/PPPeic/censo2018/openDataKit/peic09.csv")
+
+
+```
+
+
+
+```{r eval = FALSE, echo = TRUE}
+library(rmarkdown)
+render( "okdexportFUN.rmd")
+
+
+```

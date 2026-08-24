@@ -1,0 +1,394 @@
+Português	English	Español
+Tamanho da subparcela de trabalho, na escala que estão os mapas.	Working subplot size, at the scale of the maps.	Tamaño de la subparcela de trabajo, en la escala de los mapas.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+### Já selecionados (<span style="color:red"> ${so_sub}</span>)	### Already selected (<span style="color:red"> ${so_sub}</span>)	### Ya seleccionados (<span style="color:red"> ${so_sub}</span>)
+### Já selecionados (<span style="color:red"> ${so_sub}</span>)	### Already selected (<span style="color:red"> ${so_sub}</span>)	### Ya seleccionados (<span style="color:red"> ${so_sub}</span>)
+		
+		
+		
+		
+		
+		
+		
+		
+ <span style="color:red"> ${num_tag}</span>	 <span style="color:red"> ${num_tag}</span>	 <span style="color:red"> ${num_tag}</span>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+#### Selecione, caso possível, uma árvore ainda não selecionada (placas já selecionadas: <span style="color:red">${so_far} </span>)	#### Select, if possible, a tree not yet selected (tags already selected: <span style="color:red">${so_far} </span>)	#### Seleccione, si es posible, un árbol aún no seleccionado (placas ya seleccionadas: <span style="color:red">${so_far} </span>)
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+#### Árvores já anotadas: (<span style="color:red"> ${so_far}</span>). Caso não encontre na lista, siga sem selecionar.	#### Trees already recorded: (<span style="color:red"> ${so_far}</span>). If not found in the list, continue without selecting.	#### Árboles ya anotados: (<span style="color:red"> ${so_far}</span>). Si no encuentra en la lista, continúe sin seleccionar.
+#### Árvores já anotadas: (<span style="color:red"> ${so_far}</span>). Caso não encontre na lista, siga em frente sem selecionar.	#### Trees already recorded: (<span style="color:red"> ${so_far}</span>). If not found in the list, continue without selecting.	#### Árboles ya anotados: (<span style="color:red"> ${so_far}</span>). Si no encuentra en la lista, continúe sin seleccionar.
+Número não consta na lista de placas do censo anterior, mas é placa antiga. Árvores já anotadas: (<span style="color:red"> ${so_far}</span>) 	Number not listed in previous census tag list, but it is an old tag. Trees already recorded: (<span style="color:red"> ${so_far}</span>) 	Número no consta en la lista de placas del censo anterior, pero es placa antigua. Árboles ya anotados: (<span style="color:red"> ${so_far}</span>)
+A placa está legível e bem fixada (Não será trocada).	The tag is legible and well fixed (It will not be replaced).	La placa es legible y bien fijada (No será reemplazada).
+		
+		
+		
+		
+		
+Tire uma foto da árvore morta, se possível mostrando o número da placa.	Take a photo of the dead tree, if possible showing the tag number.	Tome una foto del árbol muerto, si es posible mostrando el número de la placa.
+		
+		
+Árvore plaqueada em outro censo	Tree tagged in another census	Árbol plaqueado en otro censo
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+## Coordenas na parcela ${quadrat}: x = ${old_dx}  e y = ${old_dy}	## Coordinates in plot ${quadrat}: x = ${old_dx}  and y = ${old_dy}	## Coordenadas en la parcela ${quadrat}: x = ${old_dx}  e y = ${old_dy}
+		
+		
+		
+		
+		
+		
+		
+		
+0 nenhuma, 1 total	0 none, 1 total	0 ninguna, 1 total
+		
+		
+		
+		
+		
+### Número de placas novas já anotadas (<span style="color:red">${newtag_so_far}</span>)	### Number of new tags already recorded (<span style="color:red">${newtag_so_far}</span>)	### Número de placas nuevas ya anotadas (<span style="color:red">${newtag_so_far}</span>)
+		
+		
+Tire uma foto da placa junto ao tronco da árvore, se possível junto a placa antiga.	Take a photo of the tag next to the tree trunk, if possible together with the old tag.	Tome una foto de la placa junto al tronco del árbol, si es posible junto a la placa antigua.
+		
+		
+		
+		
+		
+		
+### Dap do fuste principal no censo anterior: ${old_dap} mm	### DBH of main stem in previous census: ${old_dap} mm	### DAP del fuste principal en el censo anterior: ${old_dap} mm
+#### placa ${num_tag}, pom no censo anterior: ${old_pom} m	#### tag ${num_tag}, DBH height in previous census: ${old_pom} m	#### placa ${num_tag}, altura DAP en el censo anterior: ${old_pom} m
+		
+		
+		
+#### dap no censo anterior: (${old_dap}) mm  	#### dbh in previous census: (${old_dap}) mm  	#### dap en el censo anterior: (${old_dap}) mm
+#### dap no censo anterior: (${old_dbhcm}) cm  	#### dbh in previous census: (${old_dbhcm}) cm  	#### dap en el censo anterior: (${old_dbhcm}) cm
+#### pap no censo anterior: (${old_papcm}) cm  	#### pbh in previous census: (${old_papcm}) cm  	#### pap en el censo anterior: (${old_papcm}) cm
+		
+		
+		
+		
+		
+### Número de fustes no censo anterior: ${old_nfuste}	### Number of stems in previous census: ${old_nfuste}	### Número de fustes en el censo anterior: ${old_nfuste}
+### No censo anterior a planta <span style="color:red">${num_tag}</span> tinha ${old_nfuste}	### In previous census the plant <span style="color:red">${num_tag}</span> had ${old_nfuste}	### En el censo anterior la planta <span style="color:red">${num_tag}</span> tenía ${old_nfuste}
+		
+		
+Placa censo anterior: ${tree_tag}	Previous census tag: ${tree_tag}	Placa censo anterior: ${tree_tag}
+		
+#### dap no censo anterior: (${old_dap}) mm  	#### dbh in previous census: (${old_dap}) mm  	#### dap en el censo anterior: (${old_dap}) mm
+#### dap no censo anterior: (${old_dbhcm}) cm  	#### dbh in previous census: (${old_dbhcm}) cm  	#### dap en el censo anterior: (${old_dbhcm}) cm
+#### pap no censo anterior: (${old_papcm}) cm  	#### pbh in previous census: (${old_papcm}) cm  	#### pap en el censo anterior: (${old_papcm}) cm
+		
+		
+### A primeira medida foi <span style="color:red">${dap_new}</span> e a checagem foi <span style="color:red">${dap_new_check}</span>	### First measurement was <span style="color:red">${dap_new}</span> and check was <span style="color:red">${dap_new_check}</span>	### La primera medida fue <span style="color:red">${dap_new}</span> y la verificación fue <span style="color:red">${dap_new_check}</span>
+###O dap passou de <span style="color:red">${old_dap}</span> para <span style="color:red">${dap_new_check}</span>	###DBH changed from <span style="color:red">${old_dap}</span> to <span style="color:red">${dap_new_check}</span>	###El DAP pasó de <span style="color:red">${old_dap}</span> a <span style="color:red">${dap_new_check}</span>
+A medida inicial de <span style="color:red">${dap_new}</span> passou para <span style="color:red">${dap_new_check}</span>	Initial measurement of <span style="color:red">${dap_new}</span> changed to <span style="color:red">${dap_new_check}</span>	La medida inicial de <span style="color:red">${dap_new}</span> pasó a <span style="color:red">${dap_new_check}</span>
+### A medida inicial foi <span style="color:red">${dap_new}</span> e a checagem <span style="color:red">${dap_new_check}</span>	### Initial measurement was <span style="color:red">${dap_new}</span> and check was <span style="color:red">${dap_new_check}</span>	### La medida inicial fue <span style="color:red">${dap_new}</span> y la verificación <span style="color:red">${dap_new_check}</span>
+		
+		
+		
+		
+		
+		
+		
+		
+#### placa antiga ${tag_old}, altura no censo anterior: ${alt_old} m	#### old tag ${tag_old}, height in previous census: ${alt_old} m	#### placa antigua ${tag_old}, altura en el censo anterior: ${alt_old} m
+#### placa antiga ${tag_old}, altura no censo anterior: ${alt_old} m	#### old tag ${tag_old}, height in previous census: ${alt_old} m	#### placa antigua ${tag_old}, altura en el censo anterior: ${alt_old} m
+		
+		
+		
+		
+####altura no censo anterior: ${alt_old} m	####height in previous census: ${alt_old} m	####altura en el censo anterior: ${alt_old} m
+####placa antiga ${tag_old}, altura no censo anterior: ${alt_old} m	####old tag ${tag_old}, height in previous census: ${alt_old} m	####placa antigua ${tag_old}, altura en el censo anterior: ${alt_old} m
+		
+		
+### A primeira medida foi <span style="color:red">${alt_new}</span> e a checagem <span style="color:red">${alt_new_check}</span>	### First measurement was <span style="color:red">${alt_new}</span> and check was <span style="color:red">${alt_new_check}</span>	### La primera medida fue <span style="color:red">${alt_new}</span> y la verificación <span style="color:red">${alt_new_check}</span>
+### A primeira medida foi <span style="color:red">${alt_new}</span> e a checagem <span style="color:red">${alt_new_check}</span>	### First measurement was <span style="color:red">${alt_new}</span> and check was <span style="color:red">${alt_new_check}</span>	### La primera medida fue <span style="color:red">${alt_new}</span> y la verificación <span style="color:red">${alt_new_check}</span>
+		
+### A primeira medida foi <span style="color:red">${alt_new}</span> e a checagem <span style="color:red">${alt_new_check}</span>	### First measurement was <span style="color:red">${alt_new}</span> and check was <span style="color:red">${alt_new_check}</span>	### La primera medida fue <span style="color:red">${alt_new}</span> y la verificación <span style="color:red">${alt_new_check}</span>
+		
+		
+		
+		
+Selecione a posição:	Select the position:	Seleccione la posición:
+		
+		
+		
+		
+		
+		
+		
+		
+Confirme se há placa numerada em  algum fuste secundário:	Confirm if there is a numbered tag on any secondary stem:	Confirme si hay placa numerada en algún fuste secundario:
+		
+Tire uma foto do fuste secundário, mostrando o número da placa.	Take a photo of the secondary stem, showing the tag number.	Tome una foto del fuste secundario, mostrando el número de la placa.
+Tire uma foto do fuste principal, mostrando o número da placa.	Take a photo of the main stem, showing the tag number.	Tome una foto del fuste principal, mostrando el número de la placa.
+		
+### Dap do fuste principal: <span style="color:red">${dap_new}</span> mm	### DBH of main stem: <span style="color:red">${dap_new}</span> mm	### DAP del fuste principal: <span style="color:red">${dap_new}</span> mm
+#### placa antiga ${tag_old}, pom no censo anterior: ${old_pom} m	#### old tag ${tag_old}, DBH height in previous census: ${old_pom} m	#### placa antigua ${tag_old}, altura DAP en el censo anterior: ${old_pom} m
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+###Confirme Identificação da árvore 	###Confirm Tree Identification	###Confirme Identificación del árbol
+		
+		
+		
+		
+		
+		
+		
+Caso tenha algum indivíduo similar nas proximidades digite o número da placa.	If there is a similar individual nearby, enter the tag number.	Si hay algún individuo similar en las proximidades, ingrese el número de la placa.
+		
+Tire uma foto do ramo com folhas, se possível mostrando o número da placa.	Take a photo of the branch with leaves, if possible showing the tag number.	Tome una foto de la rama con hojas, si es posible mostrando el número de la placa.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+#### Placa censo anterior: ${tree_tag}	#### Previous census tag: ${tree_tag}	#### Placa censo anterior: ${tree_tag}
+#### Coordenadas anteriores: ${old_quad}: x = ${old_dx}; y = ${old_dy}	#### Previous coordinates: ${old_quad}: x = ${old_dx}; y = ${old_dy}	#### Coordenadas anteriores: ${old_quad}: x = ${old_dx}; y = ${old_dy}
+#### Dap anterior: ${old_dap}	#### Previous DBH: ${old_dap}	#### DAP anterior: ${old_dap}
+#### Altura anterior: ${old_alt}	#### Previous height: ${old_alt}	#### Altura anterior: ${old_alt}
+#### Identificação anterior:  ${old_sp} (${old_fam})	#### Previous identification:  ${old_sp} (${old_fam})	#### Identificación anterior:  ${old_sp} (${old_fam})
+		
+<span style="color:red"> NÃO UTILIZE ASPAS, CARACTERES ESPECIAIS OU ACENTOS</span>	<span style="color:red"> DO NOT USE QUOTES, SPECIAL CHARACTERS OR ACCENTS</span>	<span style="color:red"> NO UTILICE COMILLAS, CARACTERES ESPECIALES O ACENTOS</span>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+Caso as informações não estejam corretas, clique no icone <span style="color:red"> seta.ponto </span> e ajuste os dados.	If the information is not correct, click on the <span style="color:red"> arrow.point </span> icon and adjust the data.	Si la información no es correcta, haga clic en el icono <span style="color:red"> flecha.punto </span> y ajuste los datos.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+Árvores no subquadrat: ${tags_subq}; encontradas: ${tag_selected}	Trees in subquadrat: ${tags_subq}; found: ${tag_selected}	Árboles en el subcuadrante: ${tags_subq}; encontradas: ${tag_selected}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+### dap: ${old_dap_miss} mm; altura: ${old_alt_miss} m	### dbh: ${old_dap_miss} mm; height: ${old_alt_miss} m	### dap: ${old_dap_miss} mm; altura: ${old_alt_miss} m
+		
+		
+		
+		
+		
+		
+A placa está legível e bem fixada (Não será trocada).	The tag is legible and well fixed (It will not be replaced).	La placa es legible y bien fijada (No será reemplazada).
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+## Coordenas na parcela ${quadrat}: x = ${old_dx_miss}  e y = ${old_dy_miss}	## Coordinates in plot ${quadrat}: x = ${old_dx_miss}  and y = ${old_dy_miss}	## Coordenadas en la parcela ${quadrat}: x = ${old_dx_miss}  e y = ${old_dy_miss}
+		
+		
+		
+		
+		
+		
+Tire uma foto da placa junto ao tronco da árvore, se possível junto a placa antiga.	Take a photo of the tag next to the tree trunk, if possible together with the old tag.	Tome una foto de la placa junto al tronco del árbol, si es posible junto a la placa antigua.
+		
+		
+		
+Selecione a posição:	Select the position:	Seleccione la posición:
+		
+		
+		
+		
+		
+		
+		
+#### placa antiga ${miss_num}, altura no censo anterior: ${old_alt_miss} m	#### old tag ${miss_num}, height in previous census: ${old_alt_miss} m	#### placa antigua ${miss_num}, altura en el censo anterior: ${old_alt_miss} m
+#### placa antiga ${miss_num}, altura no censo anterior: ${old_alt_miss} m	#### old tag ${miss_num}, height in previous census: ${old_alt_miss} m	#### placa antigua ${miss_num}, altura en el censo anterior: ${old_alt_miss} m
+		
+		
+		
+		
+#### altura no censo anterior: ${old_alt_miss} m	#### height in previous census: ${old_alt_miss} m	#### altura en el censo anterior: ${old_alt_miss} m
+#### placa antiga ${miss_num}, altura no censo anterior: ${old_alt_miss} m	#### old tag ${miss_num}, height in previous census: ${old_alt_miss} m	#### placa antigua ${miss_num}, altura en el censo anterior: ${old_alt_miss} m
+		
+		
+### A primeira medida foi <span style="color:red">${alt_new_miss}</span> e a checagem <span style="color:red">${alt_new_check_miss}</span>	### First measurement was <span style="color:red">${alt_new_miss}</span> and check was <span style="color:red">${alt_new_check_miss}</span>	### La primera medida fue <span style="color:red">${alt_new_miss}</span> y la verificación <span style="color:red">${alt_new_check_miss}</span>
+### A primeira medida foi <span style="color:red">${alt_new_miss}</span> e a checagem <span style="color:red">${alt_new_check_miss}</span>	### First measurement was <span style="color:red">${alt_new_miss}</span> and check was <span style="color:red">${alt_new_check_miss}</span>	### La primera medida fue <span style="color:red">${alt_new_miss}</span> y la verificación <span style="color:red">${alt_new_check_miss}</span>
+		
+### A primeira medida foi <span style="color:red">${alt_new_miss}</span> e a checagem <span style="color:red">${alt_new_check_miss}</span>	### First measurement was <span style="color:red">${alt_new_miss}</span> and check was <span style="color:red">${alt_new_check_miss}</span>	### La primera medida fue <span style="color:red">${alt_new_miss}</span> y la verificación <span style="color:red">${alt_new_check_miss}</span>
+		
+		
+		
+		
+### Dap do fuste principal: ${old_dap_miss} mm	### DBH of main stem: ${old_dap_miss} mm	### DAP del fuste principal: ${old_dap_miss} mm
+#### placa ${num_tag}, pom no censo anterior: ${old_pom} m	#### tag ${num_tag}, DBH height in previous census: ${old_pom} m	#### placa ${num_tag}, altura DAP en el censo anterior: ${old_pom} m
+		
+		
+		
+#### dap no censo anterior: (${old_dap_miss}) mm  	#### dbh in previous census: (${old_dap_miss}) mm  	#### dap en el censo anterior: (${old_dap_miss}) mm
+#### dap no censo anterior: (${old_dbhcm_miss}) cm  	#### dbh in previous census: (${old_dbhcm_miss}) cm  	#### dap en el censo anterior: (${old_dbhcm_miss}) cm
+#### pap no censo anterior: (${old_papcm_miss}) cm  	#### pbh in previous census: (${old_papcm_miss}) cm  	#### pap en el censo anterior: (${old_papcm_miss}) cm
+		
+		
+		
+		
+### Número de fustes no censo anterior: ${old_nfuste_miss}	### Number of stems in previous census: ${old_nfuste_miss}	### Número de fustes en el censo anterior: ${old_nfuste_miss}
+### No censo anterior a planta <span style="color:red">${miss_num}</span> tinha ${old_nfuste_miss}	### In previous census the plant <span style="color:red">${miss_num}</span> had ${old_nfuste_miss}	### En el censo anterior la planta <span style="color:red">${miss_num}</span> tenía ${old_nfuste_miss}
+		
+		
+Placa censo anterior: ${miss_num}	Previous census tag: ${miss_num}	Placa censo anterior: ${miss_num}
+		
+#### dap no censo anterior: (${old_dap_miss}) mm  	#### dbh in previous census: (${old_dap_miss}) mm  	#### dap en el censo anterior: (${old_dap_miss}) mm
+#### dap no censo anterior: (${old_dbhcm_miss}) cm  	#### dbh in previous census: (${old_dbhcm_miss}) cm  	#### dap en el censo anterior: (${old_dbhcm_miss}) cm
+#### pap no censo anterior: (${old_papcm_miss}) cm  	#### pbh in previous census: (${old_papcm_miss}) cm  	#### pap en el censo anterior: (${old_papcm_miss}) cm
+		
+		
+### A primeira medida foi <span style="color:red">${dap_new_miss}</span> e a checagem foi <span style="color:red">${dap_new_check_miss}</span>	### First measurement was <span style="color:red">${dap_new_miss}</span> and check was <span style="color:red">${dap_new_check_miss}</span>	### La primera medida fue <span style="color:red">${dap_new_miss}</span> y la verificación fue <span style="color:red">${dap_new_check_miss}</span>
+### O dap passou de <span style="color:red">${old_dap_miss}</span> para <span style="color:red">${dap_new_check_miss}</span>	### DBH changed from <span style="color:red">${old_dap_miss}</span> to <span style="color:red">${dap_new_check_miss}</span>	### El DAP pasó de <span style="color:red">${old_dap_miss}</span> a <span style="color:red">${dap_new_check_miss}</span>
+### A medida inicial de <span style="color:red">${dap_new_miss}</span> passou para <span style="color:red">${dap_new_check_miss}</span>	### Initial measurement of <span style="color:red">${dap_new_miss}</span> changed to <span style="color:red">${dap_new_check_miss}</span>	### La medida inicial de <span style="color:red">${dap_new_miss}</span> pasó a <span style="color:red">${dap_new_check_miss}</span>
+### A medida inicial de <span style="color:red">${dap_new_miss}</span> e a checagem <span style="color:red">${dap_new_check_miss}</span>	### Initial measurement of <span style="color:red">${dap_new_miss}</span> and check <span style="color:red">${dap_new_check_miss}</span>	### La medida inicial de <span style="color:red">${dap_new_miss}</span> y la verificación <span style="color:red">${dap_new_check_miss}</span>
+		
+		
+		
+		
+		
+		
+		
+### Dap do fuste principal: <span style="color:red">${dap_new_miss}</span> mm	### DBH of main stem: <span style="color:red">${dap_new_miss}</span> mm	### DAP del fuste principal: <span style="color:red">${dap_new_miss}</span> mm
+#### placa antiga ${miss_num}, pom no censo anterior: ${old_pom_miss} m	#### old tag ${miss_num}, DBH height in previous census: ${old_pom_miss} m	#### placa antigua ${miss_num}, altura DAP en el censo anterior: ${old_pom_miss} m
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+### Confirme Identificação da árvore 	### Confirm Tree Identification	### Confirme Identificación del árbol
+		
+		
+		
+		
+		
+		
+		
+Caso tenha algum indivíduo similar nas proximidades digite o número da placa.	If there is a similar individual nearby, enter the tag number.	Si hay algún individuo similar en las proximidades, ingrese el número de la placa.
+		
+Tire uma foto do ramo com folhas, se possível mostrando o número da placa.	Take a photo of the branch with leaves, if possible showing the tag number.	Tome una foto de la rama con hojas, si es posible mostrando el número de la placa.

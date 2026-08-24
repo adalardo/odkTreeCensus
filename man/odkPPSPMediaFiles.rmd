@@ -1,0 +1,346 @@
+---
+title: "ODK PPSP"
+author: "Alexandre Adalardo de Oliveira"
+date: 31 março 2025
+output: html_document
+
+---
+
+## Pacotes do repositório R CRAN 
+
+
+Instalando os pacotes necessários do repositório do R: CRAN
+
+```{r, echo = TRUE, eval = FALSE }
+
+install.packages(c("knitr","gridSVG", "devtools", "flora"), repos = "https://vps.fmvz.usp.br/CRAN/")
+
+```
+
+
+## Instalando o pacote Rppsp
+
+
+Caso já tenha uma versão do pacote instalado em seu computador, para evitar problemas, remova o pacote e feche a sessão do R antes de instalar uma nova versão.
+
+### Removendo o pacote com versão antiga
+
+```{r, echo = TRUE, eval = FALSE }
+
+remove.packages("Rppsp")
+
+```
+
+### Intalando o pacote do repositório github
+
+```{r, echo = TRUE, eval = FALSE}
+
+devtools::install_github(repo = 'adalardo/Rppsp')
+
+   
+
+```
+
+## Carregando pacotes na sessão do R
+ 
+ 
+```{r, echo = TRUE, eval = TRUE}
+
+library(Rppsp)
+library(knitr)
+library(grid)
+library(gridSVG)
+
+```
+
+
+## Lendo os dados do censo anterior: Assis
+
+Para a leitura direto do drive precisa usar o link nesse formato copiando o id e pedindo para "&export=download". Aqui baixando o 'censoOld.csv' e o 'splist.csv'
+
+```{r, echo = TRUE, eval = FALSE }
+
+#eea <- read.table("https://drive.google.com/uc?id=1gd84dSdx7mT5L07em-5CU7GdJzaDsqlX&export=download", header = TRUE, sep = ",")
+eea <- read.table("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/censoPPSP2025/censoPPSP2025-media/censoOld.csv", header = TRUE, sep = ",")
+str(eea)
+#splist <- read.table("https://drive.google.com/uc?id=1agbWCBD1-nwMftM8ZGBaeNHwlFUWOf1w&export=download", header = TRUE, sep = ",")
+splist <- read.table("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/censoPPSP2025/censoPPSP2025-media/splist.csv", header = TRUE, sep = ",")
+str(splist)
+
+```
+
+## Mapeamento  gx gy para a parcela a partir de dx e dy da subparcela de 20x20
+
+Caso os dados não tenham o mapemento na escala da parcela (320x320), apenas na escala da subparcela (20x20), é preciso adicionar o valor das coordenadas de cada subpacela no **dx** e **dy** das árvores, como segue.
+ATENÇÃO: para Assis a função  subplotXY deve ter: **xcode = c('Z', LETTERS[1:15])** por conta da primeira linha ser a **Z**.
+
+
+```{r, echo = TRUE, eval= FALSE }
+
+if(!("gx" %in% names(eea) | "gy" %in% names(eea)))
+{
+    subplotxy <- subplotXY(xcode = c("Z", LETTERS[1:15]), ycode = c(paste(0, 0:9, sep = ""), 10:15), xsub = 20, ysub = 20)
+
+    eea <- merge(eea, subplotxy, by.x = "quad", by.y = "subplot", all.x = TRUE,  sort = FALSE)
+    eea$gx <- eea$xlim + eea$dx
+    eea$gy <- eea$ylim + eea$dy
+    plot(eea$gy ~ eea$gx)
+### str(peea)
+}
+
+```
+
+
+## subquad
+
+Para criar a variável subquad (código do subquad) para cada árvore da parcela
+
+```{r, echo = TRUE, eval = FALSE}
+
+subq <- splitPlot(dx = eea$dx, dy = eea$dy, splitX = 10)
+eea$subquad <- paste(eea$quad, "quad_", subq, sep = "")
+
+```
+
+
+
+## Arquivos de dados do censoPPSP2025-media
+
+### censoOld.csv
+
+Esses é o principal arquivos de dados para popular o formulário com os dados do censo anterior e deve ser incluído na pasta "censoPPsp2025-media"
+No inicio do código é verificado se existe uma pasta "censoPPsp2025-media" no diretório de trabalho e, caso não tenha, cria uma.
+
+
+
+
+```{r, echo = TRUE, eval = FALSE }
+
+if(!dir.exists("censoPPSP2025-media"))
+        {
+            dir.create("censoPPSP2025-media")
+        }
+write.table(eea, file = file.path("censoPPSP2025-media","censoOld.csv"), sep = ",", row.names = FALSE)
+
+```
+
+
+
+## splist.csv
+
+Lista de espécies de Assis com 'indet' para cada gênero e família para a seleção no aplicativo. As 'indet' devem aparecer no topo das listas.
+
+```{r, echo = TRUE, eval = FALSE }
+str(splist)
+splist <- rbind(splist, c(0,"cipo", "cipo", "cipo"))
+vfindet <- splist$species == 'sp_indet' & splist$gen != 'gen_indet'
+splist$species[vfindet] <- paste(splist$gen[vfindet], 'sp_indet')
+#duplicated(splist$species)
+splist <- splist[!duplicated(paste(splist$fam, splist$gen, splist$species)),]
+indet <- rep(4, nrow(splist))
+indet[grep("indet", splist$species)] <- 3
+indet[grep("indet", splist$gen)] <- 2
+indet[grep("indet", splist$fam)] <- 1
+indetOrder<- order( indet,splist$fam, splist$gen, splist$species)
+splist <- splist[indetOrder,]
+
+
+write.table(splist[indetOrder,], file = file.path("censoPPSP2025","censoPPSP2025-media","splist.csv"), sep = ",", row.names = FALSE)
+
+```
+
+
+
+## subqtags.csv
+
+Para fazer a confirmação de árvores desaparecidas precisa de arquivo com a variáveis 'subquad' 'tags' das árvores vivas. Foi solicitado que a numeração fosse colocada em ordem do x ou y para ter uma sequência de busca em campo.
+
+```{r, echo = TRUE, eval = FALSE }
+eeaA <- eea[eea$status == "A",]
+eeaA <- eeaA[order(eeaA$subquad, eeaA$dx),]
+subqtags <- aggregate(eeaA$tag, by = list(eeaA$subquad), FUN = function(x){paste(x, collapse = " " )} )
+names(subqtags) <- c("subq", "tags")
+str(subqtags)
+write.table(subqtags, file = file.path("censoPPSP2025-media","subqtags.csv"), sep = ",", row.names = FALSE )
+
+```
+
+### gridid.csv
+
+Para o mapeamento no mapa de grid é preciso ter um arquivo de dados com os códigos identificadores de cada célula do grid. Esses valores devem ser ajustados conforme a definição do mapeamento desejado e acoplado aos gráficos de grid. Aqui estamos construindo os identificadores para uma unidade de trabalho de 10x10m com definição de 0,2m para Assis.
+
+```{r, echo = TRUE, eval = FALSE }
+xseq <- rep(seq(0.0, 9.8,by=.2), each=50)
+yseq <- rep(seq(0.0, 9.8,by= .2), 50)
+loc_key_10 <- paste("x = ",sprintf("%1.1f", xseq), "; y = ", sprintf("%1.1f", yseq),";", sep="")
+gridid <- data.frame(xyid = paste(loc_key_10, " .1", sep = ""), xseq, yseq)
+str(gridid)
+write.table(gridid, file = file.path("censoPPSP2025-media","gridid.csv"), sep = ",", row.names = FALSE )
+```
+
+
+## Criando coordenadas das subparcelas
+
+A função do pacote Rppsp cria a referência do x e y de cada subparcela. É preciso colocar os codigos das linhas e colunas na ordem que estão em campo e a dimensão da supbarcela.
+
+```{r, echo = TRUE, eval = FALSE }
+subXY <- subplotXY(xcode = c("Z", LETTERS[1:15]), ycode = c(paste(0, 0:9, sep = ""), 10:15), xsub = 20, ysub = 20)
+str(subXY)
+
+```
+
+## Criando coordenadas das unidade de trabalho (10x10)
+
+Como as unidades de trabalho são menores que as subparcelas, é necessário criar as coordenadas dessas unidades de trabalho e os códigos de referência para elas.
+
+```{r, echo = TRUE, eval = FALSE }
+
+quadXY <- splitPlotXY(subXY, splitX = 10, maxX = 20 )
+str(quadXY)
+
+```
+
+## Estruturando os dados para os mapas
+
+Como os mapas das unidades de trabalho utilizam um buffer para inclusão das árvores que estão nos limites do quadrat é necessário a organização dos dados incluindo esses indivíduos. Os argumentos 'gx', 'gy', 'dbh' e 'status' são os nomes dessas variáveis no arquivo de dados do censo, sendo 'gx' e 'gy' as coordenadas cartesianas para a parcela toda.
+O objeto resultante é uma lista com o número de subquadrats (unidades de trabalho).
+
+
+```{r, echo = TRUE, eval = FALSE }
+
+mapData <- splitPlotData(censoData = eea, subplotCodes = subXY$subplot, splitQuadXY = quadXY, buffer = 2 , dbh = "dap", gx = "gx", gy = "gy", status = "status")
+str(mapData[1])
+length(mapData)
+names(mapData)[1:20]
+
+
+```
+
+## subqkey.csv
+
+Este arquivo tem duas variáveis 'subq' e 'arv_key' para a seleção das árvores em cada um dos mapas. Aqui são incluídas as árvores no buffer da unidade de trabalho (subquadrats). 
+
+```{r, echo = TRUE, eval = FALSE }
+ntree <- sapply(mapData, nrow)
+subq <- rep(names(ntree), times = ntree)
+tags <- NULL
+for(i in 1:length(mapData))
+{
+   tags <- c(tags, mapData[[i]]$tag)
+}
+arvKey <- paste("arv_", tags, ".1", sep = "")
+subqkey <- data.frame(subq = subq, arv_key = arvKey)
+str(subqkey)
+
+write.table(subqkey, file = file.path("censoPPSP2025-media","subqkey.csv"), sep = ",", row.names = FALSE )
+
+```
+
+## subPar10.svg
+
+Um mapa com quadrantes de 10 m para selecionar a unidade de trabalho. 
+   
+
+```{r, echo = TRUE, eval= TRUE }
+
+dev.new( width=10, height=10)
+vp <- viewport(width = 0.8, height = 0.8, xscale=c(0,20), yscale=c(0,20))
+pushViewport(vp)
+grid.rect(gp = gpar(col = "black"))
+grid.xaxis(at=seq(0,20,by=5), gp=gpar(fontsize= 25))
+grid.yaxis(at=seq(0,20,by=5), gp=gpar(fontsize= 25))
+xseq = c(0, 0, 10, 10)
+yseq = c(0, 10, 10 , 0 )
+subPar  = paste("quad_", xseq, "x",  yseq, sep="")
+for(i in 1: length(subPar))
+{
+    grid.rect(x = xseq[i]+ 5, y = yseq[i]+5, width=10, height=10, gp=gpar(fill = rgb(0,1,0),lwd =0.5),  default.units ="native", name = subPar[i])
+}
+grid.abline(gp = gpar(lwd = 1, col = rgb(0,0,1))) 
+grid.abline(20, -1, gp = gpar(lwd = 1, col = rgb(0,0,1)))
+
+grid.export(file.path("censoPPSP2025-media","subPar10.svg"), uniqueNames=FALSE)
+
+
+```
+
+## subPar05.svg
+
+Um mapa com quadrantes de 5 m para selecionar a unidade de trabalho (para o censo do PEIC). 
+   
+
+```{r, echo = TRUE, eval= TRUE }
+
+dev.new( width=10, height=10)
+vp <- viewport(width = 0.8, height = 0.8, xscale=c(0,20), yscale=c(0,20))
+pushViewport(vp)
+grid.rect(gp = gpar(col = "black"))
+grid.xaxis(at=seq(0,20,by=5), gp=gpar(fontsize= 25))
+grid.yaxis(at=seq(0,20,by=5), gp=gpar(fontsize= 25))
+xseq = rep(seq(0, 15, by = 5), each = 4) 
+yseq = rep(seq(0, 15, by = 5), times = 4)
+subPar  = paste("quad_", xseq, "x",  yseq, sep="")
+for(i in 1: length(subPar))
+{
+    grid.rect(x = xseq[i]+ 2.5, y = yseq[i]+ 2.55, width= 5, height= 5, gp=gpar(fill = rgb(0,1,0),lwd =0.5),  default.units ="native", name = subPar[i])
+}
+## grid.abline(gp = gpar(lwd = 1, col = rgb(0,0,1))) 
+## grid.abline(20, -1, gp = gpar(lwd = 1, col = rgb(0,0,1)))
+
+grid.export(file.path("censoPPSP2025-media","subPar05.svg"), uniqueNames=FALSE)
+
+
+```
+
+
+## Testando a função svgGrid
+
+
+```{r }
+
+source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/mapsvg.R")
+svgGrid(censoData = eea , subPlotCode = unique(eea$subquad)[1], diagonal = TRUE, subquad = "subquad", vpSize = c(0.85, 0.85),  mapSize = c(15,15), fontSize = 20)
+
+```
+
+
+
+## Grids de mapeamento: Assis
+
+Aqui tem o loop para o grid de mapeamento das unidades de trabalho. O código abaixo cria pastas com o código da linhas da parcela e armazena os grids nessas pastas. As figuras são um pouco pesadas e demoram para serem salvas. Para fazer todos os arquivos de uma parcela retire o <code>[1]</code> do <code>subqXY\$subplot[1]</code>. Esse processo demora algumas horas dependendo do computador. Para restringir quais parcelas serão feitas use um vetor com os códigos das parcelas no lugar do <code>subqXY\$subplot[1]</code>, ou use a indexação do vetor como, por exemplo <code>subqXY\$subplot[c(1, 2, 3)]</code> para as parcelas "Z00", "Z01" e "Z02". 
+
+
+```{r, echo = TRUE, eval = FALSE }
+
+for(i in subXY$subplot[1])
+    {
+        svgGrid(censoData = eea, wd2save =  file.path("censoPPSP2025-media", paste("linha", substring(i, 1, 1), sep = "_")), subPlotCode = i, diagonal = TRUE, subquad = "subquad")
+        graphics.off()
+    }
+
+
+```
+
+
+
+
+## Mapas das árvores das unidades de trabalho: Assis
+
+Para fazer os mapas das árvores das unidades de trabalho com os buffers é preciso organizar os dados antes com a função 'splitPlotData' como fizemos acima. O tamanho do buffer é definido na organização dos dados em um lista com o tamanho relacionado ao número de unidades de trabalho (256 * 4 = 1024)
+
+```{r, echo = TRUE, eval = FALSE }
+
+for(i in subXY$subplot[1])
+    {
+        svgMap(mapData, wd2save =  file.path("censoPPSP2025-media", paste("linha", substring(i, 1, 1), sep = "_")) , subPlotCode = i, diagonal = TRUE)
+        graphics.off()
+    }
+
+```
+
+
+```{r, eval = FALSE, echo = FALSE }
+
+rmarkdown::render("odkPPSPMediaFiles.rmd", output_format = c("pdf_document", "html_document"))
+
+```

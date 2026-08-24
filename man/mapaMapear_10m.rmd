@@ -1,0 +1,217 @@
+---
+title: "Criando mapas svg para formulário ODK - ASSIS"
+author: "Alexandre Adalardo de Oliveira"
+date: 10 fevereiro 2025
+output: html_document
+
+---
+
+    
+```{r, echo = TRUE, eval= FALSE}
+
+#devtools::install_github(repo = 'adalardo/Rppsp')
+library(Rppsp)
+library(knitr)
+#library(grImport)
+library(grid)
+library(gridSVG)
+library(tcltk)
+#source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/quadrat.R")
+
+
+
+```
+
+## Screen resolution
+
+Os gráficos tem ficado diferentes dependendo da resolução da tela. Os codigos abaixo funcionam para o escritorio de casa, com resolução 2865 x 3210, duas telas com monitor externo no xps13. 
+
+
+```{r }
+
+
+## rid.show.layout(grid.layout(4,2, heights=unit(rep(1, 4), c("lines", "lines", "lines", "null")), widths=unit(c(1, 1), "inches")))
+
+## tclvalue(tkwm.maxsize("."))
+## ft <- paste0("test_", paste(tkwm.maxsize("."),  collapse = "x"), ".svg")
+
+## grid.export(ft, uniqueNames=TRUE)
+
+
+
+
+```
+
+
+## Lendo dados: Assis
+
+```{r }
+eea <- read.table("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/censoOld.csv", header = TRUE, sep = ",")
+subplotxy <- subplotXY(xcode = c("Z", LETTERS[1:15]), ycode = c(paste(0, 0:9, sep = ""), 10:15), xsub = 20, ysub = 20)
+
+#write.table(peea, file =  "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/censoOld.csv", row.names = FALSE , sep = ",")
+splitQuadXY <- splitPlotXY(subplotxy, splitX = 10, maxX = 20 )
+str(splitQuadXY)
+mapData <- splitPlotData(censoData = eea, subplotCodes = subplotxy$subplot, splitQuadXY = splitQuadXY, buffer = 2 , dbh = "dap", gx = "gx", gy = "gy", status = "status")
+str(mapData)
+length(mapData)
+names(mapData)
+
+
+```
+
+
+
+```{r, echo = TRUE, eval= FALSE }
+source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/mapsvg.R")
+
+setwd("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/mapasAssis")
+getwd()
+graphics.off()
+
+
+for(ii in subplotxy$subplot)
+    {
+        svgGrid(censoData = eea, wd2save = paste("linha", substring(ii, 1, 1), sep = "_"), subPlotCode = ii, diagonal = TRUE, subquad = "subquad")
+        graphics.off()
+    }
+#graphics.off()
+
+```
+
+## svgGrid
+
+O código abaixo para construir o grid de mapeamento com as árvores foi colocado em uma função no pacote Rppsp. Testando:
+
+```{r }
+source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/mapsvg.R")
+setwd(file.path("maps", "Assis"))
+getwd()
+x11() #width= 13, height= 13
+graphics.off()
+
+for(i in subplotxy$subplot)
+    {
+        svgMap(mapData, wd2save = paste("linha", substring(i, 1, 1), sep = "_"), subPlotCode = i, diagonal = TRUE)
+        graphics.off()
+    }
+#
+
+```
+
+
+
+
+## Grid para mapear 10x10m - definição: 0.20 com mapa das árvores
+
+
+Aqui o grid de 10x10 m com definição de 0.20 m para mapeamento, incluindo as árovores da parcela.
+
+O mapa "A" tem a diagonal 1 e o map "B" a diagonal -1 
+
+
+```{r }
+
+subPlotCode <- "Z00"
+dirMap <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/mapasAssis"
+setwd(dirMap)
+wd2save = "linha_Z" ##paste("linha", substring(i, 1, 1), sep = "_")
+mapSize = c(13, 13)
+subqSize = 10
+gridSize = 0.2
+status = "status"
+tag = "tag"
+dbhcm = "dbhcm"
+table(eea$status)
+cols <- c( rgb(0,0,1,0.5), rgb(0,1,0, 0.5))[grepl("A", sqData[,status]) + 1]
+nums <- grepl("A", sqData[,status]) + 1
+cbind(sqData[, c("status", "dx", "dy")], cols, nums)
+
+```
+
+
+
+```{r, echo = TRUE, eval= FALSE }
+
+
+## plot here
+graphics.off()
+#dev.new( width=15,height=15) # depende da definição de tela.
+
+str(eea)
+subqNames <- sort(unique(grep(subPlotCode, eea$subquad, value = TRUE)))
+j = subqNames[1]
+for(j in subqNames)
+{
+    sqData <- eea[eea$subquad == j,]
+    sqxy <- as.numeric(strsplit(j, split= "_|x")[[1]][c(2,3)])
+    sqData$sx <- sqData$dx - sqxy[1]
+    sqData$sy <- sqData$dy - sqxy[2]
+    dev.new( width = mapSize[1], height = mapSize[2]) #, fontsize = 12)
+    vptop<- viewport(y=0.9, width=0.9, height=0.2)
+    grid.text(x=0.5, y=0.9, paste(j,  "- grid de mapeamento", subqSize,  "x",subqSize,"m"), vp= vptop, gp=gpar(fontsize = 20))
+    vp <- viewport(width = 0.9, height = 0.9, xscale=c(0,10), yscale=c(0,10))
+    pushViewport(vp)
+    grid.rect(gp = gpar(col = "black"))
+    grid.xaxis(at=seq(0, subqSize, by=.5), gp = gpar(fontsize=12, tcl = NA))
+    grid.yaxis(at=seq(0, subqSize, blocPosy=.5), gp = gpar(fontsize=12, tcl = NA))
+    xseq = rep(seq(0.0, subqSize - gridSize, by = gridSize), each = subqSize/gridSize)
+    yseq = rep(seq(0.0, subqSize - gridSize, by = gridSize), subqSize/gridSize)
+    loc_key_10 = paste("x = ",sprintf("%1.1f", xseq), "; y = ", sprintf("%1.1f", yseq),"; ", sep="")
+    grid.circle(x= sqData$sx, y= sqData$sy, r= log(sqData[,dbhcm])/20, default.units="native", gp=gpar(fill= c(rgb(0,0,1, 0.5), rgb(0,1,0,0.5))[grepl("A", sqData[,status]) + 1], col="black"))
+    grid.text(paste(sqData[, tag]), x= sqData[, "sx"]+ log(sqData[, dbhcm])/8 , y=sqData[, "sy"] + log(sqData[, dbhcm])/15, default.units="native", gp = gpar(cex = 1.2))
+#####################
+##  DIAGONAL:
+#####################
+    if(sqxy[1] == sqxy[2])
+    {
+        grid.abline(gp = gpar(lwd = 1.5, col = "blue") )
+    }    
+    if(sqxy[1] != sqxy[2])
+    {
+        grid.abline(10, -1, gp = gpar(lwd = 1.5, col = "blue") )
+    }    
+##############
+## Grid
+##############
+    for(i in 1: length(loc_key_10))
+    {
+        grid.rect(x = xseq[i]+0.1,y = yseq[i]+0.1, width =.2, height=.2, gp=gpar(fill = rgb(0,1,0, .2),lwd =0.1),  default.units="native", name = loc_key_10[i])
+    }
+    grid.export(file.path(wd2save, paste("grid",subqSize,"_", j,".svg",sep="")) , uniqueNames=FALSE)
+}    
+
+## criando os dados em um csv para fazer correspondencia do ids no xml
+# O ID DO retangulo colorido tem o final acrescido de .1.1 por conta da hierarquia dos elementos criados no  xml (use inkspace para acessar os dados do id)
+graphics.off()
+
+locPos <- data.frame(xyid = paste(loc_key_10, ".1", sep = ""), xseq, yseq)
+
+write.table(locPos, file = file.path("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps", paste("gridid.csv", sep = "")), row.names=FALSE, sep= ",")
+
+
+
+```
+
+
+
+
+## Listando mapas já feitos
+
+
+```{r }
+dirMap <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/mapasAssis"
+fn <- list.files(dirMap, include.dirs =  FALSE,  recursive = TRUE)
+fn <- gsub("^linha_./", "", fn )
+fn <- gsub(".svg", "", fn )
+maps <- grep("^map", fn, value = TRUE)
+grids <- grep("^grid10", fn, value = TRUE)
+linhas <- rep(c("Z", LETTERS[1:15]), each = 4*16)
+colunas <- rep(rep(c(paste(0, 0:9, sep = ""), 10:15), each = 4), 16)
+subq <- c("0x0", "0x10", "10x0", "10x10")
+gridAll <- paste("grid10_", linhas, colunas,  "quad_", subq, sep = "")
+mapAll <- paste("map", linhas, colunas,  "quad_", subq, sep = "")
+table(grids %in% gridAll)
+table(maps %in% mapAll)
+
+```

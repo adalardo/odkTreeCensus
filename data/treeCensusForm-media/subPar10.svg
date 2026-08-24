@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="961px" height="960.86px" viewBox="0 0 961 960.86" version="1.1">
+  <metadata xmlns:gridsvg="http://www.stat.auckland.ac.nz/~paul/R/gridSVG/">
+    <gridsvg:generator name="gridSVG" version="1.7-7" time="2026-08-21 16:31:47.742206"/>
+    <gridsvg:argument name="name" value="/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/ODKMedia/mapasCenso/subPar10.svg"/>
+    <gridsvg:argument name="exportCoords" value="none"/>
+    <gridsvg:argument name="exportMappings" value="none"/>
+    <gridsvg:argument name="exportJS" value="none"/>
+    <gridsvg:argument name="res" value="96.13"/>
+    <gridsvg:argument name="prefix" value=""/>
+    <gridsvg:argument name="addClasses" value="FALSE"/>
+    <gridsvg:argument name="indent" value="TRUE"/>
+    <gridsvg:argument name="htmlWrapper" value="FALSE"/>
+    <gridsvg:argument name="usePaths" value="vpPaths"/>
+    <gridsvg:argument name="uniqueNames" value="TRUE"/>
+    <gridsvg:separator name="id.sep" value="."/>
+    <gridsvg:separator name="gPath.sep" value="::"/>
+    <gridsvg:separator name="vpPath.sep" value="::"/>
+  </metadata>
+  <g transform="translate(0, 960.86) scale(1, -1)">
+    <g id="gridSVG" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="none" stroke-width="1" font-size="16.04" font-family="Helvetica, Arial, FreeSans, Liberation Sans, Nimbus Sans L, sans-serif" opacity="1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-opacity="1" fill-opacity="0" font-weight="normal" font-style="normal">
+      <g id="GRID.VP.21">
+        <g id="GRID.rect.346">
+          <rect id="GRID.rect.346.1" x="96.1" y="96.09" width="768.8" height="768.69" transform="" stroke="rgb(0,0,0)" stroke-opacity="1"/>
+        </g>
+        <g id="GRID.xaxis.347" font-size="33.38">
+          <g id="major">
+            <polyline id="major.1" points="96.1,96.09 864.9,96.09" fill="none"/>
+          </g>
+          <g id="ticks">
+            <polyline id="ticks.1" points="96.1,96.09 96.1,86.46" fill="none"/>
+            <polyline id="ticks.1" points="288.3,96.09 288.3,86.46" fill="none"/>
+            <polyline id="ticks.1" points="480.5,96.09 480.5,86.46" fill="none"/>
+            <polyline id="ticks.1" points="672.7,96.09 672.7,86.46" fill="none"/>
+            <polyline id="ticks.1" points="864.9,96.09 864.9,86.46" fill="none"/>
+          </g>
+          <g id="labels">
+            <g id="labels.1" transform="translate(96.1, 67.21)" stroke-width="0.1">
+              <g id="labels.1.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.1.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.1.tspan" dy="6" x="0">0</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.1" transform="translate(288.3, 67.21)" stroke-width="0.1">
+              <g id="labels.1.2.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.2.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.2.tspan" dy="6" x="0">5</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.1" transform="translate(480.5, 67.21)" stroke-width="0.1">
+              <g id="labels.1.3.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.3.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.3.tspan" dy="6" x="0">10</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.1" transform="translate(672.7, 67.21)" stroke-width="0.1">
+              <g id="labels.1.4.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.4.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.4.tspan" dy="6" x="0">15</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.1" transform="translate(864.9, 67.21)" stroke-width="0.1">
+              <g id="labels.1.5.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.5.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.5.tspan" dy="6" x="0">20</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="GRID.yaxis.348" font-size="33.38">
+          <g id="major">
+            <polyline id="major.2" points="96.1,96.09 96.1,864.77" fill="none"/>
+          </g>
+          <g id="ticks">
+            <polyline id="ticks.2" points="96.1,96.09 86.47,96.09" fill="none"/>
+            <polyline id="ticks.2" points="96.1,288.26 86.47,288.26" fill="none"/>
+            <polyline id="ticks.2" points="96.1,480.43 86.47,480.43" fill="none"/>
+            <polyline id="ticks.2" points="96.1,672.6 86.47,672.6" fill="none"/>
+            <polyline id="ticks.2" points="96.1,864.77 86.47,864.77" fill="none"/>
+          </g>
+          <g id="labels">
+            <g id="labels.2" transform="translate(76.85, 96.09)" stroke-width="0.1">
+              <g id="labels.2.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.1.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.1.tspan" dy="6" x="0">0</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.2" transform="translate(76.85, 288.26)" stroke-width="0.1">
+              <g id="labels.2.2.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.2.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.2.tspan" dy="6" x="0">5</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.2" transform="translate(76.85, 480.43)" stroke-width="0.1">
+              <g id="labels.2.3.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.3.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.3.tspan" dy="6" x="0">10</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.2" transform="translate(76.85, 672.6)" stroke-width="0.1">
+              <g id="labels.2.4.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.4.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.4.tspan" dy="6" x="0">15</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.2" transform="translate(76.85, 864.77)" stroke-width="0.1">
+              <g id="labels.2.5.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.5.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.5.tspan" dy="6" x="0">20</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="quad_0x0">
+          <rect id="quad_0x0" x="96.1" y="96.09" width="384.4" height="384.34" transform="" fill="rgb(0,255,0)" stroke-width="0.5" fill-opacity="1"/>
+        </g>
+        <g id="quad_0x10">
+          <rect id="quad_0x10" x="96.1" y="480.43" width="384.4" height="384.34" transform="" fill="rgb(0,255,0)" stroke-width="0.5" fill-opacity="1"/>
+        </g>
+        <g id="quad_10x10">
+          <rect id="quad_10x10" x="480.5" y="480.43" width="384.4" height="384.34" transform="" fill="rgb(0,255,0)" stroke-width="0.5" fill-opacity="1"/>
+        </g>
+        <g id="quad_10x0">
+          <rect id="quad_10x0" x="480.5" y="96.09" width="384.4" height="384.34" transform="" fill="rgb(0,255,0)" stroke-width="0.5" fill-opacity="1"/>
+        </g>
+        <g id="GRID.functiongrob.349">
+          <polyline id="GRID.functiongrob.349.1" points="96.1,96.09 103.79,103.77 111.48,111.46 119.16,119.15 126.85,126.83 134.54,134.52 142.23,142.21 149.92,149.89 157.6,157.58 165.29,165.27 172.98,172.95 180.67,180.64 188.36,188.33 196.04,196.02 203.73,203.7 211.42,211.39 219.11,219.08 226.8,226.76 234.48,234.45 242.17,242.14 249.86,249.82 257.55,257.51 265.24,265.2 272.92,272.88 280.61,280.57 288.3,288.26 295.99,295.94 303.68,303.63 311.36,311.32 319.05,319.01 326.74,326.69 334.43,334.38 342.12,342.07 349.8,349.75 357.49,357.44 365.18,365.13 372.87,372.81 380.56,380.5 388.24,388.19 395.93,395.87 403.62,403.56 411.31,411.25 419,418.93 426.68,426.62 434.37,434.31 442.06,442 449.75,449.68 457.44,457.37 465.12,465.06 472.81,472.74 480.5,480.43 488.19,488.12 495.88,495.8 503.56,503.49 511.25,511.18 518.94,518.86 526.63,526.55 534.32,534.24 542,541.92 549.69,549.61 557.38,557.3 565.07,564.99 572.76,572.67 580.44,580.36 588.13,588.05 595.82,595.73 603.51,603.42 611.2,611.11 618.88,618.79 626.57,626.48 634.26,634.17 641.95,641.85 649.64,649.54 657.32,657.23 665.01,664.91 672.7,672.6 680.39,680.29 688.08,687.98 695.76,695.66 703.45,703.35 711.14,711.04 718.83,718.72 726.52,726.41 734.2,734.1 741.89,741.78 749.58,749.47 757.27,757.16 764.96,764.84 772.64,772.53 780.33,780.22 788.02,787.9 795.71,795.59 803.4,803.28 811.08,810.97 818.77,818.65 826.46,826.34 834.15,834.03 841.84,841.71 849.52,849.4 857.21,857.09 864.9,864.77" stroke-width="1" stroke="rgb(0,0,255)" stroke-opacity="1" fill="none"/>
+        </g>
+        <g id="GRID.functiongrob.350">
+          <polyline id="GRID.functiongrob.350.1" points="96.1,864.77 103.79,857.09 111.48,849.4 119.16,841.71 126.85,834.03 134.54,826.34 142.23,818.65 149.92,810.97 157.6,803.28 165.29,795.59 172.98,787.9 180.67,780.22 188.36,772.53 196.04,764.84 203.73,757.16 211.42,749.47 219.11,741.78 226.8,734.1 234.48,726.41 242.17,718.72 249.86,711.04 257.55,703.35 265.24,695.66 272.92,687.98 280.61,680.29 288.3,672.6 295.99,664.91 303.68,657.23 311.36,649.54 319.05,641.85 326.74,634.17 334.43,626.48 342.12,618.79 349.8,611.11 357.49,603.42 365.18,595.73 372.87,588.05 380.56,580.36 388.24,572.67 395.93,564.99 403.62,557.3 411.31,549.61 419,541.92 426.68,534.24 434.37,526.55 442.06,518.86 449.75,511.18 457.44,503.49 465.12,495.8 472.81,488.12 480.5,480.43 488.19,472.74 495.88,465.06 503.56,457.37 511.25,449.68 518.94,442 526.63,434.31 534.32,426.62 542,418.93 549.69,411.25 557.38,403.56 565.07,395.87 572.76,388.19 580.44,380.5 588.13,372.81 595.82,365.13 603.51,357.44 611.2,349.75 618.88,342.07 626.57,334.38 634.26,326.69 641.95,319.01 649.64,311.32 657.32,303.63 665.01,295.94 672.7,288.26 680.39,280.57 688.08,272.88 695.76,265.2 703.45,257.51 711.14,249.82 718.83,242.14 726.52,234.45 734.2,226.76 741.89,219.08 749.58,211.39 757.27,203.7 764.96,196.02 772.64,188.33 780.33,180.64 788.02,172.95 795.71,165.27 803.4,157.58 811.08,149.89 818.77,142.21 826.46,134.52 834.15,126.83 841.84,119.15 849.52,111.46 857.21,103.77 864.9,96.09" stroke-width="1" stroke="rgb(0,0,255)" stroke-opacity="1" fill="none"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

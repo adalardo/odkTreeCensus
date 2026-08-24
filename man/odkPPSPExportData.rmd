@@ -1,0 +1,356 @@
+---
+title: "ODK PPSP - Exporting data from ODK Collect"
+author: "Alexandre Adalardo de Oliveira"
+date: 10 de abril 2025
+output: 
+  html_document:
+    toc: true
+    fig_width: 7
+    fig_caption: true
+    highlight: tango
+
+---
+
+## Pacotes do repositório R CRAN 
+
+Instalando os pacotes necessários do repositório do R: CRAN
+
+```{r, echo = TRUE, eval = FALSE}
+
+install.packages(c("knitr", "devtools"), repos = "https://vps.fmvz.usp.br/CRAN/")
+
+```
+
+
+## Instalando o pacote Rppsp 
+
+
+Caso já tenha uma versão do pacote instalado em seu computador, para evitar problemas, remova o pacote e feche a sessão do R antes de instalar uma nova versão.
+
+### Removendo o pacote com versão antiga
+
+```{r eval = FALSE }
+
+remove.packages("Rppsp")
+
+```
+
+### Intalando o pacote do repositório github
+
+
+```{r, echo = TRUE, eval = FALSE}
+
+devtools::install_github(repo = 'adalardo/Rppsp')
+
+
+```
+
+## Carregando os pacotes
+ 
+ 
+```{r, echo = TRUE, eval = TRUE, warning = FALSE}
+
+library(Rppsp)
+library(knitr)
+
+```
+
+
+## Exportando dados do ODK Collect
+
+Para a exportação dos dados do ODK Colllect é necessário ter todas as pastas do dispositivo móvel criadas no projeto. Os dados coletados estão na pasta **instances**, mas é necessária ao menos a pasta **forms** para que a exportação funcione. Esses dados do dispositivo móvel devem ser armazenados por segurança e com backup, eles são como os cadernos de campo antigos onde estão anotados os dados no momento da coleta.
+
+O aplicativo que faz a exportação é o **odkBriefcase.jar** escrito em java. O ODK descontinuou o desenvolvimento desse projeto e eu incorporei ele no pacote do R. A ultima versão [ODK-Briefcase-v1.18.0.jar](https://github.com/getodk/briefcase/releases/download/v1.18.0/ODK-Briefcase-v1.18.0.jar) está disponível no github. Para rodar o briefcase pelo pacote **Rppsp** é necessário ter o java instalado no sistema, mas não é necessário instalar o briefcase. 
+
+
+## Preparando os objetos para a exportação
+
+
+- **colDir**: caminho do diretório (pasta) que contém as subpastas copiadas do dispositivo. Pode ser a pasta direta do dispositivo móvel também, mas por segurança é importante salvar essas pastas do ODK-Collect no drive. Normalmente as subpastas são: **metadata, instances, forms, settings, layers**.
+- **stDir**: caminho para o diretório onde serão salvos arquivos intermediários e temporários do processo de extração.
+- **expDir**: caminho para o diretório onde serão salvos os arquivos extraídos.
+- **formId**: identificador do formulário usado no ODK-Collect. Ele é o campo **form_id** da aba settings do arquivo xlsx que deu origem ao formulário. 
+<!-- - **expNames**: o nome que será usado para identificar os arquivos exportados. Aqui estamos usando o nome base do **dataDir**, por isso é impotante salvar as pastas do ODK-Collect com um nome único que faça sentido. Normalmente usamos a data e o nome do chefe de equipe ou de quem entrou os dados no tablet. Nesse exemplo estamos usando os dados coletados pelo tablet 04 em 27 de março de 2025, por isso o diretário tem o nome **tab04_27mar_2025**. Dê preferência ao nome do operador do tablet ou do chefe de equipe, caso o número do tablet for anotado errado, dados podem ser perdidos.  -->
+
+
+```{r }
+## teste nicole_t4_08maio2025
+dataDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect/nicole_t4_08maio2025"
+
+## exemplo 1: tab04_27mar_2025
+dataDir01 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect/tab04_27mar_2025"
+
+## exemplo 1: tab02_27mar_2025
+dataDir02 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect/tab02_27mar2025"
+
+
+dataDir03 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect_processados/tab03_27mar2025"
+
+odkExpDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados"
+
+
+odkA00 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/testExp/tab02_25mar2025"
+odkExpDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/testExp"
+
+
+dataDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Caetetus/dadoCampo/tab03_17abr_2025"
+odkExpDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Caetetus/expODK"
+
+formId <- "ppsp2025"
+
+
+```
+
+<!-- <figure> -->
+
+<!-- <img src="/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/dirCollect.png" alt="ODK-Collect directory structure" width="700"> -->
+
+<!-- <figcaption>Estruturas dos diretorios do ODK-Collect necessários para a exportação.</figcaption> -->
+<!-- </figure> -->
+
+```{r, echo=FALSE,  out.width='90%', fig.align='center', fig.cap='Estruturas dos diretorios do ODK-Collect necessários para a exportação.'}
+
+knitr::include_graphics('/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/dirCollect.png')
+
+```
+
+## Exportando os arquivos CSV
+
+A primeira fase da extração tira os dados e a estrutura do formulário das pastas que vieram dos dispositivos. Em seguida esses dados em formato **xml** são organizados como dados tabulares em arquivos **csv**. Essa duas estapas estão contempladas no função **expODK** do pacote **Rppsp**, a primeira etapa ocorre no **stDir** e é apagada logo após a finalização da segunda.
+
+```{r, eval = FALSE}
+
+## testando problemas Caetetus 17 abril 2025
+expODK(colDir = dataDir, stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+
+
+## exemplo 1: tab04_27mar_2025
+expODK(colDir = dataDir01, stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+
+## exemplo 1: tab02_27mar_2025
+expODK(colDir = dataDir02, stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+
+## exemplo 3: tab03_27mar_2025
+expODK(colDir = dataDir03, stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+
+## testA00
+
+expODK(colDir = odkA00, stDir = expDir, expDir = expDir,  formId = formId)
+
+```
+<!-- <figure> -->
+<!-- <img src="/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/expCSV.png" alt="ODK-Collect exported csv files" width="700"> -->
+<!-- <figcaption>Estruturas dos arquivos csv exportados do ODK-Collect</figcaption> -->
+<!-- </figure> -->
+
+```{r, echo=FALSE,  out.width='90%', fig.align='center', fig.cap='Estruturas dos arquivos csv exportados do ODK-Collect.'}
+
+knitr::include_graphics('/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/expCSV.png')
+
+```
+
+## Reunindo os dados dos arquivos csv
+
+Nessa fase utilizamos a função **joinODK** para reunir os dados dos arquivos **csv** da Figura 2. Dois argumentos importantes:
+
+- **csvDir**: o caminho do diretório (pasta) onde estão os arquivos csv exportados do ODK-Collect. Esse nome de diretório é importante pois nomes iguais para conjunto de dados diferentes pode dar problema.
+- **expDir**: caminho do diretório onde os dados agrupados serão guardados.
+
+
+
+```{r , eval = FALSE}
+##source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/odk.R")
+
+## testando problemas Caetetus 17 abril 2025
+
+expODK(colDir = dataDir, stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+dirCSV <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Caetetus/expODK/tab03_17abr_2025"
+dirCSV <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/testExp/nicole_t4_08maio2025"
+joinODK(csvDir = dirCSV, expDir = odkExpDir, saveFile = TRUE)
+
+## exemplo 1: tab04_27mar_2025
+dirCSV01 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados/tab04_27mar_2025"
+dirExp <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados"
+joinODK(csvDir = dirCSV01, expDir = dirExp, saveFile = TRUE)
+
+## exemplo 2: tab02_27mar2025
+dirCSV02 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados/tab02_27mar2025"
+joinODK(csvDir = dirCSV02, expDir = dirExp, saveFile = TRUE)
+
+## exemplo 3: tab03_27mar2025
+dirCSV03 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados/tab03_27mar2025"
+joinODK(csvDir = dirCSV03, expDir = "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/testExp", saveFile = TRUE)
+
+## teste A00
+joinODK(csvDir = odkA00, expDir = "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/testExp", saveFile = TRUE)
+
+
+```
+
+Os arquivos são colocados em uma pasta com o nome da subparcela no diretório de exportação.
+
+```{r, echo=FALSE,  out.width='90%', fig.align='center', fig.cap='Estruturas dodiretório de exportação após a junção dos dados csv. O nome da pasta é gerado pela função joinODK e usa o código da parcela'}
+
+knitr::include_graphics('/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/expFinal01.png')
+
+```
+
+Dentro do diretório com o nome da subparcela são armazenados os dados extraídos do ODK-Collect no diretório **baseData**, as fotos no diretório  **media** e dois arquivos: um com os dados reunidos com todas as variáveis do ODK-Collect (**treeZ02.txt**) e outro com apenas parte das variáveis (**treeResumoZ02.csv**).  
+
+```{r, echo=FALSE,  out.width='90%', fig.align='center', fig.cap='Estruturas dos arquivos para cada parcela exportada.'}
+
+knitr::include_graphics('/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/expFinal02.png')
+
+```
+
+
+## Exportanto várias coletas
+
+Uma boa prática é deixar os dados ainda não processados em um pasta, aqui em <file:////home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect> e depois de exportados, colocar em outra (<file:///home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect_processados>).
+O código abaixo processa todos os dados e depois recoloca na pasta de processados para guardar como backup.
+
+
+```{r , eval = FALSE}
+
+dirODKData <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect"
+dirDataPr <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect_processados"
+odkExpDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados"
+formId <- "ppsp2025"
+
+
+tabData <- list.files(dirODKData)
+nData <- length(tabData)
+
+for(i in 1:nData)
+{
+    expODK(colDir = file.path(dirODKData,  tabData[i]),  stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+    joinODK(csvDir = file.path(odkExpDir, tabData[i]) , expDir = odkExpDir)
+    #newDir <- file.path(dirDataPr, tabData[i])
+    #lsFiles <- list.files(file.path(dirODKData,  tabData[i]), full.names = TRUE)
+    file.copy(from  = file.path(dirODKData,  tabData[i])  , to = dirDataPr, recursive = TRUE)
+    unlink(file.path(dirODKData,  tabData[i]), recursive = TRUE)
+}
+
+
+
+```
+
+
+## Exportanto dados campanha Assis maio2025
+
+
+```{r , eval = FALSE}
+
+dirODKData <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect/maio2025"
+dirDataPr <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect_processados/maio2025"
+odkExpDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados"
+formId <- "ppsp2025"
+
+
+tabData <- list.files(dirODKData)
+nData <- length(tabData)
+
+for(i in 1:nData)
+{
+    expODK(colDir = file.path(dirODKData,  tabData[i]),  stDir = odkExpDir , expDir = odkExpDir,  formId = formId)
+    joinODK(csvDir = file.path(odkExpDir, tabData[i]) , expDir = odkExpDir)
+    #newDir <- file.path(dirDataPr, tabData[i])
+    #lsFiles <- list.files(file.path(dirODKData,  tabData[i]), full.names = TRUE)
+    file.copy(from  = file.path(dirODKData,  tabData[i])  , to = dirDataPr, recursive = TRUE)
+    unlink(file.path(dirODKData,  tabData[i]), recursive = TRUE)
+}
+
+
+
+```
+
+
+
+
+
+### Removendo arquivos de mapas e grids para arquirvar dados limpos
+
+```{r, eval = FALSE, echo = FALSE }
+
+
+## removendo os arquivos de maps e grid do formularios para arquivar dados sem eles
+
+path01 <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKCollect_processados"
+lstab <- list.files(path01)
+ntab <- length(lstab)
+
+for(i in 1:ntab)
+{
+    path02 <- file.path(path01, lstab[i], "forms", "censoPPSP2025-media")
+    lf <- grep("grid10|map", list.files(path02, full.names = TRUE), value= TRUE)
+    if(length(lf)>0)
+    {
+       file.remove(lf) 
+    }
+}
+
+```
+
+## Agrupando dados exportados das parcelas
+
+
+No diretório de exportação os dados são agrupados pelas subparcelas (algumas vezes mais de uma). A função **mergeData** coloca esses dados em um único arquivo de dados tabulares, podendo também agrupar as fotografias em um único diretório ou em um arquivo zipado.
+Para exportar as fotos em um arquivo comprimido é necessário ter o 7-zip instalado no sistema (<https://www.7-zip.org/download.html>). Caso a opção seja pelo arquivo comprimido, a pasta de mídias é apagada, mas as fotos originais permanecem nas pastas exportadas no diretório referente à subparcela na pasta 'media'.
+
+
+
+```{r, echo=FALSE,  out.width='90%', fig.align='center', fig.cap='Estruturas dos arquivos após o agrupamento dos dados.'}
+
+knitr::include_graphics('/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/imagens/dirExport.png')
+
+```
+
+
+```{r eval = FALSE}
+
+odkExpDir <- "/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados"
+
+mergeData(expDir = odkExpDir)
+
+
+```
+
+
+## Dados do treinamento em Assis
+
+```{r }
+
+eea <- read.table("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/dadosPPSP/Assis/dadosODKExportados/treeResAll11abr2025.txt", header = TRUE, sep = "\t")
+
+table(eea$tree_type)
+
+
+```
+
+
+
+## ToDo
+
+- **conferir se os dados mantem a integridade após o procedimento acima, acompanhando os dados em um tablet e conferindo com os registros no arquivo de dados compilados**.
+
+- ~~verificar a compatibilidade de extrair uma subparcela parcialmente (exemplo da Z02), complementada em outro dia de coleta. Até a extração dos csv, está tudo certo já que usa parte da data no arquivo de saída. Entretato para os dados compilados pela função **joinODK** o nome não incorpora a data~~ **(implementado: 03abr2025)**. 
+
+- ~~ajustar a função **mergeData** para o agrupamento dos dados exportados das subparcelas~~
+
+- **precisa ajustar a função __censoAudit__ que compara os dados do censo atual com o antigo e gera os dados com alguma incompatibilidade para serem auditados**.
+
+- formulário ODK para a auditoria do PPSP2025
+
+- mapas e medias para a auditoria
+
+- exportação de dados de auditoria 
+
+- funções para a compilação de auditoria e censo
+
+
+```{r, eval = FALSE, echo = FALSE }
+
+rmarkdown::render("odkPPSPExportData.rmd", output_format = c("pdf_document", "html_document"))
+
+```
+

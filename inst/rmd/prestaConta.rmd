@@ -1,0 +1,180 @@
+
+---
+title: "Relatório de Despesas -  Recenso PEIC"
+date: "`r format(Sys.Date(), format= '%d de %B de %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+
+# Despesas Recenso PEIC
+
+Prestação de contas do trabalho de campo do recenso PEIC:
+<br>
+**Inicio dos eventos: `r dateIni`**
+<br>
+**Fim dos eventos: `r dateEnd`**
+
+
+## Tabela eventos financeiros 
+
+Aqui considerados debitos, creditos e parcelas trabalhadas em campo.
+
+
+```{r eval = TRUE, echo = FALSE}
+
+
+kable(eventos, row.names=FALSE)
+
+
+```
+
+
+### Tabela Gastos
+
+Apenas débitos realizados.
+
+
+```{r eval = TRUE, echo = FALSE}
+
+
+kable(debData, row.names=FALSE)
+
+
+```
+<br>
+
+### Resumo Gastos
+
+
+```{r eval = TRUE, echo = FALSE}
+
+
+kable(resDeb, col.names= c( "total gasto"))
+    
+```
+<br>
+
+
+## Despesas com Pessoal
+
+
+### Tabela Trabalho de Campo
+
+
+<br>
+
+
+```{r eval = TRUE, echo = FALSE}
+
+kable(eqCampo, row.names= FALSE)
+
+    
+```
+
+
+### Tabela por pessoa 
+
+
+Aqui a somatória para cada membro de equipe associado ao cargo.
+
+#### Valor Coordenação:
+
+Renan recebe  um fixo de R\$ 1500,00 (um mil e quinhentos reais) pela coordenação geral. A coordenação auxiliar de campo (Haron e Carlota) recebem 250 cada por auxiliar o Renan na coordenação de campo. 
+
+
+```{r eval =TRUE, echo = FALSE}
+
+kable(resEq)
+    
+```
+
+
+### Total por pessoa:
+
+
+```{r }
+kable(resPes)
+
+```
+
+
+### Valores a pagar (transferências) 
+
+
+
+```{r eval = TRUE, echo = FALSE}
+
+kable(fimEq)
+
+        
+```
+
+### Resumo Equipe
+
+* **Despesas Pessoal Prevista    :**  `r eqTotal`
+* **Adiantamentos    :**  `r as.character(sum(fimEq$adianta))`
+* **Transferir (pagamentos) :** `r as.character(sum(fimEq$transf[fimEq$transf>0]))` 
+
+
+# Resumo Geral 
+
+O calculo das diárias é feito no valor total das despesas da campanha de campo e divido em 2 poie o Danilo não está mais assinando os recibos de diárias dos integrantes cadastrados na FAPESP.Precisamos cadastrar na FAPESP o Marcel e o Rafael, sem mais nomes cadastrados, não conseguiremos fechar as despesas com os valores de diárias.
+
+* **Despesas Campo       :**  `r as.character(debSemEq)`
+* **Despesas Pessoal     :**  `r eqTotal`
+* **Total Geral          :**  `r as.character(round((gastoTotal),2))`
+* **Total Diárias        :**  `r ndia`
+* **Diárias por Pessoa<sup> 1* </sup> :**  `r ndiapes` 
+* **Recibo por Pessoa  <sup> 2* </sup>   :**  `r ndiapes * 380` 
+
+<br>
+
+1. *Estimando três pessoas cadastradas na FAPESP que podem assinar diárias. Os valores foram arredondados para cima, assim todos tem o mesmmo número de diárias*
+2. *Este é o valor de cada recibo que Renan, Haron e Danilo precisam assinar para fechar as contas*
+
+
+
+# Fechamento
+
+**Data: `r format(Sys.time(), "%d de %B de %Y")`**
+**Hora: `r format(Sys.time(), "%H horas %M'%S''" )`**
+
+## Saldos Iniciais e totais
+
+* **Saldo inicial Conta    :**  `r saldoIni$saldo_cc_ini`
+* **Saldo inicial Dinheiro :**  `r saldoIni$saldo_cash_ini`
+* **Depositos em Conta     :**  `r sum(credData$val_real[credData$tipoEv =="bank"])`
+* **Saque em Dinheiro      :**  `r sum(credData$val_real[credData$tipoEv =="cash"])`
+* **Total em Conta sem despesas  <sup>1 </sup>       :**  `r as.character(totalBank)` 
+* **Total em Dinheiro sem despesas  <sup> 2 </sup>     :**  `r as.character(totalCash)`
+
+1. *Valor em Conta somados depósitos. Saque  em dinheiro é incluido como evento de debito de conta*
+2. *Saque em dinheiro da conta, despesas incluídas como 'dinheiro vivo'*
+
+## Debitos
+
+* **Debitos da Conta <sup> 1 </sup> :**  `r totalTipo$valor[totalTipo$tipo =="deb_bank"] - sum(credData$val_real[credData$tipoEv =="cash"])` 
+* **Gastos em Dinheiro    :**  `r totalTipo$valor[totalTipo$tipo =="deb_cash"]`
+* **Gasto no Cartão        :**  `r totalTipo$valor[totalTipo$tipo =="deb_card"]`
+
+1. Apenas transações de conta corrente, sem incluir débito no cartão
+
+
+## Saldo Atual
+
+* **Saldo Atual Dinheiro  :**  `r  as.character(saldoCash)` 
+* **Saldo Atual Conta    :**  `r  as.character(saldoConta)` 
+* **Saldo Atual Total        :**  `r as.character(saldoTotal) `
+* **Previsão de Pagamentos  :** `r  as.character(pagarEq)`
+* **Previsão de Saldo  :**  `r  as.character(saldoTotal - pagarEq)` 
+
+## Custo Parcela
+
+* **Parcelas Feitas  :**  `r npar` 
+* **Gastos Totais    :**  `r as.character(round((gastoTotal),2))` 
+* **Custo Médio Parcela:**  `r round(gastoTotal/npar, 2)`
+* **Previsão Custo Recenso**  : `r as.character(round(((gastoTotal/npar)* 256),2))`

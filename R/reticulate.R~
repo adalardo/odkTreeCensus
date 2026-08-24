@@ -1,0 +1,10 @@
+#install.packages("reticulate")
+#library(reticulate)
+py_require()
+py_require('pyxform')
+pyxform <- import("pyxform")
+py_module_available("pyxform")
+test <- pyxform.xls2json("data/formForestGeo.xlsx")
+ls(pyxform)
+
+py_list_attributes(pyxform)

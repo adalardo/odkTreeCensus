@@ -1,0 +1,2 @@
+  - na configuração do ODKCollect mudar na <i>Gestão de Formulário</i> as opções de <i>Modo de atualização dos formulários</i> para <b>Atualização manual<i>
+  - desabilite todas as outras caixas de opções na <i>Gestão de formulários</i>

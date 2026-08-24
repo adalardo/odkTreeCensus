@@ -1,0 +1,314 @@
+ ---
+title: "Criando mapas svg para formulário ODK"
+author: "Alexandre Adalardo de Oliveira"
+date: 07 fevereiro 2025
+output: html_document
+
+---
+
+    
+```{r, echo = TRUE, eval= FALSE}
+devtools::install_github(repo = 'adalardo/Rppsp')
+library(Rppsp)
+library(knitr)
+#library(grImport)
+library(grid)
+library(gridSVG)
+
+
+source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/quadrat.R")
+
+```
+# Mapas do aplicativo ODK Collect formulário censoPPSP2025
+
+O formulário de censo foi atualizado para incorporar as parcelas do PPSP além do PEIC. Para isso incluímos mapas para a seleção de subparcela de 10x10 m e novo grid de mapeamento com precisão de 10 cm, como solicitado pela equipe PPSP. Os mapas de árvores, além de serem em escalas distintas, dependendo da parcela, incluem uma área de buffer para incorporar indivíduos que estão na borda. 
+
+## Mapas de árvores para recenso
+
+Mapas com dados do censo de 2019 para utilizar no recenso 2025. 
+Os outros mapas utilizado, de mapeamento e de seleção de subparcelas, estão ao final do script, baseados no código  **mapaRecenso.rmd** de 15 de outubro de 2018. 
+
+
+## Lendo dados Censo 2019 - PPEIC
+
+Lendo os dados do censo 2019 e ajustando para ficar com todos os campos igual ao que foi usado no ODK como sendo peic09  
+
+foram baixados e ajustados pelo script em: [ajustaDados2009.rmd](/home/aao/Ale2016/AleProjetos/PPPeic/censo2018/Protocolos/ajustaDados2009.rmd).
+
+
+
+```{r, echo = TRUE, eval= FALSE}
+
+peic09 <- read.table(file="dados/peic09.csv", header=TRUE, as.is=TRUE, sep=",")
+str(peic09)
+
+peic19 <- read.table(file="dados/peicAllCompactMay_09_2022.txt", header=TRUE, as.is=TRUE, sep="\t")
+str(peic19)
+##incluindo a variavel dbh com dap19 e dap09 para fazer o mapeamento com o tamanho da arvore morta ou desaparecida em 2019
+str(peic19)
+peic19$dbh <- ifelse(is.na(peic19$dap19), peic19$dap09, peic19$dap19)
+table(is.na(peic19$dbh))
+
+peic19$dbhcm <- round(peic19$dap19/10,1)
+table(is.na(peic19$dbhcm), peic19$status19)
+
+peic19$gen <- sapply(strsplit(peic19$sp, split = " "), function(x) x[1])
+peic19$epitsp <- sapply(strsplit(peic19$sp, split = " "), function(x) x[2])
+names(peic19)
+## nao sei pq fiz isso aqui abaixo para o dap...
+peic19$dap <- as.character(peic19$dap19)
+peic19$dap[!is.na(peic19$dap_sec19)] <- paste(peic19$dap[!is.na(peic19$dap_sec19)],peic19$dap_sec19[!is.na(peic19$dap_sec19)], sep = ";")
+
+
+```
+
+
+## Mapeamento  gx gy para a parcela a partir de dx e dy da subparcela de 20x20
+
+Caso os dados não tenham o mapemento na escala da parcela (320x320), apenas na escala da subparcela (20x20), é preciso adicionar o valor do gx e gy de cada subpacela no dx dy das árvores, como segue.
+ATENÇÃO: para Assis a função  subplotXY deve ter: **xcode = c(LETTERS[1:15], 'Z')** 
+
+```{r }
+subplotxy <- subplotXY(xcode = LETTERS[1:16], ycode = c(paste(0, 0:9, sep = ""), 10:15), xsub = 20, ysub = 20)
+
+peic19 <- merge(peic19, subplotxy, by.x = "quadrat", by.y = "subplot", all.x = TRUE, sort = FALSE)
+peic19$gx <- peic19$xlim + peic19$dx
+peic19$gy <- peic19$ylim + peic19$dy
+plot(peic19$gy ~ peic19$gx)
+str(peic19)
+
+```
+
+## Coordenadas para as unidades de trabalho
+
+No caso do PPSP, as unidade de trabalho são 5x5 para o PEIC e 10x10 para as outras parcelas. Mas funciona para qq outro tamanho de unidades de trabalho desde que menores que as unidades de subplot acima. Para o PPSP deve ser algo menor que 20x20.
+
+```{r }
+splitQuadXY <- splitPlotXY(subplotxy, splitX = 5, maxX = 20)
+str(splitQuadXY)
+attributes(splitQuadXY)
+
+```
+
+## Triando dados para os mapas
+
+```{r }
+source("/home/aao/Ale2024/AleProjetos/Rpackages/Rppsp/R/quadrat.R")
+mapData <- splitPlotData(censoData = peic19, subplotCodes = c("A00", "B05"), splitQuadXY = splitQuadXY, buffer = 2 )
+str(mapData)
+
+```
+
+
+
+
+
+## Teste mapping 
+
+
+
+
+
+```{r }
+
+setwd("maps")
+
+svgMap(mapData, subPlotCode = "B05")
+
+
+```
+
+
+
+
+
+
+
+
+
+# Comprimindo arquivos de mapa por linha
+
+Para a compressao básica dos arquivos, através do R, para automatizar o procedimento.
+
+
+```{r, echo = TRUE, eval= FALSE}
+
+lines = "A"
+
+dirmap <-  "/home/aao/Ale2016/AleProjetos/PPPeic/censo2018/openDataKit/censoPeic/censo2023maps"
+
+fp <- file.path( dirmap, j)
+map7z <-paste("7z a",  file.path(dirmap, paste("linha", j, sep="")), file.path(dirmap,j,"*")  )
+        system(map7z)
+        unlink(fp, recursive = TRUE)
+}
+
+```
+
+
+
+## Grid para mapear 5x5m
+
+Um mapa com quadrados de 0.5m para posicionar novo mapeamento, com as árvores antigas como referência.
+ 
+   
+```{r, echo = TRUE, eval= FALSE }
+
+## plot here
+dev.new( width=15,height=15)
+vptop<- viewport(y=0.9, width=0.8, height=0.2)
+grid.text(x=0.5, y=0.9,"Parcela de Mapeamento 5m", vp= vptop, gp=gpar(fontsize = 20))
+#upViewport()
+vp <- viewport(width = 0.9, height = 0.9, xscale=c(0,5), yscale=c(0,5))
+pushViewport(vp)
+grid.rect(gp = gpar(col = "black"))
+grid.xaxis(at=seq(0,5,by=1), gp=gpar(fontsize=15))
+grid.yaxis(at=seq(0,5,by=1), gp=gpar(fontsize=15))
+xseq = rep(seq(0.25,4.75,by=.5), each=10)
+yseq = rep(seq(0.25,4.75,by=.5), 10)
+loc_key = paste("quad_",xseq - 0.25, "x", yseq - 0.25, sep="")
+#grid.rect(x = xseq,y= yseq, width=0.5, height=0.5, gp=gpar(fill=rgb(1,0,0,0.5)), default.units="native", name= loc_key)
+## melhor colocar o nome em cada unidade para o id do xml ficar com o mesmo nome.
+for(i in 1: length(loc_key))
+{
+    grid.rect(x = xseq[i],y= yseq[i], width=0.5, height=0.5, gp=gpar(fill=rgb(0,1,0,0.5)), default.units="native", name= loc_key[i])
+}
+
+#grid.circle(x= a00_0x0$dx,y=a00_0x0$dy, r= log(dbh0)/50, default.units="native", gp=gpar(fill=c(rgb(0,1,0, 0.5),rgb(1,0,0,0.5))[as.factor(a00_0x0$status=="A")], col="black"))
+#grid.text(a00_0x0$tag, x= a00_0x0$dx+log(dbh0)/15 ,y=a00_0x0$dy+log(dbh0)/15,default.units="native")
+## criando os dados em um csv para fazer correspondencia do ids no xml
+# O ID DO retangulo colorido tem o final acrescido de .1.1 por conta da hierarquia dos elementos criados no  xml (use inkspace para acessar os dados do id)
+locPos <- data.frame(loc_key= loc_key, xseq, yseq)
+write.table(locPos, file="/home/aao/Ale2016/AleProjetos/PPPeic/censo2018/openDataKit/gridPos.csv", row.names=FALSE, sep= ",")
+grid.export("/home/aao/Ale2016/AleProjetos/PPPeic/censo2018/openDataKit/gridMap0.svg", uniqueNames=FALSE)
+
+
+```
+
+## Grid para mapear 10x10m
+
+Aqui o grid de 10x10 m com definição de 0.10 m para mapeamento.
+
+O mapa "A" tem a diagonal 1 e o map "B" a diagonal -1   
+
+```{r, echo = TRUE, eval= FALSE }
+
+## plot here
+dev.new( width=15,height=15)
+vptop<- viewport(y=0.9, width=0.8, height=0.2)
+grid.text(x=0.5, y=0.9,"Grid de Mapeamento 10 x 10 m", vp= vptop, gp=gpar(fontsize = 20))
+#upViewport()
+vp <- viewport(width = 0.9, height = 0.9, xscale=c(0,10), yscale=c(0,10))
+pushViewport(vp)
+grid.rect(gp = gpar(col = "black"))
+grid.xaxis(at=seq(0,10,by=.5), gp=gpar(fontsize=17))
+grid.yaxis(at=seq(0,10,by=.5), gp=gpar(fontsize=17))
+xseq = rep(seq(0.0, 9.9,by=.1), each=100)
+yseq = rep(seq(0.0, 9.9,by= .1), 100)
+loc_key_10 = paste("x_",sprintf("%1.1f", xseq), ";y_", sprintf("%1.1f", yseq),";", sep="")
+#grid.rect(x = xseq,y= yseq, width=0.5, height=0.5, gp=gpar(fill=rgb(1,0,0,0.5)), default.units="native", name= loc_key)
+## melhor colocar o nome em cada unidade para o id do xml ficar com o mesmo nome.
+
+for(i in 1: length(loc_key_10))
+{
+    grid.rect(x = xseq[i]+0.05,y= yseq[i]+0.05, width=.1, height=.1, gp=gpar(fill = rgb(0,1,0, .5),lwd =0.1),  default.units="native", name= loc_key_10[i])
+}
+#grid.segments(x0 = seq(0.05,0.95, by = 0.05 ), y0 = rep(0, 19), x1 = seq(0.05,0.95, by = 0.05 ), y1= rep(1,19), gp = gpar(lty = 2))
+#grid.segments(y0 = seq(0.05,0.95, by = 0.05 ), x0 = rep(0, 19), y1 = seq(0.05,0.95, by = 0.05 ), x1= rep(1,19), gp = gpar(lty = 2))
+############################
+## SELECIONE AQUI A DIAGONAL:
+#grid.abline(gp = gpar(lwd = 2, col = "blue") )
+grid.abline(10, -1, gp = gpar(lwd = 2, col = "blue") )
+############################
+#grid.lines(seq(0.5,9.5, by = 0.5 ), y= rep(c(0, 10), each = 19 ))
+#grid.circle(x= a00_0x0$dx,y=a00_0x0$dy, r= log(dbh0)/50, default.units="native", gp=gpar(fill=c(rgb(0,1,0, 0.5),rgb(1,0,0,0.5))[as.factor(a00_0x0$status=="A")], col="black"))
+#grid.text(a00_0x0$tag, x= a00_0x0$dx+log(dbh0)/15 ,y=a00_0x0$dy+log(dbh0)/15,default.units="native")
+## criando os dados em um csv para fazer correspondencia do ids no xml
+# O ID DO retangulo colorido tem o final acrescido de .1.1 por conta da hierarquia dos elementos criados no  xml (use inkspace para acessar os dados do id)
+
+locPos <- data.frame(loc_key_10 = paste(loc_key_10, ".1.1", sep = ""), xseq, yseq)
+write.table(locPos, file="/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/gridPos10.csv", row.names=FALSE, sep= ",")
+######################################################
+## SALVE O ARQUIVO DAS DIAGONAIS COM NOMES DIFERENTES
+######################################################
+#grid.export("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/gridMap10a.svg", uniqueNames=TRUE)
+grid.export("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/gridMap10b.svg", uniqueNames=TRUE)
+
+
+```
+
+
+## Grid para selecionar a subparcela de 10x10
+
+Um mapa com quadrantes de 10 m para selecionar a unidade de trabalho.
+   
+
+```{r, echo = TRUE, eval= FALSE }
+## plot here
+dev.new( width=10, height=10)
+#vptop<- viewport(y=0.9, width=0.8, height=0.2)
+#grid.text(x=0.5, y=0.9,"Selecione a unidade de trabalho", vp= vptop, gp=gpar(fontsize = 20))
+#upViewport()
+vp <- viewport(width = 0.8, height = 0.8, xscale=c(0,20), yscale=c(0,20))
+pushViewport(vp)
+grid.rect(gp = gpar(col = "black"))
+grid.xaxis(at=seq(0,20,by=5), gp=gpar(fontsize= 25))
+grid.yaxis(at=seq(0,20,by=5), gp=gpar(fontsize= 25))
+xseq = c(0, 0, 10, 10)
+yseq = c(0, 10, 10 , 0 )
+subPar  = paste("x_", xseq, ";y_",  yseq,";", sep="")
+#grid.rect(x = xseq,y= yseq, width=0.5, height=0.5, gp=gpar(fill=rgb(1,0,0,0.5)), default.units="native", name= loc_key)
+## melhor colocar o nome em cada unidade para o id do xml ficar com o mesmo nome.
+
+for(i in 1: length(subPar))
+{
+    grid.rect(x = xseq[i]+ 5,y= yseq[i]+5, width=10, height=10, gp=gpar(fill = rgb(0,1,0),lwd =0.5),  default.units="native", name= subPar[i])
+}
+#grid.segments(x0 = seq(0.05,0.95, by = 0.05 ), y0 = rep(0, 19), x1 = seq(0.05,0.95, by = 0.05 ), y1= rep(1,19), gp = gpar(lty = 2))
+#grid.segments(y0 = seq(0.05,0.95, by = 0.05 ), x0 = rep(0, 19), y1 = seq(0.05,0.95, by = 0.05 ), x1= rep(1,19), gp = gpar(lty = 2))
+grid.abline(gp = gpar(lwd = 1, col = rgb(0,0,1))) 
+grid.abline(20, -1, gp = gpar(lwd = 1, col = rgb(0,0,1)))
+
+#locPos <- data.frame(loc_key_10 = paste(loc_key_10, ".1.1", sep = ""), xseq, yseq)
+
+#write.table(locPos, file="/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/gridPos10.csv", row.names=FALSE, sep= ",")
+
+grid.export("/home/aao/Ale2024/AleProjetos/PPPeic/censo2025/odkCenso/maps/subPar10.svg", uniqueNames=TRUE)
+
+
+```
+
+
+
+
+## Mapa do quadrat 20x20 
+
+Mapa para selecionar qual o quadrantes de 5x5m dentro do quadrat de 20x20. Manipulei o tag dos elementos no aplicativo Inkscape que opera os dados xml diretamente. Estou usando o dispositivo básico do R svg, há um pacote svglite do Hadley Wichham que pode ser usado tb ((https://github.com/r-lib/svglite))
+
+
+
+```{r include = FALSE}
+
+svg("map20.svg", width = 10, height= 10)
+par(mar=c(4,4,2,2), las =1, mgp = c(2.5,1,0) )
+image(x= seq(0,15,5), y=seq(0,15,5), z=matrix(0, ncol=4, nrow=4), xlab="Distância no eixo X (Número)", ylab="Distância no eixo y (Letras)", cex.lab = 1.5, xaxt= "n", yaxt= "n") ###
+axis(1, at = seq(-2.5, 17.5, by=5), labels = seq(0,20,by=5), cex.axis =1.5)
+axis(2, at = seq(-2.5, 17.5, by=5), labels = seq(0,20,by=5), cex.axis =1.5)
+
+#grid(10,10)
+dev.off()
+
+#xmlParse(file = "input.xml")
+
+```
+
+
+
+
+
+
+```{r, echo = TRUE, eval= FALSE}
+library(rmarkdown)
+render("mapasRecenso11fev2019.rmd")
+
+```

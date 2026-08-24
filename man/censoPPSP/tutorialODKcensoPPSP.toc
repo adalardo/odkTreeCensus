@@ -1,0 +1,22 @@
+\babel@toc {brazil}{}\relax 
+\contentsline {section}{\numberline {1}Coleta de dados por dispositivo móvel}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Preparando o dispositivo móvel}{1}{subsection.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.1}Criando um projeto ODK Collect}{1}{subsubsection.1.1.1}%
+\contentsline {subsubsection}{\numberline {1.1.2}Acessando as pastas do ODK Collect}{2}{subsubsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.2}Instalando o formulário PPSP2025}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Dicas:}{5}{subsection.1.3}%
+\contentsline {subsubsection}{\numberline {1.3.1}Estrutura de arquivos}{6}{subsubsection.1.3.1}%
+\contentsline {subsubsection}{\numberline {1.3.2}Usando o formulário CensoPPSP2025}{6}{subsubsection.1.3.2}%
+\contentsline {subsubsection}{\numberline {1.3.3}Pagina inicial}{8}{subsubsection.1.3.3}%
+\contentsline {subsubsection}{\numberline {1.3.4}Coordenada GPS}{8}{subsubsection.1.3.4}%
+\contentsline {subsubsection}{\numberline {1.3.5}Localidade da Parcela}{9}{subsubsection.1.3.5}%
+\contentsline {subsubsection}{\numberline {1.3.6}Equipe}{11}{subsubsection.1.3.6}%
+\contentsline {subsubsection}{\numberline {1.3.7}Parcela}{11}{subsubsection.1.3.7}%
+\contentsline {subsubsection}{\numberline {1.3.8}Árvores}{12}{subsubsection.1.3.8}%
+\contentsline {subsubsection}{\numberline {1.3.9}Mapeamento}{13}{subsubsection.1.3.9}%
+\contentsline {subsubsection}{\numberline {1.3.10}Altura }{14}{subsubsection.1.3.10}%
+\contentsline {subsubsection}{\numberline {1.3.11}Medida de DAP ou PAP}{16}{subsubsection.1.3.11}%
+\contentsline {subsubsection}{\numberline {1.3.12}{Fuste secundario}}{16}{subsubsection.1.3.12}%
+\contentsline {subsubsection}{\numberline {1.3.13}{Identificão Botânica}}{17}{subsubsection.1.3.13}%
+\contentsline {subsubsection}{\numberline {1.3.14}{Confere Árvore}}{17}{subsubsection.1.3.14}%
+\contentsline {subsubsection}{\numberline {1.3.15}{Extraindo os dados do ODK}}{19}{subsubsection.1.3.15}%

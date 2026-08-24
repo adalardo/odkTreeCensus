@@ -1,0 +1,402 @@
+Português	Original	English	Español
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	O número precisa ter ${tag_dig} digitos e ser maior que o mínimo e menor que o máximo definido para a parcela	The number must have ${tag_dig} digits and be greater than the minimum and less than the maximum defined for the plot	El número debe tener ${tag_dig} dígitos y ser mayor que el mínimo y menor que el máximo definido para la parcela
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+O lider precisa fazer parte da equipe	O lider precisa fazer parte da equipe	The leader must be part of the team	El líder debe ser parte del equipo
+			
+			
+			
+A parcela de Assis não tem a coluna  P e as outras parcelas não tem a coluna   Z! 	A parcela de Assis não tem a coluna  P e as outras parcelas não tem a coluna   Z! 	The Assis plot does not have column P and the other plots do not have column Z!	¡La parcela de Assis no tiene la columna P y las otras parcelas no tienen la columna Z!
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Selecione outra árvore no mapa	Selecione outra árvore no mapa	Select another tree on the map	Seleccione otro árbol en el mapa
+			
+			
+			
+			
+Placa já selecionada! Selecione outro número e/ou edite a árvore já anotada.	Placa já selecionada! Selecione outro número e/ou edite a árvore já anotada.	Tag already selected! Select another number and/or edit the already recorded tree.	¡Placa ya seleccionada! Seleccione otro número y/o edite el árbol ya anotado.
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+O número da placa nova deve estar entre ${tag_min} e ${tag_max}, não deve ter o valor do ano do censo, não pode ter sido já anotado e deve ter ${tag_dig} digitos, contando zeros a esquerda.	O número da placa nova deve estar entre ${tag_min} e ${tag_max}, não deve ter o valor do ano do censo, não pode ter sido já anotado e deve ter ${tag_dig} digitos, contando zeros a esquerda.	The new tag number must be between ${tag_min} and ${tag_max}, must not have the census year value, cannot have been already recorded and must have ${tag_dig} digits, including leading zeros.	El número de la placa nueva debe estar entre ${tag_min} y ${tag_max}, no debe tener el valor del año del censo, no puede haber sido ya anotado y debe tener ${tag_dig} dígitos, contando ceros a la izquierda.
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+O valor deve ser > 10 e < 80 em mm, se estiver usando paquímetro para medir diâmetro.	O valor deve ser > 10 e < 80 em mm, se estiver usando paquímetro para medir diâmetro.	The value must be > 10 and < 80 in mm, if using a caliper to measure diameter.	El valor debe ser > 10 y < 80 en mm, si está usando paquímetro para medir diámetro.
+O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica para medir diâmetro.	O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica para medir diâmetro.	The value must be > 5 and < 150 cm, if using a diameter tape to measure diameter.	El valor debe ser > 5 y < 150 cm, si está usando cinta diamétrica para medir diámetro.
+O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	The value must be > 3 and < 450 cm, if using a regular measuring tape for perimeter measurement.	El valor debe ser > 3 y < 450 cm, si está usando cinta métrica normal para medida de perímetro
+			
+			
+			
+			
+			
+			
+reponda que há mais de um fuste na questão anterior	reponda que há mais de um fuste na questão anterior	respond that there is more than one stem in the previous question	responda que hay más de un fuste en la pregunta anterior
+			
+			
+			
+			
+O valor deve ser menor que 80 e maior que 10 mm	O valor deve ser menor que 80 e maior que 10 mm	The value must be less than 80 and greater than 10 mm	El valor debe ser menor que 80 y mayor que 10 mm
+O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica	O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica	The value must be > 5 and < 150 cm, if using diameter tape	El valor debe ser > 5 y < 150 cm, si está usando cinta diamétrica
+O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	The value must be > 3 and < 450 cm, if using regular measuring tape for perimeter measurement	El valor debe ser > 3 y < 450 cm, si está usando cinta métrica normal para medida de perímetro
+			
+			
+			
+			
+Refaça a medida de dap ou confirme o valor da checagem!	Refaça a medida de dap ou confirme o valor da checagem!	Redo the DBH measurement or confirm the check value!	¡Rehaga la medida de DAP o confirme el valor de la verificación!
+Refaça a medida de dap ou confirme o valor da checagem!	Refaça a medida de dap ou confirme o valor da checagem!	Redo the DBH measurement or confirm the check value!	¡Rehaga la medida de DAP o confirme el valor de la verificación!
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Retorne para a medida de altura e refaça!	Retorne para a medida de altura e refaça!	Return to the height measurement and redo it!	¡Regrese a la medida de altura y rehágala!
+			
+			
+			
+			
+É preciso selecionar as coordenadas da árvore	É preciso selecionar as coordenadas da árvore	It is necessary to select the tree coordinates	Es necesario seleccionar las coordenadas del árbol
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Medida de paquimetro: > 10 e < 80 (mm)	Medida de paquimetro: > 10 e < 80 (mm)	Caliper measurement: > 10 and < 80 (mm)	Medida de paquímetro: > 10 y < 80 (mm)
+Utilize apenas um tipo de medida (fita diamétrica > 5 cm < 150 cm)	Utilize apenas um tipo de medida (fita diamétrica > 5 cm < 150 cm)	Use only one measurement type (diameter tape > 5 cm < 150 cm)	Utilice solo un tipo de medida (cinta diamétrica > 5 cm < 150 cm)
+Utilize apenas um tipo de medida (fita métrica, perímetro > 15 cm < 450 cm)	Utilize apenas um tipo de medida (fita métrica, perímetro > 15 cm < 450 cm)	Use only one measurement type (measuring tape, perimeter > 15 cm < 450 cm)	Utilice solo un tipo de medida (cinta métrica, perímetro > 15 cm < 450 cm)
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+E preciso selecionar uma opção, mesmo que seja indeterminada	E preciso selecionar uma opção, mesmo que seja indeterminada	It is necessary to select an option, even if it is indeterminate	Es necesario seleccionar una opción, aunque sea indeterminada
+E preciso selecionar uma opção, mesmo que seja indeterminada	E preciso selecionar uma opção, mesmo que seja indeterminada	It is necessary to select an option, even if it is indeterminate	Es necesario seleccionar una opción, aunque sea indeterminada
+E preciso selecionar uma opção, mesmo que seja indeterminada	E preciso selecionar uma opção, mesmo que seja indeterminada	It is necessary to select an option, even if it is indeterminate	Es necesario seleccionar una opción, aunque sea indeterminada
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Todos os campos obrigatórios devem ser preenchidos.	Todos os campos obrigatórios devem ser preenchidos.	All mandatory fields must be filled in.	Todos los campos obligatorios deben ser llenados.
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+O número da placa nova não deve ter o valor do ano do censo, não pode ter sido já anotado e deve ter ${tag_dig} digitos, contando zeros a esquerda.	O número da placa nova não deve ter o valor do ano do censo, não pode ter sido já anotado e deve ter ${tag_dig} digitos, contando zeros a esquerda.	The new tag number must not have the census year value, cannot have been already recorded and must have ${tag_dig} digits, including leading zeros.	El número de la placa nueva no debe tener el valor del año del censo, no puede haber sido ya anotado y debe tener ${tag_dig} dígitos, contando ceros a la izquierda.
+			
+			
+			
+			
+			
+			
+É preciso selecionar as coordenadas da árvore	É preciso selecionar as coordenadas da árvore	It is necessary to select the tree coordinates	Es necesario seleccionar las coordenadas del árbol
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+A altura deve ser anotada em apenas uma das escalas	A altura deve ser anotada em apenas uma das escalas	Height must be recorded in only one of the scales	La altura debe ser anotada en solo una de las escalas
+			
+			
+			
+			
+Retorne para a medida de altura e refaça!	Retorne para a medida de altura e refaça!	Return to the height measurement and redo it!	¡Regrese a la medida de altura y rehágala!
+			
+			
+			
+			
+			
+			
+			
+			
+			
+O valor deve ser > 10 e < 80 em mm, se estiver usando paquímetro para medir diâmetro.	O valor deve ser > 10 e < 80 em mm, se estiver usando paquímetro para medir diâmetro.	The value must be > 10 and < 80 in mm, if using a caliper to measure diameter.	El valor debe ser > 10 y < 80 en mm, si está usando paquímetro para medir diámetro.
+O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica para medir diâmetro.	O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica para medir diâmetro.	The value must be > 5 and < 150 cm, if using a diameter tape to measure diameter.	El valor debe ser > 5 y < 150 cm, si está usando cinta diamétrica para medir diámetro.
+O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	The value must be > 3 and < 450 cm, if using a regular measuring tape for perimeter measurement.	El valor debe ser > 3 y < 450 cm, si está usando cinta métrica normal para medida de perímetro
+			
+			
+			
+			
+			
+reponda que há mais de um fuste na questão anterior	reponda que há mais de um fuste na questão anterior	respond that there is more than one stem in the previous question	responda que hay más de un fuste en la pregunta anterior
+			
+			
+			
+			
+O valor deve ser menor que 80 e maior que 10 mm	O valor deve ser menor que 80 e maior que 10 mm	The value must be less than 80 and greater than 10 mm	El valor debe ser menor que 80 y mayor que 10 mm
+O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica	O valor deve ser > 5  < 150 cm, caso esteja usando fita diamétrica	The value must be > 5 and < 150 cm, if using diameter tape	El valor debe ser > 5 y < 150 cm, si está usando cinta diamétrica
+O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	O valor deve ser > 3  < 450 cm, caso esteja usando fita métrica normal para medida de perímetro	The value must be > 3 and < 450 cm, if using regular measuring tape for perimeter measurement	El valor debe ser > 3 y < 450 cm, si está usando cinta métrica normal para medida de perímetro
+			
+			
+			
+			
+Refaça a medida de dap ou confirme o valor da checagem!	Refaça a medida de dap ou confirme o valor da checagem!	Redo the DBH measurement or confirm the check value!	¡Rehaga la medida de DAP o confirme el valor de la verificación!
+Refaça a medida de dap ou confirme o valor da checagem!	Refaça a medida de dap ou confirme o valor da checagem!	Redo the DBH measurement or confirm the check value!	¡Rehaga la medida de DAP o confirme el valor de la verificación!
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+Medida de paquimetro: > 10 e < 80 (mm)	Medida de paquimetro: > 10 e < 80 (mm)	Caliper measurement: > 10 and < 80 (mm)	Medida de paquímetro: > 10 y < 80 (mm)
+Utilize apenas um tipo de medida (fita diamétrica > 5 cm < 150 cm)	Utilize apenas um tipo de medida (fita diamétrica > 5 cm < 150 cm)	Use only one measurement type (diameter tape > 5 cm < 150 cm)	Utilice solo un tipo de medida (cinta diamétrica > 5 cm < 150 cm)
+Utilize apenas um tipo de medida (fita métrica, perímetro > 15 cm < 450 cm)	Utilize apenas um tipo de medida (fita métrica, perímetro > 15 cm < 450 cm)	Use only one measurement type (measuring tape, perimeter > 15 cm < 450 cm)	Utilice solo un tipo de medida (cinta métrica, perímetro > 15 cm < 450 cm)
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+E preciso selecionar uma opção, mesmo que seja indeterminada	E preciso selecionar uma opção, mesmo que seja indeterminada	It is necessary to select an option, even if it is indeterminate	Es necesario seleccionar una opción, aunque sea indeterminada
+E preciso selecionar uma opção, mesmo que seja indeterminada	E preciso selecionar uma opção, mesmo que seja indeterminada	It is necessary to select an option, even if it is indeterminate	Es necesario seleccionar una opción, aunque sea indeterminada
+E preciso selecionar uma opção, mesmo que seja indeterminada	E preciso selecionar uma opção, mesmo que seja indeterminada	It is necessary to select an option, even if it is indeterminate	Es necesario seleccionar una opción, aunque sea indeterminada

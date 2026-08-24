@@ -1,0 +1,17 @@
+# Ignore temporary files
+*.tmp
+~$*.xlsx
+^.
+
+# Ignore build artifacts
+/build/
+/temp/
+
+# Keep but don't track large media files
+/media/
+!/media/readme.md
+.aider*
+testForm.rmd
+git.rmd
+
+
