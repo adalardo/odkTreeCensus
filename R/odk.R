@@ -455,7 +455,7 @@ censoAudit <- function(expDir = getwd(), olddata = "peic09.csv", allsubdir = TRU
 ## PREVIOUS CENSUS DATA
 ##########################
     censo09 <- read.table(olddata, header=TRUE, as.is=TRUE, sep=sc, quote = '"')
-    dquad09 <- censo09[censo09$quad %in= unique(tree$quadrat), ] # so os quadrats com dados 2025
+    dquad09 <- censo09[censo09$quad %in% unique(tree$quadrat), ] # so os quadrats com dados 2025
     dquad09A <- dquad09[dquad09$status %in% c("A","AS") ,]
     ntquad09 <- table(dquad09A$quad)
     q09D <- table(dquad09[dquad09$status=="D","quad"])
