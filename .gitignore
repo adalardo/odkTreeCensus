@@ -2,6 +2,10 @@
 *.tmp
 ~$*.xlsx
 ^.
+*~
+#*
+*#
+
 
 # Ignore build artifacts
 /build/

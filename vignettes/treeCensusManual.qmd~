@@ -1,8 +1,0 @@
-```{=latex}
-\input{installForm.tex}
-```
-
-```{r }
-install.packages("quarto")
-
-```
