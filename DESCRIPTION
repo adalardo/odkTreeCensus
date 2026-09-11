@@ -1,9 +1,9 @@
-Package: odkForestGEO
-Title: What the Package Does (One Line, Title Case)
+Package: odkTreeCensus
+Title: Tools for using ODK Collect forms for census trees 
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+    person("Alexandre Adalardo de", "Oliveira", , "adalardo@usp.br", role = c("aut", "cre"))
+Description: Use and edit ODK forms, edit, push and retrieve data from android devices to census trees.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8

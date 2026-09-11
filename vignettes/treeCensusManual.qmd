@@ -1,0 +1,12 @@
+```{=latex}
+\input{latex/installForm.tex}
+
+```
+
+```{r}
+#| echo: false
+#| eval: false
+
+quarto::quarto_render("vignettes/index.qmd")
+rlang::last_trace()
+```

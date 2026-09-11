@@ -1,0 +1,20 @@
+project:
+  type: book
+
+book:
+  title: "ODK Collect treeCensus Manual"
+  author: "Alexandre Adalardo de Oliveira"
+  date: last-modified
+  chapters:
+    - index.qmd
+    - treeCensusManual.qmd
+ 
+format:
+  pdf:
+    documentclass: report
+    keep-tex: true
+    suppress-title-page: true
+    toc: true
+    toc-depth: 3
+    include-in-header: latex/preamble.tex
+    include-before-body: latex/capa.tex

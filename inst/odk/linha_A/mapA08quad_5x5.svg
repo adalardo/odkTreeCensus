@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="864px" height="864px" viewBox="0 0 864 864" version="1.1">
+  <metadata xmlns:gridsvg="http://www.stat.auckland.ac.nz/~paul/R/gridSVG/">
+    <gridsvg:generator name="gridSVG" version="1.7-7" time="2026-09-01 18:19:52.951814"/>
+    <gridsvg:argument name="name" value="/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/ODKMedia/mapasCenso/linha_A/mapA08quad_5x5.svg"/>
+    <gridsvg:argument name="exportCoords" value="none"/>
+    <gridsvg:argument name="exportMappings" value="none"/>
+    <gridsvg:argument name="exportJS" value="none"/>
+    <gridsvg:argument name="res" value="72"/>
+    <gridsvg:argument name="prefix" value=""/>
+    <gridsvg:argument name="addClasses" value="FALSE"/>
+    <gridsvg:argument name="indent" value="TRUE"/>
+    <gridsvg:argument name="htmlWrapper" value="FALSE"/>
+    <gridsvg:argument name="usePaths" value="vpPaths"/>
+    <gridsvg:argument name="uniqueNames" value="FALSE"/>
+    <gridsvg:separator name="id.sep" value="."/>
+    <gridsvg:separator name="gPath.sep" value="::"/>
+    <gridsvg:separator name="vpPath.sep" value="::"/>
+  </metadata>
+  <g transform="translate(0, 864) scale(1, -1)">
+    <g id="gridSVG" fill="none" stroke="rgb(0,0,0)" stroke-dasharray="none" stroke-width="0.75" font-size="12" font-family="Helvetica, Arial, FreeSans, Liberation Sans, Nimbus Sans L, sans-serif" opacity="1" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-opacity="1" fill-opacity="0" font-weight="normal" font-style="normal">
+      <g id="GRID.VP.267.1">
+        <g id="GRID.text.15168">
+          <g id="GRID.text.15168.1" transform="translate(432, 846.72)" stroke-width="0.1">
+            <g id="GRID.text.15168.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15168.1.text" text-anchor="middle" font-size="17" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15168.1.tspan.1" dy="6.1" x="0">Unidade de Trabalho A08quad_5x5</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+      <g id="GRID.VP.268.1">
+        <g id="GRID.rect.15169">
+          <rect id="GRID.rect.15169.1" x="43.2" y="43.2" width="777.6" height="777.6" transform="" stroke="rgb(0,0,0)" stroke-opacity="1"/>
+        </g>
+        <g id="GRID.xaxis.15170" font-size="12">
+          <g id="major">
+            <polyline id="major.1" points="43.2,43.2 820.8,43.2" fill="none"/>
+          </g>
+          <g id="ticks">
+            <polyline id="ticks.1" points="43.2,43.2 43.2,36" fill="none"/>
+            <polyline id="ticks.2" points="129.6,43.2 129.6,36" fill="none"/>
+            <polyline id="ticks.3" points="216,43.2 216,36" fill="none"/>
+            <polyline id="ticks.4" points="302.4,43.2 302.4,36" fill="none"/>
+            <polyline id="ticks.5" points="388.8,43.2 388.8,36" fill="none"/>
+            <polyline id="ticks.6" points="475.2,43.2 475.2,36" fill="none"/>
+            <polyline id="ticks.7" points="561.6,43.2 561.6,36" fill="none"/>
+            <polyline id="ticks.8" points="648,43.2 648,36" fill="none"/>
+            <polyline id="ticks.9" points="734.4,43.2 734.4,36" fill="none"/>
+            <polyline id="ticks.10" points="820.8,43.2 820.8,36" fill="none"/>
+          </g>
+          <g id="labels">
+            <g id="labels.1" transform="translate(43.2, 21.6)" stroke-width="0.1">
+              <g id="labels.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.tspan.1" dy="4.31" x="0">-2</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.2" transform="translate(129.6, 21.6)" stroke-width="0.1">
+              <g id="labels.2.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.tspan.1" dy="4.31" x="0">-1</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.3" transform="translate(216, 21.6)" stroke-width="0.1">
+              <g id="labels.3.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.3.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.3.tspan.1" dy="4.31" x="0">0</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.4" transform="translate(302.4, 21.6)" stroke-width="0.1">
+              <g id="labels.4.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.4.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.4.tspan.1" dy="4.31" x="0">1</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.5" transform="translate(388.8, 21.6)" stroke-width="0.1">
+              <g id="labels.5.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.5.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.5.tspan.1" dy="4.31" x="0">2</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.6" transform="translate(475.2, 21.6)" stroke-width="0.1">
+              <g id="labels.6.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.6.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.6.tspan.1" dy="4.31" x="0">3</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.7" transform="translate(561.6, 21.6)" stroke-width="0.1">
+              <g id="labels.7.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.7.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.7.tspan.1" dy="4.31" x="0">4</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.8" transform="translate(648, 21.6)" stroke-width="0.1">
+              <g id="labels.8.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.8.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.8.tspan.1" dy="4.31" x="0">5</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.9" transform="translate(734.4, 21.6)" stroke-width="0.1">
+              <g id="labels.9.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.9.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.9.tspan.1" dy="4.31" x="0">6</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.10" transform="translate(820.8, 21.6)" stroke-width="0.1">
+              <g id="labels.10.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.10.text" text-anchor="middle" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.10.tspan.1" dy="4.31" x="0">7</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="GRID.yaxis.15171" font-size="12">
+          <g id="major">
+            <polyline id="major.1" points="43.2,43.2 43.2,820.8" fill="none"/>
+          </g>
+          <g id="ticks">
+            <polyline id="ticks.1" points="43.2,43.2 36,43.2" fill="none"/>
+            <polyline id="ticks.2" points="43.2,129.6 36,129.6" fill="none"/>
+            <polyline id="ticks.3" points="43.2,216 36,216" fill="none"/>
+            <polyline id="ticks.4" points="43.2,302.4 36,302.4" fill="none"/>
+            <polyline id="ticks.5" points="43.2,388.8 36,388.8" fill="none"/>
+            <polyline id="ticks.6" points="43.2,475.2 36,475.2" fill="none"/>
+            <polyline id="ticks.7" points="43.2,561.6 36,561.6" fill="none"/>
+            <polyline id="ticks.8" points="43.2,648 36,648" fill="none"/>
+            <polyline id="ticks.9" points="43.2,734.4 36,734.4" fill="none"/>
+            <polyline id="ticks.10" points="43.2,820.8 36,820.8" fill="none"/>
+          </g>
+          <g id="labels">
+            <g id="labels.1" transform="translate(28.8, 43.2)" stroke-width="0.1">
+              <g id="labels.1.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.1.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.1.tspan.1" dy="4.31" x="0">-2</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.2" transform="translate(28.8, 129.6)" stroke-width="0.1">
+              <g id="labels.2.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.2.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.2.tspan.1" dy="4.31" x="0">-1</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.3" transform="translate(28.8, 216)" stroke-width="0.1">
+              <g id="labels.3.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.3.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.3.tspan.1" dy="4.31" x="0">0</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.4" transform="translate(28.8, 302.4)" stroke-width="0.1">
+              <g id="labels.4.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.4.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.4.tspan.1" dy="4.31" x="0">1</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.5" transform="translate(28.8, 388.8)" stroke-width="0.1">
+              <g id="labels.5.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.5.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.5.tspan.1" dy="4.31" x="0">2</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.6" transform="translate(28.8, 475.2)" stroke-width="0.1">
+              <g id="labels.6.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.6.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.6.tspan.1" dy="4.31" x="0">3</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.7" transform="translate(28.8, 561.6)" stroke-width="0.1">
+              <g id="labels.7.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.7.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.7.tspan.1" dy="4.31" x="0">4</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.8" transform="translate(28.8, 648)" stroke-width="0.1">
+              <g id="labels.8.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.8.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.8.tspan.1" dy="4.31" x="0">5</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.9" transform="translate(28.8, 734.4)" stroke-width="0.1">
+              <g id="labels.9.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.9.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.9.tspan.1" dy="4.31" x="0">6</tspan>
+                </text>
+              </g>
+            </g>
+            <g id="labels.10" transform="translate(28.8, 820.8)" stroke-width="0.1">
+              <g id="labels.10.scale" transform="scale(1, -1)">
+                <text x="0" y="0" id="labels.10.text" text-anchor="end" fill="rgb(0,0,0)" fill-opacity="1">
+                  <tspan id="labels.10.tspan.1" dy="4.31" x="0">7</tspan>
+                </text>
+              </g>
+            </g>
+          </g>
+        </g>
+        <g id="GRID.text.15172">
+          <g id="GRID.text.15172.1" transform="translate(206.23, 99.29)" stroke-width="0.1">
+            <g id="GRID.text.15172.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15172.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15172.1.tspan.1" dy="3.59" x="0">52601</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52601">
+          <circle id="arv_52601.1" cx="190.08" cy="77.76" r="16.15" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15173">
+          <g id="GRID.text.15173.1" transform="translate(55.44, 733.44)" stroke-width="0.1">
+            <g id="GRID.text.15173.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15173.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15173.1.tspan.1" dy="3.59" x="0">52637</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52637">
+          <circle id="arv_52637.1" cx="43.2" cy="717.12" r="12.24" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15174">
+          <g id="GRID.text.15174.1" transform="translate(185.76, 794.88)" stroke-width="0.1">
+            <g id="GRID.text.15174.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15174.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15174.1.tspan.1" dy="3.59" x="0">52682</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52682">
+          <circle id="arv_52682.1" cx="172.8" cy="777.6" r="12.96" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15175">
+          <g id="GRID.text.15175.1" transform="translate(148.99, 285.05)" stroke-width="0.1">
+            <g id="GRID.text.15175.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15175.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15175.1.tspan.1" dy="3.59" x="0">1335</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_1335">
+          <circle id="arv_1335.1" cx="129.6" cy="259.2" r="19.39" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15176">
+          <g id="GRID.text.15176.1" transform="translate(57.19, 407.45)" stroke-width="0.1">
+            <g id="GRID.text.15176.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15176.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15176.1.tspan.1" dy="3.59" x="0">52614</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52614">
+          <circle id="arv_52614.1" cx="43.2" cy="388.8" r="13.99" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15177">
+          <g id="GRID.text.15177.1" transform="translate(101.68, 340.06)" stroke-width="0.1">
+            <g id="GRID.text.15177.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15177.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15177.1.tspan.1" dy="3.59" x="0">52615</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52615">
+          <circle id="arv_52615.1" cx="86.4" cy="319.68" r="15.28" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15178">
+          <g id="GRID.text.15178.1" transform="translate(68.28, 384.81)" stroke-width="0.1">
+            <g id="GRID.text.15178.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15178.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15178.1.tspan.1" dy="3.59" x="0">52616</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52616">
+          <circle id="arv_52616.1" cx="51.84" cy="362.88" r="16.44" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15179">
+          <g id="GRID.text.15179.1" transform="translate(101.09, 278.79)" stroke-width="0.1">
+            <g id="GRID.text.15179.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15179.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15179.1.tspan.1" dy="3.59" x="0">52617</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52617">
+          <circle id="arv_52617.1" cx="86.4" cy="259.2" r="14.69" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15180">
+          <g id="GRID.text.15180.1" transform="translate(162.88, 447.57)" stroke-width="0.1">
+            <g id="GRID.text.15180.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15180.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15180.1.tspan.1" dy="3.59" x="0">79613</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_79613">
+          <circle id="arv_79613.1" cx="138.24" cy="414.72" r="24.64" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15181">
+          <g id="GRID.text.15181.1" transform="translate(817.88, 114.19)" stroke-width="0.1">
+            <g id="GRID.text.15181.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15181.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15181.1.tspan.1" dy="3.59" x="0">52717</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52717">
+          <circle id="arv_52717.1" cx="803.52" cy="95.04" r="14.36" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15182">
+          <g id="GRID.text.15182.1" transform="translate(784.74, 746.8)" stroke-width="0.1">
+            <g id="GRID.text.15182.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15182.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15182.1.tspan.1" dy="3.59" x="0">52684</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52684">
+          <circle id="arv_52684.1" cx="768.96" cy="725.76" r="15.78" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15183">
+          <g id="GRID.text.15183.1" transform="translate(670.31, 418.55)" stroke-width="0.1">
+            <g id="GRID.text.15183.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15183.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15183.1.tspan.1" dy="3.59" x="0">1322</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_1322">
+          <circle id="arv_1322.1" cx="648" cy="388.8" r="22.31" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15184">
+          <g id="GRID.text.15184.1" transform="translate(785.1, 620.56)" stroke-width="0.1">
+            <g id="GRID.text.15184.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15184.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15184.1.tspan.1" dy="3.59" x="0">1326</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_1326">
+          <circle id="arv_1326.1" cx="760.32" cy="587.52" r="24.78" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15185">
+          <g id="GRID.text.15185.1" transform="translate(671.25, 468.75)" stroke-width="0.1">
+            <g id="GRID.text.15185.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15185.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15185.1.tspan.1" dy="3.59" x="0">52626</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52626">
+          <circle id="arv_52626.1" cx="656.64" cy="449.28" r="14.61" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15186">
+          <g id="GRID.text.15186.1" transform="translate(673.92, 515.52)" stroke-width="0.1">
+            <g id="GRID.text.15186.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15186.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15186.1.tspan.1" dy="3.59" x="0">52627</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52627">
+          <circle id="arv_52627.1" cx="656.64" cy="492.48" r="17.28" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15187">
+          <g id="GRID.text.15187.1" transform="translate(825.42, 409.36)" stroke-width="0.1">
+            <g id="GRID.text.15187.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15187.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15187.1.tspan.1" dy="3.59" x="0">52725</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52725">
+          <circle id="arv_52725.1" cx="803.52" cy="380.16" r="21.9" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15188">
+          <g id="GRID.text.15188.1" transform="translate(827.32, 529.97)" stroke-width="0.1">
+            <g id="GRID.text.15188.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15188.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15188.1.tspan.1" dy="3.59" x="0">52729</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52729">
+          <circle id="arv_52729.1" cx="812.16" cy="509.76" r="15.16" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15189">
+          <g id="GRID.text.15189.1" transform="translate(582.56, 157.55)" stroke-width="0.1">
+            <g id="GRID.text.15189.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15189.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15189.1.tspan.1" dy="3.59" x="0">1397</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_1397">
+          <circle id="arv_1397.1" cx="561.6" cy="129.6" r="20.96" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15190">
+          <g id="GRID.text.15190.1" transform="translate(578.42, 108.83)" stroke-width="0.1">
+            <g id="GRID.text.15190.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15190.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15190.1.tspan.1" dy="3.59" x="0">1399</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_1399">
+          <circle id="arv_1399.1" cx="561.6" cy="86.4" r="16.82" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15191">
+          <g id="GRID.text.15191.1" transform="translate(272.25, 103.8)" stroke-width="0.1">
+            <g id="GRID.text.15191.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15191.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15191.1.tspan.1" dy="3.59" x="0">52629</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52629">
+          <circle id="arv_52629.1" cx="259.2" cy="86.4" r="13.05" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15192">
+          <g id="GRID.text.15192.1" transform="translate(356.58, 662.64)" stroke-width="0.1">
+            <g id="GRID.text.15192.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15192.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15192.1.tspan.1" dy="3.59" x="0">52622</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52622">
+          <circle id="arv_52622.1" cx="345.6" cy="648" r="10.98" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15193">
+          <g id="GRID.text.15193.1" transform="translate(574.16, 777.06)" stroke-width="0.1">
+            <g id="GRID.text.15193.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15193.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15193.1.tspan.1" dy="3.59" x="0">52679</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52679">
+          <circle id="arv_52679.1" cx="561.6" cy="760.32" r="12.56" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15194">
+          <g id="GRID.text.15194.1" transform="translate(317.02, 710.69)" stroke-width="0.1">
+            <g id="GRID.text.15194.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15194.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15194.1.tspan.1" dy="3.59" x="0">79620</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_79620">
+          <circle id="arv_79620.1" cx="302.4" cy="691.2" r="14.62" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15195">
+          <g id="GRID.text.15195.1" transform="translate(313.38, 705.84)" stroke-width="0.1">
+            <g id="GRID.text.15195.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15195.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15195.1.tspan.1" dy="3.59" x="0">79621</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_79621">
+          <circle id="arv_79621.1" cx="302.4" cy="691.2" r="10.98" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15196">
+          <g id="GRID.text.15196.1" transform="translate(251.76, 612.15)" stroke-width="0.1">
+            <g id="GRID.text.15196.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15196.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15196.1.tspan.1" dy="3.59" x="0">1351</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_1351">
+          <circle id="arv_1351.1" cx="233.28" cy="587.52" r="18.48" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15197">
+          <g id="GRID.text.15197.1" transform="translate(415.34, 594.1)" stroke-width="0.1">
+            <g id="GRID.text.15197.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15197.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15197.1.tspan.1" dy="3.59" x="0">52623</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52623">
+          <circle id="arv_52623.1" cx="397.44" cy="570.24" r="17.9" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15198">
+          <g id="GRID.text.15198.1" transform="translate(474.74, 627.23)" stroke-width="0.1">
+            <g id="GRID.text.15198.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15198.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15198.1.tspan.1" dy="3.59" x="0">52624</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52624">
+          <circle id="arv_52624.1" cx="457.92" cy="604.8" r="16.82" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15199">
+          <g id="GRID.text.15199.1" transform="translate(576.22, 235.49)" stroke-width="0.1">
+            <g id="GRID.text.15199.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15199.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15199.1.tspan.1" dy="3.59" x="0">52625</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_52625">
+          <circle id="arv_52625.1" cx="561.6" cy="216" r="14.62" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.text.15200">
+          <g id="GRID.text.15200.1" transform="translate(368.51, 566.23)" stroke-width="0.1">
+            <g id="GRID.text.15200.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15200.1.text" text-anchor="middle" font-size="10" fill="rgb(0,0,0)" fill-opacity="1">
+                <tspan id="GRID.text.15200.1.tspan.1" dy="3.59" x="0">79612</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="arv_79612">
+          <circle id="arv_79612.1" cx="345.6" cy="535.68" r="22.91" fill="rgb(0,255,0)" stroke="rgb(0,0,0)" stroke-opacity="1" fill-opacity="0.5"/>
+        </g>
+        <g id="GRID.segments.15201">
+          <polyline id="GRID.segments.15201.1" points="216,216 648,216" stroke-dasharray="4,4" fill="none"/>
+          <polyline id="GRID.segments.15201.2" points="216,216 216,648" stroke-dasharray="4,4" fill="none"/>
+          <polyline id="GRID.segments.15201.3" points="216,648 648,648" stroke-dasharray="4,4" fill="none"/>
+          <polyline id="GRID.segments.15201.4" points="648,648 648,216" stroke-dasharray="4,4" fill="none"/>
+        </g>
+        <g id="GRID.text.15202">
+          <g id="GRID.text.15202.1" transform="translate(216, 198.72)" stroke-width="0.1">
+            <g id="GRID.text.15202.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15202.1.text" text-anchor="middle" font-size="12" stroke="rgb(255,0,0)" fill="rgb(255,0,0)" stroke-opacity="1" fill-opacity="1">
+                <tspan id="GRID.text.15202.1.tspan.1" dy="4.31" x="0">5</tspan>
+              </text>
+            </g>
+          </g>
+          <g id="GRID.text.15202.2" transform="translate(648, 198.72)" stroke-width="0.1">
+            <g id="GRID.text.15202.2.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15202.2.text" text-anchor="middle" font-size="12" stroke="rgb(255,0,0)" fill="rgb(255,0,0)" stroke-opacity="1" fill-opacity="1">
+                <tspan id="GRID.text.15202.2.tspan.1" dy="4.31" x="0">10</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+        <g id="GRID.text.15203">
+          <g id="GRID.text.15203.1" transform="translate(198.72, 216)" stroke-width="0.1">
+            <g id="GRID.text.15203.1.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15203.1.text" text-anchor="middle" font-size="12" stroke="rgb(255,0,0)" fill="rgb(255,0,0)" stroke-opacity="1" fill-opacity="1">
+                <tspan id="GRID.text.15203.1.tspan.1" dy="4.31" x="0">5</tspan>
+              </text>
+            </g>
+          </g>
+          <g id="GRID.text.15203.2" transform="translate(198.72, 648)" stroke-width="0.1">
+            <g id="GRID.text.15203.2.scale" transform="scale(1, -1)">
+              <text x="0" y="0" id="GRID.text.15203.2.text" text-anchor="middle" font-size="12" stroke="rgb(255,0,0)" fill="rgb(255,0,0)" stroke-opacity="1" fill-opacity="1">
+                <tspan id="GRID.text.15203.2.tspan.1" dy="4.31" x="0">10</tspan>
+              </text>
+            </g>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

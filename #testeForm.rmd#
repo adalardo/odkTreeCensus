@@ -1,0 +1,387 @@
+--- 
+title: Testando o pacote e formulario
+date:  
+author: Alexandre Adalardo de Oliveira
+output:
+html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+
+```{sh }
+pwd
+git status
+git init
+#git config --global init.defautBranch main
+git branch -m main
+git add .
+git commit -m "Initial commit: projeto odkTreeCensus"
+
+
+
+```
+
+## Abrir a interface do aidermacs
+C-c a a
+
+## Definir padrão do projeto
+
+
+
+```{aidermacs }
+
+Todas as funcões devem ter nomes em inglês, camelcase, assim como a documentação e comentários. O camelcase não é só para o nome das funções, mas também para os objetos gerados dentro das funções, inclusive eles devem estar em inglês, para facilitar o entendimento do código por estrangeiros. As funções devem ter documentação em roxigen2 em inglês. Registre isso na workflow do pacote para que eu não tenha que solicitar todas as vezes. 
+
+
+```
+
+
+## Adiciona perguntas ao formulário
+
+**EM TESTE**
+
+```{aidermacs }
+
+Crie o arquivo R/insertQuestion.R no meu pacote R. Escreva a função exportada insertQuestion(xlsformPath, newQuestion, afterName = NULL, position = NULL, outputPath = NULL) usando R base puro e o pacote openxlsx. Inclua a documentação Roxygen2 completa acima da função com parâmetros, retorno e exemplos.
+
+```
+
+
+
+```{sh }
+
+
+```
+
+## Criando o xmlform
+
+Função para transformar o xlsx em xmlform
+
+```{aidermacs }
+
+Crie uma função no pacote odkTreeCensus, com documentação roxigen2, chamda 'xlmForm' para transformar o arquivo de formulário xlsx em data e criar um formulário xml odk, utilizando o pacote reticulate do R para manipular o pyxform do python. No início da função, faça a verificação se o pacote reticulate está instalado, caso contrário, faça a função instalar. Veri1fique a integridade do xml e retorne os problemas, caso houver. Faça a documentação em inglês e também os comentários. Não coloque acentos ou caracteres especiais nos comentários para evitar problemas com enconding.
+
+```
+
+```{aidermacs }
+Ao rodar a função xmlForm retornou:
+"Mensagen de aviso:
+In reticulate::py_install("pyxform", pip = TRUE) :
+  An ephemeral virtual environment managed by 'reticulate' is currently in use.
+To add more packages to your current session, call `py_require()` instead
+of `py_install()`. Running:
+  `py_require(c("pyxform"))`"
+Altere o codigo da função xmlForm para que a mensagem de aviso a seguir não apareça quando um ambiente virtual do reticulate já está em uso. 
+
+
+```
+
+```{aidermacs }
+No arquivo xlmForm.R mude o snake_case para camelCase nos nomes das variáveis e funções. Neste pacote sempre use esse padrão. A Grafia "xlm" está errada e dever ser trocada para "xml" quando encontrar, inclusive para o arquivo.
+
+```
+
+
+
+```{aidermacs }
+/drop R/xlmForm.R
+
+```
+
+
+## Criando as midias para o formulário
+
+
+Os arquivos de dados foram criadas no script [preparaODK.rmd](/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/codeR/prepDataODK.rmd)
+As midias de mapas e grids foram criadas no script [mapasCensoPEIC2026.rmd](/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/codeR/mapasCensoPEIC2026.rmd)
+
+
+```{aidermacs }
+
+
+
+```
+
+
+
+## Testando o formulário criado:
+
+O caminho para o dispositivo normalmente é algo como : 
+
+'mtp://SAMSUNG_SAMSUNG_Android_RX2X101K0TL/Armazenamento interno/Android/data/org.odk.collect.android/files/projects/0461761e-ab3b-443d-8071-3a56553816e5'
+
+
+## Função pushToODKCollect
+
+```{aidermacs }
+Qual a melhor maneira de criar uma função em R para copiar arquivos do Computador (linux ou windows) para um dispositivo móvel em uma determinada pasta como:  "Armazenamento interno/Android/data/org.odk.collect.android/files/projects/0461761e-ab3b-443d-8071-3a56553816e5/files", sendo que esse caminho deve primeiro ser investigado para saber onde está o diretorio "org.odk.collect.android"
+aa
+
+```
+
+```{aidermacs }
+Modifique a função pushToODKCollect para que os "locaisFiles", se for um diretório, copie o diretório com todos os seus arquivos no target_dir. Modifique os nomes como target_dir para targetDir (Camelcase) e a documentação e os comentários para inglês
+
+```
+
+
+```{aidermacs }
+Modifique a função pushToODKCollect para que tenha um argumento lógico com padrao como falso "media = FALSE". Caso o argumento seja "TRUE", deve copiar os arquivos para o diretório "*-media" do formulário odk collect. 
+O argumento "media = TRUE" deve copiar todos os arquivos dos diretórios e subdiretórios diretamente no "*-media", sem as pastas.
+
+
+```
+
+```{aidermacs }
+Modifique a função pushToODKCollect para os caminhos de diretórios e arquivos sejam construídos com a função "file.path", para que sejam reconhecidos independente do OS. 
+
+```
+
+
+
+## Colocando o pacote pyxform no pacote:
+
+
+```{sh }
+ls -la
+pip download pyxform -d ./inst/python_wheels/
+
+
+```
+
+
+
+```{r }
+getwd()
+dir()
+
+list.files("R")
+source("R/xmlForm.R")
+setupPyEnv()
+
+xmlForm("data/treeCensusForm.xlsx", "data/treeCensusForm.xml")
+
+
+```
+
+
+```{aidermacs }
+Quero tornar a função xmlForm independente da conexão com a internet, incluindo no pacote o pyxform e o xls2xform python no pacote do R. Essa foi a mensagem de erro quando tentei rodá-la sem conexão:
+"xmlForm("data/treeCensusForm.xlsx", "data/treeCensusForm.xml")
+error: Request failed after 3 retries in 6.4s
+  Caused by: Failed to fetch: `https://pypi.org/simple/numpy/`
+  Caused by: error sending request for url (https://pypi.org/simple/numpy/)
+  Caused by: client error (Connect)
+  Caused by: dns error
+  Caused by: failed to lookup address information: Temporary failure in name resolution
+uv error code: 2
+-- Current requirements -------------------------------------------------
+ Python:   3.12.13 (reticulate default)
+ Packages: numpy
+-------------------------------------------------------------------------
+Hint: If you are temporarily offline, try setting `Sys.setenv(UV_OFFLINE=1)`.
+Error in uv_get_or_create_env() : 
+  Call `py_require()` to remove or replace conflicting requirements.
+Python library 'pyxform' not found. Trying to install via reticulate...
+error: Request failed after 3 retries in 6.5s
+  Caused by: Failed to fetch: `https://pypi.org/simple/pyxform/`
+  Caused by: error sending request for url (https://pypi.org/simple/pyxform/)
+  Caused by: client error (Connect)
+  Caused by: dns error
+  Caused by: failed to lookup address information: Temporary failure in name resolution
+uv error code: 2
+-- Current requirements -------------------------------------------------
+ Python:   3.12.13 (reticulate default)
+ Packages: numpy, pyxform
+-------------------------------------------------------------------------
+Hint: If you are temporarily offline, try setting `Sys.setenv(UV_OFFLINE=1)`.
+Error in uv_get_or_create_env() : 
+  Call `py_require()` to remove or replace conflicting requirements.
+Erro: Installation of Python not found, Python bindings not loaded.
+See the Python "Order of Discovery" here: https://rstudio.github.io/reticulate/articles/versions.html#order-of-discovery."
+
+```
+
+
+```{aidermacs }
+
+Não quero que a função teste se há ou não a biblioteca pyxform, quero saber se é possível incluir a biblioteca no pacote para que não seja necessário intalar a biblioteca quando estiver offline, como, por exemplo a inclusão do "odkTreeCensus/inst/java/ODK-Briefcase-v1.18.0.jar"
+
+```
+
+
+```{aidermacs }
+
+Fiz o clone do pyxform no pacote em: odkTreeCensus/inst/python/repo/pyxform, mas a função xlmForm() retorna: "Error in xmlForm("data/treeCensusForm.xlsx", "data/treeCensusForm.xml") (from xmlForm.R#38) : 
+  Could not find the 'python' directory in the 'odkTreeCensus' package. Please ensure the package is installed correctly." 
+
+```
+
+
+
+## Tranferindo o formulário e midias para o dispositivo android
+
+Ativar o Modo de Desenvolvedor no Samsung:
+
+Vá em Configurações > Sobre o telefone > Informações do software.
+
+Toque em Número da compilação 7 vezes consecutivas até aparecer a mensagem "O modo de desenvolvedor foi ativado".
+
+Ativar a Depuração USB:
+
+Volte ao menu principal das Configurações.
+
+Role até o final e entre em Opções do desenvolvedor.
+
+Ative a chave Depuração USB.
+
+Autorizar o Computador (Passo Crítico):
+
+Mantenha o celular conectado ao cabo USB e com a tela desbloqueada.
+
+No computador, execute o comando:
+
+```{sh }
+adb devices
+```
+
+
+```{r }
+
+source("R/pushToODK.R")
+
+pushToODKCollect(localFiles = "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm.xml")
+pushToODKCollect(localFiles = "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm-media")
+pushToODKCollect(localFiles = "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/linha_A/", media = TRUE, formName = "treeCensusForm")
+
+
+```
+
+## Atualizar o github
+
+
+```{aidermacs }
+Atualizar o github remoto
+
+```
+
+
+
+
+
+
+
+## TRADUÇÃO
+
+```{aidermacs }
+
+Verifique e ajuste a tradução do formulário ODK, não apenas nas peguntas, mas também nas colunas algum uso dos valores traduzidos: 
+/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm.xlsx
+
+
+```
+
+
+
+```{aidermacs }
+
+O formulário base já tem uma tradução que, pelo que eu entendi, precisa ser extraída para ser conferida e arrumada. Como faço essa extração do arquivo do xmlform e depois retorno essa tradução ajustada?
+
+```
+
+
+```{aidermacs }
+
+Porque o repositório está sendo scaneado todas as vezes que solicito alguma modificação, sendo que o prompt diz que esse scan só será feito uma vez? "Initial repo scan can be slow in larger repos, but only happens once.
+Scanning repo: 100%|██████████| 673/673 [00:00<00:00, 26631.63it/s]
+"
+```
+
+
+
+1. **Extração (`extractTranslations`)**:
+   - Esta função lê o arquivo XML do formulário base.
+   - Ela verifica se já existe uma estrutura de tradução `<itext>` no `<head>`. Se existir, ela extrai as traduções diretamente de lá, mapeando os idiomas para as colunas correspondentes do CSV (`label..Português`, `label..English`, `label..Español`).
+   - Se não houver `<itext>`, ela varre o corpo (`<body>`) do formulário em busca de todos os campos que possuem `<label>` ou `<hint>`, extraindo o texto original (geralmente em Português) para servir de ponto de partida no CSV.
+   - O resultado é salvo em um arquivo CSV estruturado, pronto para ser editado e corrigido.
+
+2. **Retorno (Importação)**:
+   - Depois de ajustar o CSV gerado, você pode usar a função `createMultiLangForm` (que já temos no arquivo `R/multiLangForm.R`) passando o formulário base e o CSV corrigido para gerar o formulário final traduzido.
+
+
+
+```{r }
+source("R/checkTranlation.R")
+extractTranslations("/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm.xml", "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/translation.csv")
+
+```
+
+```{aidermacs }
+Esse foi o resultado da extração:
+"list_name"	"name"	"label..Português"	"label..English"	"label..Español"
+"languages"	"default"	"Português"	"Portuguese"	"Portugués"
+"languages"	"en"	"Inglês"	"English"	"Inglés"
+"languages"	"es"	"Espanhol"	"Spanish"	"Español"
+Avalie o arquivo treeCensusForm.xml para verificar o que está errado na função de extração da tradução.
+```
+
+
+
+## Documentação
+
+
+
+```{aidermacs }
+
+Avalie o que está errado na documentação do pacote me odkTreeCensus/vignette/treeCensusManual.qmd
+
+o conteúdo do treeCensusManual.qmd é:
+"
+```{=latex}
+\input{latex/installForm.tex}
+
+
+```{r }
+#! echo: false
+#| eval: false
+
+quarto::quarto_render("treeCensusManual.qmd")
+
+```
+"
+e odo  "_quarto.yam" é: 
+
+"project:
+  type: book
+
+book:
+  title: "ODK Collect treeCensus Manual"
+  author: "Alexandre Adalardo de Oliveira"
+  date: last-modified
+  chapters:
+    - treeCensusManual.qmd
+ 
+format:
+  pdf:
+    documentclass: report
+    keep-tex: true
+    include-in-header: latex/preamble.tex
+    include-before-body: latex/capa.tex"
+
+
+```
+
+
+```{r }
+getwd()
+
+```
+
+## atualizando o github remoto
+
+```{sh }
+git add
+
+```

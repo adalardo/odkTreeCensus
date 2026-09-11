@@ -1,0 +1,185 @@
+
+\section{Coleta de dados por dispositivo móvel}
+\label{sec:coleta_de_dados_por_dispositivo_movel}
+
+
+\href{https://opendatakit.org/}{Open Data Kit} é um projeto colaborativo de código aberto para coleta, armazenamento e gerenciamento de dados. A proposta é disponibilizar instrumentação de baixo custo para coleta de dados que possa ser utilizada em áreas remotas e sem infraestrutura de internet. Permite a coleta de dados tanto online quanto offline e tem a possibilidade de descarregar dados quando se conecta a alguma rede de internet.
+
+Desenvolvemos um formulário, baseado nessa plataforma, para fazer o censo da Parcela Permanente da Ilha do Cardoso, agora atualizado para coleta de dados de árvores em parcelas. 
+Para ter mais controle sobre o processo, decidimos usar apenas a interface de coleta de dados, chamada \textbf{ODK Collect} e não todo o ecossistema OKD. Para utilizá-lo é preciso instalar o \textbf{ODK Collect} através da \textbf{Play Store} em dispositivo móvel Android, de preferência um tablet, mas um smartphone dá conta do recado. Nossos testes utilizaram a versão do \textbf{ODK Collect v2024.2.4 e v2024.3.3}, como o projeto tem ido em uma rota de limitar o uso das ferramentas sem a conexão com todo o ecossistema, caso seja necessário é possível instalar versões antigas do app, utilizando o arquivo \textit{apk}, como o do link abaixo:
+
+\url{https://github.com/getodk/collect/releases/tag/v2024.3.3}
+
+
+Depois de instalado é necessário inserir os arquivos de formulários e dados do censo anterior da parcela no dispositivo para ativar o formulário.
+
+\subsection{Preparando o dispositivo móvel}
+\label{sec:preparando_o_dispositivo_movel}
+
+O \href{https://opendatakit.org/}{Open Data Kit} tem um mecanismo próprio para instalar formulários e retornar os dados coletados, chamado \textbf{ODK Central} que precisa estar instalado em um servidor para se comunicar com o \textbf{ODK Collect}. Uma possibilidade é usar o \textbf{ODK Cloud}, um serviço de núvem do ODK  com o Central instalado, uma pechincha de USD\$250.00 por mês... Não temos ainda o \textbf{ODK Central} instalado em nosso servidor, por isso iremos usar ``força bruta'' para instalar os formulário e extrair os dados do aplicativo móvel. Antes precisamos criar um projeto no  app \textbf{ODK Collect}. 
+
+\subsubsection{Criando um projeto ODK Collect}
+
+Entre no aplicativo \textbf{ODK Collect} e siga os passos solicitado para criar um novo projeto inserindo os dados diretamente no app selecionando a opção \textbf{Entrar com os detalhes do projeto manualmente} (Figura~\ref{fig:criaODK} a).
+Além de um usuário e senha, que precisam ser criados, há a necessidade de incluir uma url para a conexão com o \textbf{ODK Central}. Aqui podemos incluir o endereço que pretendemos instalar o \textbf{ODK Central} futuramente (http://odk.ib.usp.br). Não se preocupe com nenhum desses dados iniciais, apenas crie o projeto e preencha os campos solicitados (Figura~\ref{fig:criaODK} b). Caso seja solicitado permita que o ODK Collect emita notificações no seu dispositivo móvel (Figura~\ref{fig:criaODK} c) 
+
+Para incluir o formulário no \textbf{ODK Collect} precisamos de um projeto criado no app e acesso à memoria interna do dispositivo Android com permissão para edição das pastas do \textbf{ODK Collect}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{enterProjectManual}
+        \caption{}
+        \label{fig:enterManual}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{criaContaODK}
+        \caption{}
+        \label{fig:contaODK}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{perNota}
+        \caption{}
+        \label{fig:perNota}
+    \end{subfigure}
+    \caption{Criando conta manualmente no ODK Collect}\label{fig:criaODK}
+\end{figure}
+
+
+
+
+\subsubsection{Acessando as pastas do ODK Collect}
+
+
+Para utilizarmos o \textbf{ODK Collect} sem conexão com o \textbf{ODK Central} é necessário ter acesso à memória interna do dispositivo móvel android. Garanta que seu dispositivo permite o acesso a essas pastas quando conectado a um computador. Caso tenha problema em acessar a memoria interna do dispositivo androide veja o tutorial:
+
+\url{https://pt.wikihow.com/Acessar-um-Celular-Android-pelo-Computador} 
+
+Ao iniciar um projeto no \textbf{ODKCollect} uma pasta será criada na memória de \textbf{Armazenamento interno} do dispositivo. Essa pasta estará em um caminho similar a:\\
+
+\textbf{''/Android/data/org.odk.collect.android/files/projects/''}\\
+
+Esse caminho pode ser diferente dependendo da versão do Android e do \textbf{ODK Collect}. O diretório do projeto criado neste caminho terá como nome de pasta um código, similar a ``\textit{f00742c6-b995-48bd-8b7b-9fd8ef493a8d}''.  Conecte o dispositivo móvel em um computador e navegue até a pasta do projeto criado e verifique se contém ao menos as seguintes subpastas:
+
+\begin{itemize}
+\item instances
+\item forms
+\item metadata
+\item layer
+\end{itemize}
+
+
+
+
+Vamos copiar os formulários e arquivos de media na pasta  \textbf{forms}, caso a pasta não exista é necessário criá-la. 
+
+\subsection{Instalando o formulário PPSP2025}
+\label{sec:instalando_o_formulario_peic}
+
+No \href{https://drive.google.com/drive/folders/1qNq8HU8aRUsViPhPrBi12U1W9BIiYVTL?usp=sharing}{Google Drive ODKPPSP2025}\footnote{https://drive.google.com/drive/folders/1qNq8HU8aRUsViPhPrBi12U1W9BIiYVTL} tem um conjunto básico de arquivos que incluem arquivos de dados para alimentar o formulário e as figuras em \textit{svg} (mapas das árvores na parcelas e os grids de mapeamento) para a parcela de Assis (PEEA). Para o recenso vamos usar o formulário chamado \textbf{CensoPPSP2025}.
+
+%Esse formulário é chamado \emph{NoMiss} porque ao fechar uma subparcela, não solicita a conferência das árvores que não foram encontradas no censo atual e que estavam vivas no censo anterior, nessa mesma sub-parcela. No censo de 2019 usamos o formulário que faz essa checagem em testes e o processamento dessa parte era demorado, assim como a extração dos dados. Neste novo censo vamos ainda testar esse formulário para verificar se podemos utilizá-lo, os tablets utilizados me 2019 eram muito básicos e com pouca memoria é possível que essa checagem seja viável agora. Este procedimento é importante para evitar estimativas infladas de mortalidade pelas árvores que não foram encontradas nos censos.
+
+Na memória interna do dispositivo, na pasta  \textbf{forms}, copie os seguinte dados:
+
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+
+\begin{itemize}
+\item O formulário de entrada de dados, arquivo \textbf{censoPPSP2025.xml}, e a pasta de mídia \textbf{censoPPPSP2025-media}.
+\end{itemize}
+};
+\end{tikzpicture}
+\end{center}
+
+
+
+Para que o formulário funcionar a pasta de mídia \textbf{censoPPPSP2025-media} deve conter ao menos os seguintes arquivos:
+\begin{itemize}
+\item dados do censo anterior: \textbf{censoOld.csv} 
+\item lista das espécies: \textbf{splist.csv}
+\item lista de chave das árvores dos mapas: \textbf{subqkey.csv}
+\item lista das tags das árvores por subquadrat: \textbf{subqtags.csv}
+\item lista do grid das coordenadas do mapeamento: \textbf{gridid.csv}
+\item imagem para seleção do subquadrat: \textbf{subPar10.svg} ou \textbf{subPar05.svg}
+\item imagem com o mapeamento das árvores das parcelas que irá trabalhar nomeadas como: \textbf{$mapA00quad_0x0.svg$}, sendo A00 o código da parcela de 20m de lado e '0x0' o da subparcela de 5m ou 10m dependendo da unidade de trabalho em campo
+\item imagem com o grid de mapeamento da unidade de trabalho (10 ou 5 m) com a localização das árvores do censo anterior nomeadas como: \textbf{$grid10_A00quad_0x0.svg$}, 'A00' o código a parcela de 20m de lado e '0x0' o da subparcela de 5m ou 10m dependendo da unidade de trabalho em campo. O ínicio do nome 'grid10' ou 'grid05' são referência ao tamanho da unidade de trabalho.
+\end{itemize}
+
+\begin{figure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=0.8\textwidth]{dirEstrutura}
+  \caption{Estrutura básica de arquivos de projeto ODKCollect no dispositivo móvel}
+\end{figure}
+
+      
+        % \includegraphics[keepaspectratio=true,width=0.8\textwidth]{map20}
+        % \includegraphics[keepaspectratio=true,width=0.8\textwidth]{gridMap}
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+\subsection{Dicas:}
+    
+\begin{itemize}   
+\item suba no aplicativo apenas as imagens das parcelas que serão trabalhadas (grid10 e map) no dia, para não sobrecarregar a memória do dispositivo móvel;
+\item os arquivos das imagens devem estar diretamente na pasta \textbf{censoPPSP2025-media}, sem  subpastas tanto o 'map*' quanto o 'grid10*';
+\item os arquivos devem ter os nomes conforme grifado acima, não modifique o nome original dos arquivos do \href{https://drive.google.com/drive/folders/1qNq8HU8aRUsViPhPrBi12U1W9BIiYVTL?usp=sharing}{Google Drive ODKPPSP2025} .
+\item \textcolor{Cyan}{Para substituir arquivos do dispositivo móvel tanto de uma nova versão de um mesmo formulário ou novas versões de arquivos de mídia é muita vezes necessário despois de apagar os arquivos, desconectar e conectar o dispositivo móvel do computador antes de subir a nova versão, caso contrário ao tentar subir o arquivo irá aparecer uma mensagem de erro.}           
+\end{itemize}
+};
+
+\end{tikzpicture}
+\end{center}
+
+
+\begin{center}
+\begin{tikzpicture}
+  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
+
+        
+\subsubsection*{Problemas de Acesso à pasta do ODK Collect}
+\label{sec:}
+
+Caso não consiga acesso à pasta do \textbf{ODK Collect} no seu dispositivo móvel, uma das seguintes opções pode funcionar:
+
+     \begin{enumerate}   
+     \item Apague as memorias do app \textbf{ODK Collect}:
+       \begin{itemize}
+       \item Acesse as configurações do seu dispositivo android,
+       \item Abra a configuração de \textbf{Aplicativos}
+       \item Selecione o app \textbf{ODK Collect}
+       \item Abra a aba de  \textbf{Armazenamento}
+       \item Apague as memorias de \textbf{Dados} e  \textbf{Cache} do app
+       \end{itemize}
+     \item Configure seu dispositivo para desenvolvimento:
+       \begin{itemize}
+       \item Abra as \textbf{Configurações} do seu dispositivo 
+       \item Selecione a opção \textbf{Sobre o telefone/tablet} 
+       \item Clique sobre \textbf{Informações de Software} ou \textbf{Número da versão} repetidas vezes até que a mensagem \textbf{Você agora é um desenvolvedor} seja exibida 
+       \item Retorne à tela de Configurações e role até o final para encontrar a  \textbf{Opções do Desenvolvedor}
+       \item Na \textbf{Opções do Desenvolvedor} ative o \textbf{Depurador de USB} 
+       \end{itemize}
+     \end{enumerate}
+Normalmente uma dessas opções abrirá o acesso à pasta do app para ser editada. 
+};
+
+\end{tikzpicture}
+\end{center}
+
+\subsubsection{Estrutura de arquivos}
+
+\label{sec:estrutura_de_arquivos}
+
+\begin{figure}
+  \centering
+  \includegraphics[keepaspectratio=true,width=1\textwidth]{dirForm}
+  \caption{Estrutura básica de arquivos do formulário \textbf{censoPPSP2025} na pasta \textit{forms} do app ODK}
+    \label{fig:dirForm}
+\end{figure}
+
+
+Ao final do processo a pasta \textit{forms} do \textbf{ODKCollect} deve ter a  estrutura de arquivos no seu dispositivo móvel como na Figura~\ref{fig:dirForm}.
+

@@ -455,7 +455,7 @@ censoAudit <- function(expDir = getwd(), olddata = "peic09.csv", allsubdir = TRU
 ## PREVIOUS CENSUS DATA
 ##########################
     censo09 <- read.table(olddata, header=TRUE, as.is=TRUE, sep=sc, quote = '"')
-    dquad09 <- censo09[censo09$quad %in% unique(tree$quadrat), ] # so os quadrats com dados 2025
+    dquad09 <- censo09[censo09$quad %in= unique(tree$quadrat), ] # so os quadrats com dados 2025
     dquad09A <- dquad09[dquad09$status %in% c("A","AS") ,]
     ntquad09 <- table(dquad09A$quad)
     q09D <- table(dquad09[dquad09$status=="D","quad"])
@@ -787,7 +787,7 @@ readAudit.csvODK <- function(base_files,  save_file = TRUE, dir_exp = getwd(), f
 ##         dupldata <- treequad[postag, c("dap2025","alt2025", "fam2025", "sp2025")]
 ##         dupligual <- c(dupligual,postag[duplicated(dupldata)])
 ##     }
-##     treequad <- treequad[!(1:nrow(treequad) %in% dupligual),]
+##     treequad <- treequad[!(1:nrow(treequad) %in= dupligual),]
 ## #################################
 ##     nres <- c("today", "equipe.lider", "tree_type", "tag_ok","tree_tag", "new_tag", "num_tag", "tag_dead" , "quadrat", "quad5x5","old_dx", "old_dy","new_dx2025", "new_dy2025", "old_alt", "alt2025","old_nfuste", "nfuste2025", "old_dap", "dap2025","dap2025_sec_mm", "old_fam", "old_sp", "fam2025", "sp2025", "coleta", "difdapOK", "difaltOK" ,"obs_tree")
 ##     nres  <- nres[nres %in% names(treequad)]
@@ -1036,5 +1036,4 @@ render( "/home/aao/Ale2016/AleProjetos/Rppsp/inst/rmd/prestaConta.rmd", output_f
         write.table(eqCampo, file=fileEquipe, row.names=FALSE, sep= "," )
     }    
 }
-
 

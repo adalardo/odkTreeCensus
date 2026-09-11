@@ -1,0 +1,87 @@
+#######################################################
+##' Copy local files or directories to ODK Collect on Android via ADB
+##'
+##' @param localFiles Vector of local file or directory paths to be copied.
+##' @param projectUUID Optional. The ODK project UUID. If NULL, the function will try to list and use the first project found.
+##' @return Returns TRUE if the copy was successful for all files/directories.
+##' @export
+pushToODKCollect <- function(localFiles, projectUUID = NULL, maps = FALSE) {
+    # 1. Check if ADB is installed
+    adbCheck <- system("adb version", ignore.stdout = TRUE, ignore.stderr = TRUE)
+    if (adbCheck != 0) {
+        stop("The 'adb' command was not found on the system. Please install Android Debug Bridge (ADB) and add it to your PATH.")
+    }
+
+    # 2. Check if there are connected devices
+    devices <- system("adb devices", intern = TRUE)
+    # The first line is "List of devices attached", subsequent lines contain devices
+    connectedDevices <- devices[devices != "" & !grepl("List of devices attached", devices)]
+    if (length(connectedDevices) == 0) {
+        stop("No Android device connected via USB or network was detected by ADB. Make sure USB Debugging is enabled on the phone.")
+    }
+
+    # 3. Investigate the ODK Collect path on the mobile device
+    # ODK Collect usually stores its data in /sdcard/Android/data/org.odk.collect.android/files/
+    # or /storage/emulated/0/Android/data/org.odk.collect.android/files/
+    basePaths <- c(
+        "/sdcard/Android/data/org.odk.collect.android/files",
+        "/storage/emulated/0/Android/data/org.odk.collect.android/files"
+    )
+
+    targetBase <- NULL
+    for (bp in basePaths) {
+        checkCmd <- paste0("adb shell [ -d ", bp, " ] && echo 'OK' || echo 'NO'")
+        res <- system(checkCmd, intern = TRUE)
+        if (any(grepl("OK", res))) {
+            targetBase <- bp
+            break
+        }
+    }
+
+    if (is.null(targetBase)) {
+        stop("Could not locate the 'org.odk.collect.android' directory on the mobile device. Is ODK Collect installed?")
+    }
+
+    # 4. Investigate the project UUID if not provided
+    if (is.null(projectUUID)) {
+        projectsDir <- file.path(targetBase, "projects")
+        listProjectsCmd <- paste0("adb shell ls ", projectsDir)
+        projectsList <- system(listProjectsCmd, intern = TRUE)
+        # Filter out potential error messages or empty lines
+        projectsList <- projectsList[projectsList != "" & !grepl("No such file", projectsList)]
+        
+        if (length(projectsList) == 0) {
+            stop("No ODK project found in: ", projectsDir)
+        } else if (length(projectsList) == 1) {
+            projectUUID <- projectsList[1]
+            message("Automatically detected ODK project: ", projectUUID)
+        } else {
+            projectUUID <- projectsList[1]
+            warning("Multiple ODK projects found. Using the first one: ", projectUUID, 
+                    "\nAvailable projects: ", paste(projectsList, collapse = ", "))
+        }
+    }
+
+    # 5. Define the final destination path
+    targetDir <- file.path(targetBase, "projects", projectUUID, "forms")
+    
+    # Ensure the destination folder exists on the phone
+    system(paste0("adb shell mkdir -p ", targetDir), ignore.stdout = TRUE, ignore.stderr = TRUE)
+
+    # 6. Copy each file or directory
+    for (f in localFiles) {
+        if (!file.exists(f) && !dir.exists(f)) {
+            warning("The local file or directory does not exist and will be ignored: ", f)
+            next
+        }
+        message("Copying ", basename(f), " to the mobile device...")
+        pushCmd <- paste0("adb push \"", f, "\" \"", targetDir, "/\"")
+        status <- system(pushCmd)
+        if (status != 0) {
+            stop("Failed to copy: ", f)
+        }
+    }
+
+    message("All files/directories were successfully copied to: ", targetDir)
+    return(TRUE)
+}

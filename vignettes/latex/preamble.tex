@@ -1,0 +1,66 @@
+% ODK Collect - treeCensus
+% \documentclass[12pt, a4paper]{article} %padrao letterpaper, 10pt
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage[defaultfam,tabular,lining]{montserrat} %% Option 'defaultfam'
+%% only if the base font of the document is to be sans serif
+\usepackage[T1]{fontenc}
+\renewcommand*\oldstylenums[1]{{\fontfamily{Montserrat-TOsF}\selectfont #1}}
+%% font Nimbus Roman ~ Times New Roman
+\usepackage{mathptmx}
+%\usepackage[latin1]{inputenc}
+% \usepackage{dejavu}
+% \renewcommand*\familydefault{\ttdefault}
+%\usepackage[T1]{fontenc}
+% \renewcommand*\familydefault{\sfdefault}
+%\usepackage{amsfonts,amssymb,graphicx,enumerate}
+% amssymb package, useful for mathematical symbols
+%\usepackage[centertags]{amsmath}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[sectionbib]{natbib}
+% \bibpunct{(}{)}{;}{a}{}{}
+\bibpunct{(}{)}{;}{a}{,}{,}
+\usepackage[nottoc,numbib]{tocbibind}
+
+% \usepackage{etoolbox}
+% \patchcmd{\thebibliography}{\chapter*}{\section*}{}{}
+\usepackage{enumitem}
+\setlist{noitemsep}
+\usepackage[usenames,dvipsnames, table, xcdraw]{xcolor}
+%\definecolor{light-gray}{gray}{0.9}
+% Configuracoes de pagina
+\usepackage[lmargin=2.5cm,rmargin=2cm,tmargin=2.5cm,bmargin=2.5cm]{geometry}
+% Layout da pagina
+\usepackage{hyperref}
+\hypersetup{pdfnewwindow=true,
+    pdfpagelayout=SinglePage, % ou TwoPageLeft
+    colorlinks=true,
+    citecolor=Violet,
+    linkcolor=blue,
+    filecolor=ForestGreen,
+    urlcolor=ForestGreen,
+    pdftitle={Manual ODK Collect PPSP},
+    pdfauthor={Alexandre Adalardo de Oliveira}}
+%**********************************************
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{pdfpages}
+%********* boxes
+% Definindo novos comandos
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+% \providecommand{\sin}{} \renewcommand{\sin}{\hspace{2pt}\textrm{sen}}
+% \newcommand{\R}{\mathbb{R}} %simbolos de numeros 
+% \title(Relatório 
+% \author{R\'egis da Silva}
+% \date{2011}    %para ocultar a data digite: \date{ }
+\linespread{1.3}
+\usepackage{listings}
+\usepackage{graphicx}
+\graphicspath{{../media/}}
+\usepackage{sidecap}
+\usepackage{subcaption}
+\date{\today}
+\title{}
+\author{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -1,7 +1,7 @@
 #' Convert XLSForm to ODK XML using pyxform
 #'
 #' This function converts an Excel XLSForm (.xlsx) into an ODK-compliant XML file
-#' using the Python library \code{pyxform} via the \code{reticulate} package.
+#' using the Python library \code{pyxform} bundled within the R package.
 #' It also performs a basic integrity check on the generated XML file.
 #'
 #' @param xlsxPath Character. Path to the input Excel (.xlsx) file.
@@ -16,12 +16,8 @@
 #' xmlForm("data/treeCensusForm.xlsx", "data/treeCensusForm.xml")
 #' }
 xmlForm <- function(xlsxPath, xmlPath = NULL) {
-  # 1. Check and install reticulate package if missing
-  if (!requireNamespace("reticulate", quietly = TRUE)) {
-    message("The 'reticulate' package is not installed. Installing now...")
-    install.packages("reticulate")
-  }
-
+    # 1. Setup python pyxform environment
+    setupPyEnv()
   # 2. Validate input file existence
   if (!file.exists(xlsxPath)) {
     stop("The specified Excel file does not exist: ", xlsxPath)
@@ -32,30 +28,17 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
     xmlPath <- sub("\\.xlsx$", ".xml", xlsxPath, ignore.case = TRUE)
   }
 
-  # 3. Ensure pyxform is available in the Python environment
+  # 4. Import pyxform modules locally
   tryCatch({
-    reticulate::import("pyxform")
+    pyxformXls2json <- reticulate::import("pyxform.xls2json")
+    pyxformBuilder <- reticulate::import("pyxform.builder")
   }, error = function(e) {
-    message("Python library 'pyxform' not found. Trying to install via reticulate...")
-    tryCatch({
-      # Se py_require estiver disponível (versões mais novas do reticulate), use-o para evitar avisos de venv efêmero
-      if (exists("py_require", envir = asNamespace("reticulate"), inherits = FALSE)) {
-        reticulate::py_require("pyxform")
-      } else {
-        reticulate::py_install("pyxform", pip = TRUE)
-      }
-    }, error = function(err) {
-      stop("Could not install 'pyxform' automatically. Please install it manually in your Python environment.")
-    })
+    stop("Could not import 'pyxform' from the bundled package directory. Error: ", e$message)
   })
-
-  # Import pyxform modules
-  pyxformXls2json <- reticulate::import("pyxform.xls2json")
-  pyxformBuilder <- reticulate::import("pyxform.builder")
 
   message("Converting ", xlsxPath, " to XML...")
 
-  # 4. Run conversion using pyxform
+  # 5. Run conversion using pyxform
   tryCatch({
     # Parse XLS to intermediate JSON structure
     surveyJson <- pyxformXls2json$parse_file_to_json(xlsxPath)
@@ -70,7 +53,7 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
     stop("Error during pyxform conversion: ", e$message)
   })
 
-  # 5. Verify XML integrity and return problems if any
+  # 6. Verify XML integrity and return problems if any
   if (file.exists(xmlPath)) {
     if (requireNamespace("xml2", quietly = TRUE)) {
       tryCatch({
@@ -88,4 +71,49 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
   }
 
   return(invisible(xmlPath))
+}
+
+
+setupPyEnv <- function() {
+  pkg_name <- "odkTreeCensus"
+# 1. Tenta o caminho de desenvolvimento (pasta local do projeto)
+  dev_path <- file.path("inst", "python")
+  
+  # 2. Se a pasta local 'inst/python' existir (modo dev), usa ela. 
+  # Caso contrário, usa o caminho padrão do pacote instalado.
+  if (dir.exists(dev_path)) {
+    wheels_dir <- dev_path
+  } else {
+    wheels_dir <- system.file("python", package = pkg_name)
+  }
+
+  # Validação simples
+  if (wheels_dir == "" || !dir.exists(wheels_dir)) {
+    stop("Erro: A pasta 'inst/python' (dev) ou 'python' (instalado) não foi encontrada.")
+  }
+
+  # Caminho para salvar o virtualenv no cache do usuário
+  venv_path <- file.path(tools::R_user_dir(pkg_name, "cache"), "python_env")
+
+  # Instalação offline caso o ambiente Python não exista no cache
+  if (!reticulate::virtualenv_exists(envname = venv_path)) {
+    message("Criando ambiente Python offline...")
+    reticulate::virtualenv_create(envname = venv_path)
+    
+    wheels <- list.files(wheels_dir, pattern = "\\.whl$", full.names = TRUE)
+    
+    if (length(wheels) == 0) {
+      stop(paste("Nenhum arquivo .whl encontrado em:", wheels_dir))
+    }
+    
+    # Instala os wheels sem usar a internet
+    reticulate::py_install(
+      packages = wheels,
+      envname = venv_path,
+      pip_options = c("--no-index", paste0("--find-links=", wheels_dir))
+    )
+  }
+
+  # Ativa o virtualenv na sessão
+  reticulate::use_virtualenv(virtualenv = venv_path, required = TRUE)
 }

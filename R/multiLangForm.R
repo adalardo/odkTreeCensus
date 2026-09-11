@@ -1,86 +1,122 @@
-criar_formulario_multi_idioma <- function(formulario_base, arquivo_traducoes, output_file) {
+# DEVELOPER WORKFLOW RULE:
+# 1. All functions, internal variables, and objects in this package must be named in English using camelCase.
+# 2. All documentation (including roxygen2), comments, and console messages must be written in English.
+
+#' Create a Multi-Language ODK Form
+#'
+#' This function takes a base XML form and a translation CSV file to generate
+#' a multi-language ODK form with dynamic language selection.
+#'
+#' @param baseForm Character. Path to the base XML form file.
+#' @param translationFile Character. Path to the CSV file containing translations.
+#' @param outputFile Character. Path where the generated XML form should be saved.
+#'
+#' @return Character. The path to the generated output file.
+#' @export
+#'
+#' @examples
+#' # createMultiLangForm("base_form.xml", "translations.csv", "multi_lang_form.xml")
+createMultiLangForm <- function(baseForm, translationFile, outputFile) {
   library(xml2)
   
-  # Ler formulário base
-  form <- read_xml(formulario_base)
+  # Read base form
+  form <- read_xml(baseForm)
   ns <- xml_ns(form)
   
-  # Ler traduções
-  trad <- read.csv(arquivo_traducoes, stringsAsFactors = FALSE)
+  # Read translations
+  translations <- read.csv(translationFile, stringsAsFactors = FALSE)
   
-  # 1. ADICIONAR PERGUNTA DE SELEÇÃO DE IDIOMA
-  body_node <- xml_find_first(form, "//h:body", ns)
+  # 1. ADD LANGUAGE SELECTION QUESTION
+  bodyNode <- xml_find_first(form, "//h:body", ns)
   
-  # Criar select de idioma
-  select_idioma <- xml_new_root("select1", ref = "/data/language", name = "language")
+  # Create language select
+  selectLanguage <- xml_new_root("select1", ref = "/data/language", name = "language")
   
-  label_node <- xml_add_child(select_idioma, "label")
-  xml_text(label_node) <- "Selecione o idioma / Select language / Seleccione el idioma"
+  labelNode <- xml_add_child(selectLanguage, "label")
+  xml_text(labelNode) <- "Selecione o idioma / Select language / Seleccione el idioma"
   
-  # Adicionar opções
-  idiomas <- trad[trad$list_name == "languages", ]
-  for(i in 1:nrow(idiomas)) {
-    item <- xml_add_child(select_idioma, "item")
-    xml_add_child(item, "label", idiomas[i, "label..Português"])
-    xml_add_child(item, "value", idiomas[i, "name"])
+  # Add options
+  languages <- translations[translations$list_name == "languages", ]
+  for(i in 1:nrow(languages)) {
+    item <- xml_add_child(selectLanguage, "item")
+    xml_add_child(item, "label", languages[i, "label..Português"])
+    xml_add_child(item, "value", languages[i, "name"])
   }
   
-  # Adicionar como primeiro elemento do body
-  xml_add_child(body_node, select_idioma, .where = 0)
+  # Add as the first element of the body
+  xml_add_child(bodyNode, selectLanguage, .where = 0)
   
-  # 2. ADICIONAR ITEXT AO HEAD
-  head_node <- xml_find_first(form, "//h:head", ns)
-  itext_node <- xml_add_child(head_node, "itext")
+  # 2. ADD ITEXT TO HEAD
+  headNode <- xml_find_first(form, "//h:head", ns)
+  itextNode <- xml_add_child(headNode, "itext")
   
-  # Para cada texto traduzível
-  textos <- trad[trad$list_name != "languages", ]
-  for(i in 1:nrow(textos)) {
-    text_node <- xml_add_child(itext_node, "text", id = textos[i, "name"])
+  # For each translatable text
+  texts <- translations[translations$list_name != "languages", ]
+  for(i in 1:nrow(texts)) {
+    textNode <- xml_add_child(itextNode, "text", id = texts[i, "name"])
     
-    # Português
-    value_pt <- xml_add_child(text_node, "value", form = "default")
-    xml_text(value_pt) <- textos[i, "label..Português"]
+    # Portuguese
+    valuePt <- xml_add_child(textNode, "value", form = "default")
+    xml_text(valuePt) <- texts[i, "label..Português"]
     
-    # Inglês
-    value_en <- xml_add_child(text_node, "value", form = "english", lang = "en")
-    xml_text(value_en) <- textos[i, "label..English"]
+    # English
+    valueEn <- xml_add_child(textNode, "value", form = "english", lang = "en")
+    xml_text(valueEn) <- texts[i, "label..English"]
     
-    # Espanhol
-    value_es <- xml_add_child(text_node, "value", form = "spanish", lang = "es")
-    xml_text(value_es) <- textos[i, "label..Español"]
+    # Spanish
+    valueEs <- xml_add_child(textNode, "value", form = "spanish", lang = "es")
+    xml_text(valueEs) <- texts[i, "label..Español"]
   }
   
-  # 3. SUBSTITUIR LABELS POR REFERÊNCIAS ITEXT
-  questions <- xml_find_all(form, "//h:body//h:input", ns)
-  for(q_node in questions) {
-    q_name <- xml_attr(q_node, "name")
+  # 3. REPLACE LABELS AND HINTS WITH ITEXT REFERENCES
+  # Find all elements that have a label or hint in the body (inputs, selects, etc.)
+  questions <- xml_find_all(form, "//h:body//*[h:label or h:hint]", ns)
+  for(qNode in questions) {
+    qName <- xml_attr(qNode, "ref")
+    if (is.na(qName)) {
+      qName <- xml_attr(qNode, "name")
+    }
+    if (is.na(qName)) next
     
-    # Encontrar tradução correspondente
-    trad_q <- textos[textos$name == q_name, ]
-    if(nrow(trad_q) > 0) {
-      label_node <- xml_find_first(q_node, ".//h:label", ns)
-      xml_remove(label_node)
-      
-      new_label <- xml_add_child(q_node, "label")
-      xml_attr(new_label, "ref") <- paste0("jr:itext('", q_name, "')")
+    # Clean the path to get only the field name
+    qNameClean <- basename(qName)
+    
+    # Find corresponding translation for the label
+    translationQ <- texts[texts$name == qNameClean, ]
+    if(nrow(translationQ) > 0) {
+      labelNode <- xml_find_first(qNode, ".//h:label", ns)
+      if (!inherits(labelNode, "xml_missing")) {
+        xml_remove(labelNode)
+        newLabel <- xml_add_child(qNode, "label")
+        xml_attr(newLabel, "ref") <- paste0("jr:itext('", qNameClean, "')")
+      }
+    }
+    
+    # Find corresponding translation for the hint
+    hintName <- paste0(qNameClean, "_hint")
+    translationHint <- texts[texts$name == hintName, ]
+    if(nrow(translationHint) > 0) {
+      hintNode <- xml_find_first(qNode, ".//h:hint", ns)
+      if (!inherits(hintNode, "xml_missing")) {
+        xml_remove(hintNode)
+        newHint <- xml_add_child(qNode, "hint")
+        xml_attr(newHint, "ref") <- paste0("jr:itext('", hintName, "')")
+      }
     }
   }
   
-  # 4. ADICIONAR TRADUÇÃO DINÂMICA AO MODELO
-  model_node <- xml_find_first(form, "//d1:model", ns)
+  # 4. ADD DYNAMIC TRANSLATION TO THE MODEL
+  modelNode <- xml_find_first(form, "//d1:model", ns)
   
-  # Bind para idioma
-  bind_lang <- xml_add_child(model_node, "bind")
-  xml_attr(bind_lang, "nodeset") <- "/data/language"
-  xml_attr(bind_lang, "type") <- "select1"
+  # Bind for language
+  bindLang <- xml_add_child(modelNode, "bind")
+  xml_attr(bindLang, "nodeset") <- "/data/language"
+  xml_attr(bindLang, "type") <- "select1"
   
-  # Instance para itext
-  instance_node <- xml_find_first(form, "//d1:instance", ns)
-  itext_instance <- xml_add_child(instance_node, "itext")
+  # Instance for itext
+  instanceNode <- xml_find_first(form, "//d1:instance", ns)
+  itextInstance <- xml_add_child(instanceNode, "itext")
   
-  write_xml(form, output_file)
-  return(output_file)
+  write_xml(form, outputFile)
+  return(outputFile)
 }
-
-# Uso
-criar_formulario_multi_idioma("formulario_base.xml", "traducoes.csv", "formulario_multi_idioma.xml")
