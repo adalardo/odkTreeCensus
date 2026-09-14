@@ -378,3 +378,32 @@ format:
 getwd()
 
 ```
+
+## atualizando o github remoto
+
+```{sh }
+
+# Remove arquivos que começam ou terminam com #
+git rm -r --cached "*#" "#*"
+git rm -r --cached ".#*"
+
+# Remove arquivos que terminam com ~
+git rm -r --cached "*~"
+
+git add .gitignore
+git commit -m "fix: remove arquivos temporarios (#, ~) e atualiza .gitignore"
+git push origin main
+
+
+git add R/odk.R
+git commit -m "fix code error"
+git push origin main
+
+
+git add .
+git commit -m "versão para teste do odkTreeCensus"
+git branch -v
+git push origin main
+
+
+```
