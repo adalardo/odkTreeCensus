@@ -5,23 +5,23 @@
 \title{Copy local files or directories to ODK Collect on Android via ADB}
 \usage{
 pushToODKCollect(
-  localFiles,
+  localDir = NULL,
   projectUUID = NULL,
   media = FALSE,
-  formName = NULL
+  formName = "odkTreeCensusForm"
 )
 }
 \arguments{
-\item{localFiles}{Vector of local file or directory paths to be copied.}
+\item{localDir}{Optional. Path to the local directory containing the form and media. If NULL, defaults to the package's "odk" folder.}
 
 \item{projectUUID}{Optional. The ODK project UUID. If NULL, the function will try to list and use the first project found.}
 
-\item{media}{Logical. If TRUE, copies the files to the "*-media" directory of the form.}
+\item{media}{Logical. If TRUE, copies the "*-media" directory of the form.}
 
-\item{formName}{Optional. The name of the form (without extension) to define the media folder. If NULL and media is TRUE, the function will try to infer it from the local files.}
+\item{formName}{Optional. The name of the form (without extension). Defaults to "odkTreeCensusForm".}
 }
 \value{
-Returns TRUE if the copy was successful for all files/directories.
+Returns TRUE if the copy was successful.
 }
 \description{
 Copy local files or directories to ODK Collect on Android via ADB

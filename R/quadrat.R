@@ -43,11 +43,11 @@ splitPlot <- function(dx, dy, splitX = 5, splitY = splitX, maxX = 20, maxY = max
 {
     posX <- seq(splitX, maxX - splitX, by= splitX)
     posY <- seq(splitY, maxY - splitY, by= splitY)
-    dX <- apply(sapply(posX, function(x){ifelse(dx >= x, splitX,0)}), 1, sum)
-    dY <- apply(sapply(posY, function(x){ifelse(dy >= x, splitY,0)}), 1, sum)
-    dXY <- paste(dX, "x",dY, sep="")
-    dXY[grep("NA", dXY)] <- NA
-    return(dXY) 
+    qX <- apply(sapply(posX, function(x){ifelse(dx >= x, splitX,0)}), 1, sum)
+    qY <- apply(sapply(posY, function(x){ifelse(dy >= x, splitY,0)}), 1, sum)
+    XY <-  paste(qX, "x",qY, sep="")
+    XY[grep("NA", XY)] <- NA
+    return(data.frame(qX = qX, qY = qY, qXY = XY)) 
 }
 ##' @rdname subplot
 ##' @export
@@ -78,8 +78,8 @@ splitPlotXY <- function(subplotxy, splitX = 5, splitY = splitX, maxX = 20, maxY 
     posY <- seq(0, maxY - splitY, by= splitY)
     posXseq <- rep(posX, each = length(posY))
     posYseq <- rep(posY, length(posY))
-    quadLabel <- paste("quad_", posXseq, "x", posYseq, sep = "")
-    quadXY <- data.frame(subquad = quadLabel, qx = posXseq, qy = posYseq  )
+    quadLabel <- paste(posXseq,  posYseq, sep = "x")
+    quadXY <- data.frame(subquad = quadLabel, qx = posXseq, qy = posYseq )
     splitQuadXY<- merge(quadXY, subplotxy, all = TRUE)
     splitQuadXY$xMin <- splitQuadXY$xlim + splitQuadXY$qx
     splitQuadXY$yMin <- splitQuadXY$ylim + splitQuadXY$qy

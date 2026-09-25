@@ -33,7 +33,7 @@
 ##' @export
 ##'
 #################################
-svgMap <- function(mapData, subPlotCode = "A00", svgSave = TRUE, wd2save = file.path(getwd(), subPlotCode), dx = "dx", dy = "dy",  tag = "tag", dbh = "dbh", status= "status", mapSize = c(13,13), vpSize = c(0.9, 0.9), fontSize = 12, diagonal = FALSE)
+svgMap <- function(mapData, subPlotCode = "A00", svgSave = TRUE, wd2save = file.path(getwd(), subPlotCode), dx = "dx", dy = "dy",  tag = "tag", dbh = "dbh", status= "status", mapSize = c(13, 13), vpSize = c(0.9, 0.9), fontSize = 12, diagonal = FALSE)
 {
     if(! exists("mapData"))
     {
@@ -53,7 +53,7 @@ svgMap <- function(mapData, subPlotCode = "A00", svgSave = TRUE, wd2save = file.
     {
         subquad <- mapData[[j]]
         subXY <- as.numeric(strsplit(subquadNames[j], "_|x")[[1]][c(2,3)])
-        arv_key <- paste("arv_", subquad[,tag], sep="")
+        tag_key <- paste("tag_", subquad[,tag], sep="")
 ##############################
 ## plot here
 ##############################
@@ -69,7 +69,7 @@ svgMap <- function(mapData, subPlotCode = "A00", svgSave = TRUE, wd2save = file.
         for(i in 1:nrow(subquad))
         {
             grid.text(paste(subquad[i, tag]), x= subquad[i, dx]+log(subquad[i, dbh])/20 ,y=subquad[i, dy]+log(subquad[i, dbh])/15, default.units="native", gp = gpar(fontsize = fontSize- 2))
-            grid.circle(x= subquad[i, dx],y=subquad[i, dy], r= log(subquad[i, dbh])/20, default.units="native", gp=gpar(fill=ifelse(subquad[i, status]=="A" | subquad[i, status]=="AS" ,rgb(0,1,0, 0.5), rgb(0,0,1,0.5)), col="black"), name = arv_key[i])
+            grid.circle(x= subquad[i, dx],y=subquad[i, dy], r= log(subquad[i, dbh])/20, default.units="native", gp=gpar(fill=ifelse(subquad[i, status]=="A" | subquad[i, status]=="AS" ,rgb(0,1,0, 0.5), rgb(0,0,1,0.5)), col="black"), name = tag_key[i])
         }
         
         grid.segments(x0= c(0,0, 0, splitX) , y0 = c(0, 0, splitY, splitY) , x1 =c( splitX, 0, splitX, splitX),  y1= c(0, splitY,  splitY, 0), default.units="native", gp= gpar(lty = 2))
@@ -235,7 +235,7 @@ auditsvg <- function(audit, quad = "A00", save.svg = TRUE, wd = getwd(), dx = "n
     xy[xyna, ] <- dataquad[xyna,c("old_dx", "old_dy")]
     dbh0 <- dataquad[,dap]
     dbh0[is.na(dbh0)] <- 10 
-    arv_key <- paste("arv_", dataquad[,tag], sep="")
+    tag_key <- paste("tag_", dataquad[,tag], sep="")
     tipo <- as.factor(dataquad[, error])
     utipo <- levels(tipo)
     ntipo <- length(utipo)
@@ -254,7 +254,7 @@ auditsvg <- function(audit, quad = "A00", save.svg = TRUE, wd = getwd(), dx = "n
     int <- 1
         for(i in 1:nrow(dataquad))
         {
-            grid.circle(x= xy[i, 1],y=xy[i, 2], r= log(dbh0[i])/10, default.units="native", gp=gpar(fill= cols[tipo[i]], col="black"), name = arv_key[i])
+            grid.circle(x= xy[i, 1],y=xy[i, 2], r= log(dbh0[i])/10, default.units="native", gp=gpar(fill= cols[tipo[i]], col="black"), name = tag_key[i])
             grid.text(paste(dataquad[i, tag]), x= xy[i, 1] + (log(dbh0[i])/8) ,y = xy[i, 2] + (int *log(dbh0[i])/8), default.units="native", gp = gpar(cex = 1.2))
             int = int * -1
         }
@@ -307,13 +307,13 @@ ordersvg <- function(audit, quad = "A00", save.svg = TRUE, wd = getwd(), dx = "n
     xy[xyna, ] <- dataquad[xyna,c("old_dx", "old_dy")]
     dbh0 <- dataquad[, dap]
     dbh0[is.na(dbh0)] <- 10 
-    arv_key <- paste("arv_", dataquad[,tag], sep="")
+    tag_key <- paste("tag_", dataquad[,tag], sep="")
     tipo <- as.factor(dataquad[, error])
     utipo <- levels(tipo)
     ntipo <- length(utipo)
     idmap <- index.map(dx=xy[,dx], dy=xy[,dy])
     xy <- xy[order(idmap),]
-    narv <- nrow(xy)
+    ntag <- nrow(xy)
 ###########################
 ## plot here
 ###########################
@@ -327,13 +327,13 @@ ordersvg <- function(audit, quad = "A00", save.svg = TRUE, wd = getwd(), dx = "n
     grid.yaxis(seq(0,20,by=5) , at=seq(0,20,by=5), gp=gpar(fontsize=15))
     cols <- c(rgb(0,0,0, 0.3), rgb(0,1,0, 0.5), rgb(0,0,1, 0.5), rgb(1,1,0, 0.5), rgb(1,0,1, 0.5), rgb(0,1,1, 0.5))
      int <- 1
-        for(i in 1:narv)
+        for(i in 1:ntag)
         {
-            if(i < narv)
+            if(i < ntag)
             {
                 grid.lines(x = c(xy[i,1], xy[i+1, 1]), y = c(xy[i,2], xy[i+1, 2]), default.units="native", gp= gpar(col=rgb(0,0,0,.2), lwd=3, lty=2))
             }
-            grid.circle(x= xy[i, 1],y=xy[i, 2], r= log(dbh0[i])/10, default.units="native", gp=gpar(fill= cols[tipo[i]], col="black"), name = arv_key[i])
+            grid.circle(x= xy[i, 1],y=xy[i, 2], r= log(dbh0[i])/10, default.units="native", gp=gpar(fill= cols[tipo[i]], col="black"), name = tag_key[i])
             grid.text(paste(dataquad[i, tag]), x= xy[i, 1] + (log(dbh0[i])/8) ,y = xy[i, 2] + (int *log(dbh0[i])/8), default.units="native", gp = gpar(cex = 1.2))
             grid.text(as.character(i), x= xy[i, 1] ,y = xy[i, 2], default.units="native", gp = gpar(cex = 1.5, col=rgb(1,1,1)))
             int = int * -1
@@ -358,7 +358,7 @@ ordersvg <- function(audit, quad = "A00", save.svg = TRUE, wd = getwd(), dx = "n
 ## audit <- audit[!is.na(audit$num_tag),]
 ## quad = "B11"; save.svg = TRUE; dx = "new_dx2018"; dy = "new_dy2018";  tag = "num_tag"; dap = "dap2018"; error = "errorType"; mapSize = c(13,13)
 #######################################
-selSubq <- function(xmax = 20, ymax = 20, subqX= 5, subqY = 5, mapSize = c(10,10), fontSize = 12, vpSize = c(0.8, 0.8), wd2save = getwd())
+selSubq <- function(xmax = 20, ymax = 20, subqX= 5, subqY = 5, mapSize = c(10,10), fontSize = 14, vpSize = c(0.8, 0.8), wd2save = getwd())
 {
     options(warn = -1)
     if(nchar(subqX) ==1)
@@ -377,13 +377,13 @@ selSubq <- function(xmax = 20, ymax = 20, subqX= 5, subqY = 5, mapSize = c(10,10
     grid.yaxis(at=seq(0, ymax, by= subqY), gp = gpar(fontsize = fontSize))
     xseq = rep(seq(0, xmax - subqX, by = subqX), each = xmax/subqX)
     yseq = rep(seq(0, ymax - subqY, by = subqY), ymax/subqY)
-    quadkey = paste("quad_",xseq, "x",yseq, sep="")
+    quadkey = paste("subq_", xseq, "x", yseq, sep="")
 ##############
 ## Grid
 ##############
     for(i in 1: length(xseq))
     {
-        grid.rect(x = xseq[i] + subqX/2, y = yseq[i]+ subqY/2, width = subqX , height= subqY, gp=gpar(fill = rgb(0, 1, 0, .2), lwd =0.1),  default.units="native", name = quadkey[i])
+        grid.rect(x = xseq[i] + subqX/2, y = yseq[i]+ subqY/2, width = subqX , height= subqY, gp=gpar(fill = rgb(0, .5, 0, 0.8), lwd =0.1),  default.units="native", name = quadkey[i])
     }
     if(!dir.exists(wd2save))
     {
@@ -391,12 +391,12 @@ selSubq <- function(xmax = 20, ymax = 20, subqX= 5, subqY = 5, mapSize = c(10,10
     }
     dev.off()
     svg_lines <- readLines(file.path(wd2save, paste("subPar", subqNum,".svg",sep="")))
-    #grep('id="quad_*', svg_lines, value = TRUE)
     svg_lines <- gsub('id="([^"]+?)\\.[0-9]+(\\.[0-9]+)*"', 'id="\\1"', svg_lines)
     writeLines(svg_lines, file.path(wd2save, paste("subPar", subqNum,".svg",sep="")) )
 }
 
-   
+##selSubq()
+  
 ##     }
 ## dev.new( width=10, height=10)
 ## #vptop<- viewport(y=0.9, width=0.8, height=0.2)
