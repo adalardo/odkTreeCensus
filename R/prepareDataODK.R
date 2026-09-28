@@ -204,7 +204,7 @@ tagkey <- paste("tag_", tagsvector, ".1", sep = "")
 subqkey <- data.frame(subq = subqs, tag_key = tagkey)
 if(saveFile)
 {
-    write.table(subqkey, file.path(dirData,"subqkey.csv"), row.names = FALSE)
+    write.table(subqkey, file.path(dirData,"subqkey.csv"), row.names = FALSE, sep = ",")
 }
 invisible(subqkey)
 }
