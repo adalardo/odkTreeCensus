@@ -196,12 +196,15 @@ mapData <- function(data, subplotCodes = unique(data$quad), splitX = 5, splitY =
 #' @export
 subqKey <- function(dataMap, dirData = getwd(), saveFile = TRUE )
 {
-    tags <-  unlist(sapply(dataMap, function(x) as.integer(x$tag)))
-    ntags <- sapply(tags, length)
-    subqkey <- data.frame(subq = names(tags), tag_key = paste("tag_", tags, ".1", sep = ""))
-    if(saveFile)
-    {
-        write.table(subqkey, file.path(dirData,"subqkey.csv"), row.names = FALSE)
-    }
-    invisible(subqkey)
+tags <- sapply(mapdata, function(x) as.integer(x$tag))
+ntags <- sapply(tags, length)
+tagsvector <- unlist(tags)
+subqs <- rep(names(tags), times = ntags)
+tagkey <- paste("tag_", tagsvector, ".1", sep = "")
+subqkey <- data.frame(subq = subqs, tag_key = tagkey)
+if(saveFile)
+{
+    write.table(subqkey, file.path(dirData,"subqkey.csv"), row.names = FALSE)
+}
+invisible(subqkey)
 }

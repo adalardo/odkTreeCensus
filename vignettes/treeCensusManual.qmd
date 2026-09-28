@@ -32,6 +32,7 @@ if("odkTreeCensus" %in% rownames(installed.packages()))
 ## instala a versao recente do odkTreeCensus
 
 remotes::install_github("adalardo/odkTreeCensus")
+library("odkTreeCensus")
 
 ```
 
@@ -47,7 +48,7 @@ Este procedimento é dispensável, o pacote já é distribuído com o formulári
 ```{r }
 #| echo: TRUE
 #| eval: false
-library("odkTreeCensus")
+
 xlsxfile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
 xmlForm(xlsxPath = xlsxfile, xmlPath = "../odkData/treeCensusForm.xlsx")
 
