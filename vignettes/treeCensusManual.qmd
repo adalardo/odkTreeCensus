@@ -1,12 +1,66 @@
 ```{=latex}
-\input{latex/installForm.tex}
+ \input{latex/capa.tex}
 
 ```
+
+## Criar projeto no ODK Collect
+
+```{r }
+## verifica se tem o pacote remotes e caso nao tenha instala
+if(!"remotes" %in% rownames(installed.packages()))
+{
+    install.package("remote")
+}
+## verifica sem tem o odkTreeCensus e desinstala
+if("odkTreeCensus" %in% rownames(installed.packages()))
+{
+    remove.packages("odkTreeCensus")
+}
+## instala a versao recente do odkTreeCensus
+
+remotes::install_github("adalardo/odkTreeCensus")
+
+
+
+```
+
+## Instalando pacote odkTreeCensus
+
+## Transcrever formulário xml
+
+## Criar arquivos de dados acessórios
+
+### lastCensus.csv
+
+### splist.csv
+
+### subqkey.csv
+
+### subqtags.csv
+
+### team.csv
+
+### xcode.csv
+
+### ycode.csv
+
+### gridid.csv
+
+## Mapas e Grids svg
+
+### Seleção de subquadrat
+
+### Mapas para a seleção de árvores
+
+### Grid para mapeamento de árvores
+
+### 
+
 
 ```{r}
 #| echo: false
 #| eval: false
 
-quarto::quarto_render("vignettes/index.qmd")
+quarto::quarto_render("vignettes/treeCensus.qmd")
 rlang::last_trace()
 ```

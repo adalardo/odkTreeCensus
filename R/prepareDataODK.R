@@ -88,9 +88,8 @@ spList <- function(data, dirData = getwd(), saveFile = TRUE)
 {
     uniqSp <- unique(data[,c("species", "fam")])
     uniqSp <- uniqSp[ - grep("indet", uniqSp$species),]
-    uniqSp <- uniqSp[order(uniqSp$fam, uniqSp$gen),]
-    
     uniqSp$gen <- sapply(strsplit(uniqSp$species, split =  " "), FUN = function(x){x[1]})
+    uniqSp <- uniqSp[order(uniqSp$fam, uniqSp$gen),]
     fam =  sort(unique(uniqSp$fam))
     famIndet <- data.frame(fam = fam, gen = "gen_indet", species = paste(substr(fam,1,4), "sp_indet", sep = "_"))
     gen <- unique(uniqSp[,c("fam", "gen")])
