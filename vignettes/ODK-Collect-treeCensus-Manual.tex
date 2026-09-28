@@ -64,6 +64,46 @@
 \fi
 \makeatother
 
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{241,243,245}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.40,0.45,0.13}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\BuiltInTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\ExtensionTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.28,0.35,0.67}{#1}}
+\newcommand{\ImportTok}[1]{\textcolor[rgb]{0.00,0.46,0.62}{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.68,0.00,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{\textcolor[rgb]{0.00,0.23,0.31}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.07,0.07,0.07}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.13,0.47,0.30}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.37,0.37,0.37}{\textit{#1}}}
 
 \usepackage{longtable,booktabs,array}
 \newcounter{none} % for unnumbered tables
@@ -236,7 +276,7 @@
 
 \title{ODK Collect treeCensus Manual}
 \author{Alexandre Adalardo de Oliveira}
-\date{2026-09-11}
+\date{2026-09-28}
 \begin{document}
 \maketitle
 
@@ -247,26 +287,22 @@
 % Upper part of the page. The '~' is needed because \\
 % only works if a paragraph has started.
 
-\textsc{\large Manual ODK-PPSP}\\
-\vspace{1cm}
+\textsc{\large Manual odkTreeCensus}\\
+\vspace{3cm}
 % Title
 \HRule \\
-{\Large \bfseries Aplicativo de coleta de dados em campo por dispositivo móvel\\}
-
-% Dinâmica e Biomassa de Árvores da Floresta de
-% Restinga da Ilha do Cardoso: coexistência de espécies e referência para o
-% sensoriamento remoto
+{\Large \bfseries Pacote do R para coleta de dados em campo por dispositivo móvel utilizando o ODK Collect\\}
 
 \HRule 
 
-%\vspace{15cm}
+\vspace{5cm}
 \begin{center}
 \begin{tikzpicture}
   \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
     \textsc{Contexto}\par
 
     \vspace{.5cm}
-Coleta de dados em campo apesar de gerarem muita informação, tem fontes de incertezas e erros envolvidas no próprio procedimento de aquisição da informação. Inventários florestais apresentam várias fontes de erro associada a aquisição da informação, entre as mais importantes estão: anotação errada em campo e transcrição dos dados de papel para o formato digital. Esses erros são custosos para serem resolvidos pois, muitas vezes, demandam o retorno a campo e retomada da medida, além de poderem comprometer as conclusões dos trabalhos científicos. Com o intuito de minimizar erros e agilizar o procedimento de coleta de dados de inventários florestais produzimos um aplicativo para dispositivo móvel que minimiza a entrada de dados com discrepâncias e elimina a fase de transcrição de dados anotados em papel para o formato digital. Acoplado a esse aplicativo desenvolvemos um conjunto de ferramentas assessorias para o processamento, checagem e gestão dos dados. Este documento está focado na fase de coleta de dados utilizando o aplicativo ODK-Colect e o formulário censoPPSP2025.    
+O procedimento de coleta de dados em campo tem fontes de incertezas e erros envolvidas na de aquisição da informação. Entre as fonte de erro mais importantes nos inventários florestais estão: erros na anotação do dado e transcrição da informação em papel para o formato digital. Esses erros são custosos para serem resolvidos, muitas vezes demandando o retorno à campo, o que nem sempre é possível. Evitar fontes de erros no procedimento científico é essencial para não comprometer as conclusões dos trabalhos científicos. O pacote \textbf{odkTreeCensus} tem como objetivos minimizar a entrada de dados com discrepâncias durante a aquisição da informação e eliminar a fase de transcrição de dados anotados em papel. O pacote auxilia na construção e gerenciamento de formulários de entrada de dados para o aplicativo ODK-Collect, criando os arquivos necessários e gerenciando a entrada e saída de dados.    
 
 };
 \end{tikzpicture}
@@ -337,9 +373,161 @@ coleta de dados via ODK Collect.
 
 \bookmarksetup{startatroot}
 
-\chapter{}\label{section}
+\chapter{Criar projeto no ODK
+Collect}\label{criar-projeto-no-odk-collect}
 
-\input{latex/installForm.tex}
+ \input{latex/capa.tex}
+
+\section{Instalando pacote
+odkTreeCensus}\label{instalando-pacote-odktreecensus}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DocumentationTok{\#\# verifica se tem o pacote remotes e caso nao tenha instala}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\StringTok{"remotes"} \SpecialCharTok{\%in\%} \FunctionTok{rownames}\NormalTok{(}\FunctionTok{installed.packages}\NormalTok{()))}
+\NormalTok{\{}
+    \FunctionTok{install.package}\NormalTok{(}\StringTok{"remote"}\NormalTok{)}
+\NormalTok{\}}
+\DocumentationTok{\#\# Verifica se o odkTreeCensus está carregado na sessão}
+\ControlFlowTok{if}\NormalTok{(}\StringTok{"package:odkTreeCensus"} \SpecialCharTok{\%in\%} \FunctionTok{search}\NormalTok{())}
+\NormalTok{\{}
+    \FunctionTok{detach}\NormalTok{(}\StringTok{"package:odkTreeCensus"}\NormalTok{, }\AttributeTok{unload =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{\}}
+\DocumentationTok{\#\# verifica sem tem o odkTreeCensus e desinstala}
+\ControlFlowTok{if}\NormalTok{(}\StringTok{"odkTreeCensus"} \SpecialCharTok{\%in\%} \FunctionTok{rownames}\NormalTok{(}\FunctionTok{installed.packages}\NormalTok{()))}
+\NormalTok{\{}
+    \FunctionTok{remove.packages}\NormalTok{(}\StringTok{"odkTreeCensus"}\NormalTok{)}
+\NormalTok{\}}
+\DocumentationTok{\#\# instala a versao recente do odkTreeCensus}
+
+\NormalTok{remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"adalardo/odkTreeCensus"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Transcreve formulário xml}\label{transcreve-formuluxe1rio-xml}
+
+Aqui só é necessário transcrever se houve alguma alteração no formulário
+xlsx depois da instalação do pacote.
+
+O formulário é criado em xlsx no libreOffice. É preciso traduzir para
+formato xml utilizando o pacote do python pyxform. O pyxform foi
+incorporado no pacote do R, assim como o `'treeCensusForm.xlsx'\,' e o
+``treeCensusForm.xml''.
+
+Este procedimento é dispensável, o pacote já é distribuído com o
+formulário xml traduzido.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(}\StringTok{"odkTreeCensus"}\NormalTok{)}
+\NormalTok{xlsxfile }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk/treeCensusForm.xlsx"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\FunctionTok{xmlForm}\NormalTok{(}\AttributeTok{xlsxPath =}\NormalTok{ xlsxfile, }\AttributeTok{xmlPath =} \StringTok{"../odkData/treeCensusForm.xlsx"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Copia o caminho do formulário
+XML}\label{copia-o-caminho-do-formuluxe1rio-xml}
+
+Copiando o caminho onde se encontra o formulário xml do pacote
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xmlPath }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk/treeCensusForm.xml"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Criar arquivos de dados
+acessórios}\label{criar-arquivos-de-dados-acessuxf3rios}
+
+Todos os arquivos de dados que acompanham o formulário no ODK Collect
+devem ser arquivos em texto puro no formato csv, separado por ``,'' e
+decimal ``.''.
+
+\subsection{Dados das árvores do último censo e códigos de
+subparcelas}\label{dados-das-uxe1rvores-do-uxfaltimo-censo-e-cuxf3digos-de-subparcelas}
+
+O \texttt{lastcensus.csv} é um arquivo de dados do censo anterior. Veja
+o \texttt{help(lastCensusODK)}. Os arquivos \texttt{xcode.csv} e
+\texttt{ycode.csv} são códigos das subparcelas do plot e tem duas
+colunas \texttt{label} e \texttt{name}, que identificam as subparcelas
+no eixo x e y. As colunas podem ter a mesma informação, mas ambas são
+necessárias.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{help}\NormalTok{(lastCensusODK)}
+
+\NormalTok{peic19 }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \StringTok{"/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv"}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(peic19)}
+\NormalTok{xCode }\OtherTok{\textless{}{-}}\NormalTok{  LETTERS[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{]}
+\NormalTok{yCode }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%02d"}\NormalTok{, }\DecValTok{0}\SpecialCharTok{:}\DecValTok{15}\NormalTok{)}
+\NormalTok{dirODK }\OtherTok{\textless{}{-}} \StringTok{"/home/aao/Ale2026/AleProjetos/Rpackages/odkData"}
+\FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ xCode, }\AttributeTok{label =}\NormalTok{ xCode), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"xcode.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ yCode, }\AttributeTok{label =}\NormalTok{ yCode), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"ycode.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+
+\NormalTok{odkdata }\OtherTok{\textless{}{-}} \FunctionTok{lastCensusODK}\NormalTok{(}\AttributeTok{data =}\NormalTok{ peic19 , }\AttributeTok{splitX =} \DecValTok{5}\NormalTok{, }\AttributeTok{splitY =} \DecValTok{5}\NormalTok{, }\AttributeTok{maxX =} \DecValTok{20}\NormalTok{, }\AttributeTok{maxY =} \DecValTok{20}\NormalTok{, }\AttributeTok{subPlotCodeX =}\NormalTok{ xCode, }\AttributeTok{subPlotCodeY =}\NormalTok{ yCode, }\AttributeTok{dirData =}\NormalTok{ dirODK, }\AttributeTok{save =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Equipe}\label{equipe}
+
+O arquivo \texttt{team.csv} contém duas colunas: \texttt{name} e
+\texttt{label} nome e apelido dos membros da equipe de campo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{nome }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Alexandre Adalardo"}\NormalTok{, }\StringTok{"Marcel Zimmermann"}\NormalTok{, }\StringTok{"Luisa Truffi"}\NormalTok{)}
+\NormalTok{apelido }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"AAO"}\NormalTok{, }\StringTok{"GIL"}\NormalTok{, }\StringTok{"LU"}\NormalTok{)}
+
+\FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ nome, }\AttributeTok{label =}\NormalTok{ apelido), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"team.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Lista de Espécies}\label{lista-de-espuxe9cies}
+
+A lista de espécies contempla todos os nomes, válidos, morfotipos e
+\texttt{indet} para todos os níveis taxonômicos a partir de familia. O
+arquivo deve-se chamar \texttt{splist.csv}. A função \texttt{spList()}
+cria no formato adequado à partir de um arquivo \texttt{fam} e
+\texttt{species}. Gera \texttt{gen} se não houver.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(peic19)}
+\NormalTok{splist }\OtherTok{\textless{}{-}} \FunctionTok{spList}\NormalTok{(}\AttributeTok{data =}\NormalTok{ odkdata, }\AttributeTok{dirData =}\NormalTok{ dirODK, }\AttributeTok{saveFile =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(splist)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Dados de tags por
+subquadrat}\label{dados-de-tags-por-subquadrat}
+
+Essa informação é importante para a lista de tags não encontradas, o
+formato é de uma coluna \texttt{subq} como o código do subquadrat e
+\texttt{tags} contendo todas as tags do subquadrat separadas por espaço
+no mesmo campo.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{subqTags}\NormalTok{(}\AttributeTok{data =}\NormalTok{ odkdata, }\AttributeTok{dirData =}\NormalTok{ dirODK, }\AttributeTok{saveFile =} \ConstantTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{subqkey.csv}\label{subqkey.csv}
+
+\subsection{gridid.csv}\label{gridid.csv}
+
+\section{Mapas e Grids svg}\label{mapas-e-grids-svg}
+
+\subsection{Seleção de subquadrat}\label{seleuxe7uxe3o-de-subquadrat}
+
+\subsection{Mapas para a seleção de
+árvores}\label{mapas-para-a-seleuxe7uxe3o-de-uxe1rvores}
+
+\subsection{Grid para mapeamento de
+árvores}\label{grid-para-mapeamento-de-uxe1rvores}
+
+\subsection{}\label{section}
 
 
 

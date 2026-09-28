@@ -121,8 +121,8 @@ subqTags <- function(data, dirData = getwd(), saveFile = TRUE)
     nsubq <- length(subq)
     for(i in 1:nsubq)
     {
-        sq <- subq[i]
-        subqtags[i, ] <- paste(data$tag[which(data$subquad == sq)], collapse = " ")
+        sq <- subqtags$subq[i]
+        subqtags$tags[i] <- paste(data$tag[which(data$subquad == sq)], collapse = " ")
     }
     if(saveFile)
     {

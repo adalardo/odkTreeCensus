@@ -5,11 +5,24 @@
 
 ## Criar projeto no ODK Collect
 
+
+
+
+## Instalando pacote odkTreeCensus
+
+
 ```{r }
+#| echo: TRUE
+#| eval: false
 ## verifica se tem o pacote remotes e caso nao tenha instala
 if(!"remotes" %in% rownames(installed.packages()))
 {
     install.package("remote")
+}
+## Verifica se o odkTreeCensus está carregado na sessão
+if("package:odkTreeCensus" %in% search())
+{
+    detach("package:odkTreeCensus", unload = TRUE)
 }
 ## verifica sem tem o odkTreeCensus e desinstala
 if("odkTreeCensus" %in% rownames(installed.packages()))
@@ -20,29 +33,114 @@ if("odkTreeCensus" %in% rownames(installed.packages()))
 
 remotes::install_github("adalardo/odkTreeCensus")
 
+```
+
+
+## Transcreve formulário xml
+
+Aqui só é necessário transcrever se houve alguma alteração no formulário xlsx depois da instalação do pacote. 
+
+O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato xml utilizando o pacote do python pyxform. O pyxform foi incorporado no pacote do R, assim como o ''treeCensusForm.xlsx'' e o "treeCensusForm.xml".
+
+Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido. 
+
+```{r }
+#| echo: TRUE
+#| eval: false
+library("odkTreeCensus")
+xlsxfile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
+xmlForm(xlsxPath = xlsxfile, xmlPath = "../odkData/treeCensusForm.xlsx")
+
+```
+
+## Copia o caminho do formulário XML
+
+Copiando o caminho onde se encontra o formulário xml do pacote
+
+```{r }
+#| echo: TRUE
+#| eval: false
+xmlPath <- system.file("odk/treeCensusForm.xml", package = "odkTreeCensus")
+
+```
+
+
+## Criar arquivos de dados acessórios
+
+Todos os arquivos de dados que acompanham o formulário no ODK Collect devem ser arquivos em texto puro no formato csv, separado por "," e decimal ".".
+
+### Dados das árvores do último censo e códigos de subparcelas
+
+O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. Os arquivos `xcode.csv` e `ycode.csv` são códigos das subparcelas do plot e tem duas colunas `label` e `name`, que identificam as subparcelas no eixo x e y. As colunas podem ter a mesma informação, mas ambas são necessárias.  
+
+
+
+
+```{r }
+#| echo: TRUE
+#| eval: false
+help(lastCensusODK)
+
+peic19 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
+str(peic19)
+xCode <-  LETTERS[1:16]
+yCode <- sprintf("%02d", 0:15)
+dirODK <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkData"
+write.table(data.frame(name = xCode, label = xCode), file = file.path(dirODK,"xcode.csv"),  sep = ',', row.names = FALSE)
+write.table(data.frame(name = yCode, label = yCode), file = file.path(dirODK,"ycode.csv"),  sep = ',', row.names = FALSE)
+
+odkdata <- lastCensusODK(data = peic19 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
+
+```
+
+### Equipe 
+
+O arquivo `team.csv` contém duas colunas: `name` e `label` nome e apelido dos membros da equipe de campo.
+
+```{r }
+#| echo: TRUE
+#| eval: false
+
+nome <- c("Alexandre Adalardo", "Marcel Zimmermann", "Luisa Truffi")
+apelido <- c("AAO", "GIL", "LU")
+
+write.table(data.frame(name = nome, label = apelido), file = file.path(dirODK,"team.csv"),  sep = ',', row.names = FALSE)
+
 
 
 ```
 
-## Instalando pacote odkTreeCensus
+### Lista de Espécies
 
-## Transcrever formulário xml
+A lista de espécies contempla todos os nomes, válidos, morfotipos e `indet` para todos os níveis taxonômicos a partir de familia. O arquivo deve-se chamar `splist.csv`. A função `spList()` cria no formato adequado  à partir de um arquivo `fam` e `species`. Gera `gen` se não houver.
 
-## Criar arquivos de dados acessórios
 
-### lastCensus.csv
+```{r }
+#| echo: TRUE
+#| eval: FALSE
 
-### splist.csv
+str(peic19)
+splist <- spList(data = odkdata, dirData = dirODK, saveFile = TRUE)
+str(splist)
+```
+
+
+### Dados de tags por subquadrat
+
+Essa informação é importante para a lista de tags não encontradas, o formato é de uma coluna `subq` como o código do subquadrat e `tags` contendo todas as tags do subquadrat separadas por espaço no mesmo campo. 
+
+```{r }
+#| echo: TRUE
+#| eval: FALSE
+
+subqTags(data = odkdata, dirData = dirODK, saveFile = TRUE)
+
+
+```
+
 
 ### subqkey.csv
 
-### subqtags.csv
-
-### team.csv
-
-### xcode.csv
-
-### ycode.csv
 
 ### gridid.csv
 
@@ -61,6 +159,6 @@ remotes::install_github("adalardo/odkTreeCensus")
 #| echo: false
 #| eval: false
 
-quarto::quarto_render("vignettes/treeCensus.qmd")
+quarto::quarto_render("vignettes/treeCensusManual.qmd")
 rlang::last_trace()
 ```
