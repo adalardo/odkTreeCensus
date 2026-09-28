@@ -28,21 +28,31 @@ svgGrid(
 
 \item{subPlotCode}{Character string that indetified subplot code.}
 
+\item{subqSize}{size of subquadrat.}
+
 \item{gridSize}{numeric vector. Size of the grid cell for mapping.}
 
 \item{svgSave}{logical, if TRUE the device is exported to a svg file.}
 
-\item{wd2save}{character string indicating the directory to save the svg fi}
+\item{wd2save}{character string indicating the directory to save the svg file}
 
-\item{dx}{name of the variável in censoData that contains the subplot x coord}
+\item{dx}{name of the variável in censoData that contains the subplot x coordinate}
 
 \item{dy}{name of the variável in censoData that contains the subplot y coordenate of the trees.}
 
-\item{status}{the size of the subquadrat to map in each graphic.}
+\item{tag}{name of variable with tag code.}
+
+\item{dbhcm}{name of variable with diameter at breast height in cm.}
+
+\item{status}{name of the variable with the status of the tree ("A" = alive, "D" = dead).}
 
 \item{subquad}{a character string of the name of the subquad variable, representing some subunit of the subplot.}
 
 \item{mapSize}{size of the figure in inchs.}
+
+\item{vpSize}{viewport size.}
+
+\item{fontSize}{font size.}
 
 \item{diagonal}{logical, if TRUE the diagonals will be plot.}
 }
@@ -59,7 +69,7 @@ A figure to select mapping position
 
 }
 \seealso{
-\code{\link{gridSVG}}
+\code{\link[gridSVG]{gridSVG}}
 \url{http://labtrop.ib.usp.br}
 }
 \author{

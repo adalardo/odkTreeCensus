@@ -95,13 +95,13 @@
           <text id="dbh_min-4">
             <value>Outro valor</value>
           </text>
-          <text id="quad_size-0">
+          <text id="subq_size-0">
             <value>5x5 m</value>
           </text>
-          <text id="quad_size-1">
+          <text id="subq_size-1">
             <value>10x10 m</value>
           </text>
-          <text id="quad_size-2">
+          <text id="subq_size-2">
             <value>20x20 m</value>
           </text>
           <text id="piq_cond-0">
@@ -416,52 +416,52 @@
           <text id="dif_error-8">
             <value>Outro tipo de evidência</value>
           </text>
-          <text id="quad_num-0">
+          <text id="subq_num-0">
             <value>0_0</value>
           </text>
-          <text id="quad_num-1">
+          <text id="subq_num-1">
             <value>0_5</value>
           </text>
-          <text id="quad_num-2">
+          <text id="subq_num-2">
             <value>0_10</value>
           </text>
-          <text id="quad_num-3">
+          <text id="subq_num-3">
             <value>0_15</value>
           </text>
-          <text id="quad_num-4">
+          <text id="subq_num-4">
             <value>5_0</value>
           </text>
-          <text id="quad_num-5">
+          <text id="subq_num-5">
             <value>5_5</value>
           </text>
-          <text id="quad_num-6">
+          <text id="subq_num-6">
             <value>5_10</value>
           </text>
-          <text id="quad_num-7">
+          <text id="subq_num-7">
             <value>5_15</value>
           </text>
-          <text id="quad_num-8">
+          <text id="subq_num-8">
             <value>10_0</value>
           </text>
-          <text id="quad_num-9">
+          <text id="subq_num-9">
             <value>10_5</value>
           </text>
-          <text id="quad_num-10">
+          <text id="subq_num-10">
             <value>10_10</value>
           </text>
-          <text id="quad_num-11">
+          <text id="subq_num-11">
             <value>10_15</value>
           </text>
-          <text id="quad_num-12">
+          <text id="subq_num-12">
             <value>15_0</value>
           </text>
-          <text id="quad_num-13">
+          <text id="subq_num-13">
             <value>15_5</value>
           </text>
-          <text id="quad_num-14">
+          <text id="subq_num-14">
             <value>15_10</value>
           </text>
-          <text id="quad_num-15">
+          <text id="subq_num-15">
             <value>15_15</value>
           </text>
           <text id="/data/username:label">
@@ -1964,13 +1964,13 @@
           <text id="dbh_min-4">
             <value>Another value</value>
           </text>
-          <text id="quad_size-0">
+          <text id="subq_size-0">
             <value>5x5 m</value>
           </text>
-          <text id="quad_size-1">
+          <text id="subq_size-1">
             <value>10x10 m</value>
           </text>
-          <text id="quad_size-2">
+          <text id="subq_size-2">
             <value>20x20 m</value>
           </text>
           <text id="piq_cond-0">
@@ -2285,52 +2285,52 @@
           <text id="dif_error-8">
             <value>Other type of evidence</value>
           </text>
-          <text id="quad_num-0">
+          <text id="subq_num-0">
             <value>0_0</value>
           </text>
-          <text id="quad_num-1">
+          <text id="subq_num-1">
             <value>0_5</value>
           </text>
-          <text id="quad_num-2">
+          <text id="subq_num-2">
             <value>0_10</value>
           </text>
-          <text id="quad_num-3">
+          <text id="subq_num-3">
             <value>0_15</value>
           </text>
-          <text id="quad_num-4">
+          <text id="subq_num-4">
             <value>5_0</value>
           </text>
-          <text id="quad_num-5">
+          <text id="subq_num-5">
             <value>5_5</value>
           </text>
-          <text id="quad_num-6">
+          <text id="subq_num-6">
             <value>5_10</value>
           </text>
-          <text id="quad_num-7">
+          <text id="subq_num-7">
             <value>5_15</value>
           </text>
-          <text id="quad_num-8">
+          <text id="subq_num-8">
             <value>10_0</value>
           </text>
-          <text id="quad_num-9">
+          <text id="subq_num-9">
             <value>10_5</value>
           </text>
-          <text id="quad_num-10">
+          <text id="subq_num-10">
             <value>10_10</value>
           </text>
-          <text id="quad_num-11">
+          <text id="subq_num-11">
             <value>10_15</value>
           </text>
-          <text id="quad_num-12">
+          <text id="subq_num-12">
             <value>15_0</value>
           </text>
-          <text id="quad_num-13">
+          <text id="subq_num-13">
             <value>15_5</value>
           </text>
-          <text id="quad_num-14">
+          <text id="subq_num-14">
             <value>15_10</value>
           </text>
-          <text id="quad_num-15">
+          <text id="subq_num-15">
             <value>15_15</value>
           </text>
           <text id="/data/username:label">
@@ -3830,13 +3830,13 @@
           <text id="dbh_min-4">
             <value>Otro valor</value>
           </text>
-          <text id="quad_size-0">
+          <text id="subq_size-0">
             <value>5x5 m</value>
           </text>
-          <text id="quad_size-1">
+          <text id="subq_size-1">
             <value>10x10 m</value>
           </text>
-          <text id="quad_size-2">
+          <text id="subq_size-2">
             <value>20x20 m</value>
           </text>
           <text id="piq_cond-0">
@@ -3891,7 +3891,7 @@
             <value>subquad</value>
           </text>
           <text id="tag_key-0">
-            <value>arv_key</value>
+            <value>tag_key</value>
           </text>
           <text id="xyid-0">
             <value>xyid</value>
@@ -4151,52 +4151,52 @@
           <text id="dif_error-8">
             <value>Otro tipo de evidencia</value>
           </text>
-          <text id="quad_num-0">
+          <text id="subq_num-0">
             <value>0_0</value>
           </text>
-          <text id="quad_num-1">
+          <text id="subq_num-1">
             <value>0_5</value>
           </text>
-          <text id="quad_num-2">
+          <text id="subq_num-2">
             <value>0_10</value>
           </text>
-          <text id="quad_num-3">
+          <text id="subq_num-3">
             <value>0_15</value>
           </text>
-          <text id="quad_num-4">
+          <text id="subq_num-4">
             <value>5_0</value>
           </text>
-          <text id="quad_num-5">
+          <text id="subq_num-5">
             <value>5_5</value>
           </text>
-          <text id="quad_num-6">
+          <text id="subq_num-6">
             <value>5_10</value>
           </text>
-          <text id="quad_num-7">
+          <text id="subq_num-7">
             <value>5_15</value>
           </text>
-          <text id="quad_num-8">
+          <text id="subq_num-8">
             <value>10_0</value>
           </text>
-          <text id="quad_num-9">
+          <text id="subq_num-9">
             <value>10_5</value>
           </text>
-          <text id="quad_num-10">
+          <text id="subq_num-10">
             <value>10_10</value>
           </text>
-          <text id="quad_num-11">
+          <text id="subq_num-11">
             <value>10_15</value>
           </text>
-          <text id="quad_num-12">
+          <text id="subq_num-12">
             <value>15_0</value>
           </text>
-          <text id="quad_num-13">
+          <text id="subq_num-13">
             <value>15_5</value>
           </text>
-          <text id="quad_num-14">
+          <text id="subq_num-14">
             <value>15_10</value>
           </text>
-          <text id="quad_num-15">
+          <text id="subq_num-15">
             <value>15_15</value>
           </text>
           <text id="/data/username:label">
@@ -5613,7 +5613,7 @@
         </translation>
       </itext>
       <instance>
-        <data id="treeCensus" version="20260918.01">
+        <data id="treeCensus" version="20260928.01">
           <today/>
           <start/>
           <end/>
@@ -6510,18 +6510,18 @@
           </item>
         </root>
       </instance>
-      <instance id="quad_size">
+      <instance id="subq_size">
         <root>
           <item>
-            <itextId>quad_size-0</itextId>
+            <itextId>subq_size-0</itextId>
             <name>size5</name>
           </item>
           <item>
-            <itextId>quad_size-1</itextId>
+            <itextId>subq_size-1</itextId>
             <name>size10</name>
           </item>
           <item>
-            <itextId>quad_size-2</itextId>
+            <itextId>subq_size-2</itextId>
             <name>size20</name>
           </item>
         </root>
@@ -7014,71 +7014,71 @@
           </item>
         </root>
       </instance>
-      <instance id="quad_num">
+      <instance id="subq_num">
         <root>
           <item>
-            <itextId>quad_num-0</itextId>
-            <name>quad_0x0</name>
+            <itextId>subq_num-0</itextId>
+            <name>subq_0x0</name>
           </item>
           <item>
-            <itextId>quad_num-1</itextId>
-            <name>quad_0x5</name>
+            <itextId>subq_num-1</itextId>
+            <name>subq_0x5</name>
           </item>
           <item>
-            <itextId>quad_num-2</itextId>
-            <name>quad_0x10</name>
+            <itextId>subq_num-2</itextId>
+            <name>subq_0x10</name>
           </item>
           <item>
-            <itextId>quad_num-3</itextId>
-            <name>quad_0x15</name>
+            <itextId>subq_num-3</itextId>
+            <name>subq_0x15</name>
           </item>
           <item>
-            <itextId>quad_num-4</itextId>
-            <name>quad_5x0</name>
+            <itextId>subq_num-4</itextId>
+            <name>subq_5x0</name>
           </item>
           <item>
-            <itextId>quad_num-5</itextId>
-            <name>quad_5x5</name>
+            <itextId>subq_num-5</itextId>
+            <name>subq_5x5</name>
           </item>
           <item>
-            <itextId>quad_num-6</itextId>
-            <name>quad_5x10</name>
+            <itextId>subq_num-6</itextId>
+            <name>subq_5x10</name>
           </item>
           <item>
-            <itextId>quad_num-7</itextId>
-            <name>quad_5x15</name>
+            <itextId>subq_num-7</itextId>
+            <name>subq_5x15</name>
           </item>
           <item>
-            <itextId>quad_num-8</itextId>
-            <name>quad_10x0</name>
+            <itextId>subq_num-8</itextId>
+            <name>subq_10x0</name>
           </item>
           <item>
-            <itextId>quad_num-9</itextId>
-            <name>quad_10x5</name>
+            <itextId>subq_num-9</itextId>
+            <name>subq_10x5</name>
           </item>
           <item>
-            <itextId>quad_num-10</itextId>
-            <name>quad_10x10</name>
+            <itextId>subq_num-10</itextId>
+            <name>subq_10x10</name>
           </item>
           <item>
-            <itextId>quad_num-11</itextId>
-            <name>quad_10x15</name>
+            <itextId>subq_num-11</itextId>
+            <name>subq_10x15</name>
           </item>
           <item>
-            <itextId>quad_num-12</itextId>
-            <name>quad_15x0</name>
+            <itextId>subq_num-12</itextId>
+            <name>subq_15x0</name>
           </item>
           <item>
-            <itextId>quad_num-13</itextId>
-            <name>quad_15x5</name>
+            <itextId>subq_num-13</itextId>
+            <name>subq_15x5</name>
           </item>
           <item>
-            <itextId>quad_num-14</itextId>
-            <name>quad_15x10</name>
+            <itextId>subq_num-14</itextId>
+            <name>subq_15x10</name>
           </item>
           <item>
-            <itextId>quad_num-15</itextId>
-            <name>quad_15x15</name>
+            <itextId>subq_num-15</itextId>
+            <name>subq_15x15</name>
           </item>
         </root>
       </instance>
@@ -7528,7 +7528,7 @@
       <select1 ref="/data/local/work_size">
         <label ref="jr:itext('/data/local/work_size:label')"/>
         <hint ref="jr:itext('/data/local/work_size:hint')"/>
-        <itemset nodeset="instance('quad_size')/root/item">
+        <itemset nodeset="instance('subq_size')/root/item">
           <value ref="name"/>
           <label ref="jr:itext(itextId)"/>
         </itemset>
@@ -7587,7 +7587,7 @@
         <select1 ref="/data/subquad/quad5" appearance="image-map">
           <label ref="jr:itext('/data/subquad/quad5:label')"/>
           <hint ref="jr:itext('/data/subquad/quad5:hint')"/>
-          <itemset nodeset="instance('quad_num')/root/item">
+          <itemset nodeset="instance('subq_num')/root/item">
             <value ref="name"/>
             <label ref="jr:itext(itextId)"/>
           </itemset>
@@ -7595,7 +7595,7 @@
         <select1 ref="/data/subquad/quad10" appearance="image-map">
           <label ref="jr:itext('/data/subquad/quad10:label')"/>
           <hint ref="jr:itext('/data/subquad/quad10:hint')"/>
-          <itemset nodeset="instance('quad_num')/root/item">
+          <itemset nodeset="instance('subq_num')/root/item">
             <value ref="name"/>
             <label ref="jr:itext(itextId)"/>
           </itemset>

@@ -27,9 +27,9 @@ svgMap(
 
 \item{svgSave}{logical, if TRUE the device is exported to a svg file.}
 
-\item{wd2save}{character string indicating the directory to save the svg fi}
+\item{wd2save}{character string indicating the directory to save the svg file}
 
-\item{dx}{name of the variável in censoData that contains the subplot x coord}
+\item{dx}{name of the variável in censoData that contains the subplot x coordinate of the trees.}
 
 \item{dy}{name of the variável in censoData that contains the subplot y coordenate of the trees.}
 
@@ -46,8 +46,6 @@ svgMap(
 \item{fontSize}{numeric defining the font size.}
 
 \item{diagonal}{logical, if TRUE the diagonals will be ploted.}
-
-\item{subquad}{a character string of the name of the subquad variable, representing some subunit of the subplot.}
 }
 \value{
 'svgGrid' returns figure device and export a svg file.
@@ -57,11 +55,11 @@ Map of trees from permanent plot based on cartesian coordinates
 }
 \examples{
 \dontrun{
- svgMap(dataplot, svgSave =FALSE)
+ svgMap(dataplot, svgSave = FALSE)
 }
 }
 \seealso{
-\code{\link{gridSVG}}
+\code{\link[gridSVG]{gridSVG}}
 \url{http://labtrop.ib.usp.br}
 }
 \author{

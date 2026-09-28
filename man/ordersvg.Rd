@@ -29,6 +29,14 @@ ordersvg(
 \item{dx}{between 0 to max.size . Tree mapping X coordinate.}
 
 \item{dy}{between 0 to max.size . Tree mapping Y coordinate.}
+
+\item{tag}{tag identifier variable name.}
+
+\item{dap}{diameter at breast height variable name.}
+
+\item{error}{error type variable name.}
+
+\item{mapSize}{map size in inches.}
 }
 \value{
 'mapsvg' returns tree mapped svg mapped with svg pattern ids.
@@ -37,14 +45,11 @@ ordersvg(
 Map of trees from permanent plot based on cartesian coordinates
 }
 \seealso{
-\code{\link{gridSVG}}
+\code{\link[gridSVG]{gridSVG}}
 \url{http://labtrop.ib.usp.br}
 
 \dontrun{
 dataplot <- data.frame(dx = runif(100, 0,20), dy = runif(100,0,20), quad = rep(paste("quad", 0:1, sep="_"), each=50), dap =rnbinom(100,10,0.5), status="A", tag = 1:100)
-auditsvg(dataplot, save.svg =FALSE)
+ordersvg(dataplot, save.svg = FALSE)
 }
-}
-\author{
-Alexandre Adalardo de Oliveira \email{aleadalardo@gmail.com}
 }
