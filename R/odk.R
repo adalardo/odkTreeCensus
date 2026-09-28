@@ -439,7 +439,7 @@ censoAudit <- function(expDir = getwd(), olddata = "peic09.csv", allsubdir = TRU
 ###########################
 ### ACTUAL CENSUS DATA
 ###########################
-    datatree <- mergeData(basedir = expDir, save.files = FALSE, media.merge= FALSE)
+    datatree <- mergeData(expDir = expDir, saveFiles = FALSE, mergeMedia = FALSE)
     tree <- datatree$tree
     tree$key_tree <- gsub(".*/sub", "sub", tree$key_tree)
     tree <- tree[,-c(grep("key_quad", names(tree)))]
