@@ -126,7 +126,7 @@ subqTags <- function(data, dirData = getwd(), saveFile = TRUE)
     }
     if(saveFile)
     {
-        write.table(subqtags, file.path(dirData,"subqtags.csv"), row.names = FALSE)
+        write.table(subqtags, file.path(dirData,"subqtags.csv"), row.names = FALSE, sep = ",")
     }
     invisible(subqtags)
 }
