@@ -140,14 +140,54 @@ subqTags(data = odkdata, dirData = dirODK, saveFile = TRUE)
 ```
 
 
-### subqkey.csv
+## Mapas e Grids svg
+
+Os mapas e grids do formulário foram feitos em `svg` para permitir a seleção de elementos na imagem. Para isso usamos os pacotes `grid` e `gridSVG`. 
+
+### Os rótulos para os svg
+
+Para que os elementos do `svg` sejam selecionados é preciso que os rótulos sejam opções na planilha `choices` do formulário `xlsx`. Quando há muitas opções é preferível incorporá-las em um arquivo `csv`.
+
+Como os mapas incorporam uma borda além do `subquadrat` é preciso fazer um objeto de dados de mapas, completo. Esse arquivo é uma lista grande quando é feito para a parcela toda, mas pode ser feito parcialmente para subparcelas.
+
+
+```{r }
+
+subplot <- sort(unique(odkdata$quad))
+mapdata <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplot, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
+sk <- subqKey(dataMap = mapdata, dirData = dirODK, saveFile = TRUE)
+str(sk)
+sk[sk$subq == "A00_0x0", ]
+
+
+```
+
 
 
 ### gridid.csv
 
-## Mapas e Grids svg
+
+```{r }
+subqSize = 5
+gridSize = .2
+xseq <-  rep(seq(0.0, subqSize - gridSize, by = gridSize), each = subqSize/gridSize)
+yseq <-  rep(seq(0.0, subqSize - gridSize, by = gridSize), subqSize/gridSize)
+
+xyid  <-  paste("x = ",sprintf("%1.1f", xseq), "; y = ", sprintf("%1.1f", yseq),"; .1", sep="")
+write.table(data.frame(xyid = xyid, xseq = xseq, yseq = yseq), file = file.path(dirODK, "gridid.csv"),row.names = FALSE, sep = ",")
+ 
+```
 
 ### Seleção de subquadrat
+
+O mapa que gera a figura com os subquadrats para serem selecionados. Preciso ajustar os argumentos para ficar no padrão das outras funções.
+
+```{r }
+selSubq(xmax = 20, ymax = 20, subqX = 5, subqY = 5, mapSize = c(10,10), fontSize = 14, wd2save = dirODK)
+
+
+```
+
 
 ### Mapas para a seleção de árvores
 

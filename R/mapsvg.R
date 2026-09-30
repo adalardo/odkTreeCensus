@@ -147,7 +147,6 @@ svgGrid <- function(censoData, subPlotCode = "A00", subqSize = 5, gridSize = 0.2
         {
             subqNum = subqSize
         }
- 
 #############
 ## plot here
 #############
@@ -347,40 +346,94 @@ ordersvg <- function(audit, quad = "A00", save.svg = TRUE, wd = getwd(), dx = "n
 # plot end
 #######################################        
 }
+#######################################
+#' Generate and Export Subquadrat Grid Map as SVG
+#'
+#' Creates a grid plot representing subquadrats using \code{grid} graphics, exports 
+#' it to SVG via \code{gridSVG}, and post-processes the XML output to clean up 
+#' automatically generated suffix suffixes in element IDs.
+#'
+#' @param xmax Numeric. Maximum boundary on the X-axis in native units. Default is \code{20}.
+#' @param ymax Numeric. Maximum boundary on the Y-axis in native units. Default is \code{20}.
+#' @param subqX Numeric. Dimension of each subquadrat along the X-axis. Default is \code{5}.
+#' @param subqY Numeric. Dimension of each subquadrat along the Y-axis. Default is \code{5}.
+#' @param mapSize Numeric vector of length 2. Physical device dimensions (width, height) in inches. Default is \code{c(10, 10)}.
+#' @param fontSize Numeric. Font size for axis tick labels. Default is \code{14}.
+#' @param vpSize Numeric vector of length 2. Relative width and height of the grid viewport within the device (\code{0} to \code{1}). Default is \code{c(0.8, 0.8)}.
+#' @param wd2save Character string. Directory path where the generated SVG file will be saved. Defaults to the current working directory \code{getwd()}.
+#'
+#' @return Invisibly returns \code{NULL}. As a side effect, exports and overwrites an SVG file named \code{subPar<subqNum>.svg} in \code{wd2save}.
+#'
+#' @importFrom grid viewport pushViewport grid.rect grid.xaxis grid.yaxis gpar
+#' @importFrom gridSVG gridsvg dev.off
+#' @importFrom grDevices rgb dev.cur
+#'
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' # Generate a 20x20 plot with 5x5 subquadrats saved in the current directory
+#' selSubq(xmax = 20, ymax = 20, subqX = 5, subqY = 5)
+#' 
+#' # Custom dimensions and output path
+#' selSubq(xmax = 50, ymax = 50, subqX = 10, subqY = 10, wd2save = tempdir())
+#' }
+selSubq <- function(xmax = 20, ymax = 20, subqX = 5, subqY = 5, 
+                    mapSize = c(10, 10), fontSize = 14, 
+                    vpSize = c(0.8, 0.8), wd2save = getwd()) {
+  
+  # 0. Prevenção: Reseta o dispositivo interno do gridSVG caso esteja travado
+  if (exists(".gridSVGEnv", envir = asNamespace("gridSVG"))) {
+    assign("gridSVGdev", 0, envir = asNamespace("gridSVG")$.gridSVGEnv)
+  }
 
-selSubq <- function(xmax = 20, ymax = 20, subqX= 5, subqY = 5, mapSize = c(10,10), fontSize = 14, vpSize = c(0.8, 0.8), wd2save = getwd())
-{
-    options(warn = -1)
-    if(nchar(subqX) == 1)
-    {
-        subqNum <- paste(0, subqX, sep = "")
+  # 1. Garante que o diretório existe
+  if (!dir.exists(wd2save)) {
+    dir.create(wd2save, recursive = TRUE)
+  }
+
+  subqNum <- if (nchar(subqX) == 1) paste0("0", subqX) else as.character(subqX)
+  filePath <- file.path(wd2save, paste0("subPar", subqNum, ".svg"))
+
+  # 2. Abre o dispositivo gridSVG suprimindo o aviso de uniqueNames = FALSE
+  suppressWarnings(
+    gridSVG::gridsvg(name = filePath, uniqueNames = FALSE, 
+                     width = mapSize[1], height = mapSize[2])
+  )
+  
+  # Rede de segurança para fechar e limpar caso ocorra erro na plotagem
+  on.exit({
+    try(gridSVG::dev.off(), silent = TRUE)
+    if (exists(".gridSVGEnv", envir = asNamespace("gridSVG"))) {
+      assign("gridSVGdev", 0, envir = asNamespace("gridSVG")$.gridSVGEnv)
     }
-    else
-    {
-        subqNum = subqX
-    }
-    gridSVG::gridsvg(name = file.path(wd2save, paste("subPar", subqNum,".svg",sep="")) , uniqueNames=FALSE, width = mapSize[1], height = mapSize[2])
-    vp <- grid::viewport(width = vpSize[1], height = vpSize[2], xscale=c(0,xmax), yscale=c(0, ymax))
-    grid::pushViewport(vp)
-    grid::grid.rect(gp = grid::gpar(col = "black"))
-    grid::grid.xaxis(at=seq(0, xmax, by = subqX), gp = grid::gpar(fontsize = fontSize))
-    grid::grid.yaxis(at=seq(0, ymax, by= subqY), gp = grid::gpar(fontsize = fontSize))
-    xseq = rep(seq(0, xmax - subqX, by = subqX), each = xmax/subqX)
-    yseq = rep(seq(0, xmax - subqY, by = subqY), ymax/subqY)
-    quadkey = paste("subq_", xseq, "x", yseq, sep="")
-##############
-## Grid
-##############
-    for(i in 1: length(xseq))
-    {
-        grid::grid.rect(x = xseq[i] + subqX/2, y = yseq[i]+ subqY/2, width = subqX , height= subqY, gp=grid::gpar(fill = rgb(0, .5, 0, 0.8), lwd =0.1),  default.units="native", name = quadkey[i])
-    }
-    if(!dir.exists(wd2save))
-    {
-        dir.create(wd2save)
-    }
-    dev.off()
-    svg_lines <- readLines(file.path(wd2save, paste("subPar", subqNum,".svg",sep="")))
-    svg_lines <- gsub('id="([^"]+?)\\.[0-9]+(\\.[0-9]+)*"', 'id="\\1"', svg_lines)
-    writeLines(svg_lines, file.path(wd2save, paste("subPar", subqNum,".svg",sep="")) )
+  }, add = TRUE)
+
+  # 3. Construção do gráfico
+  vp <- grid::viewport(width = vpSize[1], height = vpSize[2], 
+                        xscale = c(0, xmax), yscale = c(0, ymax))
+  grid::pushViewport(vp)
+  grid::grid.rect(gp = grid::gpar(col = "black"))
+  grid::grid.xaxis(at = seq(0, xmax, by = subqX), gp = grid::gpar(fontsize = fontSize))
+  grid::grid.yaxis(at = seq(0, ymax, by = subqY), gp = grid::gpar(fontsize = fontSize))
+  
+  xSeq <- rep(seq(0, xmax - subqX, by = subqX), each = xmax / subqX)
+  ySeq <- rep(seq(0, xmax - subqY, by = subqY), ymax / subqY)
+  quadKey <- paste0("subq_", xSeq, "x", ySeq)
+
+  for (i in 1:length(xSeq)) {
+    grid::grid.rect(x = xSeq[i] + subqX / 2, y = ySeq[i] + subqY / 2, 
+                    width = subqX, height = subqY, 
+                    gp = grid::gpar(fill = rgb(0, .5, 0, 0.8), lwd = 0.1),  
+                    default.units = "native", name = quadKey[i])
+  }
+
+  # 4. Escreve o SVG no disco
+    suppressWarnings(gridSVG::dev.off())
+  # 5. Edita os IDs e re-grava (warn = FALSE oculta o aviso de linha final incompleta)
+  svgLines <- readLines(filePath, warn = FALSE)
+  svgLines <- gsub('id="([^"]+?)\\.[0-9]+(\\.[0-9]+)*"', 'id="\\1"', svgLines)
+  writeLines(svgLines, filePath)
+  
+  message(paste("Arquivo gravado com sucesso em:", filePath))
 }
