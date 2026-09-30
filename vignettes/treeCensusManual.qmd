@@ -12,7 +12,7 @@
 
 
 ```{r }
-#| echo: TRUE
+#| echo: true
 #| eval: false
 ## verifica se tem o pacote remotes e caso nao tenha instala
 if(!"remotes" %in% rownames(installed.packages()))
@@ -43,11 +43,19 @@ Aqui só é necessário transcrever se houve alguma alteração no formulário x
 
 O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato xml utilizando o pacote do python pyxform. O pyxform foi incorporado no pacote do R, assim como o ''treeCensusForm.xlsx'' e o "treeCensusForm.xml".
 
+::: {.callout-warning}
+## Atenção
+
+
 Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido. 
 
+:::
+
+
 ```{r }
-#| echo: TRUE
+#| echo: true
 #| eval: false
+
 
 xlsxfile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
 xmlForm(xlsxPath = xlsxfile, xmlPath = "../odkData/treeCensusForm.xlsx")
@@ -59,8 +67,9 @@ xmlForm(xlsxPath = xlsxfile, xmlPath = "../odkData/treeCensusForm.xlsx")
 Copiando o caminho onde se encontra o formulário xml do pacote
 
 ```{r }
-#| echo: TRUE
+#| echo: true
 #| eval: false
+
 xmlPath <- system.file("odk/treeCensusForm.xml", package = "odkTreeCensus")
 
 ```
@@ -68,38 +77,84 @@ xmlPath <- system.file("odk/treeCensusForm.xml", package = "odkTreeCensus")
 
 ## Criar arquivos de dados acessórios
 
-Todos os arquivos de dados que acompanham o formulário no ODK Collect devem ser arquivos em texto puro no formato csv, separado por "," e decimal ".".
+Todos os arquivos de dados que acompanham o formulário no ODK Collect devem ser arquivos em texto puro no formato csv, separado por "," e decimal ".". Eles são criados em um diretorio local no computador para depois serem transferidos para o `ODK Collect`.
+
+
+::: {.callout-tip}
+
+## Importante
+
+
+ude o caminho do objeto `dirODK` para um diretório local do seu computador onde pretende salvar os arquivos de media do `OKD Collect`. Este vai se o diretório de onde os arquivos sẽrão transferidos do computador para o dispositivo móvel com o `ODK Collect`.
+
+
+:::
+
+
+```{r }
+
+#| echo: true
+#| eval: false
+
+dirODK <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkData"
+
+
+
+```
+
 
 ### Dados das árvores do último censo e códigos de subparcelas
 
-O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. Os arquivos `xcode.csv` e `ycode.csv` são códigos das subparcelas do plot e tem duas colunas `label` e `name`, que identificam as subparcelas no eixo x e y. As colunas podem ter a mesma informação, mas ambas são necessárias.  
+O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. 
+
 
 
 
 
 ```{r }
-#| echo: TRUE
-#| eval: false
-help(lastCensusODK)
 
-peic19 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
-str(peic19)
+#| echo: true
+#| eval: false
+
+help(lastCensusODK)
+peic2019 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
+str(peic2019)
+
+save(peicCensus2019, file = "data/lastCensusPEIC.rda", compress = "bzip2")
+dir("data")
+
+
+
+
+lastCensus <- lastCensusODK(data = peic19 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
+str(lastCensus)
+
+
+
+```
+
+## Códigos das subparcelas
+
+Os arquivos `xcode.csv` e `ycode.csv` armazenam os códigos das subparcelas do plot e tem duas colunas `label` e `name`, que identificam as subparcelas no eixo x e y, respectivamente. As colunas podem ter a mesma informação, mas ambas são necessárias.
+
+```{r }
+
 xCode <-  LETTERS[1:16]
 yCode <- sprintf("%02d", 0:15)
-dirODK <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkData"
 write.table(data.frame(name = xCode, label = xCode), file = file.path(dirODK,"xcode.csv"),  sep = ',', row.names = FALSE)
 write.table(data.frame(name = yCode, label = yCode), file = file.path(dirODK,"ycode.csv"),  sep = ',', row.names = FALSE)
 
-odkdata <- lastCensusODK(data = peic19 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
+
 
 ```
+
 
 ### Equipe 
 
 O arquivo `team.csv` contém duas colunas: `name` e `label` nome e apelido dos membros da equipe de campo.
 
 ```{r }
-#| echo: TRUE
+#| echo: true
 #| eval: false
 
 nome <- c("Alexandre Adalardo", "Marcel Zimmermann", "Luisa Truffi")
@@ -117,8 +172,8 @@ A lista de espécies contempla todos os nomes, válidos, morfotipos e `indet` pa
 
 
 ```{r }
-#| echo: TRUE
-#| eval: FALSE
+#| echo: true
+#| eval: false
 
 str(peic19)
 splist <- spList(data = odkdata, dirData = dirODK, saveFile = TRUE)
@@ -131,8 +186,8 @@ str(splist)
 Essa informação é importante para a lista de tags não encontradas, o formato é de uma coluna `subq` como o código do subquadrat e `tags` contendo todas as tags do subquadrat separadas por espaço no mesmo campo. 
 
 ```{r }
-#| echo: TRUE
-#| eval: FALSE
+#| echo: true
+#| eval: false
 
 subqTags(data = odkdata, dirData = dirODK, saveFile = TRUE)
 
@@ -150,8 +205,20 @@ Para que os elementos do `svg` sejam selecionados é preciso que os rótulos sej
 
 Como os mapas incorporam uma borda além do `subquadrat` é preciso fazer um objeto de dados de mapas, completo. Esse arquivo é uma lista grande quando é feito para a parcela toda, mas pode ser feito parcialmente para subparcelas.
 
+::: {.callout-note}
+## Árvores vivas
+
+
+O arquivo está sendo contruído apenas com as árvores vivas no censo anterior, apesar de ser desejável ter árvores morta e desaparecidas, isso provavelmente,deixaria o mapa muito poluído. 
+
+:::
+
+
+
 
 ```{r }
+#| echo: true
+#| eval: false
 
 subplot <- sort(unique(odkdata$quad))
 mapdata <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplot, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
@@ -168,6 +235,9 @@ sk[sk$subq == "A00_0x0", ]
 
 
 ```{r }
+#| echo: true
+#| eval: false
+
 subqSize = 5
 gridSize = .2
 xseq <-  rep(seq(0.0, subqSize - gridSize, by = gridSize), each = subqSize/gridSize)
@@ -175,7 +245,10 @@ yseq <-  rep(seq(0.0, subqSize - gridSize, by = gridSize), subqSize/gridSize)
 
 xyid  <-  paste("x = ",sprintf("%1.1f", xseq), "; y = ", sprintf("%1.1f", yseq),"; .1", sep="")
 write.table(data.frame(xyid = xyid, xseq = xseq, yseq = yseq), file = file.path(dirODK, "gridid.csv"),row.names = FALSE, sep = ",")
- 
+
+xyid <- read.table(file = file.path(dirODK, "gridid.csv"), header = TRUE, sep = ",")
+str(xyid)
+
 ```
 
 ### Seleção de subquadrat
@@ -183,6 +256,9 @@ write.table(data.frame(xyid = xyid, xseq = xseq, yseq = yseq), file = file.path(
 O mapa que gera a figura com os subquadrats para serem selecionados. Preciso ajustar os argumentos para ficar no padrão das outras funções.
 
 ```{r }
+#| echo: true
+#| eval: false
+
 selSubq(xmax = 20, ymax = 20, subqX = 5, subqY = 5, mapSize = c(10,10), fontSize = 14, wd2save = dirODK)
 
 

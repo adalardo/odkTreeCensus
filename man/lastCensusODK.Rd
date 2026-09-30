@@ -24,8 +24,8 @@ the following fields:
 \item{tag}{Identification number or code of the tree/stem.}
 \item{dbh}{Diameter at breast height of the stem in millimeters (mm).}
 \item{ht}{Tree height in meters.}
-\item{dx}{X-coordinate (m) of tree location within the quadrat (column axis).}
-\item{dy}{Y-coordinate (m) of tree location within the quadrat (row axis).}
+\item{dx}{X-coordinate (m) of tree location within the subplot (column axis).}
+\item{dy}{Y-coordinate (m) of tree location within the subplot (row axis).}
 \item{fam}{Botanical family.}
 \item{gen}{Botanical genus. If missing, extracted from \code{species}.}
 \item{species}{Species name (genus and specific epithet).}
