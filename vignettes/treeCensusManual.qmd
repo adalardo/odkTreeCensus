@@ -3,10 +3,6 @@
 
 ```
 
-## Criar projeto no ODK Collect
-
-
-
 
 ## Instalando pacote odkTreeCensus
 
@@ -33,44 +29,6 @@ if("odkTreeCensus" %in% rownames(installed.packages()))
 
 remotes::install_github("adalardo/odkTreeCensus")
 library("odkTreeCensus")
-
-```
-
-
-## Transcreve formulário xml
-
-Aqui só é necessário transcrever se houve alguma alteração no formulário xlsx depois da instalação do pacote. 
-
-O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato xml utilizando o pacote do python pyxform. O pyxform foi incorporado no pacote do R, assim como o ''treeCensusForm.xlsx'' e o "treeCensusForm.xml".
-
-::: {.callout-warning}
-## Atenção
-
-
-Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido. 
-
-:::
-
-
-```{r }
-#| echo: true
-#| eval: false
-
-
-xlsxfile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
-xmlForm(xlsxPath = xlsxfile, xmlPath = "../odkData/treeCensusForm.xlsx")
-
-```
-
-## Copia o caminho do formulário XML
-
-Copiando o caminho onde se encontra o formulário xml do pacote
-
-```{r }
-#| echo: true
-#| eval: false
-
-xmlPath <- system.file("odk/treeCensusForm.xml", package = "odkTreeCensus")
 
 ```
 
@@ -264,19 +222,22 @@ selSubq(xmax = 20, ymax = 20, subqX = 5, subqY = 5, mapSize = c(10,10), fontSize
 ```
 
 
-### Mapas para a seleção de árvores
+### Mapas e Grids para seleção e mapeamente de árvores
 
-Para produzir os mapas com as localizações das árvores, precisa criar o objeto de dados com a função  `mapData`. Aqui estou criando os dados apenas para a coluna `A` como exemplo. Os dados de mapa, assim como os mapas e grids são arquivos grandes que não devem ser carregados todos de uma vez no dispositivo móvel.  
+Para produzir os mapas com as localizações das árvores, precisa criar o objeto de dados com a função  `mapData`. Aqui estou criando os dados apenas para a coluna `A` como exemplo. Os dados de mapa, assim como os mapas e grids são arquivos grandes que não devem ser carregados todos de uma vez no dispositivo móvel. Para os grids de mapeamente, esse objeto não é necessário, já que não há buffer para o mapeamento.  
 
 
 
 ```{r }
 
+#| echo: true
+#| eval: false
+
 subplotA <- sort(grep("A", unique(odkdata$quad), value = TRUE))
 mapdataA <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplotA, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
 str(mapdataA)
 nsuqA <- length(mapdataA)
-subplotA <- paste("A", sprintf("%02d", 0:15), sep = "")
+#subplotA <- paste("A", sprintf("%02d", 0:15), sep = "")
 
 for(i in subplotA)
 {
@@ -291,9 +252,124 @@ for(i in subplotA)
 ```
 
 
-### Grid para mapeamento de árvores
+## ODK Collect
 
-### 
+## Dispositivo android
+
+O dispositivo android precisa ter a "Depuração USB" ativada, para isso é preciso desbloquear as "Opções de desenvolvedor"
+Conecte o dispositivo android e garanta que ele tem "Opções de desenvolvedor"  e "Depuração USB" ativados. Caso não esteja, veja como [https://developer.android.com/studio/debug/dev-options?hl=pt-br](ativar opção de desenvolvedor). Entre na "opções de desenvolvedor" nas configurações do android e ative "Depuração USB".
+
+
+
+
+## Android Debug Bridge
+
+O ADB é necessário para que o computador conectado ao dispositivo conecte e transfira arquivos pelo pacote.
+
+No linux (Debian ou Ubuntu) use:
+
+```{sh, eval = FALSE, echo = TRUE }
+sudo apt update
+sudo apt install android-tools-adb
+
+```
+
+No archlinux:
+
+```{sh, eval = FALSE, echo = TRUE }
+sudo pacman -S android-tools
+```
+
+No windows, consulte: [https://developer.android.com/tools/adb?hl=pt-br](adb)
+
+
+
+## Instale e crie o projeto no ODK Collect
+
+Caso a instalação do ODK Collect seja nova, abra o aplicativo e crie um projeto. A URL para o projeto deve ser: https://odk.ib.usp.br
+
+
+## Conectando o Dispositivo Android
+
+Após conectar o tablet ao computador abra as notificações e nas opções de conexão USB selecione a "Transferir arquivos/Android Auto". Mantenha o dispositivo ativo e sem bloqueio de tela.
+
+### Configurando o USB Padrão
+
+Para tornar o dispositivo android sempre configurado para a troca de arquivos pelo usb, conecte ao computador, vá para:
+  * Configurações
+  * Opcções do desenvolvedor
+  * Configurações USB padrão
+  * selecione: "Transferindo arquivos/Android Auto"
+  * desconecte o cabo USB e reconecte
+  * confira a Configuração USB padrão
+  * caso mude para "Apenas carregar o tablet"
+  * selecione novamente "Tranferindo arquivos/Android Auto"
+  * desconecte e reconecte o cabo USB para verificar se a configuração permanece.
+
+
+
+
+### Criar projeto no ODK Collect
+
+O dispositivo móvel deve ter instalado o app `ODK Collect` e ter um projeto iniciado. A url do projeto pode ser `https:\\odk.ib.usp.br`, onde há um  `ODK Central` instalado.
+
+
+
+### Atualizar o formulário xml
+
+Aqui só é necessário atualizar se houve alguma alteração no formulário `treeCensusForm.xlsx` depois da instalação do pacote. 
+
+O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato xml utilizando o pacote do python pyxform. O pyxform foi incorporado no pacote do R, assim como o `treeCensusForm.xlsx` e o `treeCensusForm.xml`.
+
+::: {.callout-warning}
+
+## Atenção
+
+
+Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido. 
+
+:::
+
+
+```{r }
+#| echo: true
+#| eval: false
+
+xlsxFile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
+pkgDirForm <- dirname(xlsxFile)
+xmlFile <- file.path(pkgDirForm, "treeCensusForm.xml")
+xmlForm(xlsxPath = xlsxFile, xmlPath = xmlFile)
+
+```
+
+
+## Copia o caminho do formulário XML
+
+Copiando o caminho onde se encontra o formulário `xml` do pacote para tranferir ao dispositivo móvel.
+
+```{r }
+#| echo: true
+#| eval: false
+
+xmlDir <- system.file("odk", package = "odkTreeCensus")
+xmlPath <- system.file("odk/treeCensusForm.xml", package = "odkTreeCensus")
+
+```
+
+
+## Subindo o formulário para o dispositivo móvel android
+
+
+```{r }
+#| echo: true
+#| eval: false
+
+pushToODKCollect(localDir = xmlDir, formName = "treeCensusForm")
+mediaToODK(localMediaDir = dirODK, formName = "treeCensusForm")
+
+
+```
+
 
 
 ```{r}

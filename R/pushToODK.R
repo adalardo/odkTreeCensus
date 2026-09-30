@@ -7,7 +7,7 @@
 ##' @param formName Optional. The name of the form (without extension). Defaults to "odkTreeCensusForm".
 ##' @return Returns TRUE if the copy was successful.
 ##' @export
-pushToODKCollect <- function(localDir = NULL, projectUUID = NULL, media = FALSE, formName = "odkTreeCensusForm") {
+pushToODKCollect <- function(localDir = NULL, projectUUID = NULL, media = FALSE, formName = "treeCensusForm") {
     # 1. Use checkODKConnection to verify connection and get device info
     conn <- checkODKConnection()
     targetBase <- conn["odkFormDir"]
@@ -175,7 +175,7 @@ pushToODKCollect <- function(localDir = NULL, projectUUID = NULL, media = FALSE,
 ##' @param formName Name of the form (defaults to "odkTreeCensus").
 ##' @return Returns a string indicating success and the number of files copied.
 ##' @export
-mediaToODK <- function(localMediaDir, delPrevMaps = TRUE, formName = "odkTreeCensus") {
+mediaToODK <- function(localMediaDir, delPrevMaps = TRUE, formName = "treeCensusForm") {
     # 1. Verify connection with the Android device
     conn <- checkODKConnection()
     targetBase <- conn["odkFormDir"]
@@ -239,19 +239,11 @@ mediaToODK <- function(localMediaDir, delPrevMaps = TRUE, formName = "odkTreeCen
     # Ensure destination folder exists on the device
     system(paste0("adb shell mkdir -p ", targetMediaDir_adb), ignore.stdout = TRUE, ignore.stderr = TRUE)
 
-    # Copy files
+# Copy files
     copiedCount <- 0
     for (f in localFiles) {
-        relPath <- gsub(paste0("^", normalizePath(localMediaDir, mustWork = FALSE), "/?"), "", normalizePath(f, mustWork = FALSE))
-        if (relPath == normalizePath(f, mustWork = FALSE)) {
-            relPath <- substring(f, nchar(localMediaDir) + 2)
-        }
-        
-        destFile_adb <- chartr("\\", "/", file.path(targetMediaDir, relPath))
-        destDir_adb <- chartr("\\", "/", dirname(destFile_adb))
-        
-        # Ensure subdirectories exist on the device
-        system(paste0("adb shell mkdir -p ", destDir_adb), ignore.stdout = TRUE, ignore.stderr = TRUE)
+        fileName <- basename(f)
+        destFile_adb <- chartr("\\", "/", file.path(targetMediaDir, fileName))
         
         pushCmd <- paste0("adb push \"", f, "\" \"", destFile_adb, "\"")
         status <- system(pushCmd, ignore.stdout = TRUE, ignore.stderr = TRUE)
@@ -260,7 +252,6 @@ mediaToODK <- function(localMediaDir, delPrevMaps = TRUE, formName = "odkTreeCen
         }
         copiedCount <- copiedCount + 1
     }
-
     message("Copy completed successfully!")
     return(paste("OK -", copiedCount, "files copied"))
 }
