@@ -105,7 +105,7 @@ dirODK <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkData"
 
 ### Dados das árvores do último censo e códigos de subparcelas
 
-O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. 
+O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. Os dados `peicCensus2019` são distribuídos junto ao pacote em um arquivo `.rda`.  
 
 
 
@@ -117,19 +117,16 @@ O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastC
 #| eval: false
 
 help(lastCensusODK)
-peic2019 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
-str(peic2019)
 
-save(peicCensus2019, file = "data/lastCensusPEIC.rda", compress = "bzip2")
-dir("data")
-
-
-
-
-lastCensus <- lastCensusODK(data = peic19 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
+## peicCensus2019 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
+## str(peic2019)
+## save(peicCensus2019, file = "data/lastCensusPEIC.rda", compress = "bzip2")
+## dir("data")
+data(package = "odkTreeCensus")
+data("lastCensusPEIC", package = "odkTreeCensus")
+str(peicCensus2019)
+lastCensus <- lastCensusODK(data = peicCensus2019 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
 str(lastCensus)
-
-
 
 ```
 
@@ -206,6 +203,8 @@ Para que os elementos do `svg` sejam selecionados é preciso que os rótulos sej
 Como os mapas incorporam uma borda além do `subquadrat` é preciso fazer um objeto de dados de mapas, completo. Esse arquivo é uma lista grande quando é feito para a parcela toda, mas pode ser feito parcialmente para subparcelas.
 
 ::: {.callout-note}
+
+
 ## Árvores vivas
 
 
@@ -266,6 +265,31 @@ selSubq(xmax = 20, ymax = 20, subqX = 5, subqY = 5, mapSize = c(10,10), fontSize
 
 
 ### Mapas para a seleção de árvores
+
+Para produzir os mapas com as localizações das árvores, precisa criar o objeto de dados com a função  `mapData`. Aqui estou criando os dados apenas para a coluna `A` como exemplo. Os dados de mapa, assim como os mapas e grids são arquivos grandes que não devem ser carregados todos de uma vez no dispositivo móvel.  
+
+
+
+```{r }
+
+subplotA <- sort(grep("A", unique(odkdata$quad), value = TRUE))
+mapdataA <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplotA, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
+str(mapdataA)
+nsuqA <- length(mapdataA)
+subplotA <- paste("A", sprintf("%02d", 0:15), sep = "")
+
+for(i in subplotA)
+{
+    svgMap(mapdataA, subPlotCode = i, mapSize = c(12, 12), fontSize = 12, wd2save = file.path(dirODK, "subplotA"))
+    svgGrid(censoData = odkdata, subPlotCode = i, mapSize = c(12, 12), fontSize = 12, wd2save = file.path(dirODK, "subplotA"))
+    
+}
+
+
+
+
+```
+
 
 ### Grid para mapeamento de árvores
 

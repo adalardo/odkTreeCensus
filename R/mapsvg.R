@@ -54,7 +54,8 @@ svgMap <- function(mapData, subPlotCode = "A00", svgSave = TRUE, wd2save = file.
 ##############################
 ## plot here
 ##############################
-        gridSVG::gridsvg(name =  file.path(wd2save, paste("map", subquadNames[j],".svg",sep="")), uniqueNames=FALSE, width = mapSize[1], height = mapSize[2])
+        filePath <- file.path(wd2save, paste("map", subquadNames[j],".svg",sep=""))
+        gridSVG::gridsvg(name = filePath , uniqueNames=FALSE, width = mapSize[1], height = mapSize[2])
         vptop <- grid::viewport(y=0.9, width=0.8, height=0.2)
         grid::grid.text(x=0.5, y=0.9, paste("Unidade de Trabalho", subquadNames[j] ) ,vp= vptop, gp=grid::gpar(fontsize = fontSize + 5))
         vp <- grid::viewport(width = vpSize[1], height = vpSize[2], xscale = c(- buffer,  splitX + buffer), yscale= c( - buffer, splitY + buffer))
@@ -87,6 +88,8 @@ svgMap <- function(mapData, subPlotCode = "A00", svgSave = TRUE, wd2save = file.
                 dir.create(wd2save)
             }
             dev.off()
+            message(paste(filePath, "saved\n"))
+
         }
     }
 }
@@ -150,7 +153,8 @@ svgGrid <- function(censoData, subPlotCode = "A00", subqSize = 5, gridSize = 0.2
 #############
 ## plot here
 #############
-        gridSVG::gridsvg(name = file.path(wd2save, paste("grid", subqNum,"_", j,".svg",sep="")) , uniqueNames=FALSE, width = mapSize[1], height = mapSize[2])
+        filePath <- file.path(wd2save, paste("grid", subqNum,"_", j,".svg",sep="")) 
+        gridSVG::gridsvg(name = filePath , uniqueNames=FALSE, width = mapSize[1], height = mapSize[2])
         vptop <- grid::viewport(y=0.9, width=0.9, height=0.2)
         grid::grid.text(x=0.5, y=0.9, paste(j,  "- grid de mapeamento", subqNum,  "x",subqNum,"m"), vp= vptop, gp=grid::gpar(fontsize = fontSize + 2))
         vp <- grid::viewport(width = vpSize[1], height = vpSize[2], xscale=c(0,subqSize), yscale=c(0, subqSize))
@@ -188,6 +192,8 @@ svgGrid <- function(censoData, subPlotCode = "A00", subqSize = 5, gridSize = 0.2
                 dir.create(wd2save)
             }
             dev.off()
+            message(paste(filePath, "saved\n"))
+
         }    
     }
 }
