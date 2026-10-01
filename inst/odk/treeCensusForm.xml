@@ -729,7 +729,7 @@
           <text id="/data/subquad/tree/tag_map/tree_map_key:hint">
             <value> #### Selecione, caso possível, uma árvore ainda não selecionada (placas já selecionadas: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../so_far "/> &lt;/span&gt;) </value>
           </text>
-          <text id="/data/subquad/tree/tag_map/generated_note_name_111:label">
+          <text id="/data/subquad/tree/tag_map/generated_note_name_112:label">
             <value> ## Árvore <output value=" ../tree_tag_map "/>: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_sp "/> &lt;/span&gt;; dap = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_dbh "/>&lt;/span&gt; mm; altura = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_ht "/> &lt;/span&gt; m. </value>
           </text>
           <text id="/data/subquad/tree/tag_map/same_tag:jr:constraintMsg">
@@ -807,10 +807,10 @@
           <text id="/data/subquad/tree/tag_new:label">
             <value> Dados censo atual (<output value=" ../ttree/tree_type "/>) </value>
           </text>
-          <text id="/data/subquad/tree/tag_new/generated_note_name_155:label">
+          <text id="/data/subquad/tree/tag_new/generated_note_name_156:label">
             <value> ### Árvore placa antiga no. <output value=" ../../tree_recenso/tree_tag "/> <output value=" ../../ttag/tree_tag_seminfo "/> </value>
           </text>
-          <text id="/data/subquad/tree/tag_new/generated_note_name_155:hint">
+          <text id="/data/subquad/tree/tag_new/generated_note_name_156:hint">
             <value>Valor &gt; {$tag_min} ; &lt; {$tag_max}</value>
           </text>
           <text id="/data/subquad/tree/tag_new/new_tag0:jr:constraintMsg">
@@ -853,28 +853,28 @@
           <text id="/data/subquad/tree/map/xy:hint">
             <value>Selecione a posição:</value>
           </text>
-          <text id="/data/subquad/tree/map/generated_note_name_168:label">
+          <text id="/data/subquad/tree/map/generated_note_name_169:label">
             <value> ## selecionado: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/confplaq_map:label">
             <value>### Dados da árvore selecionada no mapa</value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_172:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:label">
             <value> ### Placa no. &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/tree_tag "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:jr:requiredMsg">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:jr:requiredMsg">
             <value>Presença de placa</value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:label">
             <value> ### Altura (m): &lt;span style=&quot;color:red&quot;&gt; <output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_175:label">
             <value> ### DAP (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_dbh "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_175:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_176:label">
             <value> ### Posição: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_xy "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_176:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_177:label">
             <value> ### Identificação: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_sp "/> &lt;/span&gt; (<output value=" ../../tree_recenso/old_fam "/>) </value>
           </text>
           <text id="/data/subquad/tree/confplaq_map/ileg_conf:jr:requiredMsg">
@@ -1366,7 +1366,7 @@
           <text id="/data/subquad/tree/conf_info/tree_picture05:label">
             <value> Foto da planta <output value=" ../../num_tag "/> </value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_319:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_320:label">
             <value> ### A árvore <output value=" ../../num_tag "/> está morta </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg">
@@ -1381,22 +1381,22 @@
           <text id="/data/subquad/tree/conf_info/conf_ok:hint">
             <value>Caso as informações não estejam corretas, clique no icone &lt;span style="color:red"&gt; seta.ponto &lt;/span&gt; e ajuste os dados.</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
             <value>### Não há informação sobre o número da &lt;span style="color:red"&gt; placa &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
             <value>### Não há informação sobre a &lt;span style="color:red"&gt; altura &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_324:label">
             <value>### Não há informação sobre o &lt;span style="color:red"&gt; dap &lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/miss_tree:label">
             <value>Árvores desaparecidas</value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:label">
+          <text id="/data/subquad/miss_tree/generated_note_name_337:label">
             <value> ### Árvores encontradas <output value=" ../n_sel "/> de <output value=" ../n_tags "/> listadas. </value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:hint">
+          <text id="/data/subquad/miss_tree/generated_note_name_337:hint">
             <value> Árvores no subquadrat: <output value=" ../tags_subq "/>; encontradas: <output value=" ../../tag_selected "/> </value>
           </text>
           <text id="/data/subquad/rep_miss:label">
@@ -1409,10 +1409,10 @@
             <value> ### Selecione a placa (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt;) no mapa </value>
             <value form="image"> jr://images/<output value=" /data/subquad/mapname "/> </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:label">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_350:label">
             <value> ### Dados da árvore &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt; - <output value=" ../old_sp_miss "/> (<output value=" ../old_fam_miss "/>): </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_350:hint">
             <value> ### dap: <output value=" ../old_dbh_miss "/> mm; altura: <output value=" ../old_ht_miss "/> m </value>
           </text>
           <text id="/data/subquad/rep_miss/conf_miss/miss_conf:label">
@@ -1476,7 +1476,7 @@
           <text id="/data/subquad/rep_miss/map_miss/xy_miss:hint">
             <value>Selecione a posição:</value>
           </text>
-          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_380:label">
+          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_381:label">
             <value> ## selecionado: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy_miss "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg">
@@ -2568,7 +2568,7 @@
           <text id="/data/subquad/tree/tag_map/tree_map_key:hint">
             <value> #### Select, if possible, a tree not yet selected (tags already selected: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../so_far "/> &lt;/span&gt;) </value>
           </text>
-          <text id="/data/subquad/tree/tag_map/generated_note_name_111:label">
+          <text id="/data/subquad/tree/tag_map/generated_note_name_112:label">
             <value> ## Tree <output value=" ../tree_tag_map "/>: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_sp "/> &lt;/span&gt;; dbh = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_dbh "/>&lt;/span&gt; mm; height = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_ht "/> &lt;/span&gt; m. </value>
           </text>
           <text id="/data/subquad/tree/tag_map/same_tag:jr:constraintMsg">
@@ -2646,7 +2646,7 @@
           <text id="/data/subquad/tree/tag_new:label">
             <value> Current census data (<output value=" ../ttree/tree_type "/>) </value>
           </text>
-          <text id="/data/subquad/tree/tag_new/generated_note_name_155:label">
+          <text id="/data/subquad/tree/tag_new/generated_note_name_156:label">
             <value> ### Old tag tree no. <output value=" ../../tree_recenso/tree_tag "/> <output value=" ../../ttag/tree_tag_seminfo "/> </value>
           </text>
           <text id="/data/subquad/tree/tag_new/new_tag0:jr:constraintMsg">
@@ -2689,28 +2689,28 @@
           <text id="/data/subquad/tree/map/xy:hint">
             <value>Select the position:</value>
           </text>
-          <text id="/data/subquad/tree/map/generated_note_name_168:label">
+          <text id="/data/subquad/tree/map/generated_note_name_169:label">
             <value> ## selected: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/confplaq_map:label">
             <value>### Data of the tree selected on the map</value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_172:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:label">
             <value> ### Tag no. &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/tree_tag "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:jr:requiredMsg">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:jr:requiredMsg">
             <value>Presença de placa</value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:label">
             <value> ### Height (m): &lt;span style=&quot;color:red&quot;&gt; <output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_175:label">
             <value> ### DBH (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_dbh "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_175:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_176:label">
             <value> ### Position: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_xy "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_176:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_177:label">
             <value> ### Identification: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_sp "/> &lt;/span&gt; (<output value=" ../../tree_recenso/old_fam "/>) </value>
           </text>
           <text id="/data/subquad/tree/confplaq_map/ileg_conf:jr:requiredMsg">
@@ -3202,7 +3202,7 @@
           <text id="/data/subquad/tree/conf_info/tree_picture05:label">
             <value> Plant photo <output value=" ../../num_tag "/> </value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_319:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_320:label">
             <value> ### Tree <output value=" ../../num_tag "/> is dead </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg">
@@ -3217,22 +3217,22 @@
           <text id="/data/subquad/tree/conf_info/conf_ok:hint">
             <value>If the information is not correct, click on the &lt;span style="color:red"&gt; arrow.point &lt;/span&gt; icon and adjust the data.</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
             <value>### No information about the &lt;span style="color:red"&gt; tag &lt;/span&gt; number</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
             <value>### No information about the &lt;span style="color:red"&gt; height &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_324:label">
             <value>### No information about the &lt;span style="color:red"&gt; dbh &lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/miss_tree:label">
             <value>Missing trees</value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:label">
+          <text id="/data/subquad/miss_tree/generated_note_name_337:label">
             <value> ### Trees found <output value=" ../n_sel "/> of <output value=" ../n_tags "/> listed. </value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:hint">
+          <text id="/data/subquad/miss_tree/generated_note_name_337:hint">
             <value> Trees in subquadrat: <output value=" ../tags_subq "/>; found: <output value=" ../../tag_selected "/> </value>
           </text>
           <text id="/data/subquad/rep_miss:label">
@@ -3245,10 +3245,10 @@
             <value> ### Select the tag (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt;) on the map </value>
             <value form="image"> jr://images/<output value=" /data/subquad/mapname "/> </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:label">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_350:label">
             <value> ### Data for tree &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt; - <output value=" ../old_sp_miss "/> (<output value=" ../old_fam_miss "/>): </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_350:hint">
             <value> ### dbh: <output value=" ../old_dbh_miss "/> mm; height: <output value=" ../old_ht_miss "/> m </value>
           </text>
           <text id="/data/subquad/rep_miss/conf_miss/miss_conf:label">
@@ -3312,7 +3312,7 @@
           <text id="/data/subquad/rep_miss/map_miss/xy_miss:hint">
             <value>Select the position:</value>
           </text>
-          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_380:label">
+          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_381:label">
             <value> ## selected: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy_miss "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg">
@@ -3738,7 +3738,7 @@
           <text id="/data/local/tag_max_other:hint">
             <value>-</value>
           </text>
-          <text id="/data/subquad/tree/tag_new/generated_note_name_155:hint">
+          <text id="/data/subquad/tree/tag_new/generated_note_name_156:hint">
             <value>-</value>
           </text>
         </translation>
@@ -4434,7 +4434,7 @@
           <text id="/data/subquad/tree/tag_map/tree_map_key:hint">
             <value> #### Seleccione, si es posible, un árbol aún no seleccionado (placas ya seleccionadas: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../so_far "/> &lt;/span&gt;) </value>
           </text>
-          <text id="/data/subquad/tree/tag_map/generated_note_name_111:label">
+          <text id="/data/subquad/tree/tag_map/generated_note_name_112:label">
             <value> ## Árbol <output value=" ../tree_tag_map "/>: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_sp "/> &lt;/span&gt;; dap = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_dbh "/>&lt;/span&gt; mm; altura = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../map_ht "/> &lt;/span&gt; m. </value>
           </text>
           <text id="/data/subquad/tree/tag_map/same_tag:jr:constraintMsg">
@@ -4512,7 +4512,7 @@
           <text id="/data/subquad/tree/tag_new:label">
             <value> Datos del censo actual (<output value=" ../ttree/tree_type "/>) </value>
           </text>
-          <text id="/data/subquad/tree/tag_new/generated_note_name_155:label">
+          <text id="/data/subquad/tree/tag_new/generated_note_name_156:label">
             <value> ### Árbol placa antigua no. <output value=" ../../tree_recenso/tree_tag "/> <output value=" ../../ttag/tree_tag_seminfo "/> </value>
           </text>
           <text id="/data/subquad/tree/tag_new/new_tag0:jr:constraintMsg">
@@ -4555,28 +4555,28 @@
           <text id="/data/subquad/tree/map/xy:hint">
             <value>Seleccione la posición:</value>
           </text>
-          <text id="/data/subquad/tree/map/generated_note_name_168:label">
+          <text id="/data/subquad/tree/map/generated_note_name_169:label">
             <value> ## seleccionado: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/confplaq_map:label">
             <value>### Datos del árbol seleccionado en el mapa</value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_172:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:label">
             <value> ### Placa no. &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/tree_tag "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:jr:requiredMsg">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:jr:requiredMsg">
             <value>Presença de placa</value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_173:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:label">
             <value> ### Altura (m): &lt;span style=&quot;color:red&quot;&gt; <output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_174:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_175:label">
             <value> ### DAP (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_dbh "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_175:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_176:label">
             <value> ### Posición: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_xy "/> &lt;/span&gt; </value>
           </text>
-          <text id="/data/subquad/tree/confplaq_map/generated_note_name_176:label">
+          <text id="/data/subquad/tree/confplaq_map/generated_note_name_177:label">
             <value> ### Identificación: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_sp "/> &lt;/span&gt; (<output value=" ../../tree_recenso/old_fam "/>) </value>
           </text>
           <text id="/data/subquad/tree/confplaq_map/ileg_conf:jr:requiredMsg">
@@ -5068,7 +5068,7 @@
           <text id="/data/subquad/tree/conf_info/tree_picture05:label">
             <value> Foto de la planta <output value=" ../../num_tag "/> </value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_319:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_320:label">
             <value> ### El árbol <output value=" ../../num_tag "/> está muerto </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg">
@@ -5083,22 +5083,22 @@
           <text id="/data/subquad/tree/conf_info/conf_ok:hint">
             <value>Si la información no es correcta, haga clic en el icono &lt;span style="color:red"&gt; flecha.punto &lt;/span&gt; y ajuste los datos.</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
             <value>### No hay información sobre el número de la &lt;span style="color:red"&gt; placa &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
             <value>### No hay información sobre la &lt;span style="color:red"&gt; altura &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_324:label">
             <value>### No hay información sobre el &lt;span style="color:red"&gt; dap &lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/miss_tree:label">
             <value>Árboles desaparecidos</value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:label">
+          <text id="/data/subquad/miss_tree/generated_note_name_337:label">
             <value> ### Árboles encontrados <output value=" ../n_sel "/> de <output value=" ../n_tags "/> listados. </value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:hint">
+          <text id="/data/subquad/miss_tree/generated_note_name_337:hint">
             <value> Árboles en el subcuadrante: <output value=" ../tags_subq "/>; encontradas: <output value=" ../../tag_selected "/> </value>
           </text>
           <text id="/data/subquad/rep_miss:label">
@@ -5111,10 +5111,10 @@
             <value> ### Seleccione la placa (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt;) en el mapa </value>
             <value form="image"> jr://images/<output value=" /data/subquad/mapname "/> </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:label">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_350:label">
             <value> ### Datos del árbol &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt; - <output value=" ../old_sp_miss "/> (<output value=" ../old_fam_miss "/>): </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_350:hint">
             <value> ### dap: <output value=" ../old_dbh_miss "/> mm; altura: <output value=" ../old_ht_miss "/> m </value>
           </text>
           <text id="/data/subquad/rep_miss/conf_miss/miss_conf:label">
@@ -5178,7 +5178,7 @@
           <text id="/data/subquad/rep_miss/map_miss/xy_miss:hint">
             <value>Seleccione la posición:</value>
           </text>
-          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_380:label">
+          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_381:label">
             <value> ## seleccionado: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy_miss "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg">
@@ -5607,7 +5607,7 @@
           <text id="/data/local/tag_max_other:hint">
             <value>-</value>
           </text>
-          <text id="/data/subquad/tree/tag_new/generated_note_name_155:hint">
+          <text id="/data/subquad/tree/tag_new/generated_note_name_156:hint">
             <value>-</value>
           </text>
         </translation>
@@ -5709,7 +5709,7 @@
                 <map_ht/>
                 <map_fam/>
                 <map_sp/>
-                <generated_note_name_111/>
+                <generated_note_name_112/>
                 <same_tag>yes</same_tag>
               </tag_map>
               <ttag>
@@ -5745,7 +5745,7 @@
                 <tag_ok/>
               </tree_recenso>
               <tag_new>
-                <generated_note_name_155/>
+                <generated_note_name_156/>
                 <newtag_so_far/>
                 <new_tag0/>
                 <ndig/>
@@ -5756,14 +5756,14 @@
               <map>
                 <xy/>
                 <mapxy/>
-                <generated_note_name_168/>
+                <generated_note_name_169/>
               </map>
               <confplaq_map>
-                <generated_note_name_172/>
                 <generated_note_name_173/>
                 <generated_note_name_174/>
                 <generated_note_name_175/>
                 <generated_note_name_176/>
+                <generated_note_name_177/>
                 <ileg_conf/>
               </confplaq_map>
               <tag_old/>
@@ -5882,11 +5882,11 @@
                 <yes_det/>
                 <yes_all/>
                 <yes_dead/>
-                <generated_note_name_319/>
+                <generated_note_name_320/>
                 <conf_ok/>
-                <generated_note_name_321/>
                 <generated_note_name_322/>
                 <generated_note_name_323/>
+                <generated_note_name_324/>
               </conf_info>
             </tree>
             <tree_end/>
@@ -5896,7 +5896,7 @@
               <n_tags/>
               <n_miss/>
               <tag_selected_miss/>
-              <generated_note_name_336/>
+              <generated_note_name_337/>
             </miss_tree>
             <rep_miss jr:template="">
               <miss_num/>
@@ -5907,7 +5907,7 @@
                 <old_fam_miss/>
                 <old_sp_miss/>
                 <miss_tag_key/>
-                <generated_note_name_349/>
+                <generated_note_name_350/>
                 <miss_conf/>
               </conf_miss>
               <miss_found>
@@ -5935,7 +5935,7 @@
               <map_miss>
                 <xy_miss/>
                 <mapxy_miss/>
-                <generated_note_name_380/>
+                <generated_note_name_381/>
               </map_miss>
               <new_ht_miss>
                 <ht_type_miss/>
@@ -6054,7 +6054,7 @@
                 <map_ht/>
                 <map_fam/>
                 <map_sp/>
-                <generated_note_name_111/>
+                <generated_note_name_112/>
                 <same_tag>yes</same_tag>
               </tag_map>
               <ttag>
@@ -6090,7 +6090,7 @@
                 <tag_ok/>
               </tree_recenso>
               <tag_new>
-                <generated_note_name_155/>
+                <generated_note_name_156/>
                 <newtag_so_far/>
                 <new_tag0/>
                 <ndig/>
@@ -6101,14 +6101,14 @@
               <map>
                 <xy/>
                 <mapxy/>
-                <generated_note_name_168/>
+                <generated_note_name_169/>
               </map>
               <confplaq_map>
-                <generated_note_name_172/>
                 <generated_note_name_173/>
                 <generated_note_name_174/>
                 <generated_note_name_175/>
                 <generated_note_name_176/>
+                <generated_note_name_177/>
                 <ileg_conf/>
               </confplaq_map>
               <tag_old/>
@@ -6227,11 +6227,11 @@
                 <yes_det/>
                 <yes_all/>
                 <yes_dead/>
-                <generated_note_name_319/>
+                <generated_note_name_320/>
                 <conf_ok/>
-                <generated_note_name_321/>
                 <generated_note_name_322/>
                 <generated_note_name_323/>
+                <generated_note_name_324/>
               </conf_info>
             </tree>
             <tree_end/>
@@ -6241,7 +6241,7 @@
               <n_tags/>
               <n_miss/>
               <tag_selected_miss/>
-              <generated_note_name_336/>
+              <generated_note_name_337/>
             </miss_tree>
             <rep_miss>
               <miss_num/>
@@ -6252,7 +6252,7 @@
                 <old_fam_miss/>
                 <old_sp_miss/>
                 <miss_tag_key/>
-                <generated_note_name_349/>
+                <generated_note_name_350/>
                 <miss_conf/>
               </conf_miss>
               <miss_found>
@@ -6280,7 +6280,7 @@
               <map_miss>
                 <xy_miss/>
                 <mapxy_miss/>
-                <generated_note_name_380/>
+                <generated_note_name_381/>
               </map_miss>
               <new_ht_miss>
                 <ht_type_miss/>
@@ -7129,7 +7129,7 @@
       <bind nodeset="/data/subquad/so_sub" type="string" calculate="if (position(..) = 1, '~', once(substr( /data/sub_selected , 0, string-length( /data/sub_selected ))))"/>
       <bind nodeset="/data/subquad/quad5" type="string" constraint="not(selected( ../so_sub , .))" required="true()" jr:requiredMsg="jr:itext('/data/subquad/quad5:jr:requiredMsg')" relevant="selected( /data/local/work_size , 'size5')"/>
       <bind nodeset="/data/subquad/quad10" type="string" constraint="not(selected( ../so_sub , .))" required="true()" jr:requiredMsg="jr:itext('/data/subquad/quad10:jr:requiredMsg')" relevant="selected( /data/local/work_size , 'size10')"/>
-      <bind nodeset="/data/subquad/sel_subquad" type="string" calculate="if( /data/local/work_size  = 'size5', concat( /data/parcela/quadrat ,  ../quad5 ), concat( /data/parcela/quadrat ,  ../quad10 ))"/>
+      <bind nodeset="/data/subquad/sel_subquad" type="string" calculate="if( /data/local/work_size  = 'size5', concat( /data/parcela/quadrat , substring-before(substring-after( ../quad5 , 'subq_'), '.1')), concat( /data/parcela/quadrat , substring-before(substring-after( ../quad10 , 'subq_'), '.1')))"/>
       <bind nodeset="/data/subquad/mapname" type="string" calculate="concat('map',  ../sel_subquad ,'.svg')"/>
       <bind nodeset="/data/subquad/gridname" type="string" calculate="if( /data/local/work_size  = 'size5', concat('grid05_',  ../sel_subquad ,'.svg'), concat('grid10_',  ../sel_subquad ,'.svg'))"/>
       <bind nodeset="/data/subquad/n_sub" type="string" calculate="position(..)"/>
@@ -7157,7 +7157,7 @@
       <bind nodeset="/data/subquad/tree/tag_map/map_ht" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'alt', 'tag',  ../tree_tag_map )"/>
       <bind nodeset="/data/subquad/tree/tag_map/map_fam" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'fam', 'tag',  ../tree_tag_map )"/>
       <bind nodeset="/data/subquad/tree/tag_map/map_sp" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'species', 'tag',  ../tree_tag_map )"/>
-      <bind nodeset="/data/subquad/tree/tag_map/generated_note_name_111" readonly="true()" type="string" relevant=" ../tree_map_key  !=''"/>
+      <bind nodeset="/data/subquad/tree/tag_map/generated_note_name_112" readonly="true()" type="string" relevant=" ../tree_map_key  !=''"/>
       <bind nodeset="/data/subquad/tree/tag_map/same_tag" type="string" constraint="not(selected( ../../so_far ,  ../tree_tag_map ))" jr:constraintMsg="jr:itext('/data/subquad/tree/tag_map/same_tag:jr:constraintMsg')" relevant=" ../tree_map_key  !='' and selected( ../../so_far ,  ../tree_tag_map )"/>
       <bind nodeset="/data/subquad/tree/ttag" relevant=" ../ttree/tree_type ='plaqueada' or  ../ttree/tree_type ='plaq_dead' or  ../ttree/tree_type  = 'not_tree' or  ../ttree/tree_type  = 'plaq_sec' or ( ../ttree/tree_type  = 'plaq_ileg' and  ../tag_map/tree_tag_map  !='')"/>
       <bind nodeset="/data/subquad/tree/ttag/tree_tag0" type="string" constraint="not(selected( ../../so_far , .))" jr:constraintMsg="jr:itext('/data/subquad/tree/ttag/tree_tag0:jr:constraintMsg')"/>
@@ -7189,7 +7189,7 @@
       <bind nodeset="/data/subquad/tree/tree_recenso/old_nsec" type="string" calculate=" ../old_nstem  - 1"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/tag_ok" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/tree_recenso/tag_ok:jr:requiredMsg')" relevant=" ../../ttree/tree_type ='plaqueada'"/>
       <bind nodeset="/data/subquad/tree/tag_new" relevant=" ../ttree/tree_type  = 'sem_info' or  ../ttree/tree_type  = 'plaq_ileg' or  ../tree_recenso/tag_ok  = 'no'"/>
-      <bind nodeset="/data/subquad/tree/tag_new/generated_note_name_155" readonly="true()" type="string" relevant=" ../../tree_recenso/tag_ok  = 'no' and  ../../ttree/tree_type  = 'plaqueada'"/>
+      <bind nodeset="/data/subquad/tree/tag_new/generated_note_name_156" readonly="true()" type="string" relevant=" ../../tree_recenso/tag_ok  = 'no' and  ../../ttree/tree_type  = 'plaqueada'"/>
       <bind nodeset="/data/subquad/tree/tag_new/newtag_so_far" type="string" calculate="if(string-length( ../../../newtag_selected ) = 0, '~', once(substr( ../../../newtag_selected , 0, string-length( ../../../newtag_selected ))))"/>
       <bind nodeset="/data/subquad/tree/tag_new/new_tag0" type="string" constraint="(string-length(.) =  /data/local/tag_dig  and regex(., '^[0-9]+$')) and not(selected( ../newtag_so_far , .)) and . &gt;=  /data/local/tag_min  and . &lt;=  /data/local/tag_max " jr:constraintMsg="jr:itext('/data/subquad/tree/tag_new/new_tag0:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/tag_new/new_tag0:jr:requiredMsg')" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'"/>
       <bind nodeset="/data/subquad/tree/tag_new/ndig" type="string" relevant=" ../new_tag0  !=''" calculate="if( /data/local/tag_dig =4, 260000, 0)"/>
@@ -7199,13 +7199,13 @@
       <bind nodeset="/data/subquad/tree/map" relevant="( ../tree_map_conf ='map_no' or  ../tree_map_conf  = 'map_null' or  ../ttree/tree_type ='sem_info' or  ../ttag/tree_tag_seminfo  != '' or ( ../ttree/tree_type  = 'plaq_ileg' and  ../tag_map/tree_tag_map  = '')) and  ../ttree/tree_type !='plaq_dead' and  ../ttree/tree_type  != 'not_tree' and  ../ttree/tree_type  != 'notag_dead'"/>
       <bind nodeset="/data/subquad/tree/map/xy" type="string" constraint=".!=''" jr:constraintMsg="jr:itext('/data/subquad/tree/map/xy:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/map/xy:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/tree/map/mapxy" type="string" calculate="substring-before( ../xy , '; .1')"/>
-      <bind nodeset="/data/subquad/tree/map/generated_note_name_168" readonly="true()" type="string" relevant=" ../xy  !=''"/>
+      <bind nodeset="/data/subquad/tree/map/generated_note_name_169" readonly="true()" type="string" relevant=" ../xy  !=''"/>
       <bind nodeset="/data/subquad/tree/confplaq_map" relevant=" ../ttree/tree_type ='plaq_ileg' and  ../tag_map/tree_map_key  !=''"/>
-      <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_172" readonly="true()" type="string"/>
-      <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_173" readonly="true()" type="string" jr:requiredMsg="jr:itext('/data/subquad/tree/confplaq_map/generated_note_name_173:jr:requiredMsg')"/>
-      <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_174" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_173" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_174" readonly="true()" type="string" jr:requiredMsg="jr:itext('/data/subquad/tree/confplaq_map/generated_note_name_174:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_175" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_176" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/tree/confplaq_map/generated_note_name_177" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/tree/confplaq_map/ileg_conf" type="decimal" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/confplaq_map/ileg_conf:jr:requiredMsg')" relevant=" ../../ttree/tree_type ='plaq_ileg'"/>
       <bind nodeset="/data/subquad/tree/tag_old" type="string" calculate="if( ../tree_recenso/tree_tag  !='',  ../tree_recenso/tree_tag , 'sem info')"/>
       <bind nodeset="/data/subquad/tree/num_tag" type="string" calculate="if(( ../tag_new/new_tag  !=''), ../tag_new/new_tag , if(( ../tree_recenso/tree_tag !=''),  ../tree_recenso/tree_tag , if(( ../ttag/tree_tag_seminfo  != ''),  ../ttag/tree_tag_seminfo , '')))"/>
@@ -7316,11 +7316,11 @@
       <bind nodeset="/data/subquad/tree/conf_info/yes_det" type="string" calculate="( ../sp_final  !='' or  ../../ttree/recruta_id  = 'no')"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_all" type="string" calculate="( ../yes_tag  and  ../yes_ht  and  ../yes_dbh  and  ../yes_map  and  ../yes_det )"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_dead" type="string" calculate=" ../../ttree/tree_type  = 'plaq_dead' or  ../../ttree/tree_type  = 'notag_dead'"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_319" readonly="true()" type="string" relevant=" ../yes_dead "/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_320" readonly="true()" type="string" relevant=" ../yes_dead "/>
       <bind nodeset="/data/subquad/tree/conf_info/conf_ok" type="string" constraint=" ../yes_all  or  ../yes_dead  or ( ../../ttree/tree_type  = 'not_tree')" jr:constraintMsg="jr:itext('/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/conf_info/conf_ok:jr:requiredMsg')"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_321" readonly="true()" type="string" relevant="not( ../yes_tag )"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_322" readonly="true()" type="string" relevant="not( ../yes_ht )"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_323" readonly="true()" type="string" relevant="not( ../yes_dbh )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_322" readonly="true()" type="string" relevant="not( ../yes_tag )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_323" readonly="true()" type="string" relevant="not( ../yes_ht )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_324" readonly="true()" type="string" relevant="not( ../yes_dbh )"/>
       <bind nodeset="/data/subquad/tree_end" type="string" calculate="indexed-repeat( ../tree/conf_info/conf_ok ,  /data/subquad/tree , count( ../tree/conf_info/conf_ok ),  /data/subquad ,  ../n_sub )"/>
       <bind nodeset="/data/subquad/miss_tree" relevant=" ../tree_end  = 'yes_end'"/>
       <bind nodeset="/data/subquad/miss_tree/n_sel" type="string" calculate="count-selected( ../../tag_selected )"/>
@@ -7328,7 +7328,7 @@
       <bind nodeset="/data/subquad/miss_tree/n_tags" type="string" calculate="count-selected( ../tags_subq )"/>
       <bind nodeset="/data/subquad/miss_tree/n_miss" type="string" calculate=" ../n_tags  -  ../n_sel "/>
       <bind nodeset="/data/subquad/miss_tree/tag_selected_miss" type="string" calculate="join(' ',  ../../rep_miss/miss_num )"/>
-      <bind nodeset="/data/subquad/miss_tree/generated_note_name_336" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/miss_tree/generated_note_name_337" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/rep_miss" relevant=" ../tree_end  = 'yes_end'"/>
       <bind nodeset="/data/subquad/rep_miss/miss_num" type="string" calculate="selected-at( ../../miss_tree/tags_subq , position(..) - 1)"/>
       <bind nodeset="/data/subquad/rep_miss/miss_true" type="string" calculate="not(selected( ../../tag_selected ,  ../miss_num ))"/>
@@ -7338,7 +7338,7 @@
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_fam_miss" type="string" calculate="pulldata('lastCensus', 'fam', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_sp_miss" type="string" calculate="pulldata('lastCensus', 'species', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/miss_tag_key" type="string"/>
-      <bind nodeset="/data/subquad/rep_miss/conf_miss/generated_note_name_349" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/rep_miss/conf_miss/generated_note_name_350" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/miss_conf" type="string" required="true()"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found" relevant=" ../conf_miss/miss_conf ='found'"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/miss_alive" type="string" required="true()"/>
@@ -7363,7 +7363,7 @@
       <bind nodeset="/data/subquad/rep_miss/map_miss" relevant=" ../miss_found/tagmap_conf_miss ='map_no'"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss/xy_miss" type="string" constraint=".!=''" jr:constraintMsg="jr:itext('/data/subquad/rep_miss/map_miss/xy_miss:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/map_miss/xy_miss:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss/mapxy_miss" type="string" calculate="substring-before( ../xy_miss , '; .1')"/>
-      <bind nodeset="/data/subquad/rep_miss/map_miss/generated_note_name_380" readonly="true()" type="string" relevant=" ../xy_miss  !=''"/>
+      <bind nodeset="/data/subquad/rep_miss/map_miss/generated_note_name_381" readonly="true()" type="string" relevant=" ../xy_miss  !=''"/>
       <bind nodeset="/data/subquad/rep_miss/new_ht_miss" relevant=" ../miss_found/miss_alive  = 'yes'"/>
       <bind nodeset="/data/subquad/rep_miss/new_ht_miss/ht_type_miss" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/rep_miss/new_ht_miss/note_ht0_miss" readonly="true()" type="string"/>
@@ -7662,8 +7662,8 @@
                   <value>tag_key</value>
                 </item>
               </select1>
-              <input ref="/data/subquad/tree/tag_map/generated_note_name_111">
-                <label ref="jr:itext('/data/subquad/tree/tag_map/generated_note_name_111:label')"/>
+              <input ref="/data/subquad/tree/tag_map/generated_note_name_112">
+                <label ref="jr:itext('/data/subquad/tree/tag_map/generated_note_name_112:label')"/>
               </input>
               <select1 ref="/data/subquad/tree/tag_map/same_tag">
                 <label ref="jr:itext('/data/subquad/tree/tag_map/same_tag:label')"/>
@@ -7734,9 +7734,9 @@
             </group>
             <group appearance="field-list" ref="/data/subquad/tree/tag_new">
               <label ref="jr:itext('/data/subquad/tree/tag_new:label')"/>
-              <input ref="/data/subquad/tree/tag_new/generated_note_name_155">
-                <label ref="jr:itext('/data/subquad/tree/tag_new/generated_note_name_155:label')"/>
-                <hint ref="jr:itext('/data/subquad/tree/tag_new/generated_note_name_155:hint')"/>
+              <input ref="/data/subquad/tree/tag_new/generated_note_name_156">
+                <label ref="jr:itext('/data/subquad/tree/tag_new/generated_note_name_156:label')"/>
+                <hint ref="jr:itext('/data/subquad/tree/tag_new/generated_note_name_156:hint')"/>
               </input>
               <input ref="/data/subquad/tree/tag_new/new_tag0" appearance="numbers thousands-sep">
                 <label ref="jr:itext('/data/subquad/tree/tag_new/new_tag0:label')"/>
@@ -7764,15 +7764,12 @@
                   <value>xyid</value>
                 </item>
               </select1>
-              <input ref="/data/subquad/tree/map/generated_note_name_168">
-                <label ref="jr:itext('/data/subquad/tree/map/generated_note_name_168:label')"/>
+              <input ref="/data/subquad/tree/map/generated_note_name_169">
+                <label ref="jr:itext('/data/subquad/tree/map/generated_note_name_169:label')"/>
               </input>
             </group>
             <group appearance="field-list" ref="/data/subquad/tree/confplaq_map">
               <label ref="jr:itext('/data/subquad/tree/confplaq_map:label')"/>
-              <input ref="/data/subquad/tree/confplaq_map/generated_note_name_172">
-                <label ref="jr:itext('/data/subquad/tree/confplaq_map/generated_note_name_172:label')"/>
-              </input>
               <input ref="/data/subquad/tree/confplaq_map/generated_note_name_173">
                 <label ref="jr:itext('/data/subquad/tree/confplaq_map/generated_note_name_173:label')"/>
               </input>
@@ -7784,6 +7781,9 @@
               </input>
               <input ref="/data/subquad/tree/confplaq_map/generated_note_name_176">
                 <label ref="jr:itext('/data/subquad/tree/confplaq_map/generated_note_name_176:label')"/>
+              </input>
+              <input ref="/data/subquad/tree/confplaq_map/generated_note_name_177">
+                <label ref="jr:itext('/data/subquad/tree/confplaq_map/generated_note_name_177:label')"/>
               </input>
               <range ref="/data/subquad/tree/confplaq_map/ileg_conf" start="0" end="1" step="0.1">
                 <label ref="jr:itext('/data/subquad/tree/confplaq_map/ileg_conf:label')"/>
@@ -8162,8 +8162,8 @@
               <upload ref="/data/subquad/tree/conf_info/tree_picture05" mediatype="image/*">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/tree_picture05:label')"/>
               </upload>
-              <input ref="/data/subquad/tree/conf_info/generated_note_name_319">
-                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_319:label')"/>
+              <input ref="/data/subquad/tree/conf_info/generated_note_name_320">
+                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_320:label')"/>
               </input>
               <select1 ref="/data/subquad/tree/conf_info/conf_ok">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/conf_ok:label')"/>
@@ -8173,23 +8173,23 @@
                   <label ref="jr:itext(itextId)"/>
                 </itemset>
               </select1>
-              <input ref="/data/subquad/tree/conf_info/generated_note_name_321">
-                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_321:label')"/>
-              </input>
               <input ref="/data/subquad/tree/conf_info/generated_note_name_322">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_322:label')"/>
               </input>
               <input ref="/data/subquad/tree/conf_info/generated_note_name_323">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_323:label')"/>
               </input>
+              <input ref="/data/subquad/tree/conf_info/generated_note_name_324">
+                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_324:label')"/>
+              </input>
             </group>
           </repeat>
         </group>
         <group appearance="field-list" ref="/data/subquad/miss_tree">
           <label ref="jr:itext('/data/subquad/miss_tree:label')"/>
-          <input ref="/data/subquad/miss_tree/generated_note_name_336">
-            <label ref="jr:itext('/data/subquad/miss_tree/generated_note_name_336:label')"/>
-            <hint ref="jr:itext('/data/subquad/miss_tree/generated_note_name_336:hint')"/>
+          <input ref="/data/subquad/miss_tree/generated_note_name_337">
+            <label ref="jr:itext('/data/subquad/miss_tree/generated_note_name_337:label')"/>
+            <hint ref="jr:itext('/data/subquad/miss_tree/generated_note_name_337:hint')"/>
           </input>
         </group>
         <group ref="/data/subquad/rep_miss">
@@ -8204,9 +8204,9 @@
                   <value>tag_key</value>
                 </item>
               </select1>
-              <input ref="/data/subquad/rep_miss/conf_miss/generated_note_name_349">
-                <label ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_349:label')"/>
-                <hint ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint')"/>
+              <input ref="/data/subquad/rep_miss/conf_miss/generated_note_name_350">
+                <label ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_350:label')"/>
+                <hint ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_350:hint')"/>
               </input>
               <select1 ref="/data/subquad/rep_miss/conf_miss/miss_conf">
                 <label ref="jr:itext('/data/subquad/rep_miss/conf_miss/miss_conf:label')"/>
@@ -8268,8 +8268,8 @@
                   <value>xyid</value>
                 </item>
               </select1>
-              <input ref="/data/subquad/rep_miss/map_miss/generated_note_name_380">
-                <label ref="jr:itext('/data/subquad/rep_miss/map_miss/generated_note_name_380:label')"/>
+              <input ref="/data/subquad/rep_miss/map_miss/generated_note_name_381">
+                <label ref="jr:itext('/data/subquad/rep_miss/map_miss/generated_note_name_381:label')"/>
               </input>
             </group>
             <group appearance="field-list" ref="/data/subquad/rep_miss/new_ht_miss">
