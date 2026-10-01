@@ -1,5 +1,4 @@
 ---
-title: "Manual odkTreeCensus"
 lang: pt
 vignette: >
   %\VignetteIndexEntry{Manual odkTreeCensus}

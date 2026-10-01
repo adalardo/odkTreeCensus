@@ -28,7 +28,7 @@ format:
         \AfterEndEnvironment{Highlighting}{\vspace{0.8em}}
 
     toc: false
-    number-sections: true
+    number-sections: false
     colorlinks: true
 
 execute:
