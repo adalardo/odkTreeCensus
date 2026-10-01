@@ -7129,7 +7129,7 @@
       <bind nodeset="/data/subquad/so_sub" type="string" calculate="if (position(..) = 1, '~', once(substr( /data/sub_selected , 0, string-length( /data/sub_selected ))))"/>
       <bind nodeset="/data/subquad/quad5" type="string" constraint="not(selected( ../so_sub , .))" required="true()" jr:requiredMsg="jr:itext('/data/subquad/quad5:jr:requiredMsg')" relevant="selected( /data/local/work_size , 'size5')"/>
       <bind nodeset="/data/subquad/quad10" type="string" constraint="not(selected( ../so_sub , .))" required="true()" jr:requiredMsg="jr:itext('/data/subquad/quad10:jr:requiredMsg')" relevant="selected( /data/local/work_size , 'size10')"/>
-      <bind nodeset="/data/subquad/sel_subquad" type="string" calculate="if( /data/local/work_size  = 'size5', concat( /data/parcela/quadrat , substring-before(substring-after( ../quad5 , 'subq_'), '.1')), concat( /data/parcela/quadrat , substring-before(substring-after( ../quad10 , 'subq_'), '.1')))"/>
+      <bind nodeset="/data/subquad/sel_subquad" type="string" calculate="if( /data/local/work_size  = 'size5', concat( /data/parcela/quadrat , substring-before(substring-after( ../quad5 , 'subq'), '.1')), concat( /data/parcela/quadrat , substring-before(substring-after( ../quad10 , 'subq'), '.1')))"/>
       <bind nodeset="/data/subquad/mapname" type="string" calculate="concat('map',  ../sel_subquad ,'.svg')"/>
       <bind nodeset="/data/subquad/gridname" type="string" calculate="if( /data/local/work_size  = 'size5', concat('grid05_',  ../sel_subquad ,'.svg'), concat('grid10_',  ../sel_subquad ,'.svg'))"/>
       <bind nodeset="/data/subquad/n_sub" type="string" calculate="position(..)"/>
