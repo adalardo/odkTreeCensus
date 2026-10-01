@@ -7154,7 +7154,7 @@
       <bind nodeset="/data/subquad/tree/tag_map/tree_map_key" type="string"/>
       <bind nodeset="/data/subquad/tree/tag_map/tree_tag_map" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'tag', 'tag_key',  ../tree_map_key )"/>
       <bind nodeset="/data/subquad/tree/tag_map/map_dbh" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'dbh', 'tag',  ../tree_tag_map )"/>
-      <bind nodeset="/data/subquad/tree/tag_map/map_ht" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'alt', 'tag',  ../tree_tag_map )"/>
+      <bind nodeset="/data/subquad/tree/tag_map/map_ht" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'ht', 'tag',  ../tree_tag_map )"/>
       <bind nodeset="/data/subquad/tree/tag_map/map_fam" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'fam', 'tag',  ../tree_tag_map )"/>
       <bind nodeset="/data/subquad/tree/tag_map/map_sp" type="string" relevant=" ../tree_map_key  !=''" calculate="pulldata('lastCensus', 'species', 'tag',  ../tree_tag_map )"/>
       <bind nodeset="/data/subquad/tree/tag_map/generated_note_name_112" readonly="true()" type="string" relevant=" ../tree_map_key  !=''"/>
@@ -7175,7 +7175,7 @@
       <bind nodeset="/data/subquad/tree/tree_recenso/old_dbhcm" type="string" calculate="pulldata('lastCensus', 'dbhcm', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_papcm" type="string" calculate=" ../old_dbhcm * pi()"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_dbhmm" type="string" calculate=" ../old_dbhcm  * 10"/>
-      <bind nodeset="/data/subquad/tree/tree_recenso/old_ht" type="string" calculate="pulldata('lastCensus', 'alt', 'tag',  ../tree_tag )"/>
+      <bind nodeset="/data/subquad/tree/tree_recenso/old_ht" type="string" calculate="pulldata('lastCensus', 'ht', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_quad" type="string" calculate="pulldata('lastCensus', 'quad', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_qx" type="string" calculate="pulldata('lastCensus', 'qx', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_qy" type="string" calculate="pulldata('lastCensus', 'qy', 'tag',  ../tree_tag )"/>
@@ -7185,7 +7185,7 @@
       <bind nodeset="/data/subquad/tree/tree_recenso/old_fam" type="string" calculate="pulldata('lastCensus', 'fam', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_gen" type="string" calculate="pulldata('lastCensus', 'gen', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_sp" type="string" calculate="pulldata('lastCensus', 'species', 'tag',  ../tree_tag )"/>
-      <bind nodeset="/data/subquad/tree/tree_recenso/old_nstem" type="string" calculate="pulldata('lastCensus', 'nfuste', 'tag',  ../tree_tag )"/>
+      <bind nodeset="/data/subquad/tree/tree_recenso/old_nstem" type="string" calculate="pulldata('lastCensus', 'nstem', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_nsec" type="string" calculate=" ../old_nstem  - 1"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/tag_ok" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/tree_recenso/tag_ok:jr:requiredMsg')" relevant=" ../../ttree/tree_type ='plaqueada'"/>
       <bind nodeset="/data/subquad/tree/tag_new" relevant=" ../ttree/tree_type  = 'sem_info' or  ../ttree/tree_type  = 'plaq_ileg' or  ../tree_recenso/tag_ok  = 'no'"/>
@@ -7334,7 +7334,7 @@
       <bind nodeset="/data/subquad/rep_miss/miss_true" type="string" calculate="not(selected( ../../tag_selected ,  ../miss_num ))"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss" relevant=" ../miss_true "/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_dbh_miss" type="string" calculate="pulldata('lastCensus', 'dbh', 'tag',  ../../miss_num )"/>
-      <bind nodeset="/data/subquad/rep_miss/conf_miss/old_ht_miss" type="string" calculate="pulldata('lastCensus', 'alt', 'tag',  ../../miss_num )"/>
+      <bind nodeset="/data/subquad/rep_miss/conf_miss/old_ht_miss" type="string" calculate="pulldata('lastCensus', 'ht', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_fam_miss" type="string" calculate="pulldata('lastCensus', 'fam', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_sp_miss" type="string" calculate="pulldata('lastCensus', 'species', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/miss_tag_key" type="string"/>
@@ -7352,7 +7352,7 @@
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_dx_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'dx', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_dy_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'dy', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_xy_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="concat( ../old_dx_miss ,'; ',  ../old_dy_miss  )"/>
-      <bind nodeset="/data/subquad/rep_miss/miss_found/old_nstem_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'nfuste', 'tag',  ../../miss_num )"/>
+      <bind nodeset="/data/subquad/rep_miss/miss_found/old_nstem_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'nstem', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_nsec_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate=" ../old_nstem_miss  - 1"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/tagmap_conf_miss" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/miss_found/tagmap_conf_miss:jr:requiredMsg')" relevant=" ../miss_alive = 'yes'"/>
       <bind nodeset="/data/subquad/rep_miss/miss_new_tag" relevant=" ../miss_found/tag_ok_miss  = 'no'"/>
