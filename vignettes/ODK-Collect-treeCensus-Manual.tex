@@ -213,6 +213,22 @@
 \author{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\@ifpackageloaded{fontawesome5}{}{\usepackage{fontawesome5}}
+\definecolor{quarto-callout-color}{HTML}{909090}
+\definecolor{quarto-callout-note-color}{HTML}{0758E5}
+\definecolor{quarto-callout-important-color}{HTML}{CC1914}
+\definecolor{quarto-callout-warning-color}{HTML}{EB9113}
+\definecolor{quarto-callout-tip-color}{HTML}{00A047}
+\definecolor{quarto-callout-caution-color}{HTML}{FC5300}
+\definecolor{quarto-callout-color-frame}{HTML}{acacac}
+\definecolor{quarto-callout-note-color-frame}{HTML}{4582ec}
+\definecolor{quarto-callout-important-color-frame}{HTML}{d9534f}
+\definecolor{quarto-callout-warning-color-frame}{HTML}{f0ad4e}
+\definecolor{quarto-callout-tip-color-frame}{HTML}{02b875}
+\definecolor{quarto-callout-caution-color-frame}{HTML}{fd7e14}
+\makeatother
+\makeatletter
 \@ifpackageloaded{bookmark}{}{\usepackage{bookmark}}
 \makeatother
 \makeatletter
@@ -276,7 +292,7 @@
 
 \title{ODK Collect treeCensus Manual}
 \author{Alexandre Adalardo de Oliveira}
-\date{2026-09-28}
+\date{2026-10-01}
 \begin{document}
 \maketitle
 
@@ -373,13 +389,10 @@ coleta de dados via ODK Collect.
 
 \bookmarksetup{startatroot}
 
-\chapter{Criar projeto no ODK
-Collect}\label{criar-projeto-no-odk-collect}
+\chapter{Instalando pacote
+odkTreeCensus}\label{instalando-pacote-odktreecensus}
 
  \input{latex/capa.tex}
-
-\section{Instalando pacote
-odkTreeCensus}\label{instalando-pacote-odktreecensus}
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -401,38 +414,7 @@ odkTreeCensus}\label{instalando-pacote-odktreecensus}
 \DocumentationTok{\#\# instala a versao recente do odkTreeCensus}
 
 \NormalTok{remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"adalardo/odkTreeCensus"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Transcreve formulário xml}\label{transcreve-formuluxe1rio-xml}
-
-Aqui só é necessário transcrever se houve alguma alteração no formulário
-xlsx depois da instalação do pacote.
-
-O formulário é criado em xlsx no libreOffice. É preciso traduzir para
-formato xml utilizando o pacote do python pyxform. O pyxform foi
-incorporado no pacote do R, assim como o `'treeCensusForm.xlsx'\,' e o
-``treeCensusForm.xml''.
-
-Este procedimento é dispensável, o pacote já é distribuído com o
-formulário xml traduzido.
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \FunctionTok{library}\NormalTok{(}\StringTok{"odkTreeCensus"}\NormalTok{)}
-\NormalTok{xlsxfile }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk/treeCensusForm.xlsx"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
-\FunctionTok{xmlForm}\NormalTok{(}\AttributeTok{xlsxPath =}\NormalTok{ xlsxfile, }\AttributeTok{xmlPath =} \StringTok{"../odkData/treeCensusForm.xlsx"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\section{Copia o caminho do formulário
-XML}\label{copia-o-caminho-do-formuluxe1rio-xml}
-
-Copiando o caminho onde se encontra o formulário xml do pacote
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{xmlPath }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk/treeCensusForm.xml"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -441,31 +423,62 @@ acessórios}\label{criar-arquivos-de-dados-acessuxf3rios}
 
 Todos os arquivos de dados que acompanham o formulário no ODK Collect
 devem ser arquivos em texto puro no formato csv, separado por ``,'' e
-decimal ``.''.
+decimal ``.''. Eles são criados em um diretorio local no computador para
+depois serem transferidos para o \texttt{ODK\ Collect}.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-tip-color!10!white, colframe=quarto-callout-tip-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-tip-color}{\faLightbulb}\hspace{0.5em}{Importante}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+ude o caminho do objeto \texttt{dirODK} para um diretório local do seu
+computador onde pretende salvar os arquivos de media do
+\texttt{OKD\ Collect}. Este vai se o diretório de onde os arquivos sẽrão
+transferidos do computador para o dispositivo móvel com o
+\texttt{ODK\ Collect}.
+
+\end{tcolorbox}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dirODK }\OtherTok{\textless{}{-}} \StringTok{"/home/aao/Ale2026/AleProjetos/Rpackages/odkData"}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{Dados das árvores do último censo e códigos de
 subparcelas}\label{dados-das-uxe1rvores-do-uxfaltimo-censo-e-cuxf3digos-de-subparcelas}
 
 O \texttt{lastcensus.csv} é um arquivo de dados do censo anterior. Veja
-o \texttt{help(lastCensusODK)}. Os arquivos \texttt{xcode.csv} e
-\texttt{ycode.csv} são códigos das subparcelas do plot e tem duas
-colunas \texttt{label} e \texttt{name}, que identificam as subparcelas
-no eixo x e y. As colunas podem ter a mesma informação, mas ambas são
+o \texttt{help(lastCensusODK)}. Os dados \texttt{peicCensus2019} são
+distribuídos junto ao pacote em um arquivo \texttt{.rda}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#help(lastCensusODK)}
+
+\DocumentationTok{\#\# peicCensus2019 \textless{}{-} read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)}
+\DocumentationTok{\#\# str(peic2019)}
+\DocumentationTok{\#\# save(peicCensus2019, file = "data/lastCensusPEIC.rda", compress = "bzip2")}
+\DocumentationTok{\#\# dir("data")}
+\FunctionTok{data}\NormalTok{(}\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\FunctionTok{data}\NormalTok{(}\StringTok{"lastCensusPEIC"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(peicCensus2019)}
+\NormalTok{lastCensus }\OtherTok{\textless{}{-}} \FunctionTok{lastCensusODK}\NormalTok{(}\AttributeTok{data =}\NormalTok{ peicCensus2019 , }\AttributeTok{splitX =} \DecValTok{5}\NormalTok{, }\AttributeTok{splitY =} \DecValTok{5}\NormalTok{, }\AttributeTok{maxX =} \DecValTok{20}\NormalTok{, }\AttributeTok{maxY =} \DecValTok{20}\NormalTok{, }\AttributeTok{subPlotCodeX =}\NormalTok{ xCode, }\AttributeTok{subPlotCodeY =}\NormalTok{ yCode, }\AttributeTok{dirData =}\NormalTok{ dirODK, }\AttributeTok{save =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(lastCensus)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Códigos das subparcelas}\label{cuxf3digos-das-subparcelas}
+
+Os arquivos \texttt{xcode.csv} e \texttt{ycode.csv} armazenam os códigos
+das subparcelas do plot e tem duas colunas \texttt{label} e
+\texttt{name}, que identificam as subparcelas no eixo x e y,
+respectivamente. As colunas podem ter a mesma informação, mas ambas são
 necessárias.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{help}\NormalTok{(lastCensusODK)}
-
-\NormalTok{peic19 }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \StringTok{"/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv"}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)}
-\FunctionTok{str}\NormalTok{(peic19)}
 \NormalTok{xCode }\OtherTok{\textless{}{-}}\NormalTok{  LETTERS[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{16}\NormalTok{]}
 \NormalTok{yCode }\OtherTok{\textless{}{-}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%02d"}\NormalTok{, }\DecValTok{0}\SpecialCharTok{:}\DecValTok{15}\NormalTok{)}
-\NormalTok{dirODK }\OtherTok{\textless{}{-}} \StringTok{"/home/aao/Ale2026/AleProjetos/Rpackages/odkData"}
 \FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ xCode, }\AttributeTok{label =}\NormalTok{ xCode), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"xcode.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ yCode, }\AttributeTok{label =}\NormalTok{ yCode), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"ycode.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
-
-\NormalTok{odkdata }\OtherTok{\textless{}{-}} \FunctionTok{lastCensusODK}\NormalTok{(}\AttributeTok{data =}\NormalTok{ peic19 , }\AttributeTok{splitX =} \DecValTok{5}\NormalTok{, }\AttributeTok{splitY =} \DecValTok{5}\NormalTok{, }\AttributeTok{maxX =} \DecValTok{20}\NormalTok{, }\AttributeTok{maxY =} \DecValTok{20}\NormalTok{, }\AttributeTok{subPlotCodeX =}\NormalTok{ xCode, }\AttributeTok{subPlotCodeY =}\NormalTok{ yCode, }\AttributeTok{dirData =}\NormalTok{ dirODK, }\AttributeTok{save =} \ConstantTok{TRUE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -513,21 +526,222 @@ no mesmo campo.
 \end{Highlighting}
 \end{Shaded}
 
-\subsection{subqkey.csv}\label{subqkey.csv}
+\section{Mapas e Grids svg}\label{mapas-e-grids-svg}
+
+Os mapas e grids do formulário foram feitos em \texttt{svg} para
+permitir a seleção de elementos na imagem. Para isso usamos os pacotes
+\texttt{grid} e \texttt{gridSVG}.
+
+\subsection{Os rótulos para os svg}\label{os-ruxf3tulos-para-os-svg}
+
+Para que os elementos do \texttt{svg} sejam selecionados é preciso que
+os rótulos sejam opções na planilha \texttt{choices} do formulário
+\texttt{xlsx}. Quando há muitas opções é preferível incorporá-las em um
+arquivo \texttt{csv}.
+
+Como os mapas incorporam uma borda além do \texttt{subquadrat} é preciso
+fazer um objeto de dados de mapas, completo. Esse arquivo é uma lista
+grande quando é feito para a parcela toda, mas pode ser feito
+parcialmente para subparcelas.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-note-color!10!white, colframe=quarto-callout-note-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Árvores vivas}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+O arquivo está sendo contruído apenas com as árvores vivas no censo
+anterior, apesar de ser desejável ter árvores morta e desaparecidas,
+isso provavelmente,deixaria o mapa muito poluído.
+
+\end{tcolorbox}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subplot }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{unique}\NormalTok{(odkdata}\SpecialCharTok{$}\NormalTok{quad))}
+\NormalTok{mapdata }\OtherTok{\textless{}{-}} \FunctionTok{mapData}\NormalTok{(odkdata[odkdata}\SpecialCharTok{$}\NormalTok{status }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{, ], }\AttributeTok{subplotCodes =}\NormalTok{ subplot, }\AttributeTok{splitX =} \DecValTok{5}\NormalTok{, }\AttributeTok{splitY =} \DecValTok{5}\NormalTok{, }\AttributeTok{maxX =} \DecValTok{20}\NormalTok{, }\AttributeTok{maxY =} \DecValTok{20}\NormalTok{, }\AttributeTok{buffer =} \DecValTok{2}\NormalTok{)}
+\NormalTok{sk }\OtherTok{\textless{}{-}} \FunctionTok{subqKey}\NormalTok{(}\AttributeTok{dataMap =}\NormalTok{ mapdata, }\AttributeTok{dirData =}\NormalTok{ dirODK, }\AttributeTok{saveFile =} \ConstantTok{TRUE}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(sk)}
+\NormalTok{sk[sk}\SpecialCharTok{$}\NormalTok{subq }\SpecialCharTok{==} \StringTok{"A00\_0x0"}\NormalTok{, ]}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{gridid.csv}\label{gridid.csv}
 
-\section{Mapas e Grids svg}\label{mapas-e-grids-svg}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subqSize }\OtherTok{=} \DecValTok{5}
+\NormalTok{gridSize }\OtherTok{=}\NormalTok{ .}\DecValTok{2}
+\NormalTok{xseq }\OtherTok{\textless{}{-}}  \FunctionTok{rep}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\FloatTok{0.0}\NormalTok{, subqSize }\SpecialCharTok{{-}}\NormalTok{ gridSize, }\AttributeTok{by =}\NormalTok{ gridSize), }\AttributeTok{each =}\NormalTok{ subqSize}\SpecialCharTok{/}\NormalTok{gridSize)}
+\NormalTok{yseq }\OtherTok{\textless{}{-}}  \FunctionTok{rep}\NormalTok{(}\FunctionTok{seq}\NormalTok{(}\FloatTok{0.0}\NormalTok{, subqSize }\SpecialCharTok{{-}}\NormalTok{ gridSize, }\AttributeTok{by =}\NormalTok{ gridSize), subqSize}\SpecialCharTok{/}\NormalTok{gridSize)}
+
+\NormalTok{xyid  }\OtherTok{\textless{}{-}}  \FunctionTok{paste}\NormalTok{(}\StringTok{"x = "}\NormalTok{,}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%1.1f"}\NormalTok{, xseq), }\StringTok{"; y = "}\NormalTok{, }\FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%1.1f"}\NormalTok{, yseq),}\StringTok{"; .1"}\NormalTok{, }\AttributeTok{sep=}\StringTok{""}\NormalTok{)}
+\FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{xyid =}\NormalTok{ xyid, }\AttributeTok{xseq =}\NormalTok{ xseq, }\AttributeTok{yseq =}\NormalTok{ yseq), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK, }\StringTok{"gridid.csv"}\NormalTok{),}\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+
+\NormalTok{xyid }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK, }\StringTok{"gridid.csv"}\NormalTok{), }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{sep =} \StringTok{","}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(xyid)}
+\end{Highlighting}
+\end{Shaded}
 
 \subsection{Seleção de subquadrat}\label{seleuxe7uxe3o-de-subquadrat}
 
-\subsection{Mapas para a seleção de
-árvores}\label{mapas-para-a-seleuxe7uxe3o-de-uxe1rvores}
+O mapa que gera a figura com os subquadrats para serem selecionados.
+Preciso ajustar os argumentos para ficar no padrão das outras funções.
 
-\subsection{Grid para mapeamento de
-árvores}\label{grid-para-mapeamento-de-uxe1rvores}
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{selSubq}\NormalTok{(}\AttributeTok{xmax =} \DecValTok{20}\NormalTok{, }\AttributeTok{ymax =} \DecValTok{20}\NormalTok{, }\AttributeTok{subqX =} \DecValTok{5}\NormalTok{, }\AttributeTok{subqY =} \DecValTok{5}\NormalTok{, }\AttributeTok{mapSize =} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{10}\NormalTok{), }\AttributeTok{fontSize =} \DecValTok{14}\NormalTok{, }\AttributeTok{wd2save =}\NormalTok{ dirODK)}
+\end{Highlighting}
+\end{Shaded}
 
-\subsection{}\label{section}
+\subsection{Mapas e Grids para seleção e mapeamente de
+árvores}\label{mapas-e-grids-para-seleuxe7uxe3o-e-mapeamente-de-uxe1rvores}
+
+Para produzir os mapas com as localizações das árvores, precisa criar o
+objeto de dados com a função \texttt{mapData}. Aqui estou criando os
+dados apenas para a coluna \texttt{A} como exemplo. Os dados de mapa,
+assim como os mapas e grids são arquivos grandes que não devem ser
+carregados todos de uma vez no dispositivo móvel. Para os grids de
+mapeamente, esse objeto não é necessário, já que não há buffer para o
+mapeamento.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{subplotA }\OtherTok{\textless{}{-}} \FunctionTok{sort}\NormalTok{(}\FunctionTok{grep}\NormalTok{(}\StringTok{"A"}\NormalTok{, }\FunctionTok{unique}\NormalTok{(odkdata}\SpecialCharTok{$}\NormalTok{quad), }\AttributeTok{value =} \ConstantTok{TRUE}\NormalTok{))}
+\NormalTok{mapdataA }\OtherTok{\textless{}{-}} \FunctionTok{mapData}\NormalTok{(odkdata[odkdata}\SpecialCharTok{$}\NormalTok{status }\SpecialCharTok{==} \StringTok{"A"}\NormalTok{, ], }\AttributeTok{subplotCodes =}\NormalTok{ subplotA, }\AttributeTok{splitX =} \DecValTok{5}\NormalTok{, }\AttributeTok{splitY =} \DecValTok{5}\NormalTok{, }\AttributeTok{maxX =} \DecValTok{20}\NormalTok{, }\AttributeTok{maxY =} \DecValTok{20}\NormalTok{, }\AttributeTok{buffer =} \DecValTok{2}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(mapdataA)}
+\NormalTok{nsuqA }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(mapdataA)}
+\CommentTok{\#subplotA \textless{}{-} paste("A", sprintf("\%02d", 0:15), sep = "")}
+
+\ControlFlowTok{for}\NormalTok{(i }\ControlFlowTok{in}\NormalTok{ subplotA)}
+\NormalTok{\{}
+    \FunctionTok{svgMap}\NormalTok{(mapdataA, }\AttributeTok{subPlotCode =}\NormalTok{ i, }\AttributeTok{mapSize =} \FunctionTok{c}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{12}\NormalTok{), }\AttributeTok{fontSize =} \DecValTok{12}\NormalTok{, }\AttributeTok{wd2save =} \FunctionTok{file.path}\NormalTok{(dirODK, }\StringTok{"subplotA"}\NormalTok{))}
+    \FunctionTok{svgGrid}\NormalTok{(}\AttributeTok{censoData =}\NormalTok{ odkdata, }\AttributeTok{subPlotCode =}\NormalTok{ i, }\AttributeTok{mapSize =} \FunctionTok{c}\NormalTok{(}\DecValTok{12}\NormalTok{, }\DecValTok{12}\NormalTok{), }\AttributeTok{fontSize =} \DecValTok{12}\NormalTok{, }\AttributeTok{wd2save =} \FunctionTok{file.path}\NormalTok{(dirODK, }\StringTok{"subplotA"}\NormalTok{))}
+    
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\section{ODK Collect}\label{odk-collect}
+
+\section{Dispositivo android}\label{dispositivo-android}
+
+O dispositivo android precisa ter a ``Depuração USB'' ativada, para isso
+é preciso desbloquear as ``Opções de desenvolvedor'' Conecte o
+dispositivo android e garanta que ele tem ``Opções de desenvolvedor'' e
+``Depuração USB'' ativados. Caso não esteja, veja como
+\href{ativar\%20opção\%20de\%20desenvolvedor}{https://developer.android.com/studio/debug/dev-options?hl=pt-br}.
+Entre na ``opções de desenvolvedor'' nas configurações do android e
+ative ``Depuração USB''.
+
+\section{Android Debug Bridge}\label{android-debug-bridge}
+
+O ADB é necessário para que o computador conectado ao dispositivo
+conecte e transfira arquivos pelo pacote.
+
+No linux (Debian ou Ubuntu) use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sudo}\NormalTok{ apt update}
+\FunctionTok{sudo}\NormalTok{ apt install android{-}tools{-}adb}
+\end{Highlighting}
+\end{Shaded}
+
+No archlinux:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sudo}\NormalTok{ pacman }\AttributeTok{{-}S}\NormalTok{ android{-}tools}
+\end{Highlighting}
+\end{Shaded}
+
+No windows, consulte:
+\href{adb}{https://developer.android.com/tools/adb?hl=pt-br}
+
+\section{Instale e crie o projeto no ODK
+Collect}\label{instale-e-crie-o-projeto-no-odk-collect}
+
+Caso a instalação do ODK Collect seja nova, abra o aplicativo e crie um
+projeto. A URL para o projeto deve ser: https://odk.ib.usp.br
+
+\section{Conectando o Dispositivo
+Android}\label{conectando-o-dispositivo-android}
+
+Após conectar o tablet ao computador abra as notificações e nas opções
+de conexão USB selecione a ``Transferir arquivos/Android Auto''.
+Mantenha o dispositivo ativo e sem bloqueio de tela.
+
+\subsection{Configurando o USB
+Padrão}\label{configurando-o-usb-padruxe3o}
+
+Para tornar o dispositivo android sempre configurado para a troca de
+arquivos pelo usb, conecte ao computador, vá para: * Configurações *
+Opcções do desenvolvedor * Configurações USB padrão * selecione:
+``Transferindo arquivos/Android Auto'' * desconecte o cabo USB e
+reconecte * confira a Configuração USB padrão * caso mude para ``Apenas
+carregar o tablet'' * selecione novamente ``Tranferindo arquivos/Android
+Auto'' * desconecte e reconecte o cabo USB para verificar se a
+configuração permanece.
+
+\subsection{Criar projeto no ODK
+Collect}\label{criar-projeto-no-odk-collect}
+
+O dispositivo móvel deve ter instalado o app \texttt{ODK\ Collect} e ter
+um projeto iniciado. A url do projeto pode ser
+\texttt{https:\textbackslash{}\textbackslash{}odk.ib.usp.br}, onde há um
+\texttt{ODK\ Central} instalado.
+
+\subsection{Atualizar o formulário
+xml}\label{atualizar-o-formuluxe1rio-xml}
+
+Aqui só é necessário atualizar se houve alguma alteração no formulário
+\texttt{treeCensusForm.xlsx} depois da instalação do pacote.
+
+O formulário é criado em xlsx no libreOffice. É preciso traduzir para
+formato xml utilizando o pacote do python pyxform. O pyxform foi
+incorporado no pacote do R, assim como o \texttt{treeCensusForm.xlsx} e
+o \texttt{treeCensusForm.xml}.
+
+\begin{tcolorbox}[enhanced jigsaw, arc=.35mm, bottomrule=.15mm, bottomtitle=1mm, breakable, colback=white, colbacktitle=quarto-callout-warning-color!10!white, colframe=quarto-callout-warning-color-frame, coltitle=black, left=2mm, leftrule=.75mm, opacityback=0, opacitybacktitle=0.6, rightrule=.15mm, title=\textcolor{quarto-callout-warning-color}{\faExclamationTriangle}\hspace{0.5em}{Atenção}, titlerule=0mm, toprule=.15mm, toptitle=1mm]
+
+Este procedimento é dispensável, o pacote já é distribuído com o
+formulário xml traduzido e atualizado. Ele só deve ser usado se houver
+alguma mudança local no xlsxform (planilha LibreOffice) que precisa ser
+incorporada no formulário, em casos de mudanças locais emergenciais.
+Caso seja um bug, deve ser informado no isssues do github para a solução
+seja incorporada na distribuição do pacote.
+
+\end{tcolorbox}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xlsxFile }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk/treeCensusForm.xlsx"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\NormalTok{pkgDirForm }\OtherTok{\textless{}{-}} \FunctionTok{dirname}\NormalTok{(xlsxFile)}
+\NormalTok{xmlFile }\OtherTok{\textless{}{-}} \FunctionTok{file.path}\NormalTok{(pkgDirForm, }\StringTok{"treeCensusForm.xml"}\NormalTok{)}
+\FunctionTok{xmlForm}\NormalTok{(}\AttributeTok{xlsxPath =}\NormalTok{ xlsxFile, }\AttributeTok{xmlPath =}\NormalTok{ xmlFile)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Copia o caminho do formulário
+XML}\label{copia-o-caminho-do-formuluxe1rio-xml}
+
+Copiando o caminho onde se encontra o formulário \texttt{xml} do pacote
+para tranferir ao dispositivo móvel.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{xmlDir }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\NormalTok{xmlPath }\OtherTok{\textless{}{-}} \FunctionTok{system.file}\NormalTok{(}\StringTok{"odk/treeCensusForm.xml"}\NormalTok{, }\AttributeTok{package =} \StringTok{"odkTreeCensus"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\section{Subindo o formulário para o dispositivo móvel
+android}\label{subindo-o-formuluxe1rio-para-o-dispositivo-muxf3vel-android}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{pushToODKCollect}\NormalTok{(}\AttributeTok{localDir =}\NormalTok{ xmlDir, }\AttributeTok{formName =} \StringTok{"treeCensusForm"}\NormalTok{)}
+\FunctionTok{mediaToODK}\NormalTok{(}\AttributeTok{localMediaDir =}\NormalTok{ dirODK, }\AttributeTok{formName =} \StringTok{"treeCensusForm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 
 
 

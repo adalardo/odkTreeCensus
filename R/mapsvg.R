@@ -436,10 +436,26 @@ selSubq <- function(xmax = 20, ymax = 20, subqX = 5, subqY = 5,
 
   # 4. Escreve o SVG no disco
     suppressWarnings(gridSVG::dev.off())
-  # 5. Edita os IDs e re-grava (warn = FALSE oculta o aviso de linha final incompleta)
-  svgLines <- readLines(filePath, warn = FALSE)
-  svgLines <- gsub('id="([^"]+?)\\.[0-9]+(\\.[0-9]+)*"', 'id="\\1"', svgLines)
-  writeLines(svgLines, filePath)
+  ######################################  
+## # 5. Tratamento de IDs, estilos e remoção de restrições de opacidade do gridSVG
+##   svgLines <- readLines(filePath, warn = FALSE)
+##   svgText <- paste(svgLines, collapse = "\n")
+  
+##   # A. Ajusta os IDs apenas nos elementos geométricos (<rect> e <polygon>)
+##   svgText <- gsub('<rect id="([^"]+?)\\.[0-9]+(\\.[0-9]+)*"', '<rect id="\\1"', svgText)
+##   svgText <- gsub('<polygon id="([^"]+?)\\.[0-9]+(\\.[0-9]+)*"', '<polygon id="\\1"', svgText)
+  
+##   # B. Remove o bloco <style>...</style> que o gridSVG injeta no cabeçalho
+##   svgText <- gsub('<style type="text/css">.*?</style>', '', svgText)
+  
+##   # C. Remove o fill-opacity="0" e stroke-opacity="0" do grupo pai do gridSVG
+##   svgText <- gsub('fill-opacity="0"', '', svgText)
+##   svgText <- gsub('stroke-opacity="0"', '', svgText)
+  
+##   # D. Converte style="fill:..." em atributo de apresentação direto fill="..."
+##   svgText <- gsub('style="fill:\\s*rgb\\(([^)]+)\\);?', 'fill="rgb(\\1)" style="', svgText)
+  
+##   writeLines(svgText, filePath)
   
   message(paste("Arquivo gravado com sucesso em:", filePath))
 }

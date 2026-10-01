@@ -1,9 +1,11 @@
 Package: odkTreeCensus
 Title: Tools for using ODK Collect forms for census trees 
-Version: 0.0.0.99
+Version: 0.0.1
 Authors@R: 
     person("Alexandre Adalardo de", "Oliveira", , "adalardo@usp.br", role = c("aut", "cre"))
 Description: Use and edit ODK forms, edit, push and retrieve data from android devices to census trees.
+Depends:
+    R (>= 3.5.0)
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8

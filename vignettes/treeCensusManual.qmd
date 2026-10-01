@@ -10,6 +10,7 @@
 ```{r }
 #| echo: true
 #| eval: false
+
 ## verifica se tem o pacote remotes e caso nao tenha instala
 if(!"remotes" %in% rownames(installed.packages()))
 {
@@ -50,7 +51,6 @@ ude o caminho do objeto `dirODK` para um diretório local do seu computador onde
 
 
 ```{r }
-
 #| echo: true
 #| eval: false
 
@@ -70,11 +70,10 @@ O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastC
 
 
 ```{r }
-
 #| echo: true
 #| eval: false
 
-help(lastCensusODK)
+#help(lastCensusODK)
 
 ## peicCensus2019 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
 ## str(peic2019)
@@ -93,6 +92,8 @@ str(lastCensus)
 Os arquivos `xcode.csv` e `ycode.csv` armazenam os códigos das subparcelas do plot e tem duas colunas `label` e `name`, que identificam as subparcelas no eixo x e y, respectivamente. As colunas podem ter a mesma informação, mas ambas são necessárias.
 
 ```{r }
+#| echo: true
+#| eval: false
 
 xCode <-  LETTERS[1:16]
 yCode <- sprintf("%02d", 0:15)
@@ -229,7 +230,6 @@ Para produzir os mapas com as localizações das árvores, precisa criar o objet
 
 
 ```{r }
-
 #| echo: true
 #| eval: false
 
@@ -268,7 +268,10 @@ O ADB é necessário para que o computador conectado ao dispositivo conecte e tr
 
 No linux (Debian ou Ubuntu) use:
 
-```{sh, eval = FALSE, echo = TRUE }
+```{sh}
+#| echo: true
+#| eval: false
+
 sudo apt update
 sudo apt install android-tools-adb
 
@@ -277,7 +280,11 @@ sudo apt install android-tools-adb
 No archlinux:
 
 ```{sh, eval = FALSE, echo = TRUE }
+#| echo: true
+#| eval: false
+
 sudo pacman -S android-tools
+
 ```
 
 No windows, consulte: [https://developer.android.com/tools/adb?hl=pt-br](adb)
@@ -326,7 +333,7 @@ O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato
 ## Atenção
 
 
-Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido. 
+Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido e atualizado. Ele só deve ser usado se houver alguma mudança local no xlsxform (planilha LibreOffice) que precisa ser incorporada no formulário, em casos de mudanças locais emergenciais. Caso seja um bug, deve ser informado no isssues do github para a solução seja incorporada na distribuição do pacote. 
 
 :::
 
