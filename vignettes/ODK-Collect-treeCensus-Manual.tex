@@ -489,10 +489,10 @@ O arquivo \texttt{team.csv} contém duas colunas: \texttt{name} e
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{nome }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Alexandre Adalardo"}\NormalTok{, }\StringTok{"Marcel Zimmermann"}\NormalTok{, }\StringTok{"Luisa Truffi"}\NormalTok{)}
-\NormalTok{apelido }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"AAO"}\NormalTok{, }\StringTok{"GIL"}\NormalTok{, }\StringTok{"LU"}\NormalTok{)}
+\NormalTok{lb }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"Alexandre Adalardo"}\NormalTok{, }\StringTok{"Marcel Zimmermann"}\NormalTok{, }\StringTok{"Luisa Truffi"}\NormalTok{)}
+\NormalTok{nm }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"AAO"}\NormalTok{, }\StringTok{"GIL"}\NormalTok{, }\StringTok{"LU"}\NormalTok{)}
 
-\FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ nome, }\AttributeTok{label =}\NormalTok{ apelido), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"team.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
+\FunctionTok{write.table}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{name =}\NormalTok{ nm, }\AttributeTok{label =}\NormalTok{ lb), }\AttributeTok{file =} \FunctionTok{file.path}\NormalTok{(dirODK,}\StringTok{"team.csv"}\NormalTok{),  }\AttributeTok{sep =} \StringTok{\textquotesingle{},\textquotesingle{}}\NormalTok{, }\AttributeTok{row.names =} \ConstantTok{FALSE}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 

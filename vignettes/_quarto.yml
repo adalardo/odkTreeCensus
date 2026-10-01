@@ -1,20 +1,36 @@
 project:
-  type: book
+  type: default
+  output-dir: ../inst/doc
 
-book:
-  title: "ODK Collect treeCensus Manual"
-  author: "Alexandre Adalardo de Oliveira"
-  date: last-modified
-  chapters:
-    - index.qmd
-    - treeCensusManual.qmd
- 
 format:
   pdf:
-    documentclass: report
-    keep-tex: true
-    suppress-title-page: true
-    toc: true
-    toc-depth: 3
-    include-in-header: latex/preamble.tex
-    include-before-body: latex/capa.tex
+    documentclass: article
+    papersize: a4
+    suppress-title: true
+    geometry:
+      - top=25mm
+      - left=20mm
+      - right=20mm
+      - bottom=25mm
+    include-in-header:
+      text: |
+        \usepackage{tikz}
+        \usepackage{graphicx}
+        \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+        
+        % Configuração de quebra de linha de código e espaçamento seguro
+        \usepackage{fvextra}
+        \fvset{breaklines=true, breakanywhere=true}
+        
+        % Adiciona espaçamento vertical antes e depois dos chunks de código
+        \usepackage{etoolbox}
+        \BeforeBeginEnvironment{Highlighting}{\vspace{0.8em}}
+        \AfterEndEnvironment{Highlighting}{\vspace{0.8em}}
+
+    toc: false
+    number-sections: true
+    colorlinks: true
+
+execute:
+  echo: true
+  eval: false

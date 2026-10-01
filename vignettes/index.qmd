@@ -1,3 +1,0 @@
-# Apresentação {.unnumbered}
-
-Este é o manual de utilização do pacote R **treeCensus** para coleta de dados via ODK Collect.

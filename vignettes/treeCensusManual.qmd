@@ -1,5 +1,19 @@
+---
+title: "Manual odkTreeCensus"
+lang: pt
+vignette: >
+  %\VignetteIndexEntry{Manual odkTreeCensus}
+  %\VignetteEngine{quarto::pdf}
+  %\VignetteEncoding{UTF-8}
+---
+
+
 ```{=latex}
- \input{latex/capa.tex}
+
+\input{latex/capa.tex}
+\clearpage
+\tableofcontents
+\clearpage
 
 ```
 
@@ -44,7 +58,7 @@ Todos os arquivos de dados que acompanham o formulário no ODK Collect devem ser
 ## Importante
 
 
-ude o caminho do objeto `dirODK` para um diretório local do seu computador onde pretende salvar os arquivos de media do `OKD Collect`. Este vai se o diretório de onde os arquivos sẽrão transferidos do computador para o dispositivo móvel com o `ODK Collect`.
+ Use  o caminho do objeto `dirODK` para um diretório local do seu computador onde pretende salvar os arquivos de media do `OKD Collect`. Este vai se o diretório de onde os arquivos sẽrão transferidos do computador para o dispositivo móvel com o `ODK Collect`.
 
 
 :::
@@ -113,10 +127,10 @@ O arquivo `team.csv` contém duas colunas: `name` e `label` nome e apelido dos m
 #| echo: true
 #| eval: false
 
-nome <- c("Alexandre Adalardo", "Marcel Zimmermann", "Luisa Truffi")
-apelido <- c("AAO", "GIL", "LU")
+lb <- c("Alexandre Adalardo", "Marcel Zimmermann", "Luisa Truffi")
+nm <- c("AAO", "GIL", "LU")
 
-write.table(data.frame(name = nome, label = apelido), file = file.path(dirODK,"team.csv"),  sep = ',', row.names = FALSE)
+write.table(data.frame(name = nm, label = lb), file = file.path(dirODK,"team.csv"),  sep = ',', row.names = FALSE)
 
 
 
@@ -134,6 +148,7 @@ A lista de espécies contempla todos os nomes, válidos, morfotipos e `indet` pa
 str(peic19)
 splist <- spList(data = odkdata, dirData = dirODK, saveFile = TRUE)
 str(splist)
+
 ```
 
 
@@ -233,6 +248,7 @@ Para produzir os mapas com as localizações das árvores, precisa criar o objet
 #| echo: true
 #| eval: false
 
+
 subplotA <- sort(grep("A", unique(odkdata$quad), value = TRUE))
 mapdataA <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplotA, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
 str(mapdataA)
@@ -245,8 +261,6 @@ for(i in subplotA)
     svgGrid(censoData = odkdata, subPlotCode = i, mapSize = c(12, 12), fontSize = 12, wd2save = file.path(dirODK, "subplotA"))
     
 }
-
-
 
 
 ```
@@ -384,5 +398,8 @@ mediaToODK(localMediaDir = dirODK, formName = "treeCensusForm")
 #| eval: false
 
 quarto::quarto_render("vignettes/treeCensusManual.qmd")
+
 rlang::last_trace()
+
+
 ```
