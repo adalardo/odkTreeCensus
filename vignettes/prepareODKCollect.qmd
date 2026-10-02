@@ -1,7 +1,7 @@
 ---
 lang: pt
 vignette: >
-  %\VignetteIndexEntry{Manual odkTreeCensus}
+  %\VignetteIndexEntry{Prepera ODK Collect}
   %\VignetteEngine{quarto::pdf}
   %\VignetteEncoding{UTF-8}
 ---
@@ -27,7 +27,7 @@ vignette: >
 ## verifica se tem o pacote remotes e caso nao tenha instala
 if(!"remotes" %in% rownames(installed.packages()))
 {
-    install.package("remote")
+    install.package("remotes")
 }
 ## Verifica se o odkTreeCensus está carregado na sessão
 if("package:odkTreeCensus" %in% search())
@@ -181,7 +181,7 @@ Como os mapas incorporam uma borda além do `subquadrat` é preciso fazer um obj
 ## Árvores vivas
 
 
-O arquivo está sendo contruído apenas com as árvores vivas no censo anterior, apesar de ser desejável ter árvores morta e desaparecidas, isso provavelmente,deixaria o mapa muito poluído. 
+O arquivo é contruído apenas com as árvores vivas no último censo, apesar de ser desejável ter árvores morta e desaparecidas, provavelmente deixaria o mapa muito poluído. 
 
 :::
 
@@ -270,7 +270,7 @@ for(i in subplotA)
 ## Dispositivo android
 
 O dispositivo android precisa ter a "Depuração USB" ativada, para isso é preciso desbloquear as "Opções de desenvolvedor"
-Conecte o dispositivo android e garanta que ele tem "Opções de desenvolvedor"  e "Depuração USB" ativados. Caso não esteja, veja como [https://developer.android.com/studio/debug/dev-options?hl=pt-br](ativar opção de desenvolvedor). Entre na "opções de desenvolvedor" nas configurações do android e ative "Depuração USB".
+Conecte o dispositivo android e garanta que ele tem "Opções de desenvolvedor"  e "Depuração USB" ativados. Caso não esteja, veja como [ativar opção de desenvolvedor](https://developer.android.com/studio/debug/dev-options?hl=pt-br). Entre na "opções de desenvolvedor" nas configurações do android e ative "Depuração USB".
 
 
 
@@ -300,27 +300,61 @@ sudo pacman -S android-tools
 
 ```
 
-No windows, consulte: [https://developer.android.com/tools/adb?hl=pt-br](adb)
+No windows, consulte: [android debug bridge](https://developer.android.com/tools/adb?hl=pt-br)
 
 
+## Preparando o dispositivo móvel{#sec:preparando_o_dispositivo_movel}
 
-## Instale e crie o projeto no ODK Collect
+O \href{https://opendatakit.org/}{Open Data Kit} tem um mecanismo próprio para instalar formulários e retornar os dados coletados, chamado \textbf{ODK Central} que precisa estar instalado em um servidor para se comunicar com o \textbf{ODK Collect}. O servidor \href{https://odk.ib.usp.br} tem o \textbf{ODK Central} configurado para testes, sempre guarde uma cópia local dos  arquivos originais coletados pelo dispositivo móvel, antes de apagá-los. 
 
-Caso a instalação do ODK Collect seja nova, abra o aplicativo e crie um projeto. A URL para o projeto deve ser: https://odk.ib.usp.br
+### Criando um projeto ODK Collect
+
+Entre no aplicativo \textbf{ODK Collect} e siga os passos solicitado para criar um novo projeto inserindo os dados diretamente no app selecionando a opção \textbf{Entrar com os detalhes do projeto manualmente} (Figura~\ref{fig:criaODK} a).
+Além de um usuário e senha, que precisam ser criados, há a necessidade de incluir uma url para a conexão com o \textbf{ODK Central}. Aqui inclua a url do \textbf{ODK Central} em nosso servido  (http://odk.ib.usp.br). Não se preocupe com nenhum desses dados iniciais, apenas crie o projeto e preencha os campos solicitados (Figura~\ref{fig:criaODK} b). Caso seja solicitado, permita que o ODK Collect emita notificações no seu dispositivo móvel (Figura~\ref{fig:criaODK} c) 
+
+Para incluir o formulário no \textbf{ODK Collect} precisamos de um projeto criado no app e acesso à memoria interna do dispositivo Android com permissão para edição das pastas do \textbf{ODK Collect}.
+
+```{=latex}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{media/enterProjectManual}
+        \caption{}
+        \label{fig:enterManual}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{media/criaContaODK}
+        \caption{}
+        \label{fig:contaODK}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{media/perNota}
+        \caption{}
+        \label{fig:perNota}
+    \end{subfigure}
+    \caption{Criando conta manualmente no ODK Collect}\label{fig:criaODK}
+\end{figure}
+
+```
+
 
 
 ## Conectando o Dispositivo Android
 
-Após conectar o tablet ao computador abra as notificações e nas opções de conexão USB selecione a "Transferir arquivos/Android Auto". Mantenha o dispositivo ativo e sem bloqueio de tela.
+Após conectar o tablet ao computador abra as notificações e nas opções de conexão USB selecione a *Transferir arquivos/Android Auto*. Mantenha o dispositivo ativo e sem bloqueio de tela.
 
 ### Configurando o USB Padrão
 
 Para tornar o dispositivo android sempre configurado para a troca de arquivos pelo usb, conecte ao computador, vá para:
-  * Configurações
-  * Opcções do desenvolvedor
-  * Configurações USB padrão
-  * selecione: "Transferindo arquivos/Android Auto"
-  * desconecte o cabo USB e reconecte
+
+* Configurações
+* Opções do desenvolvedor
+* Configurações USB padrão
+* selecione: "Transferindo arquivos/Android Auto"
+* desconecte o cabo USB e reconecte
   * confira a Configuração USB padrão
   * caso mude para "Apenas carregar o tablet"
   * selecione novamente "Tranferindo arquivos/Android Auto"
@@ -396,7 +430,7 @@ mediaToODK(localMediaDir = dirODK, formName = "treeCensusForm")
 #| echo: false
 #| eval: false
 
-quarto::quarto_render("vignettes/treeCensusManual.qmd")
+quarto::quarto_render("vignettes/prepareODKCollect.qmd")
 
 rlang::last_trace()
 

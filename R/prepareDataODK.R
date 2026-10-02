@@ -1,7 +1,3 @@
-## data <- read.table("/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", header = TRUE, sep = ",")
-## splitX = 5; splitY = 5; maxX=20; maxY = 20; subPlotCodeX = LETTERS[1:16]; subPlotCodeY= sprintf("%02d", 0:15)
-#source("R/quadrat.R")
-
 #' Prepare Last Census Data for ODK Forms
 #'
 #' Processes and formats data from the last forest census to be used in
@@ -97,7 +93,7 @@ spList <- function(data, dirData = getwd(), saveFile = TRUE)
     splist <- rbind(c(fam = "fam_indet", gen = "gen_indet", species = "sp_indet"), famIndet, gen, uniqSp)
     if(saveFile)
     {
-        write.table(splist, file.path(dirData,"splist.csv"), row.names = FALSE)
+        write.table(splist, file.path(dirData,"splist.csv"), row.names = FALSE, sep = ",")
     }
     invisible(splist)
 }
