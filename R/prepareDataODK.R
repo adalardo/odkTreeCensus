@@ -112,6 +112,7 @@ spList <- function(data, dirData = getwd(), saveFile = TRUE)
 #' @export
 subqTags <- function(data, dirData = getwd(), saveFile = TRUE)
 {
+    data <- data[data$status == "A", ]
     subq <- sort(unique(data$subquad))
     subqtags <- data.frame(subq= subq, tags = NA)
     nsubq <- length(subq)
