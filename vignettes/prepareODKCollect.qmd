@@ -73,33 +73,6 @@ dirODK <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkData"
 
 ```
 
-
-### Dados das árvores do último censo e códigos de subparcelas
-
-O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. Os dados `peicCensus2019` são distribuídos junto ao pacote em um arquivo `.rda`.  
-
-
-
-
-
-```{r }
-#| echo: true
-#| eval: false
-
-#help(lastCensusODK)
-
-## peicCensus2019 <- read.table(file = "/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv", sep = ",", header = TRUE)
-## str(peic2019)
-## save(peicCensus2019, file = "data/lastCensusPEIC.rda", compress = "bzip2")
-## dir("data")
-data(package = "odkTreeCensus")
-data("lastCensusPEIC", package = "odkTreeCensus")
-str(peicCensus2019)
-lastCensus <- lastCensusODK(data = peicCensus2019 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
-str(lastCensus)
-
-```
-
 ## Códigos das subparcelas
 
 Os arquivos `xcode.csv` e `ycode.csv` armazenam os códigos das subparcelas do plot e tem duas colunas `label` e `name`, que identificam as subparcelas no eixo x e y, respectivamente. As colunas podem ter a mesma informação, mas ambas são necessárias.
@@ -116,6 +89,29 @@ write.table(data.frame(name = yCode, label = yCode), file = file.path(dirODK,"yc
 
 
 ```
+
+
+
+### Dados das árvores do último censo e códigos de subparcelas
+
+O `lastcensus.csv` é um arquivo de dados do censo anterior.  Veja o `help(lastCensusODK)`. Os dados `peicCensus2019` são distribuídos junto ao pacote em um arquivo `.rda`.  
+
+
+
+
+
+```{r }
+#| echo: true
+#| eval: false
+
+data(package = "odkTreeCensus")
+data("lastCensusPEIC", package = "odkTreeCensus")
+str(peicCensus2019)
+lastCensus <- lastCensusODK(data = peicCensus2019 , splitX = 5, splitY = 5, maxX = 20, maxY = 20, subPlotCodeX = xCode, subPlotCodeY = yCode, dirData = dirODK, save = TRUE)
+str(lastCensus)
+
+```
+
 
 
 ### Equipe 
@@ -145,7 +141,7 @@ A lista de espécies contempla todos os nomes, válidos, morfotipos e `indet` pa
 #| eval: false
 
 str(peic19)
-splist <- spList(data = odkdata, dirData = dirODK, saveFile = TRUE)
+splist <- spList(data = lastCensus, dirData = dirODK, saveFile = TRUE)
 str(splist)
 
 ```
@@ -159,7 +155,7 @@ Essa informação é importante para a lista de tags não encontradas, o formato
 #| echo: true
 #| eval: false
 
-subqTags(data = odkdata, dirData = dirODK, saveFile = TRUE)
+subqTags(data = lastCensus, dirData = dirODK, saveFile = TRUE)
 
 
 ```
@@ -192,8 +188,8 @@ O arquivo é contruído apenas com as árvores vivas no último censo, apesar de
 #| echo: true
 #| eval: false
 
-subplot <- sort(unique(odkdata$quad))
-mapdata <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplot, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
+subplot <- sort(unique(lastCensus$quad))
+mapdata <- mapData(lastCensus[lastCensus$status == "A", ], subplotCodes = subplot, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
 sk <- subqKey(dataMap = mapdata, dirData = dirODK, saveFile = TRUE)
 str(sk)
 sk[sk$subq == "A00_0x0", ]
@@ -248,8 +244,8 @@ Para produzir os mapas com as localizações das árvores, precisa criar o objet
 #| eval: false
 
 
-subplotA <- sort(grep("A", unique(odkdata$quad), value = TRUE))
-mapdataA <- mapData(odkdata[odkdata$status == "A", ], subplotCodes = subplotA, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
+subplotA <- sort(grep("A", unique(lastCensus$quad), value = TRUE))
+mapdataA <- mapData(lastCensus[lastCensus$status == "A", ], subplotCodes = subplotA, splitX = 5, splitY = 5, maxX = 20, maxY = 20, buffer = 2)
 str(mapdataA)
 nsuqA <- length(mapdataA)
 #subplotA <- paste("A", sprintf("%02d", 0:15), sep = "")
@@ -257,7 +253,7 @@ nsuqA <- length(mapdataA)
 for(i in subplotA)
 {
     svgMap(mapdataA, subPlotCode = i, mapSize = c(12, 12), fontSize = 12, wd2save = file.path(dirODK, "subplotA"))
-    svgGrid(censoData = odkdata, subPlotCode = i, mapSize = c(12, 12), fontSize = 12, wd2save = file.path(dirODK, "subplotA"))
+    svgGrid(censoData = lastCensus, subPlotCode = i, mapSize = c(12, 12), fontSize = 12, wd2save = file.path(dirODK, "subplotA"))
     
 }
 

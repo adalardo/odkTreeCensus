@@ -1346,7 +1346,7 @@
             <value> ### Tipo de identificação: <output value=" ../id_type_name "/> <output value=" ../../new_id/det_type "/> <output value=" ../../new_id/indet_type "/> </value>
           </text>
           <text id="/data/subquad/tree/conf_info/obs_tree:label">
-            <value>Str</value>
+            <value> Observações adicionais (&lt;span style=&quot;color:red&quot;&gt; arv # <output value=" ../../num_tag "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/conf_info/obs_tree:hint">
             <value>&lt;span style="color:red"&gt; NÃO UTILIZE ASPAS, CARACTERES ESPECIAIS OU ACENTOS&lt;/span&gt;</value>
