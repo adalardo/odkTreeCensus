@@ -1,5 +1,9 @@
+% Torna a capa autossuficiente: define \HRule apenas se ainda não existir.
+% (Se já vier definido em _quarto-pdf.yml via include-in-header, não sobrescreve.)
+\providecommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
 \begin{titlepage}
+\thispagestyle{empty}
 \begin{center}
 
 % Upper part of the page. The '~' is needed because \\

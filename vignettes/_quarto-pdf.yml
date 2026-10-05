@@ -1,0 +1,43 @@
+project:
+  output-dir: ../inst/doc
+  render:
+    - prepareODKCollect.qmd
+    - useTreeCensusForm.qmd
+
+format:
+  pdf:
+    documentclass: article
+    papersize: a4
+    suppress-title: true
+    geometry:
+      - top=25mm
+      - left=20mm
+      - right=20mm
+      - bottom=25mm
+    include-in-header:
+      text: |
+        \usepackage{tikz}
+        \usepackage{graphicx}
+        \usepackage{listings}
+        \usepackage{sidecap}
+        \linespread{1.3}
+        \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+        
+        % Configuração de quebra de linha de código e espaçamento seguro
+        \usepackage{fvextra}
+        \fvset{breaklines=true, breakanywhere=true}
+        
+        % Adiciona espaçamento vertical antes e depois dos chunks de código
+        \usepackage{etoolbox}
+        \BeforeBeginEnvironment{Highlighting}{\vspace{0.8em}}
+        \AfterEndEnvironment{Highlighting}{\vspace{0.8em}}
+
+        % Fonte
+        \usepackage[defaultfam,tabular,lining]{montserrat} %% Option 'defaultfa'
+        %% only if the base font of the document is to be sans serif
+        \usepackage[T1]{fontenc}
+        \renewcommand*\oldstylenums[1]{{\fontfamily{Montserrat-TOsF}\selectfont #1}}
+
+    toc: false
+    number-sections: false
+    colorlinks: true

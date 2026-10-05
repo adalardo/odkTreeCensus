@@ -1,0 +1,16 @@
+project:
+  output-dir: _site
+  render:
+    - index.qmd
+    - prepareODKCollect.qmd
+    - useTreeCensusForm.qmd
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: right
+    number-sections: false
+    code-copy: true
+    fig-cap-location: bottom

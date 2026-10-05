@@ -365,32 +365,32 @@ O dispositivo móvel deve ter instalado o app `ODK Collect` e ter um projeto ini
 
 
 
-### Atualizar o formulário xml
+<!-- ### Atualizar o formulário xml -->
 
-Aqui só é necessário atualizar se houve alguma alteração no formulário `treeCensusForm.xlsx` depois da instalação do pacote. 
+<!-- Aqui só é necessário atualizar se houve alguma alteração no formulário `treeCensusForm.xlsx` depois da instalação do pacote.  -->
 
-O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato xml utilizando o pacote do python pyxform. O pyxform foi incorporado no pacote do R, assim como o `treeCensusForm.xlsx` e o `treeCensusForm.xml`.
+<!-- O formulário é criado em xlsx no libreOffice. É preciso traduzir para formato xml utilizando o pacote do python pyxform. O pyxform foi incorporado no pacote do R, assim como o `treeCensusForm.xlsx` e o `treeCensusForm.xml`. -->
 
-::: {.callout-warning}
+<!-- ::: {.callout-warning} -->
 
-## Atenção
-
-
-Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido e atualizado. Ele só deve ser usado se houver alguma mudança local no xlsxform (planilha LibreOffice) que precisa ser incorporada no formulário, em casos de mudanças locais emergenciais. Caso seja um bug, deve ser informado no isssues do github para a solução seja incorporada na distribuição do pacote. 
-
-:::
+<!-- ## Atenção -->
 
 
-```{r }
-#| echo: true
-#| eval: false
+<!-- Este procedimento é dispensável, o pacote já é distribuído com o formulário xml traduzido e atualizado. Ele só deve ser usado se houver alguma mudança local no xlsxform (planilha LibreOffice) que precisa ser incorporada no formulário, em casos de mudanças locais emergenciais. Caso seja um bug, deve ser informado no isssues do github para a solução seja incorporada na distribuição do pacote.  -->
 
-xlsxFile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
-pkgDirForm <- dirname(xlsxFile)
-xmlFile <- file.path(pkgDirForm, "treeCensusForm.xml")
-xmlForm(xlsxPath = xlsxFile, xmlPath = xmlFile)
+<!-- ::: -->
 
-```
+
+<!-- ```{r } -->
+<!-- #| echo: true -->
+<!-- #| eval: false -->
+
+<!-- xlsxFile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus") -->
+<!-- pkgDirForm <- dirname(xlsxFile) -->
+<!-- xmlFile <- file.path(pkgDirForm, "treeCensusForm.xml") -->
+<!-- xmlForm(xlsxPath = xlsxFile, xmlPath = xmlFile) -->
+
+<!-- ``` -->
 
 
 ## Copia o caminho do formulário XML
