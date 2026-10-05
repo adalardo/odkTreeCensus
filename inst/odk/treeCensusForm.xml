@@ -7342,7 +7342,6 @@
       <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_325" readonly="true()" type="string" relevant="not( ../yes_ht )"/>
       <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_326" readonly="true()" type="string" relevant="not( ../yes_dbh )"/>
       <bind nodeset="/data/subquad/tree_end" type="string" calculate="indexed-repeat( ../tree/conf_info/conf_ok ,  /data/subquad/tree , count( ../tree/conf_info/conf_ok ),  /data/subquad ,  ../n_sub )"/>
-      <bind nodeset="/data/subquad/miss_tree" relevant=" ../tree_end  = 'yes_end'"/>
       <bind nodeset="/data/subquad/miss_tree/n_sel" type="string" calculate="count-selected( ../../tag_selected )"/>
       <bind nodeset="/data/subquad/miss_tree/tags_subq" type="string" calculate="pulldata('subqtags', 'tags', 'subq',  ../../sel_subquad )"/>
       <bind nodeset="/data/subquad/miss_tree/n_tags" type="string" calculate="count-selected( ../tags_subq )"/>
