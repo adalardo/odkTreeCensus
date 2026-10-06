@@ -1,0 +1,577 @@
+--- 
+title: Testando o pacote e formulario
+date:  
+author: Alexandre Adalardo de Oliveira
+output:
+html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+
+```{sh }
+pwd
+git status
+git init
+#git config --global init.defautBranch main
+git branch -m main
+git add .
+git commit -m "Initial commit: projeto odkTreeCensus"
+
+
+
+```
+
+## Abrir a interface do aidermacs
+C-c a a
+
+## Definir padrão do projeto
+
+
+
+```{aidermacs }
+
+Todas as funcões devem ter nomes em inglês, camelcase, assim como a documentação e comentários. O camelcase não é só para o nome das funções, mas também para os objetos gerados dentro das funções, inclusive eles devem estar em inglês, para facilitar o entendimento do código por estrangeiros. As funções devem ter documentação em roxigen2 em inglês. Registre isso na workflow do pacote para que eu não tenha que solicitar todas as vezes. 
+
+
+```
+
+
+## Adiciona perguntas ao formulário
+
+**EM TESTE**
+
+```{aidermacs }
+
+Crie o arquivo R/insertQuestion.R no meu pacote R. Escreva a função exportada insertQuestion(xlsformPath, newQuestion, afterName = NULL, position = NULL, outputPath = NULL) usando R base puro e o pacote openxlsx. Inclua a documentação Roxygen2 completa acima da função com parâmetros, retorno e exemplos.
+
+```
+
+
+
+```{sh }
+
+
+```
+
+## Criando o xmlform
+
+Função para transformar o xlsx em xmlform
+
+```{aidermacs }
+
+Crie uma função no pacote odkTreeCensus, com documentação roxigen2, chamda 'xlmForm' para transformar o arquivo de formulário xlsx em data e criar um formulário xml odk, utilizando o pacote reticulate do R para manipular o pyxform do python. No início da função, faça a verificação se o pacote reticulate está instalado, caso contrário, faça a função instalar. Veri1fique a integridade do xml e retorne os problemas, caso houver. Faça a documentação em inglês e também os comentários. Não coloque acentos ou caracteres especiais nos comentários para evitar problemas com enconding.
+
+```
+
+```{aidermacs }
+
+Ao rodar a função xmlForm retornou:
+"Mensagen de aviso:
+In reticulate::py_install("pyxform", pip = TRUE) :
+  An ephemeral virtual environment managed by 'reticulate' is currently in use.
+To add more packages to your current session, call `py_require()` instead
+of `py_install()`. Running:
+  `py_require(c("pyxform"))`"
+Altere o codigo da função xmlForm para que a mensagem de aviso a seguir não apareça quando um ambiente virtual do reticulate já está em uso. 
+
+
+```
+
+```{aidermacs }
+No arquivo xlmForm.R mude o snake_case para camelCase nos nomes das variáveis e funções. Neste pacote sempre use esse padrão. A Grafia "xlm" está errada e dever ser trocada para "xml" quando encontrar, inclusive para o arquivo.
+
+```
+
+
+
+```{aidermacs }
+/drop R/xlmForm.R
+
+```
+
+
+## Criando as midias para o formulário
+
+
+Os arquivos de dados foram criadas no script [preparaODK.rmd](/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/codeR/prepDataODK.rmd)
+As midias de mapas e grids foram criadas no script [mapasCensoPEIC2026.rmd](/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/codeR/mapasCensoPEIC2026.rmd)
+
+Para criar a função de medias para o odk, utilizar o arquivo [censoPeic2019.csv](/home/aao/Ale2026/AleProjetos/PPEIC/dados/dadosCenso2019/censoPeic2019.csv)
+
+ 
+
+## Função "lastCensoODK":
+
+Crie a função na mão, queria ter maior controle. Abaixo é o pseudocódigo que estava tentando fazer, parecia mais complicado do que fazer.
+
+```{aidermacs }
+
+criar a função lastCensoODK em preperDataODK.R com os seguintes argumentos: "data", "splitX = 5", "splitY = 5", maxX=20, maxY = 20, subPlotCodeX = LETTERS[1:16], subPlotCodeY= sprintf("%02d", 0:15). O objeto "data" deve ser um dataframe com os seguintes campos: 
+  - "quad": código do quadrat ou subplot em que se encontra o indivíduo ou fuste;
+  - "tag": o número (código) de identificação do indivíduo ou fuste;
+  - "dbh": o tamanho (diameter of breast high) do fuste em mm;
+  - "ht": altura em metros
+  - "dx": coordenada x (m) de localização da árvores no "quad" no eixo das colunas;
+  - "dy": coordenada y (m) de localização no eixo das linhas;
+  - "fam": família botânica
+  - "gen": gênero botânica
+  - "species": nome da espécie (gênero epiteto)
+  - "nstem": quantidade de fustes do indivíduo para observações por árvore, se for a observação for fuste, pode ser suprimida ou conter "NA"s;
+  - "status": o estadp dp indivíduo/fuste: "A" alive, "D", dead ou "M" missing;
+  - "pom": point of mesurement do dap (dbh), caso não tenha essa informação;
+  - "date": data do censo; 
+  
+  A função prepara os dados no objeto "lastCensus", contendo:
+  - "tag"
+  - "tag_key" : id do elemento no gráfico no formato "tag_####.1", sendo #### o tag.
+  - "fam"
+  - "gen"
+  - "species"
+  - "status"
+  - "gx"
+  - "gy"
+  - "quad" 
+  - "xlim": a coordenada x do 'quad' em relação à coordenada da parcela toda. 
+  - "ylim": a coordenada y do 'quad' em relação à coordenada da parcela toda. 
+  - "dx": coordenada x dentro do quad
+  - "dy": coordenada y dentro do quad
+  - "subquad": código do subquad, unidade de trabalho em campo 
+  - "qx": coordenada x dentro do subquad
+  - "qy": coordenada y dentro do subquad
+  - "dbh"
+  - "dbhcm": dbh/10
+  - "pom": 
+  - "ht"
+  - "nstem"
+  - "date"
+
+
+```
+
+#### Documentação do lastCensoODK
+
+```{aidermacs }
+
+Avalie as funções que estão no arquivo "R/prepareDataODK.R" e crie a documentação dela em inglês usando código roxigen2.
+O objeto  "data" do argumento da função "lastCensusODK" deve ser um dataframe com os seguintes campos, para as outras funções deve ser o objeto resultante dela: 
+  - "quad": código do quadrat ou subplot em que se encontra o indivíduo ou fuste;
+  - "tag": o número (código) de identificação do indivíduo ou fuste;
+  - "dbh": o tamanho (diameter of breast high) do fuste em mm;
+  - "ht": altura em metros
+  - "dx": coordenada x (m) de localização da árvores no "quad" no eixo das colunas;
+  - "dy": coordenada y (m) de localização no eixo das linhas;
+  - "fam": família botânica
+  - "gen": gênero botânica
+  - "species": nome da espécie (gênero epiteto)
+  - "nstem": quantidade de fustes do indivíduo para observações por árvore, se for a observação for fuste, pode ser suprimida ou conter "NA"s;
+  - "status": o estadp dp indivíduo/fuste: "A" alive, "D", dead ou "M" missing;
+  - "pom": point of mesurement do dap (dbh), caso não tenha essa informação, ela será criada com o valor padrão para todas as árvores;
+  - "date": data do registro no último censo; 
+
+   
+
+```
+
+
+
+
+
+## Testando o formulário criado:
+
+O caminho para o dispositivo normalmente é algo como : 
+
+'mtp://SAMSUNG_SAMSUNG_Android_RX2X101K0TL/Armazenamento interno/Android/data/org.odk.collect.android/files/projects/0461761e-ab3b-443d-8071-3a56553816e5'
+
+
+## Função pushToODKCollect
+
+```{aidermacs }
+Qual a melhor maneira de criar uma função em R para copiar arquivos do Computador (linux ou windows) para um dispositivo móvel em uma determinada pasta como:  "Armazenamento interno/Android/data/org.odk.collect.android/files/projects/0461761e-ab3b-443d-8071-3a56553816e5/files", sendo que esse caminho deve primeiro ser investigado para saber onde está o diretorio "org.odk.collect.android"
+aa
+
+```
+
+```{aidermacs }
+Modifique a função pushToODKCollect para que os "locaisFiles", se for um diretório, copie o diretório com todos os seus arquivos no target_dir. Modifique os nomes como target_dir para targetDir (Camelcase) e a documentação e os comentários para inglês
+
+```
+
+
+```{aidermacs }
+Modifique a função pushToODKCollect para que tenha um argumento lógico com padrao como falso "media = FALSE". Caso o argumento seja "TRUE", deve copiar os arquivos para o diretório "*-media" do formulário odk collect. 
+O argumento "media = TRUE" deve copiar todos os arquivos dos diretórios e subdiretórios diretamente no "*-media", sem as pastas.
+
+
+```
+
+```{aidermacs }
+Modifique a função pushToODKCollect para os caminhos de diretórios e arquivos sejam construídos com a função "file.path", para que sejam reconhecidos independente do OS. 
+
+```
+
+
+```{aidermacs }
+Modifique a função pushToODKCollect para os caminhos de diretórios e arquivos sejam construídos com a função "file.path", para que sejam reconhecidos independente do OS. 
+
+```
+
+
+```{aidermacs }
+
+Modifique a função pushToODKCollect:
+  - para utilizar a função checkODKConnection no início e tirar as redundâncias com essa função para a conexão com o dispositivo android. 
+  - o modificar o argumento localFiles para localDir e que o padrão seja os arquivos que estão no pacote, na pasta "odkTreeCensus/inst/odk/" (coloque a localização correta com o pacote instalado);
+  - nesse diretorio padrão procurar pelo formulário 'paste(formName,".xml", sep = "")', se houver 'stop(paste(formName,".xml", " não encontrado em ", localDir, sep ="")'
+  - se encontrado, verificar se já existe um xml com o mesmo nome no dispositivo com o ODK Collect;
+  - se não houver, copiar para o dispositivo android;
+  - se houver, verificar a versão do xml e  mostra ambas as  versões e datas e perguntar se o usuário quer sobrescrever o que está no dispositivo. 
+  - se sim, sobrescrever o arquivo do dispositivo; se não, encerrar;
+  - se o argumento "media = TRUE", copiar o diretório "paste(formName, "media", sep = "-")" e seu conteúdo para o ODK Collect;
+  
+
+```
+
+
+
+## Funçao  checkODKConnection
+
+
+
+```{aidermacs }
+
+Crie a função checkODKConnection no arquivo pushToODK.R do pacote odkTreeCensus que:
+  -  verifique se há um dispositivo android conectado e autorizado para transferir arquivo com o computador;
+  - caso não esteja, retorne um mensagem de erro dizendo que não há um dispositivo conectado configurado para trocar arquivos e que o usuário verifique a documentação do help da função
+  - na documentação crie uma sessão que explique como ativar a "Opções de desenvolvedor" e depois tornar a opção "Transferir arquivos/Android auto" permanentemente ativa em "Configuração USB padrão"
+  - cheque o id do dispositivo;
+  - avalie se o id do dispositivo já foi armazenado anteriormente (em um arquivo texto do pacote), caso não tenha sido, solicite um nome único (sem espaço), para ser armazendo junto ao id;
+  - caso o nome único já tenha sido armazenado, indique que já foi utilizado e peça outro;
+  - retorne ao usuário a informação se o dispositivo já foi conectado anteriormente ou se está sendo conectado pela primeira vez e que o id e apelido estão sendo armazenados;
+  - cheque se existe o caminho da pasta de formulários odk;
+  - caso não exista, retorne o erro ao usuário "O diretório do ODK Collect não foi localizado, verifique se o ODK Collect está instalado e que há um projeto configurado";
+  - se exitir a patas de formulário, armazene junto o id e apelido do dispositivo com o nome odkFormDir;
+  - caso existam projetos ativos, verifique se algum deles tem o formulário "odkTreeCensusForm.xml";
+  - se o formulário existir, extraia a versão do fomulário, no objeto "formVersion" e a data ("formData") que foi transferido para o android, se não existir armazene FALSE nestes objetos;
+  - retorne invisible o vetor contendo: devId, devName, odkFormDir, formVersion e formData.
+
+
+
+```
+
+
+## Funcão mediaToODK
+
+```{aidermacs }
+- crie a função mediaToODK no arquivo pushToODK.R, contendo os argumentos: "localMediaDir", delPrevMaps = TRUE e "formName = "odkTreeCensus", ;
+- verifique se o dispositivo android está instalado usando a função checkODKConnection;
+- caso haja o dispositivo conectado verfique se existe o diretorio formName-media;
+- se "delPrevMaps = TRUE" busca o padrão "map.*svg" ou "grid.*svg" e deleta os arquivos;
+- lista os arquivos da pasta localMediaDir e subpastas no prompt e pergunta ao usuário se quer copiar todos os arquivos em formName-media, caso a resposta seja sim, copie e retorne OK e o número de arquivos copiados, caso contrário, encerra.
+
+```
+
+```{aidermacs }
+Mantenha o padrão da documentação e mensagens em inglês e o camelcase no código, ajuste o arquivo pushToODK.R
+
+```
+
+
+## Colocando o pacote pyxform no pacote:
+
+
+```{sh }
+ls -la
+pip download pyxform -d ./inst/python_wheels/
+
+
+```
+
+## Atualizando o xmlform no desenvolvimento do pacote
+
+Aqui precisa tomar cuidado entre a atualização do xmlform no pacote ou no desenovolvimento. Aqui é para o desenvolvimento do pacote e precisa subir para o github. Quando feito no pacote diretamente, não é incoporado no desenvolvimento.  
+
+```{r }
+getwd()
+dir()
+
+list.files("R")
+source("R/xmlForm.R")
+#setupPyEnv()
+
+xmlForm("inst/odk/treeCensusForm.xlsx", "inst/odk/treeCensusForm.xml")
+
+
+```
+
+
+```{aidermacs }
+Quero tornar a função xmlForm independente da conexão com a internet, incluindo no pacote o pyxform e o xls2xform python no pacote do R. Essa foi a mensagem de erro quando tentei rodá-la sem conexão:
+"xmlForm("data/treeCensusForm.xlsx", "data/treeCensusForm.xml")
+error: Request failed after 3 retries in 6.4s
+  Caused by: Failed to fetch: `https://pypi.org/simple/numpy/`
+  Caused by: error sending request for url (https://pypi.org/simple/numpy/)
+  Caused by: client error (Connect)
+  Caused by: dns error
+  Caused by: failed to lookup address information: Temporary failure in name resolution
+uv error code: 2
+-- Current requirements -------------------------------------------------
+ Python:   3.12.13 (reticulate default)
+ Packages: numpy
+-------------------------------------------------------------------------
+Hint: If you are temporarily offline, try setting `Sys.setenv(UV_OFFLINE=1)`.
+Error in uv_get_or_create_env() : 
+  Call `py_require()` to remove or replace conflicting requirements.
+Python library 'pyxform' not found. Trying to install via reticulate...
+error: Request failed after 3 retries in 6.5s
+  Caused by: Failed to fetch: `https://pypi.org/simple/pyxform/`
+  Caused by: error sending request for url (https://pypi.org/simple/pyxform/)
+  Caused by: client error (Connect)
+  Caused by: dns error
+  Caused by: failed to lookup address information: Temporary failure in name resolution
+uv error code: 2
+-- Current requirements -------------------------------------------------
+ Python:   3.12.13 (reticulate default)
+ Packages: numpy, pyxform
+-------------------------------------------------------------------------
+Hint: If you are temporarily offline, try setting `Sys.setenv(UV_OFFLINE=1)`.
+Error in uv_get_or_create_env() : 
+  Call `py_require()` to remove or replace conflicting requirements.
+Erro: Installation of Python not found, Python bindings not loaded.
+See the Python "Order of Discovery" here: https://rstudio.github.io/reticulate/articles/versions.html#order-of-discovery."
+
+```
+
+
+```{aidermacs }
+
+Não quero que a função teste se há ou não a biblioteca pyxform, quero saber se é possível incluir a biblioteca no pacote para que não seja necessário intalar a biblioteca quando estiver offline, como, por exemplo a inclusão do "odkTreeCensus/inst/java/ODK-Briefcase-v1.18.0.jar"
+
+```
+
+
+```{aidermacs }
+
+Fiz o clone do pyxform no pacote em: odkTreeCensus/inst/python/repo/pyxform, mas a função xlmForm() retorna: "Error in xmlForm("data/treeCensusForm.xlsx", "data/treeCensusForm.xml") (from xmlForm.R#38) : 
+  Could not find the 'python' directory in the 'odkTreeCensus' package. Please ensure the package is installed correctly." 
+
+```
+
+
+
+## Tranferindo o formulário e midias para o dispositivo android
+
+Ativar o Modo de Desenvolvedor no Samsung:
+
+Vá em Configurações > Sobre o telefone > Informações do software.
+
+Toque em Número da compilação 7 vezes consecutivas até aparecer a mensagem "O modo de desenvolvedor foi ativado".
+
+Ativar a Depuração USB:
+
+Volte ao menu principal das Configurações.
+
+Role até o final e entre em Opções do desenvolvedor.
+
+Ative a chave Depuração USB.
+
+Autorizar o Computador (Passo Crítico):
+
+Mantenha o celular conectado ao cabo USB e com a tela desbloqueada.
+
+No computador, execute o comando:
+
+```{sh }
+adb devices
+```
+
+
+```{r }
+
+source("R/pushToODK.R")
+
+pushToODKCollect(localFiles = "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm.xml")
+pushToODKCollect(localFiles = "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm-media")
+pushToODKCollect(localFiles = "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/linha_A/", media = TRUE, formName = "treeCensusForm")
+
+
+```
+
+## Atualizar o github
+
+
+```{aidermacs }
+Atualizar o github remoto
+
+```
+
+
+
+
+
+
+
+## TRADUÇÃO
+
+```{aidermacs }
+
+Verifique e ajuste a tradução do formulário ODK, não apenas nas peguntas, mas também nas colunas algum uso dos valores traduzidos: 
+/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm.xlsx
+
+
+```
+
+
+
+```{aidermacs }
+
+O formulário base já tem uma tradução que, pelo que eu entendi, precisa ser extraída para ser conferida e arrumada. Como faço essa extração do arquivo do xmlform e depois retorno essa tradução ajustada?
+
+```
+
+
+```{aidermacs }
+
+Porque o repositório está sendo scaneado todas as vezes que solicito alguma modificação, sendo que o prompt diz que esse scan só será feito uma vez? "Initial repo scan can be slow in larger repos, but only happens once.
+Scanning repo: 100%|██████████| 673/673 [00:00<00:00, 26631.63it/s]
+"
+```
+
+
+
+1. **Extração (`extractTranslations`)**:
+   - Esta função lê o arquivo XML do formulário base.
+   - Ela verifica se já existe uma estrutura de tradução `<itext>` no `<head>`. Se existir, ela extrai as traduções diretamente de lá, mapeando os idiomas para as colunas correspondentes do CSV (`label..Português`, `label..English`, `label..Español`).
+   - Se não houver `<itext>`, ela varre o corpo (`<body>`) do formulário em busca de todos os campos que possuem `<label>` ou `<hint>`, extraindo o texto original (geralmente em Português) para servir de ponto de partida no CSV.
+   - O resultado é salvo em um arquivo CSV estruturado, pronto para ser editado e corrigido.
+
+2. **Retorno (Importação)**:
+   - Depois de ajustar o CSV gerado, você pode usar a função `createMultiLangForm` (que já temos no arquivo `R/multiLangForm.R`) passando o formulário base e o CSV corrigido para gerar o formulário final traduzido.
+
+
+
+```{r }
+source("R/checkTranlation.R")
+extractTranslations("/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/treeCensusForm.xml", "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/data/translation.csv")
+
+```
+
+```{aidermacs }
+Esse foi o resultado da extração:
+"list_name"	"name"	"label..Português"	"label..English"	"label..Español"
+"languages"	"default"	"Português"	"Portuguese"	"Portugués"
+"languages"	"en"	"Inglês"	"English"	"Inglés"
+"languages"	"es"	"Espanhol"	"Spanish"	"Español"
+Avalie o arquivo treeCensusForm.xml para verificar o que está errado na função de extração da tradução.
+```
+
+
+
+## Documentação
+
+
+
+```{aidermacs }
+
+Avalie o que está errado na documentação do pacote me odkTreeCensus/vignette/treeCensusManual.qmd
+
+o conteúdo do treeCensusManual.qmd é:
+"
+```{=latex}
+\input{latex/installForm.tex}
+
+```
+
+```{r }
+
+#! echo: false
+#| eval: false
+
+quarto::quarto_render("treeCensusManual.qmd")
+
+```
+
+
+
+```{aidermacs }
+
+Transforme a documentação de vinhetas do pacote odkTreeCensus que estão no diretório vignettes para serem também um documento quarto que seja publicado no github como páginas html estáticas. Quero que o pacote tenha vignettes em pdf pré compiladas e a mesma documentação publicada como html no github. 
+
+```
+
+
+```{aidermacs }
+
+Sim, gostaria que fizesse a transformação do código em latex para quarto markdown e segue a lista de arquivos que estão em "media" para saber a extensão: 
+addTree.jpg		localPlot.jpg	    odkTagNumbI.jpg
+checkDap.jpg		LogoLabtrop3.png    odkTelaIncial.jpg
+colAlt01.jpg		map20.png	    odkTreePlaca.jpg
+colAlt02.jpg		map20.svg	    perNota.jpg
+colAlt03.jpg		mapear.jpg	    preencherForm.jpg
+colAlt.jpg		medidaDap.jpg	    remeasureAlt.jpg
+coletaBot.jpg		newFuste.jpg	    selFam.jpg
+confGen.jpg		newLocalPlot.jpg    selGrid10.jpg
+confId.jpg		newTag_plaq.jpg     selLocalPlot01.jpg
+confTreeData01.jpg	odkAlt.jpg	    selLocalPlot02.jpg
+confTreeData02.jpg	odkDAP.jpg	    selLocalPlot.jpg
+criaContaODK.jpg	odkEndTree.jpg	    selPlot20.jpg
+dirEstrutura.png	odkEquipe.jpg	    selPlotA06.jpg
+dirForm.png		odkFilesEstr.png    selSP.jpg
+dirForms.png		odkMapea.jpg	    selSubPlot00.jpg
+enterProjectManual.jpg	odkMedSecFuste.jpg  selSubPlot.jpg
+equipeCadastrar.jpg	odkNewNumbTag.jpg   selTag.jpg
+equipe.jpg		odkNewSubQuad.jpg   selTeam.jpg
+equipePage.jpg		odkSalvaForm.jpg    selTreeMap.jpg
+eraseData.jpg		odkSelFam.jpg	    selTreeType.jpg
+erroDAP.jpg		odkSelForm.jpg	    tipoMed.jpg
+formPPSP.jpg		odkSelGenus.jpg     typeDif.jpg
+fusteSec.jpg		odkSelParc.jpg	    typeMesurementError.jpg
+gridMap.png		odkSelSP.jpg
+gridMap.svg		odkSelSubQuad.jpg
+
+Criei e  adicionei o .Rbuildignore. Não tinha esse arquivo, apenas o .gitignore
+
+```
+
+
+```{aidermacs }
+Como faço para publicar as páginas no github? Sim quero uma página de abertura (capa) para o html.
+
+```
+
+
+```{r }
+getwd()
+
+```
+
+## atualizando o github remoto
+
+```{sh }
+
+# Remove arquivos que começam ou terminam com #
+git rm -r --cached "*#" "#*"
+git rm -r --cached ".#*"
+
+# Remove arquivos que terminam com ~
+git rm -r --cached "*~"
+
+git add .gitignore
+git commit -m "fix: remove arquivos temporarios (#, ~) e atualiza .gitignore"
+git push origin main
+
+
+git add R/odk.R
+git commit -m "fix code error"
+git push origin main
+
+
+git add .
+git status
+git commit -m "criando as páginas html de documentação"
+git branch -v
+git push origin main
+
+
+```

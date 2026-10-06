@@ -9,10 +9,10 @@ vignette: >
 
 ```{=latex}
 
-\subsubsection{Usando o formulário CensoPPSP2025}
-\label{sec:usando_o_formulario_censopeic}
+\subsubsection{Usando o formulário treeCensusForm}
+\label{sec:usando_o_formulario_treecensus}
 
-
+Para usar o formulário \textbf{treeCensusPlot} é preciso preparar os arquivos de dados, mapas e grids de mapeamentos. Para instruções sobre como gerar esses arquivos e  
 Abra o aplicativo e siga a sequência de eventos e seleções descritas abaixo. 
 
 
@@ -51,7 +51,7 @@ No \textbf{\emph{\underline{Menu Principal}}} do ODK Collect selecione a opção
 
 
 
-Na página seguinte deve aparecer o nome do formulário xml que foi copiado para o dispositivo. Caso não apareça, houve algum problema, verifique se foi copiado na pasta correta. Caso haja a opção selecione: \textbf{censoPPSP2025}
+Na página seguinte deve aparecer o nome do formulário xml que foi copiado para o dispositivo. Caso não apareça, houve algum problema, verifique se foi copiado na pasta correta. Caso haja a opção selecione: \textbf{treeCensusPlot}
 
 \begin{SCfigure}
   \centering
@@ -79,12 +79,12 @@ Caso tenha incluído algum registro errado ou onde não deveria, para apagar, in
 
 \subsubsection{Localidade da Parcela}
 
-Selecione a parcela em que o censo está ocorrendo. Caso seja uma parcela que não as do PPSP, selecione a opção \textit{Parcela não cadastrada} e em seguida forneça o nome ou código da parcela (Figura~\ref{fig:local}). Além disso, forneça as seguintes informações:
+Selecione a parcela em que o censo está ocorrendo. Caso a parcela não pertença ao  Projeto Parcelas Permanentes de São Paulo (PPSP), selecione a opção \textit{Parcela não cadastrada} e em seguida forneça o nome ou código da parcela (Figura~\ref{fig:local}). Além disso, forneça as seguintes informações:
 \begin{itemize}
-\item{Número de digitos das placas}: o número de dígitos devera compreender apenas os dígtios variáveis, códigos fixo para o censo devem ser desperezados (p.ex: '25' ao início para indicar o ano da coleta de dados)
+\item{Número de digitos das placas}: o número de dígitos devera compreender apenas os dígtios variáveis, códigos fixo para o censo devem ser desperezados (p.ex: '26' ao início para indicar o ano da coleta de dados)
 \item{Menor e Maior valor de placa nova}: aqui deve-se restringir ao máximo os valores das placas, indicando a sequência de placas que estão sendo levandas a campo no dia de trabalho, o aplicativo não permitira a entrada de valores diferentes do que foi definido nesta parte. Como padrão de valores estão os limites de numeração das placas que foram feitas para o censo de 2025
-\item{A unidade de trabalho em campo}: aqui indique o tamanho do subquadrat que representa a unidade de trabalho, por enquanto só temos implementado a unidades de 10x10 ou 5x5m
-\item{Diâmetro de inclusão}: confira se o diâmetro mínimo de inclusão da parcela está correta, não será possível entrar valores menores que esse, a menos que seja checado e justificado
+\item{A unidade de trabalho em campo}: aqui indique o tamanho do subquadrat que representa a unidade de trabalho, por enquanto só temos implementadas as unidades de 10x10 ou 5x5m
+\item{Diâmetro de inclusão}: confira se o diâmetro mínimo de inclusão da parcela está correta, não será possível entrar valores menores, a menos que seja checado e justificado
 \end{itemize}
 
 \begin{figure}
@@ -108,8 +108,7 @@ Selecione a parcela em que o censo está ocorrendo. Caso seja uma parcela que n�
 \label{sec:equipe}
 
 
-Aqui é selecionado o nome da equipe que irá coletar os dados e o responsável pela equipe. Ambos são campos que devem ser selecionados, a equipe permite múltipla seleção e o responsável apenas um dos selecionados no item equipe.  Quando algum integrante da equipe não estiver cadastrados, deve ser incluído os nomes das pessoas, selecionando \textit{não cadastrado 01 ou 02}.
-Caso tenha mais do que dois nomes novos para cadastrar, incluir vários nomes no campo \textit{não cadastrado 02}, separado por vírgula. Caso algum deles seja o responsável pela equipe selecione o campo correspondente.       
+Aqui é selecionado o nome da equipe que irá coletar os dados e o responsável pela equipe. Ambos são campos que devem ser selecionados, a equipe permite múltipla seleção e o responsável apenas um dos selecionados no item equipe.  O cadastro de nomes dos integrantes da equipe deve ser feito no arquivo \textit{team.csv}, previamente ao uso do formulário.
 
 \begin{figure}
     \centering
