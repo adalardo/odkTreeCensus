@@ -230,6 +230,9 @@ O mapa que gera a figura com os subquadrats para serem selecionados. Preciso aju
 selSubq(xmax = 20, ymax = 20, subqX = 5, subqY = 5, mapSize = c(10,10), fontSize = 14, wd2save = dirODK)
 
 
+selSubq(xmax = 20, ymax = 20, subqX = 10, subqY = 10, mapSize = c(10,10), fontSize = 14, wd2save = dirODK)
+
+
 ```
 
 
@@ -409,12 +412,14 @@ xmlPath <- system.file("odk/treeCensusForm.xml", package = "odkTreeCensus")
 
 ## Subindo o formulário para o dispositivo móvel android
 
+A função ´pushToODKCollect´ envia o formulário para o dispositivo e a função ´media´ envia todos os arquivos do ´localMediaDir´, incluíndo os arquivos em subdiretórios para a pasta de midias do ´ODK Collect´.
 
 ```{r }
 #| echo: true
 #| eval: false
 
 pushToODKCollect(localDir = xmlDir, formName = "treeCensusForm")
+
 mediaToODK(localMediaDir = dirODK, formName = "treeCensusForm")
 
 
