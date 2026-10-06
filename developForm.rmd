@@ -541,6 +541,17 @@ Como faço para publicar as páginas no github? Sim quero uma página de abertur
 ```
 
 
+
+```{aidermacs }
+Na documentação que será publicada no github e nos pdfs não há necessidade de rodar os códigos em R, apenas mostrar os códigos. Todos os chunks devem ser colocados com 
+#! echo: true
+#| eval: false
+
+Assim, não há necessidade de instalação do R ou de pacotes associados. 
+
+```
+
+
 ```{r }
 getwd()
 
