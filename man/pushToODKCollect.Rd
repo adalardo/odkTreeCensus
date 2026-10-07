@@ -8,7 +8,7 @@ pushToODKCollect(
   localDir = NULL,
   projectUUID = NULL,
   media = FALSE,
-  formName = "odkTreeCensusForm"
+  formName = "treeCensusForm"
 )
 }
 \arguments{

@@ -1,0 +1,888 @@
+```{aidermacs }
+O arquivo inst/java/ODK-Briefcase-v1.18.0.jar funcionava para outros formulários para extruturação dos dados vindo do ODK COllect. Agora não estou mais conseguindo fazer a exportação como constumava fazer. Diagnostiquei dois problemas, a dificuldade em encontrar a pasta treeCensusForm-media, por estar buscando algo como forms-media, mas mesmo com o briefcase não dando mensagem de erro, os dados não são extraídos. O diretório inst/TestDataODK tem a copia do projeto do ODK e os dados coletados estão no arquivo testeDataODK/instances/treeCensusForm_2026*.xml. Preciso de uma solução urgente para esse problema.
+
+
+```
+
+```{sh }
+java -jar "/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/java/ODK-Briefcase-v1.18.0.jar"   --pull_collect   --storage_directory "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/exportDataODK"   --odk_directory "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/testDataODK" --form_id = "treeCensusForm"
+
+
+BASE=/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst
+JAR=/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/java/ODK-Briefcase-v1.18.0.jar
+STORAGE="$BASE/exportDataODK"
+ODKDIR="$BASE/testDataODK"
+
+# IMPORTANTE: limpar a storage antes de cada pull evita estado sujo
+rm -rf "$STORAGE"
+
+# 1) PULL
+java -jar "$JAR" \
+  --pull_collect \
+  --storage_directory "$STORAGE" \
+  --odk_directory "$ODKDIR"
+
+# 2) Confira se o pull colocou algo
+find "$STORAGE/ODK Briefcase Storage" -maxdepth 4 | sort | head -40
+
+# 3) EXPORT
+java -jar "$JAR" \
+  --export \
+  --form_id treeCensusForm \
+  --storage_directory "$STORAGE" \
+  --export_directory "$STORAGE/export" \
+  --export_filename treeCensusForm
+
+BASE=/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst
+find "$BASE/testDataODK" -maxdepth 4 -printf '%y  %p\n' | sort
+
+
+```
+
+
+
+
+
+```{aider }
+
+Quero apenas resolver esse problema, independente das funções do pacote. A linha de comando em bash abaixo deveria fazer a exportação dos dados com o briefcase. Quero que avalie o log que segue e me ajude a encontrar a solução para que essa exportação funcione, apenas isso neste momento. 
+
+java -jar "/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/java/ODK-Briefcase-v1.18.0.jar"   --pull_collect   --storage_directory "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/exportDataODK"   --odk_directory "/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/testDataODK"
+
+
+# The directory /home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/exportDataODK/ODK Briefcase Storage doesn't exist. Creating it
+# End of pull operation
+
+2026-10-06 17:16:01,117 [main] INFO  XFormParser - Reading XML and parsing with kXML2 finished in 19,853 ms
+2026-10-06 17:16:01,132 [main] INFO  XFormParser - Consolidating text finished in 13,538 ms
+2026-10-06 17:16:01,133 [main] INFO  XFormParser - Parsing form...
+2026-10-06 17:16:01,133 [main] INFO  XFormParser - Title: "treeCensusForm"
+2026-10-06 17:16:01,134 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [model] and will be ignored: [xforms-version] 
+    Problem found at nodeset: /html/head/model
+    With element <model xforms-version="1.0.0"><itext><translation lang="Português (pt)" default="true()">...
+
+2026-10-06 17:16:01,198 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary" max-pixels="1024"/>
+
+2026-10-06 17:16:01,204 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/tag_new/new_tag_picture" type="binary" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,214 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/sec_picture" type="binary" required="true()" relevant=" ../plaq_sec = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,215 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/stem01_picture" type="binary" required="true()" relevant=" ../plaq_sec  = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,218 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/tree/new_id/id_picture:jr:requiredMsg')" relevant=" ../det_type  = 'few_leaves' or  ../det_type  = 'field' or  ../det_type  = 'nickname' or  ../det_type  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,218 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture02" type="binary" relevant=" ../id_picture !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,219 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture03" type="binary" relevant=" ../id_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,219 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture04" type="binary" relevant=" ../id_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,219 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,224 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture01" type="binary" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,225 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture02" type="binary" relevant=" ../tree_picture01 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,225 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture03" type="binary" relevant=" ../tree_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,225 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture04" type="binary" relevant=" ../tree_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,225 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture05" type="binary" relevant=" ../tree_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,232 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_picture_miss" type="binary" relevant=" ../../miss_found/tag_ok_miss  = 'no'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,242 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture_miss" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/rep_miss/new_id_miss/id_picture_miss:jr:requiredMsg')" relevant=" ../det_type_miss  = 'few_leaves' or  ../det_type_miss  = 'field' or  ../det_type_miss  = 'nickname' or  ../det_type_miss  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:16:01,242 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture02_miss" type="binary" relevant=" ../id_picture_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,242 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture03_miss" type="binary" relevant=" ../id_picture02_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,242 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture04_miss" type="binary" relevant=" ../id_picture03_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:01,242 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture05_miss" type="binary" relevant=" ../id_picture04_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:16:02,898 [main] ERROR org.opendatakit.briefcase.Launcher - Error
+org.opendatakit.briefcase.reused.BriefcaseException: Form treeCensusForm not found
+	at org.opendatakit.briefcase.operations.Export.lambda$export$4(Export.java:119)
+	at java.base/java.util.Optional.orElseThrow(Unknown Source)
+	at org.opendatakit.briefcase.operations.Export.export(Export.java:119)
+	at org.opendatakit.briefcase.operations.Export.lambda$static$0(Export.java:78)
+	at org.opendatakit.common.cli.Cli.lambda$run$4(Cli.java:130)
+	at java.base/java.lang.Iterable.forEach(Unknown Source)
+	at org.opendatakit.common.cli.Cli.run(Cli.java:127)
+	at org.opendatakit.briefcase.Launcher.main(Launcher.java:90)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader.main(JarRsrcLoader.java:58)
+2026-10-06 17:17:09,280 [main] INFO  XFormParser - Reading XML and parsing with kXML2 finished in 20,310 ms
+2026-10-06 17:17:09,293 [main] INFO  XFormParser - Consolidating text finished in 11,823 ms
+2026-10-06 17:17:09,294 [main] INFO  XFormParser - Parsing form...
+2026-10-06 17:17:09,294 [main] INFO  XFormParser - Title: "treeCensusForm"
+2026-10-06 17:17:09,295 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [model] and will be ignored: [xforms-version] 
+    Problem found at nodeset: /html/head/model
+    With element <model xforms-version="1.0.0"><itext><translation lang="Português (pt)" default="true()">...
+
+2026-10-06 17:17:09,362 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary" max-pixels="1024"/>
+
+2026-10-06 17:17:09,371 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/tag_new/new_tag_picture" type="binary" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,383 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/sec_picture" type="binary" required="true()" relevant=" ../plaq_sec = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,383 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/stem01_picture" type="binary" required="true()" relevant=" ../plaq_sec  = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,387 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/tree/new_id/id_picture:jr:requiredMsg')" relevant=" ../det_type  = 'few_leaves' or  ../det_type  = 'field' or  ../det_type  = 'nickname' or  ../det_type  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,387 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture02" type="binary" relevant=" ../id_picture !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,388 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture03" type="binary" relevant=" ../id_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,388 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture04" type="binary" relevant=" ../id_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,388 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,394 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture01" type="binary" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,395 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture02" type="binary" relevant=" ../tree_picture01 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,395 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture03" type="binary" relevant=" ../tree_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,395 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture04" type="binary" relevant=" ../tree_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,395 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture05" type="binary" relevant=" ../tree_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,403 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_picture_miss" type="binary" relevant=" ../../miss_found/tag_ok_miss  = 'no'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,412 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture_miss" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/rep_miss/new_id_miss/id_picture_miss:jr:requiredMsg')" relevant=" ../det_type_miss  = 'few_leaves' or  ../det_type_miss  = 'field' or  ../det_type_miss  = 'nickname' or  ../det_type_miss  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:17:09,412 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture02_miss" type="binary" relevant=" ../id_picture_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,412 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture03_miss" type="binary" relevant=" ../id_picture02_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,413 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture04_miss" type="binary" relevant=" ../id_picture03_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:09,413 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture05_miss" type="binary" relevant=" ../id_picture04_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:17:10,961 [main] ERROR org.opendatakit.briefcase.Launcher - Error
+org.opendatakit.briefcase.reused.BriefcaseException: Form treeCensusForm not found
+	at org.opendatakit.briefcase.operations.Export.lambda$export$4(Export.java:119)
+	at java.base/java.util.Optional.orElseThrow(Unknown Source)
+	at org.opendatakit.briefcase.operations.Export.export(Export.java:119)
+	at org.opendatakit.briefcase.operations.Export.lambda$static$0(Export.java:78)
+	at org.opendatakit.common.cli.Cli.lambda$run$4(Cli.java:130)
+	at java.base/java.lang.Iterable.forEach(Unknown Source)
+	at org.opendatakit.common.cli.Cli.run(Cli.java:127)
+	at org.opendatakit.briefcase.Launcher.main(Launcher.java:90)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader.main(JarRsrcLoader.java:58)
+2026-10-06 17:19:46,777 [main] INFO  XFormParser - Reading XML and parsing with kXML2 finished in 19,949 ms
+2026-10-06 17:19:46,794 [main] INFO  XFormParser - Consolidating text finished in 15,406 ms
+2026-10-06 17:19:46,795 [main] INFO  XFormParser - Parsing form...
+2026-10-06 17:19:46,795 [main] INFO  XFormParser - Title: "treeCensusForm"
+2026-10-06 17:19:46,797 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [model] and will be ignored: [xforms-version] 
+    Problem found at nodeset: /html/head/model
+    With element <model xforms-version="1.0.0"><itext><translation lang="Português (pt)" default="true()">...
+
+2026-10-06 17:19:46,859 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary" max-pixels="1024"/>
+
+2026-10-06 17:19:46,864 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/tag_new/new_tag_picture" type="binary" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,874 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/sec_picture" type="binary" required="true()" relevant=" ../plaq_sec = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,875 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/stem01_picture" type="binary" required="true()" relevant=" ../plaq_sec  = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,879 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/tree/new_id/id_picture:jr:requiredMsg')" relevant=" ../det_type  = 'few_leaves' or  ../det_type  = 'field' or  ../det_type  = 'nickname' or  ../det_type  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,879 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture02" type="binary" relevant=" ../id_picture !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,879 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture03" type="binary" relevant=" ../id_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,879 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture04" type="binary" relevant=" ../id_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,880 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,886 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture01" type="binary" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,886 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture02" type="binary" relevant=" ../tree_picture01 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,887 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture03" type="binary" relevant=" ../tree_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,887 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture04" type="binary" relevant=" ../tree_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,887 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture05" type="binary" relevant=" ../tree_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,895 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_picture_miss" type="binary" relevant=" ../../miss_found/tag_ok_miss  = 'no'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,905 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture_miss" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/rep_miss/new_id_miss/id_picture_miss:jr:requiredMsg')" relevant=" ../det_type_miss  = 'few_leaves' or  ../det_type_miss  = 'field' or  ../det_type_miss  = 'nickname' or  ../det_type_miss  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:19:46,905 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture02_miss" type="binary" relevant=" ../id_picture_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,905 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture03_miss" type="binary" relevant=" ../id_picture02_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,905 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture04_miss" type="binary" relevant=" ../id_picture03_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:46,905 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture05_miss" type="binary" relevant=" ../id_picture04_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:19:48,592 [main] ERROR org.opendatakit.briefcase.Launcher - Error
+org.opendatakit.briefcase.reused.BriefcaseException: Form treeCensusForm not found
+	at org.opendatakit.briefcase.operations.Export.lambda$export$4(Export.java:119)
+	at java.base/java.util.Optional.orElseThrow(Unknown Source)
+	at org.opendatakit.briefcase.operations.Export.export(Export.java:119)
+	at org.opendatakit.briefcase.operations.Export.lambda$static$0(Export.java:78)
+	at org.opendatakit.common.cli.Cli.lambda$run$4(Cli.java:130)
+	at java.base/java.lang.Iterable.forEach(Unknown Source)
+	at org.opendatakit.common.cli.Cli.run(Cli.java:127)
+	at org.opendatakit.briefcase.Launcher.main(Launcher.java:90)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader.main(JarRsrcLoader.java:58)
+2026-10-06 17:43:45,415 [main] INFO  XFormParser - Reading XML and parsing with kXML2 finished in 21,007 ms
+2026-10-06 17:43:45,430 [main] INFO  XFormParser - Consolidating text finished in 12,767 ms
+2026-10-06 17:43:45,430 [main] INFO  XFormParser - Parsing form...
+2026-10-06 17:43:45,431 [main] INFO  XFormParser - Title: "treeCensusForm"
+2026-10-06 17:43:45,432 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [model] and will be ignored: [xforms-version] 
+    Problem found at nodeset: /html/head/model
+    With element <model xforms-version="1.0.0"><itext><translation lang="Português (pt)" default="true()">...
+
+2026-10-06 17:43:45,491 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary" max-pixels="1024"/>
+
+2026-10-06 17:43:45,497 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/tag_new/new_tag_picture" type="binary" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,508 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/sec_picture" type="binary" required="true()" relevant=" ../plaq_sec = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,508 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/sec_stem/stem01_picture" type="binary" required="true()" relevant=" ../plaq_sec  = 'yes'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,511 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/tree/new_id/id_picture:jr:requiredMsg')" relevant=" ../det_type  = 'few_leaves' or  ../det_type  = 'field' or  ../det_type  = 'nickname' or  ../det_type  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,511 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture02" type="binary" relevant=" ../id_picture !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,512 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture03" type="binary" relevant=" ../id_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,512 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture04" type="binary" relevant=" ../id_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,512 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,517 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture01" type="binary" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,517 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture02" type="binary" relevant=" ../tree_picture01 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,517 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture03" type="binary" relevant=" ../tree_picture02 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,517 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture04" type="binary" relevant=" ../tree_picture03 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,517 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/tree/conf_info/tree_picture05" type="binary" relevant=" ../tree_picture04 !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,524 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_picture_miss" type="binary" relevant=" ../../miss_found/tag_ok_miss  = 'no'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,532 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture_miss" type="binary" required="true()" requiredMsg="jr:itext('/data/subquad/rep_miss/new_id_miss/id_picture_miss:jr:requiredMsg')" relevant=" ../det_type_miss  = 'few_leaves' or  ../det_type_miss  = 'field' or  ../det_type_miss  = 'nickname' or  ../det_type_miss  = 'same_as'" max-pixels="1024"/>
+
+2026-10-06 17:43:45,532 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture02_miss" type="binary" relevant=" ../id_picture_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,532 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture03_miss" type="binary" relevant=" ../id_picture02_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,532 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture04_miss" type="binary" relevant=" ../id_picture03_miss !=''" max-pixels="1024"/>
+
+2026-10-06 17:43:45,533 [main] WARN  XFormParser - XForm Parse Warning: Warning: 1 Unrecognized attributes found in Element [bind] and will be ignored: [max-pixels] 
+    Problem found at nodeset: /html/head/model[@xforms-version=1.0.0]/bind
+    With element <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture05_miss" type="binary" relevant=" ../id_picture04_miss !=''" max-pixels="1024"/>
+
+
+
+
+```
+
+
+```{aidermacs }
+
+odkTreeCensus]$ bash tools/diagnose_briefcase.sh
+JAR   : /home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/java/ODK-Briefcase-v1.18.0.jar
+SRC   : /home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/testDataODK
+FORM  : treeCensusForm  (treeCensusForm.xml)
+WORK  : /tmp/tmp.Ij9sY5aMu6
+
+[info] preparando cópias em /tmp/tmp.Ij9sY5aMu6 ...
+[info] cópias prontas
+
+=== Cenário: original ===
+    ODK dir : /tmp/tmp.Ij9sY5aMu6/src_original
+    storage : /tmp/tmp.Ij9sY5aMu6/storage_original
+    arquivos .xml dentro da storage após o pull: 0
+    [FALHOU] original
+
+=== Cenário: media_limpa ===
+    ODK dir : /tmp/tmp.Ij9sY5aMu6/src_media_limpa
+    storage : /tmp/tmp.Ij9sY5aMu6/storage_media_limpa
+    arquivos .xml dentro da storage após o pull: 0
+    [FALHOU] media_limpa
+
+=== Cenário: xml_antigo ===
+    ODK dir : /tmp/tmp.Ij9sY5aMu6/src_xml_antigo
+    storage : /tmp/tmp.Ij9sY5aMu6/storage_xml_antigo
+    arquivos .xml dentro da storage após o pull: 0
+    [FALHOU] xml_antigo
+
+=== Cenário: tudo ===
+    ODK dir : /tmp/tmp.Ij9sY5aMu6/src_tudo
+    storage : /tmp/tmp.Ij9sY5aMu6/storage_tudo
+    arquivos .xml dentro da storage após o pull: 0
+    [FALHOU] tudo
+
+
+Nenhuma variação de pull populou a storage do Briefcase.
+Isso indica que o problema NÃO é (ou não é somente):
+  - a pasta de mídia com arquivos .db/.xlsx
+  - os atributos odk:xforms-version / max-pixels do XML
+
+Próximos passos possíveis (me avise qual você quer):
+  1) Rodar o Briefcase em modo GUI (java -jar "/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/java/ODK-Briefcase-v1.18.0.jar") e ver se
+     o formulário aparece na lista ao apontar para /home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/testDataODK.
+  2) Investigar se os arquivos metadata/*.db e o arquivo
+     'odk.ib.usp.br' no root de /home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/inst/testDataODK estão atrapalhando.
+  3) Inspecionar se a versão de Briefcase rejeita formulários com
+     '<setvalue event="odk-instance-first-load">'.
+
+Diretório de trabalho (NÃO apagado): /tmp/tmp.Ij9sY5aMu6
+
+
+Esse é o resultado do diagnóstico. Estou pensando em ir por outra linha de investigação. Tentar versão antigas do pyxform ou do próprio ODK-Collect. Isso parece uma boa alternativa para um momento de muita urgência? Já tentei subir os dados no ODK Central do meu servidor e nem assim funciona. Os dados já estão sendo coletados em campo a impossibilidade de exportação é uma alternativa que não pode acontecer. 
+
+```
+
+
+## Sua pergunta: reverter pyxform/ODK Collect resolve?
+
+**Não**, e é importante entender por quê: a coleta **já aconteceu**. Os dados estão em disco, dentro de `instances/treeCensusForm_2026-10-06_16-38-57/*.xml`. Reverter o pyxform ou o Collect mudaria apenas como **o formulário é gerado a partir de agora** — em nada afetaria os XMLs que já estão lá. O Briefcase não consegue lê-los porque
+Inclui no  não entende a **forma** (form), não porque eles estejam ruins.
+
+E, pior: mesmo que você revertesse tudo, o Briefcase continuaria lendo esse mesmo form (que foi gerado pelo pyxform 4.5.0). Você ficaria travado do mesmo jeito.
+
+**O dado em si é XML e está intacto.** Se der para ler o form para gerar, dá para ler as submissões também — só que o Briefcase é o elo fraco. Então a saída é: **extrair direto dos XMLs, sem Briefcase.**
+
+## Primeiro: respire. Seu dado está seguro
+
+Cada submissão é um arquivo `<data>...` autocontido. Nada do que você fizer com o Briefcase, com o R ou com o Central pode apagar esses arquivos (eles estão no disco do dispositivo/pasta). Antes de qualquer coisa, faça uma cópia de segurança:
+
+```bash
+cp -a inst/testDataODK ~/backup_testDataODK_$(date +%F_%H%M)
+```
+
+(Sim, copiar a pasta inteira. Não mexe em nada, só copia.)
+
+## Solução: extrair direto dos XMLs com R
+
+Nova função `readInstancesXML()` em `R/readInstancesXML.R`. Ela:
+
+- varre `instances/*/**.xml`;
+- detecta automaticamente os níveis de repetição (`subquad`, `subquad/tree`, `subquad/tree/sec_stem`, `subquad/rep_miss`, `subquad/rep_miss/sec_stem_miss`);
+- produz um `data.frame` por nível, com `KEY` e `PARENT_KEY` ligando pai→filho (igual ao que o Briefcase faria);
+- opcionalmente salva os CSVs em disco e copia as mídias (fotos).
+
+Sem dependência do Briefcase. É só `xml2`, que você já usa.
+
+R/readInstancesXML.R
+````
+#' Extract data from ODK Collect instance XMLs (without ODK Briefcase)
+#'
+#' Reads all submission XMLs stored under an ODK Collect `instances/`
+#' directory and returns them as a named list of data frames (one per
+#' repeat level). It does NOT use ODK Briefcase, so it works even when
+#' Briefcase is too old to parse the form (e.g. Briefcase 1.18 vs.
+#' forms generated by pyxform >= 3).
+#'
+#' Each submission is expected to live in its own subfolder of
+#' `instancesDir`, e.g. `instances/treeCensusForm_2026-10-06_16-38-57/`.xml`.
+#' Repeats are detected automatically by looking for `jr:template`
+#' elements in the first instance.
+#'
+#' @param instancesDir Path to the ODK Collect `instances` directory.
+#' @param expDir Optional. If provided, each data frame is also written
+#'   as a CSV in this directory. Naming follows ODK Briefcase:
+#'   `<formBase>.csv` for the main form and `<formBase>-<repeat>.csv`
+#'   for each repeat (nested repeats use `-` as separator, e.g.
+#'   `<formBase>-subquad-tree-sec_stem.csv`).
+#' @param formBase Base name for the output CSVs. If NULL, derives from
+#'   the first instance XML found.
+#' @param overwrite Logical. If FALSE (default), existing CSVs are not
+#'   overwritten.
+#' @param mediaOutDir Optional. If provided, all non-XML files found in
+#'   the instance folders (photos, etc.) are copied here, preserving
+#'   the subfolder structure.
+#'
+#' @return Invisibly, a named list of data frames. Names are `""`
+#'   (main form) plus each repeat path (e.g. `"subquad"`,
+#'   `"subquad/tree"`, ...). Columns use dot-separated paths for nested
+#'   groups, exactly as in Briefcase CSV exports.
+#' @author Alexandre Adalardo de Oliveira \email{aleadalardo@gmail.com}
+#' @seealso
+#' \url{http://labtrop.ib.usp.br}
+#' @references \url{https://opendatakit.org/}
+#' @examples
+#' \dontrun{
+#' dfs <- readInstancesXML("inst/testDataODK/instances",
+#'                         expDir = "inst/exportDataODK/testDataODK",
+#'                         formBase = "treeCensusForm")
+#' }
+#' @export
+readInstancesXML <- function(instancesDir,
+                             expDir = NULL,
+                             formBase = NULL,
+                             overwrite = FALSE,
+                             mediaOutDir = NULL) {
+  if (!requireNamespace("xml2", quietly = TRUE)) {
+    stop("Package 'xml2' is required.")
+  }
+  if (!dir.exists(instancesDir)) {
+    stop("Directory not found: ", instancesDir)
+  }
+
+  ## 1. Find instance XMLs
+  xmls <- list.files(instancesDir, pattern = "\\.xml$",
+                     recursive = TRUE, full.names = TRUE)
+  if (length(xmls) == 0) {
+    stop("No instance XML found in: ", instancesDir)
+  }
+
+  if (is.null(formBase)) {
+    formBase <- sub("\\.xml$", "", basename(xmls[1]))
+  }
+
+  ## 2. Detect repeat paths from the first instance
+  doc0 <- xml2::read_xml(xmls[1])
+  repeatPaths <- .detectRepeatPaths(doc0)
+  message("Repeat paths detected: ",
+          paste(c("<root>", repeatPaths), collapse = ", "))
+  message("Processing ", length(xmls), " instance file(s)...")
+
+  ## 3. Prepare accumulator: named list by repeat path
+  allRecords <- list()
+  allRecords[[""]] <- list()
+  for (p in repeatPaths) allRecords[[p]] <- list()
+
+  ## 4. Walk each instance
+  nOk <- 0L
+  nFail <- 0L
+  for (xp in xmls) {
+    ok <- tryCatch({
+      doc <- xml2::read_xml(xp)
+      root <- xml2::xml_find_first(doc, "/*[local-name()='data']")
+      if (is.na(root)) stop("No <data> root element.")
+
+      instID <- xml2::xml_text(xml2::xml_find_first(root, "./meta/instanceID"))
+      instID <- trimws(instID)
+      if (!nzchar(instID)) {
+        instID <- paste0("uuid:", sub("\\.xml$", "", basename(xp)))
+      }
+
+      .walkRecord(root,
+                  thisKey      = instID,
+                  parentKey    = "",
+                  depthPath    = "",
+                  allRecords   = allRecords,
+                  repeatPaths  = repeatPaths)
+      TRUE
+    }, error = function(e) {
+      warning("Skipping ", xp, ": ", conditionMessage(e))
+      FALSE
+    })
+    if (isTRUE(ok)) nOk <- nOk + 1L else nFail <- nFail + 1L
+  }
+  message("Instances parsed OK: ", nOk, "; failed: ", nFail)
+
+  ## 5. Convert to data frames
+  dfs <- lapply(allRecords, function(lst) {
+    if (length(lst) == 0) return(data.frame())
+    allCols <- unique(unlist(lapply(lst, names)))
+    mat <- matrix("",
+                  nrow = length(lst),
+                  ncol = length(allCols),
+                  dimnames = list(NULL, allCols))
+    for (i in seq_along(lst)) {
+      row <- lst[[i]]
+      for (nm in names(row)) {
+        mat[i, nm] <- row[[nm]]
+      }
+    }
+    as.data.frame(mat, stringsAsFactors = FALSE)
+  })
+
+  ## 6. Optionally save CSVs
+  if (!is.null(expDir)) {
+    if (!dir.exists(expDir)) {
+      dir.create(expDir, recursive = TRUE)
+    }
+    for (nm in names(dfs)) {
+      suffix <- if (nzchar(nm)) paste0("-", gsub("/", "-", nm)) else ""
+      fname  <- file.path(expDir, paste0(formBase, suffix, ".csv"))
+      if (file.exists(fname) && !overwrite) {
+        warning("File exists, skipping: ", fname)
+        next
+      }
+      utils::write.csv(dfs[[nm]], fname, row.names = FALSE, na = "")
+      message("Wrote ", nrow(dfs[[nm]]), " row(s) to ", fname)
+    }
+  }
+
+  ## 7. Optionally copy media files
+  if (!is.null(mediaOutDir)) {
+    if (!dir.exists(mediaOutDir)) {
+      dir.create(mediaOutDir, recursive = TRUE)
+    }
+    allFiles  <- list.files(instancesDir, recursive = TRUE, full.names = TRUE)
+    isFile    <- !dir.exists(allFiles)
+    notXml    <- !grepl("\\.xml$", allFiles, ignore.case = TRUE)
+    mediaFiles <- allFiles[isFile & notXml]
+    if (length(mediaFiles) > 0) {
+      rootNorm <- normalizePath(instancesDir, winslash = "/", mustWork = FALSE)
+      for (f in mediaFiles) {
+        fNorm <- normalizePath(f, winslash = "/", mustWork = FALSE)
+        rel   <- sub(paste0("^", rootNorm, "/?"), "", fNorm)
+        dest  <- file.path(mediaOutDir, rel)
+        dir.create(dirname(dest), recursive = TRUE, showWarnings = FALSE)
+        file.copy(f, dest, overwrite = FALSE)
+      }
+      message("Copied ", length(mediaFiles), " media file(s) to ", mediaOutDir)
+    } else {
+      message("No media files found in ", instancesDir)
+    }
+  }
+
+  invisible(dfs)
+}
+
+
+#' Detect repeat paths in an ODK instance XML
+#'
+#' A repeat is identified by the presence of an element carrying a
+#' `jr:template` attribute (pyxform always writes one). The function
+#' returns the dot/slash-notated path of each such element relative to
+#' the `<data>` root.
+#'
+#' @param doc An `xml2` document (a single ODK instance).
+#' @return A character vector of repeat paths, e.g. `c("subquad",
+#'   "subquad/tree", "subquad/tree/sec_stem", "subquad/rep_miss",
+#'   "subquad/rep_miss/sec_stem_miss")`.
+#' @keywords internal
+.detectRepeatPaths <- function(doc) {
+  all_elems <- xml2::xml_find_all(doc, "//*")
+  paths <- character(0)
+  for (n in all_elems) {
+    a <- xml2::xml_attrs(n)
+    is_tpl <- any(names(a) == "template" | grepl(":template$", names(a)))
+    if (!is_tpl) next
+    p <- xml2::xml_path(n)
+    p <- sub("^/data/?", "", p)
+    if (nzchar(p)) paths <- c(paths, p)
+  }
+  unique(paths)
+}
+
+
+#' Walk one record of an ODK instance and register it (plus any repeats)
+#'
+#' @param node The XML element representing the record.
+#' @param thisKey The KEY assigned to this record.
+#' @param parentKey The KEY of the parent record ("" for the root).
+#' @param depthPath The repeat path of this record ("" for the root).
+#' @param allRecords Accumulator: named list of lists of named character
+#'   vectors (one entry per record).
+#' @param repeatPaths Character vector of all repeat paths in the form.
+#' @return Invisibly NULL. Mutates `allRecords`.
+#' @keywords internal
+.walkRecord <- function(node, thisKey, parentKey, depthPath,
+                        allRecords, repeatPaths) {
+  ## 1. Direct repeat child names for this record
+  directRepeats <- character(0)
+  for (rp in repeatPaths) {
+    parts  <- strsplit(rp, "/", fixed = TRUE)[[1]]
+    parent <- if (length(parts) > 1) paste(head(parts, -1), collapse = "/") else ""
+    if (parent == depthPath) {
+      directRepeats <- c(directRepeats, parts[length(parts)])
+    }
+  }
+  directRepeats <- unique(directRepeats)
+
+  ## 2. Collect leaf values (skipping direct repeat children)
+  rec <- .collectLeafValues(node, stopNames = directRepeats)
+  rec["KEY"] <- thisKey
+  if (nzchar(parentKey)) rec["PARENT_KEY"] <- parentKey
+
+  ## 3. Register this record
+  allRecords[[depthPath]][[length(allRecords[[depthPath]]) + 1L]] <- rec
+
+  ## 4. Recurse into direct repeat children
+  if (length(directRepeats) > 0) {
+    kids   <- xml2::xml_children(node)
+    knames <- xml2::xml_name(kids)
+    for (rn in directRepeats) {
+      matches <- kids[knames == rn]
+      if (length(matches) == 0) next
+      keep <- vapply(matches, function(k) {
+        a <- xml2::xml_attrs(k)
+        !any(names(a) == "template" | grepl(":template$", names(a)))
+      }, logical(1))
+      matches <- matches[keep]
+      childPath <- if (nzchar(depthPath)) paste0(depthPath, "/", rn) else rn
+      for (i in seq_along(matches)) {
+        childKey <- paste0(thisKey, "/", rn, "[", i, "]")
+        .walkRecord(matches[[i]],
+                    thisKey     = childKey,
+                    parentKey   = thisKey,
+                    depthPath   = childPath,
+                    allRecords  = allRecords,
+                    repeatPaths = repeatPaths)
+      }
+    }
+  }
+  invisible(NULL)
+}
+
+
+#' Collect leaf values (dot-separated paths) under an XML element
+#'
+#' Recurses through the tree, producing a named character vector where
+#' names are dot-separated paths (e.g. `"parcela.quadrat"`). Elements
+#' whose name is in `stopNames` are not entered (they are repeats,
+#' handled by `.walkRecord`).
+#'
+#' @param node The XML element (a record).
+#' @param stopNames Names to skip (direct repeat children).
+#' @param prefix Prefix for nested paths (internal use).
+#' @return A named character vector.
+#' @keywords internal
+.collectLeafValues <- function(node, stopNames = character(), prefix = "") {
+  out <- character(0)
+  kids <- xml2::xml_children(node)
+  for (k in kids) {
+    nm <- xml2::xml_name(k)
+    if (nm %in% stopNames) next
+    full  <- if (nzchar(prefix)) paste0(prefix, ".", nm) else nm
+    grand <- xml2::xml_children(k)
+    if (length(grand) == 0) {
+      val <- xml2::xml_text(k)
+      out[full] <- if (is.na(val)) "" else val
+    } else {
+      sub <- .collectLeafValues(k, stopNames = stopNames, prefix = full)
+      out <- c(out, sub)
+    }
+  }
+  out
+}
+````
+
+## Como usar agora
+
+Adicione o arquivo ao pacote, carregue-o e rode (dentro do diretório `odkTreeCensus/`):
+
+```r
+# (com o pacote já carregado, ou source direto)
+dfs <- readInstancesXML(
+    instancesDir = "inst/testDataODK/instances",
+    expDir       = "inst/exportDataODK/testDataODK",
+    formBase     = "treeCensusForm",
+    overwrite    = TRUE
+)
+```
+
+Saída esperada (mensagens): os caminhos de repetição detectados, quantas instâncias foram processadas, e um CSV por nível:
+
+```
+Repeat paths detected: <root>, subquad, subquad/tree, subquad/tree/sec_stem, subquad/rep_miss, subquad/rep_miss/sec_stem_miss
+Processing 1 instance file(s)...
+Instances parsed OK: 1; failed: 0
+Wrote 1 row(s) to inst/exportDataODK/testDataODK/treeCensusForm.csv
+Wrote 1 row(s) to inst/exportDataODK/testDataODK/treeCensusForm-subquad.csv
+...
+```
+
+Se ainda não quiser salvar em CSV, rode só a leitura:
+
+```r
+dfs <- readInstancesXML("inst/testDataODK/instances")
+names(dfs)
+str(dfs[[""]])                # o registro principal
+str(dfs[["subquad"]])         # subquads
+str(dfs[["subquad/tree"]])    # árvores
+```
+
+## O que confirma que funcionou
+
+1. **Número de linhas bate com o que foi coletado**: por exemplo, se o campo coletou 1 subquad com 3 árvores, `dfs[["subquad"]]` deve ter 1 linha e `dfs[["subquad/tree"]]` deve ter 3.
+2. **Colunas com os nomes esperados**: `dfs[[""]]["parcela.quadrat"]`, `dfs[["subquad/tree"]]["num_tag"]`, `dfs[["subquad/tree"]]["dbh_final"]` etc.
+3. **`PARENT_KEY` dos filhos aponta para o `KEY` do pai** (merge funciona).
+
+## O que isso resolve — e o que fica pendente
+
+**Resolve agora**: extração dos dados coletados, sem depender do Briefcase.
+
+**Não resolve (para outra rodada, quando você não estiver mais no aperto)**:
+- Geração futura do form para ser digerida pelo Briefcase 1.18 (ou migrar Briefcase, se algum dia der).
+- Adaptar o `joinODK()` atual: ele espera colunas como `sec_fuste`/`sec_fuste_miss`, mas o form atual usa `sec_stem`/`sec_stem_miss`. Vai dar erro com os CSVs novos; é ajuste pontual.
+- A submissão no ODK Central — provavelmente é outra causa (o form atual usa `appearance="image-map search(...)"` e `<setvalue event="odk-instance-first-load">`, que são interpretados pelo Collect mas podem complicar na submissão). Fica para depois.
+
+Me diga o que apareceu ao rodar o `readInstancesXML()`. Se os dados saírem certos, eu ajusto o `joinODK()` na próxima rodada.
+Tokens: 215k sent, 22k received. Cost: $0.09 message, $0.69 session.
+

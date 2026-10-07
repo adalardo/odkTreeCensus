@@ -4,13 +4,20 @@
 \alias{xmlForm}
 \title{Convert XLSForm to ODK XML using pyxform}
 \usage{
-xmlForm(xlsxPath, xmlPath = NULL)
+xmlForm(xlsxPath, xmlPath = NULL, briefcase118 = TRUE)
 }
 \arguments{
 \item{xlsxPath}{Character. Path to the input Excel (.xlsx) file.}
 
 \item{xmlPath}{Character. Path where the output XML file should be saved.
 If NULL, it will be saved in the same directory with a .xml extension.}
+
+\item{briefcase118}{Logical. If \code{TRUE} (default), the generated XML is
+post-processed to be compatible with ODK Briefcase 1.18.0, which embeds
+an older JavaRosa parser that ignores (and in practice rejects) the
+attributes \code{odk:xforms-version}, \code{orx:max-pixels} and
+\code{max-pixels}, as well as decimal form versions such as
+\code{"20261006.01"}. The original XML is preserved as \code{<xmlPath>.orig}.}
 }
 \value{
 Character. The path to the generated XML file, invisibly.

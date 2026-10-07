@@ -4,7 +4,7 @@
 \alias{mediaToODK}
 \title{Copy media files to ODK Collect on Android via ADB}
 \usage{
-mediaToODK(localMediaDir, delPrevMaps = TRUE, formName = "odkTreeCensus")
+mediaToODK(localMediaDir, delPrevMaps = TRUE, formName = "treeCensusForm")
 }
 \arguments{
 \item{localMediaDir}{Path to the local media directory.}
