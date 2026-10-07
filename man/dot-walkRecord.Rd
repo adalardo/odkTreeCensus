@@ -38,7 +38,7 @@ The accumulator \code{records} is a plain named list that is passed down
 and returned back up by the recursion. Using a functional style avoids
 the pitfalls of mutating a nested list through an environment, which
 previously left the root table empty. The root record is stored under
-the internal sentinel key \code{".root"} and translated back to \code{""} by
-the caller.
+the internal sentinel key \code{".root"} (see \code{ROOT_KEY} in
+\code{readInstancesXML}).
 }
 \keyword{internal}

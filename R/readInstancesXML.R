@@ -19,10 +19,11 @@
 #' `instanceID` column is present on every row and allows grouping by
 #' submission.
 #'
-#' The first table (name `""`, written as `<formBase>.csv`) holds the
-#' root record: every leaf field of the `<data>` element that is not
-#' inside a repeat (i.e. everything before `<subquad>` plus any other
-#' non-repeated siblings and `<meta>/instanceID`).
+#' The first table (stored internally under the sentinel name `".root"`,
+#' written as `<formBase>.csv`) holds the root record: every leaf field
+#' of the `<data>` element that is not inside a repeat (i.e. everything
+#' before `<subquad>` plus any other non-repeated siblings and
+#' `<meta>/instanceID`).
 #'
 #' @param instancesDir Path to the ODK Collect `instances` directory.
 #' @param expDir Optional. If provided, each data frame is also written
@@ -43,7 +44,7 @@
 #'   the instance folders (photos, etc.) are copied here, preserving
 #'   the subfolder structure.
 #'
-#' @return Invisibly, a named list of data frames. Names are `""`
+#' @return Invisibly, a named list of data frames. Names are `".root"`
 #'   (main form) plus each repeat path (e.g. `"subquad"`,
 #'   `"subquad/tree"`, ...). Columns use dot-separated paths for nested
 #'   groups, as in Briefcase CSV exports.
@@ -72,9 +73,12 @@ readInstancesXML <- function(instancesDir,
     stop("Directory not found: ", instancesDir)
   }
 
-  ## Internal sentinel key for the root record. We use a dedicated
-  ## non-empty key internally and translate it back to "" only when
-  ## writing the CSVs (so the root file is still "<formBase>.csv").
+  ## Internal sentinel key for the root record. We keep this non-empty
+  ## key throughout the function (list names, indexing) and translate it
+  ## to "" only when composing the output file name. Indexing a named
+  ## list by the empty string (dfs[[""]]) returns NULL in R, which is
+  ## exactly why the root CSV used to come out empty: the correct data
+  ## frame existed but could not be retrieved by name.
   ROOT_KEY <- ".root"
 
   ## 1. Find instance XMLs
@@ -167,15 +171,14 @@ readInstancesXML <- function(instancesDir,
                  vapply(records, length, integer(1)),
                  collapse = ", "))
 
-  ## Translate the internal root sentinel back to "" and make sure the
-  ## root comes first.
-  outNames <- names(records)
-  outNames[outNames == ROOT_KEY] <- ""
-  names(records) <- outNames
-  ord <- c(which(outNames == ""), which(outNames != ""))
+  ## Reorder so the root table comes first (writing order only). We keep
+  ## the ".root" sentinel as a name so that ds[["..."]] never has to be
+  ## looked up by the empty string.
+  ord <- c(which(names(records) == ROOT_KEY),
+           which(names(records) != ROOT_KEY))
   records <- records[ord]
 
-  ## 6. Convert to data frames
+  ## 6. Convert to data frames (names preserved, including ".root")
   dfs <- lapply(records, function(lst) {
     if (length(lst) == 0) return(data.frame())
     allCols <- unique(unlist(lapply(lst, names)))
@@ -196,13 +199,15 @@ readInstancesXML <- function(instancesDir,
     as.data.frame(mat, stringsAsFactors = FALSE)
   })
 
-  ## 7. Optionally save CSVs
+  ## 7. Optionally save CSVs. The output file name is derived from the
+  ##    internal name, translating the root sentinel to "" here (and
+  ##    only here). This is what makes "<formBase>.csv" come out correct.
   if (!is.null(expDir)) {
     if (!dir.exists(expDir)) {
       dir.create(expDir, recursive = TRUE)
     }
     for (nm in names(dfs)) {
-      suffix <- if (nzchar(nm)) paste0("-", gsub("/", "-", nm)) else ""
+      suffix <- if (nm == ROOT_KEY) "" else paste0("-", gsub("/", "-", nm))
       fname  <- file.path(expDir, paste0(formBase, suffix, ".csv"))
       if (file.exists(fname) && !overwrite) {
         warning("File exists, skipping: ", fname)
@@ -485,8 +490,8 @@ readInstancesXML <- function(instancesDir,
 #' and returned back up by the recursion. Using a functional style avoids
 #' the pitfalls of mutating a nested list through an environment, which
 #' previously left the root table empty. The root record is stored under
-#' the internal sentinel key `".root"` and translated back to `""` by
-#' the caller.
+#' the internal sentinel key `".root"` (see `ROOT_KEY` in
+#' `readInstancesXML`).
 #'
 #' @param node The XML element representing the record.
 #' @param thisKey The KEY assigned to this record.

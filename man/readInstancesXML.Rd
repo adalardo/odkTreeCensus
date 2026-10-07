@@ -39,7 +39,7 @@ the instance folders (photos, etc.) are copied here, preserving
 the subfolder structure.}
 }
 \value{
-Invisibly, a named list of data frames. Names are \code{""}
+Invisibly, a named list of data frames. Names are \code{".root"}
 (main form) plus each repeat path (e.g. \code{"subquad"},
 \code{"subquad/tree"}, ...). Columns use dot-separated paths for nested
 groups, as in Briefcase CSV exports.
@@ -65,10 +65,11 @@ up), so the hierarchy can be reconstructed by joining the files. The
 \code{instanceID} column is present on every row and allows grouping by
 submission.
 
-The first table (name \code{""}, written as \verb{<formBase>.csv}) holds the
-root record: every leaf field of the \verb{<data>} element that is not
-inside a repeat (i.e. everything before \verb{<subquad>} plus any other
-non-repeated siblings and \verb{<meta>/instanceID}).
+The first table (stored internally under the sentinel name \code{".root"},
+written as \verb{<formBase>.csv}) holds the root record: every leaf field
+of the \verb{<data>} element that is not inside a repeat (i.e. everything
+before \verb{<subquad>} plus any other non-repeated siblings and
+\verb{<meta>/instanceID}).
 }
 \examples{
 \dontrun{
