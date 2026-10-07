@@ -4,7 +4,15 @@
 \alias{.walkRecord}
 \title{Walk one record of an ODK instance and register it (plus any repeats)}
 \usage{
-.walkRecord(node, thisKey, parentKey, depthPath, acc, repeatPaths)
+.walkRecord(
+  node,
+  thisKey,
+  parentKey,
+  depthPath,
+  records,
+  repeatPaths,
+  instanceID = ""
+)
 }
 \arguments{
 \item{node}{The XML element representing the record.}
@@ -15,17 +23,22 @@
 
 \item{depthPath}{The repeat path of this record ("" for the root).}
 
-\item{acc}{An environment with a \code{records} element: a named list of
-lists of named character vectors (one entry per observation).}
+\item{records}{Named list of lists of named character vectors
+(one entry per observation). Returned, updated.}
 
 \item{repeatPaths}{Character vector of all repeat paths in the form.}
+
+\item{instanceID}{Submission id, added to every row as a column.}
 }
 \value{
-Invisibly NULL. Mutates \code{acc$records}.
+The updated \code{records} list.
 }
 \description{
-Registers one observation per repeat level. The accumulator is an
-environment (\code{acc}), so the records written here are visible to the
-caller (a list would be copied on modify and the writes would be lost).
+The accumulator \code{records} is a plain named list that is passed down
+and returned back up by the recursion. Using a functional style avoids
+the pitfalls of mutating a nested list through an environment, which
+previously left the root table empty. The root record is stored under
+the internal sentinel key \code{".root"} and translated back to \code{""} by
+the caller.
 }
 \keyword{internal}

@@ -72,11 +72,9 @@ readInstancesXML <- function(instancesDir,
     stop("Directory not found: ", instancesDir)
   }
 
-  ## Internal sentinel key for the root record. An empty-string list
-  ## name is ambiguous in some R contexts (indexing/assignment), which
-  ## caused the root table to come out empty. We use a dedicated
-  ## non-empty key internally and translate it back to "" only at
-  ## CSV-writing time.
+  ## Internal sentinel key for the root record. We use a dedicated
+  ## non-empty key internally and translate it back to "" only when
+  ## writing the CSVs (so the root file is still "<formBase>.csv").
   ROOT_KEY <- ".root"
 
   ## 1. Find instance XMLs
@@ -124,14 +122,13 @@ readInstancesXML <- function(instancesDir,
           paste(c("<root>", repeatPaths), collapse = ", "))
   message("Processing ", length(xmls), " instance file(s)...")
 
-  ## 4. Prepare accumulator. An environment is used because it has
-  ##    reference semantics in R; a plain list would be copied on modify
-  ##    inside .walkRecord() and the records would never reach us back.
-  acc <- new.env(parent = emptyenv())
-  acc$records <- list()
-  acc$records[[ROOT_KEY]] <- list()
-  for (p in repeatPaths) acc$records[[p]] <- list()
-  acc$instanceID <- NULL
+  ## 4. Accumulator: a plain named list, passed and returned by the
+  ##    recursive walk (functional style). This avoids the pitfalls of
+  ##    mutating a nested list inside an environment, which was leaving
+  ##    the root record empty.
+  records <- list()
+  records[[ROOT_KEY]] <- list()
+  for (p in repeatPaths) records[[p]] <- list()
 
   ## 5. Walk each instance
   nOk <- 0L
@@ -148,16 +145,13 @@ readInstancesXML <- function(instancesDir,
         instID <- paste0("uuid:", sub("\\.xml$", "", basename(xp)))
       }
 
-      ## Make the current submission id available to .walkRecord so
-      ## every row can carry an `instanceID` column.
-      acc$instanceID <- instID
-
-      .walkRecord(root,
-                  thisKey      = instID,
-                  parentKey    = "",
-                  depthPath    = "",
-                  acc          = acc,
-                  repeatPaths  = repeatPaths)
+      records <- .walkRecord(root,
+                             thisKey      = instID,
+                             parentKey    = "",
+                             depthPath    = "",
+                             records      = records,
+                             repeatPaths  = repeatPaths,
+                             instanceID   = instID)
       TRUE
     }, error = function(e) {
       warning("Skipping ", xp, ": ", conditionMessage(e))
@@ -167,18 +161,22 @@ readInstancesXML <- function(instancesDir,
   }
   message("Instances parsed OK: ", nOk, "; failed: ", nFail)
 
-  allRecords <- acc$records
+  ## Diagnostic: how many records each table received.
+  message("Records per table: ",
+          paste0(names(records), "=",
+                 vapply(records, length, integer(1)),
+                 collapse = ", "))
 
-  ## Translate the internal root sentinel back to "" (so that the CSV
-  ## is named "<formBase>.csv") and make sure the root comes first.
-  outNames <- names(allRecords)
+  ## Translate the internal root sentinel back to "" and make sure the
+  ## root comes first.
+  outNames <- names(records)
   outNames[outNames == ROOT_KEY] <- ""
-  names(allRecords) <- outNames
+  names(records) <- outNames
   ord <- c(which(outNames == ""), which(outNames != ""))
-  allRecords <- allRecords[ord]
+  records <- records[ord]
 
   ## 6. Convert to data frames
-  dfs <- lapply(allRecords, function(lst) {
+  dfs <- lapply(records, function(lst) {
     if (length(lst) == 0) return(data.frame())
     allCols <- unique(unlist(lapply(lst, names)))
     ## Put the bookkeeping columns first, then the form fields.
@@ -483,23 +481,25 @@ readInstancesXML <- function(instancesDir,
 
 #' Walk one record of an ODK instance and register it (plus any repeats)
 #'
-#' Registers one observation per repeat level. The accumulator is an
-#' environment (`acc`), so the records written here are visible to the
-#' caller (a list would be copied on modify and the writes would be
-#' lost). The root record is stored under the internal sentinel key
-#' `".root"` and translated back to `""` by the caller.
+#' The accumulator `records` is a plain named list that is passed down
+#' and returned back up by the recursion. Using a functional style avoids
+#' the pitfalls of mutating a nested list through an environment, which
+#' previously left the root table empty. The root record is stored under
+#' the internal sentinel key `".root"` and translated back to `""` by
+#' the caller.
 #'
 #' @param node The XML element representing the record.
 #' @param thisKey The KEY assigned to this record.
 #' @param parentKey The KEY of the parent record ("" for the root).
 #' @param depthPath The repeat path of this record ("" for the root).
-#' @param acc An environment with a `records` element: a named list of
-#'   lists of named character vectors (one entry per observation).
+#' @param records Named list of lists of named character vectors
+#'   (one entry per observation). Returned, updated.
 #' @param repeatPaths Character vector of all repeat paths in the form.
-#' @return Invisibly NULL. Mutates `acc$records`.
+#' @param instanceID Submission id, added to every row as a column.
+#' @return The updated `records` list.
 #' @keywords internal
 .walkRecord <- function(node, thisKey, parentKey, depthPath,
-                        acc, repeatPaths) {
+                        records, repeatPaths, instanceID = "") {
   ## 1. Direct repeat children for this record (repeats may be nested
   ##    under non-repeat groups, e.g. cobertura/rep_cover).
   directRepeats <- .childRepeats(depthPath, repeatPaths)
@@ -508,14 +508,12 @@ readInstancesXML <- function(instancesDir,
   rec <- .collectLeafValues(node, depthPath = depthPath, repeatPaths = repeatPaths)
   rec["KEY"] <- thisKey
   if (nzchar(parentKey)) rec["PARENT_KEY"] <- parentKey
-  if (!is.null(acc$instanceID) && nzchar(acc$instanceID)) {
-    rec["instanceID"] <- acc$instanceID
-  }
+  if (nzchar(instanceID)) rec["instanceID"] <- instanceID
 
   ## 3. Register this record. The root uses the internal sentinel
   ##    ".root" instead of "" to avoid ambiguous empty-string indexing.
   storagePath <- if (nzchar(depthPath)) depthPath else ".root"
-  acc$records[[storagePath]] <- c(acc$records[[storagePath]], list(rec))
+  records[[storagePath]] <- c(records[[storagePath]], list(rec))
 
   ## 4. Recurse into direct repeat children
   if (length(directRepeats) > 0) {
@@ -525,16 +523,18 @@ readInstancesXML <- function(instancesDir,
       rnName  <- .lastSegment(rp)
       for (i in seq_along(matches)) {
         childKey <- paste0(thisKey, "/", rnName, "[", i, "]")
-        .walkRecord(matches[[i]],
-                    thisKey     = childKey,
-                    parentKey   = thisKey,
-                    depthPath   = rp,
-                    acc         = acc,
-                    repeatPaths = repeatPaths)
+        records <- .walkRecord(matches[[i]],
+                               thisKey      = childKey,
+                               parentKey    = thisKey,
+                               depthPath    = rp,
+                               records      = records,
+                               repeatPaths  = repeatPaths,
+                               instanceID   = instanceID)
       }
     }
   }
-  invisible(NULL)
+
+  records
 }
 
 

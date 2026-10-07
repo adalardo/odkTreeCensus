@@ -34,7 +34,7 @@ eDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/exportedData"
 base <- "testeA00"
 mediaDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/exportedData"
 
-readInstancesXML(instancesDir = instDir, expDir = eDir, mediaOutDir = mediaDir)
+readInstancesXML(instancesDir = instDir, expDir = eDir, mediaOutDir = mediaDir, formBase = base, overwrite = TRUE)
 
 
 ```

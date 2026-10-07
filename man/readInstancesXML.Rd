@@ -55,13 +55,20 @@ from the submission XMLs. This is essential because ODK Collect strips
 the \code{jr:template} markers (and the page-body \verb{<repeat>} elements) from
 the submitted instances, so the repeat hierarchy cannot be recovered
 from the data alone. The form is read from \code{formPath}. When \code{formPath}
-is not given, the function tries to locate the form automatically: it
+is not given, the function tries to locate it automatically: it
 reads the form id from the submission root (\verb{<data id="...">}) and
 searches for \verb{<formId>.xml} in the usual locations.
 
 Each row carries a \code{KEY} (unique id of the observation) and, for
 nested repeats, a \code{PARENT_KEY} (the \code{KEY} of the observation one level
-up), so the hierarchy can be reconstructed by joining the files.
+up), so the hierarchy can be reconstructed by joining the files. The
+\code{instanceID} column is present on every row and allows grouping by
+submission.
+
+The first table (name \code{""}, written as \verb{<formBase>.csv}) holds the
+root record: every leaf field of the \verb{<data>} element that is not
+inside a repeat (i.e. everything before \verb{<subquad>} plus any other
+non-repeated siblings and \verb{<meta>/instanceID}).
 }
 \examples{
 \dontrun{
