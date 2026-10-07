@@ -73,12 +73,12 @@ readInstancesXML <- function(instancesDir,
     stop("Directory not found: ", instancesDir)
   }
 
-  ## Internal sentinel key for the root record. We keep this non-empty
-  ## key throughout the function (list names, indexing) and translate it
-  ## to "" only when composing the output file name. Indexing a named
-  ## list by the empty string (dfs[[""]]) returns NULL in R, which is
-  ## exactly why the root CSV used to come out empty: the correct data
-  ## frame existed but could not be retrieved by name.
+  ## Internal sentinel key for the root record. Kept non-empty on
+  ## purpose: indexing a named list by the empty string (dfs[[""]])
+  ## returns NULL in R, and paste0() then silently drops the value,
+  ## e.g. message("Wrote ", nrow(NULL), " row(s)") -> "Wrote  row(s)".
+  ## We use ".root" throughout and translate it to "" only when
+  ## composing the output file name.
   ROOT_KEY <- ".root"
 
   ## 1. Find instance XMLs
@@ -126,10 +126,10 @@ readInstancesXML <- function(instancesDir,
           paste(c("<root>", repeatPaths), collapse = ", "))
   message("Processing ", length(xmls), " instance file(s)...")
 
-  ## 4. Accumulator: a plain named list, passed and returned by the
-  ##    recursive walk (functional style). This avoids the pitfalls of
-  ##    mutating a nested list inside an environment, which was leaving
-  ##    the root record empty.
+  ## 4. Accumulator: a plain named list, passed down and returned by
+  ##    the recursive walk (functional style). This avoids the pitfalls
+  ##    of mutating a nested list inside an environment, which was
+  ##    leaving the root record empty.
   records <- list()
   records[[ROOT_KEY]] <- list()
   for (p in repeatPaths) records[[p]] <- list()
@@ -171,33 +171,95 @@ readInstancesXML <- function(instancesDir,
                  vapply(records, length, integer(1)),
                  collapse = ", "))
 
-  ## Reorder so the root table comes first (writing order only). We keep
-  ## the ".root" sentinel as a name so that ds[["..."]] never has to be
-  ## looked up by the empty string.
-  ord <- c(which(names(records) == ROOT_KEY),
-           which(names(records) != ROOT_KEY))
-  records <- records[ord]
+  ## Reorder so the root table comes first. We keep the ".root"
+  ## sentinel as a name so that dfs[["..."]] never has to be looked up
+  ## by the empty string.
+  nms <- names(records)
+  rootPos <- match(ROOT_KEY, nms)
+  if (!is.na(rootPos) && rootPos != 1L) {
+    ord <- c(rootPos, setdiff(seq_along(nms), rootPos))
+    nms <- nms[ord]
+    records <- records[ord]
+  }
 
-  ## 6. Convert to data frames (names preserved, including ".root")
-  dfs <- lapply(records, function(lst) {
-    if (length(lst) == 0) return(data.frame())
-    allCols <- unique(unlist(lapply(lst, names)))
-    ## Put the bookkeeping columns first, then the form fields.
-    metaCols <- intersect(c("KEY", "PARENT_KEY", "instanceID"), allCols)
-    dataCols <- setdiff(allCols, metaCols)
-    allCols  <- c(metaCols, dataCols)
-    mat <- matrix("",
-                  nrow = length(lst),
-                  ncol = length(allCols),
-                  dimnames = list(NULL, allCols))
-    for (i in seq_along(lst)) {
-      row <- lst[[i]]
-      for (nm in names(row)) {
-        mat[i, nm] <- row[[nm]]
+  ## 6. Convert to data frames, one row per record. We build each
+  ##    column explicitly (a plain character vector per column) and
+  ##    assemble the data frame from a named list of equal-length
+  ##    vectors. This is robust for every table, including the root,
+  ##    and it does not depend on the corner-case behavior of
+  ##    matrix("", nrow = n, ncol = 0) + as.data.frame(), which was
+  ##    silently producing a 0 x 0 data frame for the root table.
+  ##    ".root" remains the internal name of the root table; it is
+  ##    translated to "" only when composing the output file name.
+  dfs <- vector("list", length(nms))
+  names(dfs) <- nms
+
+  for (k in seq_along(nms)) {
+    lst <- records[[k]]
+    n <- length(lst)
+    if (n == 0) {
+      dfs[[k]] <- data.frame()
+      next
+    }
+
+    ## Union of column names, in first-appearance order.
+    colNames <- character(0)
+    for (i in seq_len(n)) {
+      rn <- names(lst[[i]])
+      if (length(rn) > 0) {
+        newOnes <- setdiff(rn, colNames)
+        if (length(newOnes) > 0) colNames <- c(colNames, newOnes)
       }
     }
-    as.data.frame(mat, stringsAsFactors = FALSE)
-  })
+    ## Bookkeeping columns first, then the form fields.
+    metaCols <- intersect(c("KEY", "PARENT_KEY", "instanceID"), colNames)
+    dataCols <- setdiff(colNames, metaCols)
+    colNames <- c(metaCols, dataCols)
+
+    if (length(colNames) == 0) {
+      ## No leaf values at all: keep the correct number of rows so the
+      ## record count is visible in the CSV.
+      m <- matrix(NA_character_, nrow = n, ncol = 0)
+      dfs[[k]] <- as.data.frame(m, stringsAsFactors = FALSE)
+      next
+    }
+
+    cols <- vector("list", length(colNames))
+    names(cols) <- colNames
+    for (j in seq_along(colNames)) {
+      nmj <- colNames[j]
+      col <- character(n)
+      for (i in seq_len(n)) {
+        v <- lst[[i]][[nmj]]
+        if (is.null(v) || length(v) == 0) {
+          col[i] <- ""
+        } else {
+          vc <- as.character(v)
+          col[i] <- if (length(vc) == 0 || is.na(vc[1L])) "" else vc[1L]
+        }
+      }
+      cols[[j]] <- col
+    }
+    dfs[[k]] <- as.data.frame(cols, stringsAsFactors = FALSE)
+  }
+
+  ## Sanity: every table must be a data.frame so that write.csv() and
+  ## nrow() always behave.
+  for (k in seq_along(dfs)) {
+    if (!is.data.frame(dfs[[k]])) {
+      dfs[[k]] <- tryCatch(as.data.frame(dfs[[k]], stringsAsFactors = FALSE),
+                           error = function(e) data.frame())
+    }
+  }
+
+  ## Diagnostic: shape of each output table (helps spot empty ones).
+  message("Table dims (output): ",
+          paste0(names(dfs), "=",
+                 vapply(dfs, function(d) {
+                   if (is.data.frame(d)) paste0(NROW(d), "x", NCOL(d))
+                   else paste0("?", class(d)[1L])
+                 }, character(1)),
+                 collapse = ", "))
 
   ## 7. Optionally save CSVs. The output file name is derived from the
   ##    internal name, translating the root sentinel to "" here (and
@@ -206,15 +268,17 @@ readInstancesXML <- function(instancesDir,
     if (!dir.exists(expDir)) {
       dir.create(expDir, recursive = TRUE)
     }
-    for (nm in names(dfs)) {
-      suffix <- if (nm == ROOT_KEY) "" else paste0("-", gsub("/", "-", nm))
+    for (k in seq_along(dfs)) {
+      nm <- names(dfs)[k]
+      suffix <- if (identical(nm, ROOT_KEY)) "" else paste0("-", gsub("/", "-", nm))
       fname  <- file.path(expDir, paste0(formBase, suffix, ".csv"))
       if (file.exists(fname) && !overwrite) {
         warning("File exists, skipping: ", fname)
         next
       }
-      utils::write.csv(dfs[[nm]], fname, row.names = FALSE, na = "")
-      message("Wrote ", nrow(dfs[[nm]]), " row(s) to ", fname)
+      df <- dfs[[k]]
+      utils::write.csv(df, fname, row.names = FALSE, na = "")
+      message("Wrote ", nrow(df), " row(s) to ", fname)
     }
   }
 
