@@ -2,20 +2,25 @@
 % Please edit documentation in R/readInstancesXML.R
 \name{.detectRepeatPaths}
 \alias{.detectRepeatPaths}
-\title{Detect repeat paths in an ODK instance XML}
+\title{Detect repeat paths in an XForm (or, as a fallback, in an instance)}
 \usage{
-.detectRepeatPaths(doc)
+.detectRepeatPaths(formDoc)
 }
 \arguments{
-\item{doc}{An \code{xml2} document (a single ODK instance).}
+\item{formDoc}{An \code{xml2} document: the XForm (preferred) or, as a
+fallback, a submission instance.}
 }
 \value{
-A character vector of repeat paths, e.g. \code{c("subquad", "subquad/tree", "subquad/tree/sec_stem", "subquad/rep_miss", "subquad/rep_miss/sec_stem_miss")}.
+A character vector of repeat paths relative to the \verb{/data}
+root, ordered from the shallowest to the deepest.
 }
 \description{
-A repeat is identified by the presence of an element carrying a
-\code{jr:template} attribute (pyxform always writes one). The function
-returns the dot/slash-notated path of each such element relative to
-the \verb{<data>} root.
+A form's repeat structure is authoritative and must be read from the
+\strong{XForm}. This function first reads the \code{nodeset} of every
+\verb{<repeat>} element in the form body (preferred). If the form does
+not contain such elements, it falls back to finding \code{jr:template}
+markers inside the form's primary instance. As a last resort (when
+passed a submission document instead of a form), it looks for
+\code{jr:template} directly, which only works with old-style instances.
 }
 \keyword{internal}

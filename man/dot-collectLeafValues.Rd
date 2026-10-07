@@ -4,22 +4,35 @@
 \alias{.collectLeafValues}
 \title{Collect leaf values (dot-separated paths) under an XML element}
 \usage{
-.collectLeafValues(node, stopNames = character(), prefix = "")
+.collectLeafValues(
+  node,
+  depthPath,
+  repeatPaths,
+  namePrefix = "",
+  pathPrefix = ""
+)
 }
 \arguments{
 \item{node}{The XML element (a record).}
 
-\item{stopNames}{Names to skip (direct repeat children).}
+\item{depthPath}{The repeat path of the current record (\code{""} for the
+root).}
 
-\item{prefix}{Prefix for nested paths (internal use).}
+\item{repeatPaths}{All repeat paths in the form.}
+
+\item{namePrefix}{Dot-separated prefix for column names (internal).}
+
+\item{pathPrefix}{Slash-separated prefix for path comparison
+(internal).}
 }
 \value{
 A named character vector.
 }
 \description{
 Recurses through the tree, producing a named character vector where
-names are dot-separated paths (e.g. \code{"parcela.quadrat"}). Elements
-whose name is in \code{stopNames} are not entered (they are repeats,
-handled by \code{.walkRecord}).
+names are dot-separated paths (e.g. \code{"parcela.quadrat"}). Any
+descendant whose absolute path is a repeat boundary (see
+\code{repeatPaths}) is not entered: those elements belong to their own
+records and are handled by \code{.walkRecord}.
 }
 \keyword{internal}

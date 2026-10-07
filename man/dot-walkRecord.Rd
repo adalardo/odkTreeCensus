@@ -4,7 +4,7 @@
 \alias{.walkRecord}
 \title{Walk one record of an ODK instance and register it (plus any repeats)}
 \usage{
-.walkRecord(node, thisKey, parentKey, depthPath, allRecords, repeatPaths)
+.walkRecord(node, thisKey, parentKey, depthPath, acc, repeatPaths)
 }
 \arguments{
 \item{node}{The XML element representing the record.}
@@ -15,15 +15,17 @@
 
 \item{depthPath}{The repeat path of this record ("" for the root).}
 
-\item{allRecords}{Accumulator: named list of lists of named character
-vectors (one entry per record).}
+\item{acc}{An environment with a \code{records} element: a named list of
+lists of named character vectors (one entry per observation).}
 
 \item{repeatPaths}{Character vector of all repeat paths in the form.}
 }
 \value{
-Invisibly NULL. Mutates \code{allRecords}.
+Invisibly NULL. Mutates \code{acc$records}.
 }
 \description{
-Walk one record of an ODK instance and register it (plus any repeats)
+Registers one observation per repeat level. The accumulator is an
+environment (\code{acc}), so the records written here are visible to the
+caller (a list would be copied on modify and the writes would be lost).
 }
 \keyword{internal}
