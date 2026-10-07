@@ -13,6 +13,10 @@
 #' reads the form id from the submission root (`<data id="...">`) and
 #' searches for `<formId>.xml` in the usual locations.
 #'
+#' Each row carries a `KEY` (unique id of the observation) and, for
+#' nested repeats, a `PARENT_KEY` (the `KEY` of the observation one level
+#' up), so the hierarchy can be reconstructed by joining the files.
+#'
 #' @param instancesDir Path to the ODK Collect `instances` directory.
 #' @param expDir Optional. If provided, each data frame is also written
 #'   as a CSV in this directory. Naming follows ODK Briefcase:
@@ -106,10 +110,14 @@ readInstancesXML <- function(instancesDir,
           paste(c("<root>", repeatPaths), collapse = ", "))
   message("Processing ", length(xmls), " instance file(s)...")
 
-  ## 4. Prepare accumulator: named list by repeat path
-  allRecords <- list()
-  allRecords[[""]] <- list()
-  for (p in repeatPaths) allRecords[[p]] <- list()
+  ## 4. Prepare accumulator. An environment is used because it has
+  ##    reference semantics in R; a plain list would be copied on modify
+  ##    inside .walkRecord() and the records would never reach us back
+  ##    (which is exactly why the output files came out empty).
+  acc <- new.env(parent = emptyenv())
+  acc$records <- list()
+  acc$records[[""]] <- list()
+  for (p in repeatPaths) acc$records[[p]] <- list()
 
   ## 5. Walk each instance
   nOk <- 0L
@@ -130,7 +138,7 @@ readInstancesXML <- function(instancesDir,
                   thisKey      = instID,
                   parentKey    = "",
                   depthPath    = "",
-                  allRecords   = allRecords,
+                  acc          = acc,
                   repeatPaths  = repeatPaths)
       TRUE
     }, error = function(e) {
@@ -140,6 +148,8 @@ readInstancesXML <- function(instancesDir,
     if (isTRUE(ok)) nOk <- nOk + 1L else nFail <- nFail + 1L
   }
   message("Instances parsed OK: ", nOk, "; failed: ", nFail)
+
+  allRecords <- acc$records
 
   ## 6. Convert to data frames
   dfs <- lapply(allRecords, function(lst) {
@@ -443,17 +453,21 @@ readInstancesXML <- function(instancesDir,
 
 #' Walk one record of an ODK instance and register it (plus any repeats)
 #'
+#' Registers one observation per repeat level. The accumulator is an
+#' environment (`acc`), so the records written here are visible to the
+#' caller (a list would be copied on modify and the writes would be lost).
+#'
 #' @param node The XML element representing the record.
 #' @param thisKey The KEY assigned to this record.
 #' @param parentKey The KEY of the parent record ("" for the root).
 #' @param depthPath The repeat path of this record ("" for the root).
-#' @param allRecords Accumulator: named list of lists of named character
-#'   vectors (one entry per record).
+#' @param acc An environment with a `records` element: a named list of
+#'   lists of named character vectors (one entry per observation).
 #' @param repeatPaths Character vector of all repeat paths in the form.
-#' @return Invisibly NULL. Mutates `allRecords`.
+#' @return Invisibly NULL. Mutates `acc$records`.
 #' @keywords internal
 .walkRecord <- function(node, thisKey, parentKey, depthPath,
-                        allRecords, repeatPaths) {
+                        acc, repeatPaths) {
   ## 1. Direct repeat children for this record (repeats may be nested
   ##    under non-repeat groups, e.g. cobertura/rep_cover).
   directRepeats <- .childRepeats(depthPath, repeatPaths)
@@ -464,7 +478,7 @@ readInstancesXML <- function(instancesDir,
   if (nzchar(parentKey)) rec["PARENT_KEY"] <- parentKey
 
   ## 3. Register this record
-  allRecords[[depthPath]][[length(allRecords[[depthPath]]) + 1L]] <- rec
+  acc$records[[depthPath]][[length(acc$records[[depthPath]]) + 1L]] <- rec
 
   ## 4. Recurse into direct repeat children
   if (length(directRepeats) > 0) {
@@ -478,7 +492,7 @@ readInstancesXML <- function(instancesDir,
                     thisKey     = childKey,
                     parentKey   = thisKey,
                     depthPath   = rp,
-                    allRecords  = allRecords,
+                    acc         = acc,
                     repeatPaths = repeatPaths)
       }
     }
