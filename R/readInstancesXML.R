@@ -9,13 +9,20 @@
 #' the `jr:template` markers (and the page-body `<repeat>` elements) from
 #' the submitted instances, so the repeat hierarchy cannot be recovered
 #' from the data alone. The form is read from `formPath`. When `formPath`
-#' is not given, the function tries to locate the form automatically: it
+#' is not given, the function tries to locate it automatically: it
 #' reads the form id from the submission root (`<data id="...">`) and
 #' searches for `<formId>.xml` in the usual locations.
 #'
 #' Each row carries a `KEY` (unique id of the observation) and, for
 #' nested repeats, a `PARENT_KEY` (the `KEY` of the observation one level
-#' up), so the hierarchy can be reconstructed by joining the files.
+#' up), so the hierarchy can be reconstructed by joining the files. The
+#' `instanceID` column is present on every row and allows grouping by
+#' submission.
+#'
+#' The first table (name `""`, written as `<formBase>.csv`) holds the
+#' root record: every leaf field of the `<data>` element that is not
+#' inside a repeat (i.e. everything before `<subquad>` plus any other
+#' non-repeated siblings and `<meta>/instanceID`).
 #'
 #' @param instancesDir Path to the ODK Collect `instances` directory.
 #' @param expDir Optional. If provided, each data frame is also written
@@ -65,6 +72,13 @@ readInstancesXML <- function(instancesDir,
     stop("Directory not found: ", instancesDir)
   }
 
+  ## Internal sentinel key for the root record. An empty-string list
+  ## name is ambiguous in some R contexts (indexing/assignment), which
+  ## caused the root table to come out empty. We use a dedicated
+  ## non-empty key internally and translate it back to "" only at
+  ## CSV-writing time.
+  ROOT_KEY <- ".root"
+
   ## 1. Find instance XMLs
   xmls <- list.files(instancesDir, pattern = "\\.xml$",
                      recursive = TRUE, full.names = TRUE)
@@ -112,12 +126,12 @@ readInstancesXML <- function(instancesDir,
 
   ## 4. Prepare accumulator. An environment is used because it has
   ##    reference semantics in R; a plain list would be copied on modify
-  ##    inside .walkRecord() and the records would never reach us back
-  ##    (which is exactly why the output files came out empty).
+  ##    inside .walkRecord() and the records would never reach us back.
   acc <- new.env(parent = emptyenv())
   acc$records <- list()
-  acc$records[[""]] <- list()
+  acc$records[[ROOT_KEY]] <- list()
   for (p in repeatPaths) acc$records[[p]] <- list()
+  acc$instanceID <- NULL
 
   ## 5. Walk each instance
   nOk <- 0L
@@ -133,6 +147,10 @@ readInstancesXML <- function(instancesDir,
       if (!nzchar(instID)) {
         instID <- paste0("uuid:", sub("\\.xml$", "", basename(xp)))
       }
+
+      ## Make the current submission id available to .walkRecord so
+      ## every row can carry an `instanceID` column.
+      acc$instanceID <- instID
 
       .walkRecord(root,
                   thisKey      = instID,
@@ -151,10 +169,22 @@ readInstancesXML <- function(instancesDir,
 
   allRecords <- acc$records
 
+  ## Translate the internal root sentinel back to "" (so that the CSV
+  ## is named "<formBase>.csv") and make sure the root comes first.
+  outNames <- names(allRecords)
+  outNames[outNames == ROOT_KEY] <- ""
+  names(allRecords) <- outNames
+  ord <- c(which(outNames == ""), which(outNames != ""))
+  allRecords <- allRecords[ord]
+
   ## 6. Convert to data frames
   dfs <- lapply(allRecords, function(lst) {
     if (length(lst) == 0) return(data.frame())
     allCols <- unique(unlist(lapply(lst, names)))
+    ## Put the bookkeeping columns first, then the form fields.
+    metaCols <- intersect(c("KEY", "PARENT_KEY", "instanceID"), allCols)
+    dataCols <- setdiff(allCols, metaCols)
+    allCols  <- c(metaCols, dataCols)
     mat <- matrix("",
                   nrow = length(lst),
                   ncol = length(allCols),
@@ -455,7 +485,9 @@ readInstancesXML <- function(instancesDir,
 #'
 #' Registers one observation per repeat level. The accumulator is an
 #' environment (`acc`), so the records written here are visible to the
-#' caller (a list would be copied on modify and the writes would be lost).
+#' caller (a list would be copied on modify and the writes would be
+#' lost). The root record is stored under the internal sentinel key
+#' `".root"` and translated back to `""` by the caller.
 #'
 #' @param node The XML element representing the record.
 #' @param thisKey The KEY assigned to this record.
@@ -476,9 +508,14 @@ readInstancesXML <- function(instancesDir,
   rec <- .collectLeafValues(node, depthPath = depthPath, repeatPaths = repeatPaths)
   rec["KEY"] <- thisKey
   if (nzchar(parentKey)) rec["PARENT_KEY"] <- parentKey
+  if (!is.null(acc$instanceID) && nzchar(acc$instanceID)) {
+    rec["instanceID"] <- acc$instanceID
+  }
 
-  ## 3. Register this record
-  acc$records[[depthPath]][[length(acc$records[[depthPath]]) + 1L]] <- rec
+  ## 3. Register this record. The root uses the internal sentinel
+  ##    ".root" instead of "" to avoid ambiguous empty-string indexing.
+  storagePath <- if (nzchar(depthPath)) depthPath else ".root"
+  acc$records[[storagePath]] <- c(acc$records[[storagePath]], list(rec))
 
   ## 4. Recurse into direct repeat children
   if (length(directRepeats) > 0) {
