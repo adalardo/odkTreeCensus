@@ -1,0 +1,40 @@
+---
+lang: pt
+vignette: >
+  %\VignetteIndexEntry{Export ODK Collect}
+  %\VignetteEngine{quarto::pdf}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{=latex}
+
+\input{latex/capa.tex}
+\clearpage
+\tableofcontents
+\clearpage
+
+```
+
+## Exportando os dados do `ODK Collect`
+
+`readInstancesXML()`
+
+ Extract data from ODK Collect instance XMLs (without ODK Briefcase)
+ Reads all submission XMLs stored under an ODK Collect `instances/`
+ directory and returns them as a named list of data frames (one per
+ repeat level).
+ 
+```{r }
+
+library(odkTreeCensus)
+
+instDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/test01/instances"
+eDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/exportedData"
+base <- "testeA00"
+mediaDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/exportedData"
+
+readInstancesXML(instancesDir = instDir, expDir = eDir, mediaOutDir = mediaDir)
+
+
+```

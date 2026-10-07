@@ -3,9 +3,9 @@
 ~$*.xlsx
 ^.
 *~
-#*
-*#
-.#*
+\#*
+*\#
+.\#*
 
 
 # Ignore build artifacts
@@ -16,10 +16,15 @@
 /media/
 !/media/readme.md
 .aider*
+
+## rmd
 testForm.rmd
 instalaPacote.rmd
 git.rmd
 testeForm.rmd
 xmlFormAtualizaPkg.rmd
+developExportODK.rmd
+
+## xlsx
 inst/odk/treeCensusForm.xlsx
 
