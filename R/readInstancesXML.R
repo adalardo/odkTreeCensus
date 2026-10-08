@@ -191,6 +191,13 @@ readInstancesXML <- function(instancesDir,
   ##    silently producing a 0 x 0 data frame for the root table.
   ##    ".root" remains the internal name of the root table; it is
   ##    translated to "" only when composing the output file name.
+  ##
+  ##    NOTE: lst[[i]] is a named character vector, and `[[` on a
+  ##    named *atomic vector* raises "subscript out of bounds" when
+  ##    the name is absent (unlike on a list, where it returns NULL).
+  ##    Repeats contain heterogeneous records, so a given column may
+  ##    exist in some rows and not in others. We therefore check
+  ##    `nmj %in% names(row)` before indexing.
   dfs <- vector("list", length(nms))
   names(dfs) <- nms
 
@@ -230,12 +237,17 @@ readInstancesXML <- function(instancesDir,
       nmj <- colNames[j]
       col <- character(n)
       for (i in seq_len(n)) {
-        v <- lst[[i]][[nmj]]
-        if (is.null(v) || length(v) == 0) {
-          col[i] <- ""
+        row <- lst[[i]]
+        if (nmj %in% names(row)) {
+          v <- row[[nmj]]
+          if (length(v) == 0) {
+            col[i] <- ""
+          } else {
+            vc <- as.character(v)
+            col[i] <- if (length(vc) == 0 || is.na(vc[1L])) "" else vc[1L]
+          }
         } else {
-          vc <- as.character(v)
-          col[i] <- if (length(vc) == 0 || is.na(vc[1L])) "" else vc[1L]
+          col[i] <- ""
         }
       }
       cols[[j]] <- col
