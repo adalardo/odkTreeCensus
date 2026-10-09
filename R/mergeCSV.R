@@ -43,39 +43,68 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   ## Final variable name: keep only the part after the last "."
   tidyName <- function(x) sub("^.*\\.", "", x)
 
-  ## A line counts as "blank" when, after removing a possible UTF-8 BOM and
-  ## trimming whitespace, nothing is left. This is more robust than a plain
-  ## trimws() because trimws() does NOT strip the BOM.
-  isBlankLine <- function(x) {
-    x <- gsub("\ufeff", "", x, fixed = TRUE) # remove UTF-8 BOM
-    x <- gsub("[\r\n]", "", x)               # remove stray CR/LF
-    !nzchar(trimws(x))
+  ## Byte-level check for "empty" CSV files.
+  ## Works directly on the raw bytes, so it is immune to encoding issues
+  ## (which is what makes gsub()/trimws() unreliable for the UTF-8 BOM).
+  ## Returns TRUE when the file has no content other than an optional
+  ## leading UTF-8 BOM and whitespace (space, tab, CR, LF).
+  ##
+  ## This is what catches the little 3-byte files (a lone BOM) that the
+  ## ODK export produces when a repeat has no records, and which make
+  ## read.table fail with "primeiras cinco linhas estão vazias".
+  isEmptyCsvFile <- function(path) {
+    sz <- suppressWarnings(file.size(path))
+    if (is.na(sz) || sz <= 0L) return(TRUE)
+
+    bytes <- tryCatch(readBin(path, what = "raw", n = sz),
+                      error = function(e) raw(0))
+    if (length(bytes) == 0L) return(TRUE)
+
+    ## Strip a leading UTF-8 BOM (EF BB BF)
+    if (length(bytes) >= 3L &&
+        bytes[1L] == as.raw(0xEF) &&
+        bytes[2L] == as.raw(0xBB) &&
+        bytes[3L] == as.raw(0xBF)) {
+      bytes <- bytes[-(1L:3L)]
+    }
+    if (length(bytes) == 0L) return(TRUE)
+
+    ## Only whitespace bytes left -> treat as empty
+    all(as.integer(bytes) %in% c(0x09L, 0x0AL, 0x0DL, 0x20L))
   }
 
   readOne <- function(f) {
     path <- file.path(csvDir, f)
 
-    ## Read raw lines first. If the file cannot be read at all, treat as empty.
+    ## Skip files that are empty or contain only a BOM / blank lines.
+    if (isEmptyCsvFile(path)) {
+      return(data.frame())
+    }
+
+    ## Read lines and drop a possible BOM at the start of the first line
+    ## (byte level, to avoid encoding surprises) and blank lines.
     lines <- tryCatch(readLines(path, warn = FALSE),
                       error = function(e) character(0))
     lines <- lines[!is.na(lines)]
+    if (length(lines) > 0L) {
+      lines[1L] <- sub("^\xef\xbb\xbf", "", lines[1L], useBytes = TRUE)
+    }
+    lines <- lines[vapply(lines, function(x) nzchar(trimws(x)), logical(1))]
 
-    ## Drop every blank line (blank = only BOM/whitespace). This also removes
-    ## a leading BOM-only line and any stray blank lines that would otherwise
-    ## make read.csv abort with "primeiras cinco linhas estão vazias".
-    lines <- lines[!vapply(lines, isBlankLine, logical(1))]
-
-    ## No usable content (empty file, BOM-only, whitespace-only, ...)
     if (length(lines) == 0L) {
       return(data.frame())
     }
 
-    ## Feed the cleaned lines straight to read.csv. Using `text =` avoids the
-    ## file-level "first five rows are empty" check that was failing before.
-    d <- utils::read.csv(text = paste(lines, collapse = "\n"),
-                         stringsAsFactors = FALSE,
-                         check.names      = FALSE)
-    names(d) <- tidyName(names(d))
+    ## Feed the cleaned lines to read.csv via `text=`. The tryCatch is a
+    ## final safety net so a single bad file never aborts the whole merge.
+    d <- tryCatch(
+      utils::read.csv(text = paste(lines, collapse = "\n"),
+                      stringsAsFactors = FALSE,
+                      check.names      = FALSE),
+      error = function(e) data.frame()
+    )
+
+    if (ncol(d) > 0L) names(d) <- tidyName(names(d))
     d
   }
 
@@ -104,6 +133,23 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   csvFiles <- list.files(csvDir, pattern = "\\.[Cc][Ss][Vv]$", full.names = FALSE)
   if (length(csvFiles) == 0L) {
     stop("No CSV files were found in 'csvDir': ", csvDir)
+  }
+
+  ## Drop empty files (0 bytes, BOM-only or only blank lines) before reading.
+  ## These are the CSV exported with no records inside and would make
+  ## read.table fail with "primeiras cinco linhas estão vazias".
+  fileEmpty <- vapply(csvFiles,
+                      function(f) isEmptyCsvFile(file.path(csvDir, f)),
+                      logical(1))
+  if (any(fileEmpty)) {
+    message("Skipping ", sum(fileEmpty), " empty CSV file(s): ",
+            paste(csvFiles[fileEmpty], collapse = ", "))
+  }
+  csvFiles <- csvFiles[!fileEmpty]
+
+  ## Nothing left to read: write nothing and return early.
+  if (length(csvFiles) == 0L) {
+    return(invisible(rawDataDir))
   }
 
   dataList <- lapply(csvFiles, readOne)
