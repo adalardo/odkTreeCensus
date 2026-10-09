@@ -43,29 +43,36 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   ## Final variable name: keep only the part after the last "."
   tidyName <- function(x) sub("^.*\\.", "", x)
 
-  ## TRUE when the CSV file has no usable content (empty or only blank lines)
-  isEmptyCsv <- function(path) {
-    ## 0 bytes: clearly empty
-    sz <- suppressWarnings(file.info(path)$size)
-    if (!is.na(sz) && sz == 0) return(TRUE)
-
-    ## Any non-blank line? (header alone counts as content, but a file with
-    ## only blank lines would still make read.csv fail)
-    lines <- suppressWarnings(readLines(path, warn = FALSE))
-    if (length(lines) == 0L) return(TRUE)
-    !any(nzchar(trimws(lines)))
+  ## A line counts as "blank" when, after removing a possible UTF-8 BOM and
+  ## trimming whitespace, nothing is left. This is more robust than a plain
+  ## trimws() because trimws() does NOT strip the BOM.
+  isBlankLine <- function(x) {
+    x <- gsub("\ufeff", "", x, fixed = TRUE) # remove UTF-8 BOM
+    x <- gsub("[\r\n]", "", x)               # remove stray CR/LF
+    !nzchar(trimws(x))
   }
 
   readOne <- function(f) {
     path <- file.path(csvDir, f)
 
-    ## Skip files without records/header to avoid
-    ## "primeiras cinco linhas estão vazias: desistindo"
-    if (isEmptyCsv(path)) {
+    ## Read raw lines first. If the file cannot be read at all, treat as empty.
+    lines <- tryCatch(readLines(path, warn = FALSE),
+                      error = function(e) character(0))
+    lines <- lines[!is.na(lines)]
+
+    ## Drop every blank line (blank = only BOM/whitespace). This also removes
+    ## a leading BOM-only line and any stray blank lines that would otherwise
+    ## make read.csv abort with "primeiras cinco linhas estão vazias".
+    lines <- lines[!vapply(lines, isBlankLine, logical(1))]
+
+    ## No usable content (empty file, BOM-only, whitespace-only, ...)
+    if (length(lines) == 0L) {
       return(data.frame())
     }
 
-    d <- utils::read.csv(path,
+    ## Feed the cleaned lines straight to read.csv. Using `text =` avoids the
+    ## file-level "first five rows are empty" check that was failing before.
+    d <- utils::read.csv(text = paste(lines, collapse = "\n"),
                          stringsAsFactors = FALSE,
                          check.names      = FALSE)
     names(d) <- tidyName(names(d))
