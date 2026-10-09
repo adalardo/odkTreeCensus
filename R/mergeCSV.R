@@ -3,24 +3,34 @@
 #' Reads the CSV files produced by \code{\link{readInstancesXML}}, links the
 #' records through the \code{KEY} / \code{PARENT_KEY} columns, repeats the
 #' parent fields at the child level and writes a set of flat CSV files ---
-#' one row per lowest level record --- inside \code{expDir/rawData}.
+#' one row per lowest level record.
+#'
+#' Output is split by quadrat: each quadrat gets its own sub-directory inside
+#' \code{expDir}, named \code{data<quadrat>} (e.g. \code{dataA00}). When the
+#' destination file already exists, the new records are merged into it without
+#' discarding the existing ones, and a summary of how many records were found
+#' and how many were added is printed for every file.
 #'
 #' Media files that live under a \code{media} folder (possibly with
-#' sub-directories) are copied, flattened, into \code{expDir/media}.
+#' sub-directories) are copied, flattened, into \code{expDir/media}; file
+#' names stored in the data are rewritten as \code{file.path("media", "x.jpg")}
+#' so they can be opened directly from a spreadsheet.
 #'
 #' @param csvDir Character. Directory that contains the CSV files exported by
 #'   \code{readInstancesXML}.
-#' @param expDir Character. Export directory where the merged files and the
-#'   flattened \code{media} folder will be written. Defaults to \code{csvDir}.
+#' @param expDir Character. Export directory. Defaults to \code{csvDir}.
 #' @param mediaDir Character. Directory that contains the \code{media} folder
 #'   with sub-directories. Defaults to \code{csvDir}.
-#' @param overwrite Logical. Overwrite existing output files. Default
-#'   \code{TRUE}.
+#' @param overwrite Logical. Default \code{FALSE}. When \code{FALSE} and the
+#'   destination file already exists, the new records are merged into the
+#'   existing ones (no data loss). When \code{TRUE} and the session is
+#'   interactive, the user is asked whether to merge, overwrite or skip ---
+#'   overwriting is never done silently because it discards the record count
+#'   stored in the existing file.
 #'
-#' @return Invisibly, the path to the \code{rawData} directory that was
-#'   created.
+#' @return Invisibly, the path to \code{expDir}.
 #' @export
-mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
+mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) {
 
   if (is.null(expDir))   expDir   <- csvDir
   if (is.null(mediaDir)) mediaDir <- csvDir
@@ -31,9 +41,10 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   if (!dir.exists(expDir)) {
     dir.create(expDir, recursive = TRUE)
   }
-  rawDataDir <- file.path(expDir, "rawData")
-  if (!dir.exists(rawDataDir)) {
-    dir.create(rawDataDir, recursive = TRUE)
+  ## Shared media folder (all quadrats use the same one)
+  mediaDst <- file.path(expDir, "media")
+  if (!dir.exists(mediaDst)) {
+    dir.create(mediaDst, recursive = TRUE)
   }
 
   ## ------------------------------------------------------------------ ##
@@ -43,8 +54,22 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   ## Final variable name: keep only the part after the last "."
   tidyName <- function(x) sub("^.*\\.", "", x)
 
-  ## Byte-level check for "empty" CSV files.
-  ## Works directly on the raw bytes, so it is immune to encoding issues
+  ## Numeric conversion rounded to one decimal place (NA stays NA)
+  round1 <- function(x) {
+    x <- suppressWarnings(as.numeric(x))
+    ifelse(is.na(x), NA_real_, round(x, 1))
+  }
+
+  ## Turn a file name into a path inside the "media" folder, so the link
+  ## opens when the CSV is read in a spreadsheet. NA / "" are kept as-is.
+  asMediaPath <- function(x) {
+    x <- as.character(x)
+    ok <- !is.na(x) & nzchar(x)
+    x[ok] <- file.path("media", x[ok])
+    x
+  }
+
+  ## Byte-level check for "empty" CSV files. Immune to encoding issues
   ## (which is what makes gsub()/trimws() unreliable for the UTF-8 BOM).
   ## Returns TRUE when the file has no content other than an optional
   ## leading UTF-8 BOM and whitespace (space, tab, CR, LF).
@@ -136,8 +161,6 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   }
 
   ## Drop empty files (0 bytes, BOM-only or only blank lines) before reading.
-  ## These are the CSV exported with no records inside and would make
-  ## read.table fail with "primeiras cinco linhas estão vazias".
   fileEmpty <- vapply(csvFiles,
                       function(f) isEmptyCsvFile(file.path(csvDir, f)),
                       logical(1))
@@ -147,9 +170,8 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   }
   csvFiles <- csvFiles[!fileEmpty]
 
-  ## Nothing left to read: write nothing and return early.
   if (length(csvFiles) == 0L) {
-    return(invisible(rawDataDir))
+    return(invisible(expDir))
   }
 
   dataList <- lapply(csvFiles, readOne)
@@ -252,10 +274,15 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
 
   ## ------------------------------------------------------------------ ##
   ## 4. fieldSession.csv                                                ##
+  ##    (14) drop 'instanceID' and any '*generate_note*' column         ##
   ## ------------------------------------------------------------------ ##
+  fsCols <- setdiff(names(fieldSession), dropKeys)
+  fsCols <- fsCols[!grepl("instanceID",    fsCols, ignore.case = TRUE)]
+  fsCols <- fsCols[!grepl("generate_note", fsCols, ignore.case = TRUE)]
+
   fieldSessionOut <- cbind(
     contextDf(fieldSession),
-    fieldSession[, setdiff(names(fieldSession), dropKeys), drop = FALSE]
+    fieldSession[, fsCols, drop = FALSE]
   )
 
   ## ------------------------------------------------------------------ ##
@@ -288,14 +315,15 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   tagOld <- as.character(getCol(tr, "tag_old"))
   tagOld[grepl("sem info", tagOld, ignore.case = TRUE)] <- NA
 
-  ## dx / dy: subquad base + mapxy offset (only when mapxy is filled)
+  ## (2) dx / dy: subquad base + mapxy offset, only for rows with mapxy.
+  ##     subquad looks like "<prefix>_<X>x<Y>"; mapxy looks like "x = X; y = Y"
   subqVal  <- as.character(getCol(tr, "subquad"))
   mapxyVal <- as.character(getCol(tr, "mapxy"))
 
-  baseX <- suppressWarnings(as.numeric(sub("^[^_]*_([0-9.]+)x.*$",        "\\1", subqVal)))
-  baseY <- suppressWarnings(as.numeric(sub("^[^_]*_[0-9.]+x([0-9.]+)$",    "\\1", subqVal)))
-  mapX  <- suppressWarnings(as.numeric(sub("^.*x\\s*=\\s*([0-9.]+).*$",    "\\1", mapxyVal)))
-  mapY  <- suppressWarnings(as.numeric(sub("^.*y\\s*=\\s*([0-9.]+).*$",    "\\1", mapxyVal)))
+  baseX <- suppressWarnings(as.numeric(sub("^.*_([0-9.]+)x.*$",       "\\1", subqVal)))
+  baseY <- suppressWarnings(as.numeric(sub("^.*_[0-9.]+x([0-9.]+).*$", "\\1", subqVal)))
+  mapX  <- suppressWarnings(as.numeric(sub("^.*x\\s*=\\s*([-0-9.]+).*$", "\\1", mapxyVal)))
+  mapY  <- suppressWarnings(as.numeric(sub("^.*y\\s*=\\s*([-0-9.]+).*$", "\\1", mapxyVal)))
 
   hasMap <- !is.na(mapxyVal) & nzchar(mapxyVal)
   dx <- rep(NA_real_, nTr)
@@ -304,6 +332,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   dy[hasMap] <- round(baseY[hasMap] + mapY[hasMap], 1)
 
   ## pictures: all columns with "picture" in the name, except new_tag_picture
+  ## (17) each file name becomes a path inside "media/".
   picCols <- names(tr)[grepl("picture", names(tr), ignore.case = TRUE) &
                          names(tr) != "new_tag_picture"]
   pictures <- if (length(picCols) == 0L) {
@@ -312,9 +341,15 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
     apply(tr[, picCols, drop = FALSE], 1, function(r) {
       r <- as.character(r)
       r <- r[!is.na(r) & nzchar(r)]
-      if (length(r) == 0L) NA_character_ else paste(r, collapse = "; ")
+      if (length(r) == 0L) NA_character_ else
+        paste(asMediaPath(r), collapse = "; ")
     })
   }
+
+  ## (3) dbhDif with a single decimal; (6) htDif sourced from ht_dif,
+  ##     also with a single decimal.
+  dbhDif <- round1(getCol(tr, "difdbh"))
+  htDif  <- round1(getCol(tr, "ht_dif"))
 
   treesOut <- cbind(
     contextDf(tr),
@@ -326,24 +361,33 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
       tagMap   = getCol(tr, "tree_tag_map"),
       pom      = getCol(tr, "dbh_pom"),
       dbh      = getCol(tr, "dbh_new"),
-      dbhDif   = getCol(tr, "difdbh"),
+      ## (4) dbhOld right after dbh
+      dbhOld   = getCol(tr, "old_dbh"),
+      ## (3) single decimal
+      dbhDif   = dbhDif,
       dbhCheck = getCol(tr, "dbh_new_check"),
       dbhObs   = getCol(tr, "dbh_cause"),
       ht       = getCol(tr, "ht_new"),
-      htDif    = getCol(tr, "dif_ht"),
+      ## (5) htOld right after ht
+      htOld    = getCol(tr, "old_ht"),
+      ## (6) htDif from ht_dif, single decimal
+      htDif    = htDif,
       htCheck  = getCol(tr, "ht_new_check"),
       nstem    = getCol(tr, "new_nstem"),
       nstemOld = getCol(tr, "old_nstem"),
       nstemObs = getCol(tr, "nstem_diff"),
-      confirmId = getCol(tr, "info_id"),
+      ## (7) confirmId -> idOk
+      idOk     = getCol(tr, "info_id"),
       fam      = getCol(tr, "fam_final"),
       species  = getCol(tr, "sp_final"),
       mapOk    = getCol(tr, "tree_map_conf"),
-      qxy      = getCol(tr, "map_final"),
+      ## (1) qxy -> dxy
+      dxy      = getCol(tr, "map_final"),
       qxyOld   = getCol(tr, "old_xy"),
       dx       = dx,
       dy       = dy,
-      pictureNewTag = getCol(tr, "new_tag_picture"),
+      ## (17) media path for the new tag picture
+      pictureNewTag = asMediaPath(getCol(tr, "new_tag_picture")),
       pictures = pictures,
       stringsAsFactors = FALSE
     )
@@ -378,15 +422,11 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   idCheckOut <- idCheckOut[selId, , drop = FALSE]
 
   ## ------------------------------------------------------------------ ##
-  ## 9. treesNotFound.csv / missTrees.csv / treesFound.csv              ##
+  ## 9. missTrees.csv / treesFound.csv                                  ##
+  ##    (15) treesNotFound.csv is NOT created any more.                 ##
   ## ------------------------------------------------------------------ ##
   missTrue <- suppressWarnings(as.numeric(getCol(treeNFDf, "miss_true")))
   missConf <- as.character(getCol(treeNFDf, "miss_conf"))
-
-  treeNFOut <- cbind(
-    contextDf(treeNFDf),
-    treeNFDf[, setdiff(names(treeNFDf), dropKeys), drop = FALSE]
-  )
 
   ## missTrees: miss_true == 1 & miss_conf == "miss"
   selMiss <- !is.na(missTrue) & missTrue == 1 &
@@ -414,6 +454,10 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   tn <- tn[, keep, drop = FALSE]
   tn <- tn[, setdiff(names(tn), dropKeys), drop = FALSE]
 
+  ## (17) media paths inside treesFound as well
+  tnPicCols <- names(tn)[grepl("picture", names(tn), ignore.case = TRUE)]
+  for (pc in tnPicCols) tn[[pc]] <- asMediaPath(tn[[pc]])
+
   treesFoundOut <- cbind(contextDf(treeNFDf), tn)
   treesFoundOut <- treesFoundOut[selFound, , drop = FALSE]
 
@@ -440,41 +484,147 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
       pom     = getCol(ms, "sec_pom"),
       dbh     = dbh,
       ht      = getCol(ms, "sec_ht_new"),
-      picture = getCol(ms, "sec_picture"),
+      ## (17) media path
+      picture = asMediaPath(getCol(ms, "sec_picture")),
       stringsAsFactors = FALSE
     )
   )
 
   ## ------------------------------------------------------------------ ##
-  ## 11. Write the merged files                                         ##
+  ## 11. Assemble the outputs                                           ##
+  ##     (13) treesFound / multStem only when they hold records         ##
+  ##     (15) treesNotFound is intentionally NOT created                ##
   ## ------------------------------------------------------------------ ##
-  writeOut <- function(df, name) {
-    utils::write.csv(df,
-                     file.path(rawDataDir, name),
-                     row.names = FALSE,
-                     na      = "")
+  outputs <- list(
+    "fieldSession.csv" = fieldSessionOut,
+    "subquad.csv"      = subquadOut,
+    "coverSubq.csv"    = coverOut,
+    "trees.csv"        = treesOut,
+    "idCheck.csv"      = idCheckOut,
+    "missTrees.csv"    = missTreesOut
+  )
+  if (nrow(treesFoundOut) > 0L) outputs[["treesFound.csv"]] <- treesFoundOut
+  if (nrow(multStemOut)   > 0L) outputs[["multStem.csv"]]   <- multStemOut
+
+  ## ------------------------------------------------------------------ ##
+  ## 12. Write the merged files, split by quadrat                       ##
+  ##     (8, 9)  one directory per quadrat:  expDir/data<quad>/         ##
+  ##     (10)    overwrite defaults to FALSE                            ##
+  ##     (11)    never silently overwrite; ask before losing records    ##
+  ##     (12)    merge without data loss and report record counts       ##
+  ## ------------------------------------------------------------------ ##
+
+  writeOneWithMerge <- function(df, dirOut, name, overwrite) {
+    path <- file.path(dirOut, name)
+    nNew <- nrow(df)
+
+    if (file.exists(path)) {
+      old <- tryCatch(
+        utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
+        error = function(e) NULL
+      )
+      nOld <- if (is.null(old)) 0L else nrow(old)
+
+      doMerge <- TRUE
+      if (isTRUE(overwrite)) {
+        msg <- sprintf(
+          paste0("O arquivo '%s' j\u00e1 existe com %d registro(s). ",
+                 "Sobrescrever descarta esses %d registro(s). ",
+                 "Mesclar, sobrescrever ou pular? [m/o/s]: "),
+          path, nOld, nOld)
+        ans <- if (interactive()) tolower(trimws(readline(msg))) else "m"
+        if (!interactive()) {
+          message("  (overwrite = TRUE, sessao nao interativa: mesclando para ",
+                  "nao perder os ", nOld, " registro(s) existentes.)")
+        }
+        if (startsWith(ans, "o")) {
+          doMerge <- FALSE
+        } else if (startsWith(ans, "s")) {
+          message(sprintf("  - %s: mantido (%d registro(s)).", name, nOld))
+          return(list(file = name, old = nOld, new = 0L, total = nOld,
+                      action = "skip"))
+        } else {
+          doMerge <- TRUE
+        }
+      }
+
+      if (!doMerge) {
+        utils::write.csv(df, path, row.names = FALSE, na = "")
+        message(sprintf("  - %s: sobrescrito (%d -> %d registro(s)).",
+                        name, nOld, nNew))
+        return(list(file = name, old = nOld, new = nNew, total = nNew,
+                    action = "overwrite"))
+      }
+
+      merged <- bindRows(list(old, df))
+      utils::write.csv(merged, path, row.names = FALSE, na = "")
+      message(sprintf("  - %s: mesclado (%d + %d = %d registro(s)).",
+                      name, nOld, nNew, nrow(merged)))
+      return(list(file = name, old = nOld, new = nNew, total = nrow(merged),
+                  action = "merge"))
+    }
+
+    utils::write.csv(df, path, row.names = FALSE, na = "")
+    message(sprintf("  - %s: criado (%d registro(s)).", name, nNew))
+    list(file = name, old = 0L, new = nNew, total = nNew, action = "create")
   }
 
-  writeOut(fieldSessionOut, "fieldSession.csv")
-  writeOut(subquadOut,      "subquad.csv")
-  writeOut(coverOut,        "coverSubq.csv")
-  writeOut(treesOut,        "trees.csv")
-  writeOut(treeNFOut,       "treesNotFound.csv")
-  writeOut(idCheckOut,      "idCheck.csv")
-  writeOut(missTreesOut,    "missTrees.csv")
-  writeOut(treesFoundOut,   "treesFound.csv")
-  writeOut(multStemOut,     "multStem.csv")
+  ## Collect every quadrat present across the outputs
+  quads <- unique(unlist(lapply(outputs, function(d) {
+    if ("quad" %in% names(d)) as.character(d$quad) else character(0)
+  })))
+  quads <- sort(unique(stats::na.omit(quads)))
+  if (length(quads) == 0L) quads <- NA_character_
+
+  message("Writing merged data:")
+
+  allLogs <- list()
+
+  for (q in quads) {
+    ## (8) name = "data" + quadrat (e.g. dataA00). NA/"" -> "data"
+    dirName <- if (is.na(q) || !nzchar(q)) "data" else paste0("data", q)
+    dirOut  <- file.path(expDir, dirName)
+    if (!dir.exists(dirOut)) dir.create(dirOut, recursive = TRUE)
+
+    message(" Directory '", dirName, "':")
+
+    for (nm in names(outputs)) {
+      d    <- outputs[[nm]]
+      qcol <- if ("quad" %in% names(d)) as.character(d$quad) else
+        rep(NA_character_, nrow(d))
+
+      keep <- if (is.na(q) || !nzchar(q)) {
+        is.na(qcol) | !nzchar(qcol)
+      } else {
+        !is.na(qcol) & qcol == q
+      }
+      dd <- d[keep, , drop = FALSE]
+
+      ## (13) treesFound / multStem only when this quadrat has records
+      if (nrow(dd) == 0L && nm %in% c("treesFound.csv", "multStem.csv")) next
+
+      lg <- writeOneWithMerge(dd, dirOut, nm, overwrite)
+      lg$quad <- q
+      lg$dir  <- dirName
+      allLogs[[length(allLogs) + 1L]] <- lg
+    }
+  }
+
+  ## ---- Final record summary ----------------------------------------- ##
+  message("\nRecord summary (how many existed / were added / total):")
+  for (lg in allLogs) {
+    message(sprintf("  %s/%s: %d existente(s) + %d novo(s) = %d total.",
+                    lg$dir, lg$file, lg$old, lg$new, lg$total))
+  }
 
   ## ------------------------------------------------------------------ ##
-  ## 12. Flatten the "media" folder into expDir/media                   ##
+  ## 16. Flatten every "media" folder into expDir/media                 ##
   ## ------------------------------------------------------------------ ##
   candMedia <- c(file.path(mediaDir, "media"), file.path(csvDir, "media"))
   mediaSrc <- NULL
   for (cm in candMedia) if (dir.exists(cm)) { mediaSrc <- cm; break }
 
   if (!is.null(mediaSrc)) {
-    mediaDst <- file.path(expDir, "media")
-    if (!dir.exists(mediaDst)) dir.create(mediaDst, recursive = TRUE)
     mfiles <- list.files(mediaSrc, recursive = TRUE, full.names = TRUE)
     mfiles <- mfiles[!dir.exists(mfiles)]
     for (mf in mfiles) {
@@ -482,5 +632,5 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
     }
   }
 
-  invisible(rawDataDir)
+  invisible(expDir)
 }
