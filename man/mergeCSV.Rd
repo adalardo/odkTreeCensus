@@ -4,32 +4,56 @@
 \alias{mergeCSV}
 \title{Merge and tidy the CSV files exported by readInstancesXML}
 \usage{
-mergeCSV(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE)
+mergeCSV(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE)
 }
 \arguments{
 \item{csvDir}{Character. Directory that contains the CSV files exported by
 \code{readInstancesXML}.}
 
-\item{expDir}{Character. Export directory where the merged files and the
-flattened \code{media} folder will be written. Defaults to \code{csvDir}.}
+\item{expDir}{Character. Export directory. Defaults to \code{csvDir}.}
 
 \item{mediaDir}{Character. Directory that contains the \code{media} folder
 with sub-directories. Defaults to \code{csvDir}.}
 
-\item{overwrite}{Logical. Overwrite existing output files. Default
-\code{TRUE}.}
+\item{overwrite}{Logical. Default \code{FALSE}. When \code{FALSE} and the
+destination file already exists, the new records are merged into the
+existing ones (no data loss). When \code{TRUE} and the session is
+interactive, the user is asked whether to merge, overwrite or skip ---
+overwriting is never done silently because it discards the record count
+stored in the existing file.}
 }
 \value{
-Invisibly, the path to the \code{rawData} directory that was
-created.
+Invisibly, the path to \code{expDir}.
 }
 \description{
 Reads the CSV files produced by \code{\link{readInstancesXML}}, links the
 records through the \code{KEY} / \code{PARENT_KEY} columns, repeats the
 parent fields at the child level and writes a set of flat CSV files ---
-one row per lowest level record --- inside \code{expDir/rawData}.
+one row per lowest level record.
 }
 \details{
+Output is split by quadrat: each quadrat gets its own sub-directory inside
+\code{expDir}, named \code{data<quadrat>} (e.g. \code{dataA00}). When the
+destination file already exists, the new records are merged into it without
+discarding the existing ones, and a summary of how many records were found
+and how many were added is printed for every file.
+
+Two extra files are kept at the root of \code{expDir}:
+\itemize{
+\item \code{tagsUsed.csv} --- created when missing, with the columns
+\code{quad}, \code{subquad} and \code{tag} for every record present in
+any \code{trees.csv} file inside the per-quadrat directories.
+\item \code{tagsRepeat.csv} --- written when a \code{tag} value appears in
+more than one record of \code{trees.csv} (even across different
+directories). It holds the full \code{trees.csv} fields of both the
+existing and the newly added records.
+}
+
+\code{trees.csv} is never allowed to hold duplicated records: a new row
+identical (in all fields) to an existing one is not included again.
+
 Media files that live under a \code{media} folder (possibly with
-sub-directories) are copied, flattened, into \code{expDir/media}.
+sub-directories) are copied, flattened, into \code{expDir/media}; file
+names stored in the data are rewritten as \code{file.path("media", "x.jpg")}
+so they can be opened directly from a spreadsheet.
 }

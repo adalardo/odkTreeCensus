@@ -11,6 +11,20 @@
 #' discarding the existing ones, and a summary of how many records were found
 #' and how many were added is printed for every file.
 #'
+#' Two extra files are kept at the root of \code{expDir}:
+#' \itemize{
+#'   \item \code{tagsUsed.csv} --- created when missing, with the columns
+#'     \code{quad}, \code{subquad} and \code{tag} for every record present in
+#'     any \code{trees.csv} file inside the per-quadrat directories.
+#'   \item \code{tagsRepeat.csv} --- written when a \code{tag} value appears in
+#'     more than one record of \code{trees.csv} (even across different
+#'     directories). It holds the full \code{trees.csv} fields of both the
+#'     existing and the newly added records.
+#' }
+#'
+#' \code{trees.csv} is never allowed to hold duplicated records: a new row
+#' identical (in all fields) to an existing one is not included again.
+#'
 #' Media files that live under a \code{media} folder (possibly with
 #' sub-directories) are copied, flattened, into \code{expDir/media}; file
 #' names stored in the data are rewritten as \code{file.path("media", "x.jpg")}
@@ -152,6 +166,14 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
     do.call(rbind, lst)
   }
 
+  ## Safe read of a CSV; returns an empty data.frame on any error
+  readCsvSafe <- function(path) {
+    tryCatch(
+      utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
+      error = function(e) data.frame()
+    )
+  }
+
   ## ------------------------------------------------------------------ ##
   ## 1. Read every CSV and tidy the column names                        ##
   ## ------------------------------------------------------------------ ##
@@ -274,7 +296,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
 
   ## ------------------------------------------------------------------ ##
   ## 4. fieldSession.csv                                                ##
-  ##    (14) drop 'instanceID' and any '*generate_note*' column         ##
+  ##    drop 'instanceID' and any '*generate_note*' column              ##
   ## ------------------------------------------------------------------ ##
   fsCols <- setdiff(names(fieldSession), dropKeys)
   fsCols <- fsCols[!grepl("instanceID",    fsCols, ignore.case = TRUE)]
@@ -315,8 +337,8 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
   tagOld <- as.character(getCol(tr, "tag_old"))
   tagOld[grepl("sem info", tagOld, ignore.case = TRUE)] <- NA
 
-  ## (2) dx / dy: subquad base + mapxy offset, only for rows with mapxy.
-  ##     subquad looks like "<prefix>_<X>x<Y>"; mapxy looks like "x = X; y = Y"
+  ## dx / dy: subquad base + mapxy offset, only for rows with mapxy.
+  ## subquad looks like "<prefix>_<X>x<Y>"; mapxy looks like "x = X; y = Y"
   subqVal  <- as.character(getCol(tr, "subquad"))
   mapxyVal <- as.character(getCol(tr, "mapxy"))
 
@@ -332,7 +354,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
   dy[hasMap] <- round(baseY[hasMap] + mapY[hasMap], 1)
 
   ## pictures: all columns with "picture" in the name, except new_tag_picture
-  ## (17) each file name becomes a path inside "media/".
+  ## each file name becomes a path inside "media/".
   picCols <- names(tr)[grepl("picture", names(tr), ignore.case = TRUE) &
                          names(tr) != "new_tag_picture"]
   pictures <- if (length(picCols) == 0L) {
@@ -346,8 +368,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
     })
   }
 
-  ## (3) dbhDif with a single decimal; (6) htDif sourced from ht_dif,
-  ##     also with a single decimal.
+  ## dbhDif with a single decimal; htDif sourced from ht_dif, also one decimal
   dbhDif <- round1(getCol(tr, "difdbh"))
   htDif  <- round1(getCol(tr, "ht_dif"))
 
@@ -361,32 +382,32 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
       tagMap   = getCol(tr, "tree_tag_map"),
       pom      = getCol(tr, "dbh_pom"),
       dbh      = getCol(tr, "dbh_new"),
-      ## (4) dbhOld right after dbh
+      ## dbhOld right after dbh
       dbhOld   = getCol(tr, "old_dbh"),
-      ## (3) single decimal
+      ## single decimal
       dbhDif   = dbhDif,
       dbhCheck = getCol(tr, "dbh_new_check"),
       dbhObs   = getCol(tr, "dbh_cause"),
       ht       = getCol(tr, "ht_new"),
-      ## (5) htOld right after ht
+      ## htOld right after ht
       htOld    = getCol(tr, "old_ht"),
-      ## (6) htDif from ht_dif, single decimal
+      ## htDif from ht_dif, single decimal
       htDif    = htDif,
       htCheck  = getCol(tr, "ht_new_check"),
       nstem    = getCol(tr, "new_nstem"),
       nstemOld = getCol(tr, "old_nstem"),
       nstemObs = getCol(tr, "nstem_diff"),
-      ## (7) confirmId -> idOk
+      ## confirmId -> idOk
       idOk     = getCol(tr, "info_id"),
       fam      = getCol(tr, "fam_final"),
       species  = getCol(tr, "sp_final"),
       mapOk    = getCol(tr, "tree_map_conf"),
-      ## (1) qxy -> dxy
+      ## qxy -> dxy
       dxy      = getCol(tr, "map_final"),
       qxyOld   = getCol(tr, "old_xy"),
       dx       = dx,
       dy       = dy,
-      ## (17) media path for the new tag picture
+      ## media path for the new tag picture
       pictureNewTag = asMediaPath(getCol(tr, "new_tag_picture")),
       pictures = pictures,
       stringsAsFactors = FALSE
@@ -423,7 +444,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
 
   ## ------------------------------------------------------------------ ##
   ## 9. missTrees.csv / treesFound.csv                                  ##
-  ##    (15) treesNotFound.csv is NOT created any more.                 ##
+  ##    treesNotFound.csv is NOT created any more.                      ##
   ## ------------------------------------------------------------------ ##
   missTrue <- suppressWarnings(as.numeric(getCol(treeNFDf, "miss_true")))
   missConf <- as.character(getCol(treeNFDf, "miss_conf"))
@@ -454,7 +475,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
   tn <- tn[, keep, drop = FALSE]
   tn <- tn[, setdiff(names(tn), dropKeys), drop = FALSE]
 
-  ## (17) media paths inside treesFound as well
+  ## media paths inside treesFound as well
   tnPicCols <- names(tn)[grepl("picture", names(tn), ignore.case = TRUE)]
   for (pc in tnPicCols) tn[[pc]] <- asMediaPath(tn[[pc]])
 
@@ -484,7 +505,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
       pom     = getCol(ms, "sec_pom"),
       dbh     = dbh,
       ht      = getCol(ms, "sec_ht_new"),
-      ## (17) media path
+      ## media path
       picture = asMediaPath(getCol(ms, "sec_picture")),
       stringsAsFactors = FALSE
     )
@@ -492,8 +513,8 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
 
   ## ------------------------------------------------------------------ ##
   ## 11. Assemble the outputs                                           ##
-  ##     (13) treesFound / multStem only when they hold records         ##
-  ##     (15) treesNotFound is intentionally NOT created                ##
+  ##     treesFound / multStem only when they hold records              ##
+  ##     treesNotFound is intentionally NOT created                     ##
   ## ------------------------------------------------------------------ ##
   outputs <- list(
     "fieldSession.csv" = fieldSessionOut,
@@ -508,23 +529,26 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
 
   ## ------------------------------------------------------------------ ##
   ## 12. Write the merged files, split by quadrat                       ##
-  ##     (8, 9)  one directory per quadrat:  expDir/data<quad>/         ##
-  ##     (10)    overwrite defaults to FALSE                            ##
-  ##     (11)    never silently overwrite; ask before losing records    ##
-  ##     (12)    merge without data loss and report record counts       ##
+  ##     one directory per quadrat:  expDir/data<quad>/                 ##
+  ##     overwrite defaults to FALSE                                    ##
+  ##     never silently overwrite; ask before losing records            ##
+  ##     merge without data loss and report record counts               ##
   ## ------------------------------------------------------------------ ##
 
-  writeOneWithMerge <- function(df, dirOut, name, overwrite) {
+  writeOneWithMerge <- function(df, dirOut, name, overwrite, dedup = FALSE) {
     path <- file.path(dirOut, name)
-    nNew <- nrow(df)
 
-    if (file.exists(path)) {
-      old <- tryCatch(
-        utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
-        error = function(e) NULL
-      )
-      nOld <- if (is.null(old)) 0L else nrow(old)
+    oldExists <- file.exists(path)
+    old <- if (oldExists) readCsvSafe(path) else data.frame()
+    nOld <- nrow(old)
 
+    ## (trees.csv) drop rows already present in the incoming data, so the
+    ## file never ends up with duplicated records.
+    if (dedup && nrow(df) > 0L) {
+      df <- df[!duplicated(df), , drop = FALSE]
+    }
+
+    if (oldExists) {
       doMerge <- TRUE
       if (isTRUE(overwrite)) {
         msg <- sprintf(
@@ -551,20 +575,28 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
       if (!doMerge) {
         utils::write.csv(df, path, row.names = FALSE, na = "")
         message(sprintf("  - %s: sobrescrito (%d -> %d registro(s)).",
-                        name, nOld, nNew))
-        return(list(file = name, old = nOld, new = nNew, total = nNew,
+                        name, nOld, nrow(df)))
+        return(list(file = name, old = nOld, new = nrow(df), total = nrow(df),
                     action = "overwrite"))
       }
 
       merged <- bindRows(list(old, df))
+      if (ncol(merged) == 0L) merged <- df
+      ## (trees.csv) remove perfect duplicates coming from old + new
+      if (dedup && nrow(merged) > 0L) {
+        merged <- merged[!duplicated(merged), , drop = FALSE]
+      }
       utils::write.csv(merged, path, row.names = FALSE, na = "")
+      nTotal <- nrow(merged)
+      nAdded <- max(0L, nTotal - nOld)
       message(sprintf("  - %s: mesclado (%d + %d = %d registro(s)).",
-                      name, nOld, nNew, nrow(merged)))
-      return(list(file = name, old = nOld, new = nNew, total = nrow(merged),
+                      name, nOld, nAdded, nTotal))
+      return(list(file = name, old = nOld, new = nAdded, total = nTotal,
                   action = "merge"))
     }
 
     utils::write.csv(df, path, row.names = FALSE, na = "")
+    nNew <- nrow(df)
     message(sprintf("  - %s: criado (%d registro(s)).", name, nNew))
     list(file = name, old = 0L, new = nNew, total = nNew, action = "create")
   }
@@ -581,7 +613,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
   allLogs <- list()
 
   for (q in quads) {
-    ## (8) name = "data" + quadrat (e.g. dataA00). NA/"" -> "data"
+    ## name = "data" + quadrat (e.g. dataA00). NA/"" -> "data"
     dirName <- if (is.na(q) || !nzchar(q)) "data" else paste0("data", q)
     dirOut  <- file.path(expDir, dirName)
     if (!dir.exists(dirOut)) dir.create(dirOut, recursive = TRUE)
@@ -600,10 +632,11 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
       }
       dd <- d[keep, , drop = FALSE]
 
-      ## (13) treesFound / multStem only when this quadrat has records
+      ## treesFound / multStem only when this quadrat has records
       if (nrow(dd) == 0L && nm %in% c("treesFound.csv", "multStem.csv")) next
 
-      lg <- writeOneWithMerge(dd, dirOut, nm, overwrite)
+      lg <- writeOneWithMerge(dd, dirOut, nm, overwrite,
+                              dedup = identical(nm, "trees.csv"))
       lg$quad <- q
       lg$dir  <- dirName
       allLogs[[length(allLogs) + 1L]] <- lg
@@ -615,6 +648,83 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
   for (lg in allLogs) {
     message(sprintf("  %s/%s: %d existente(s) + %d novo(s) = %d total.",
                     lg$dir, lg$file, lg$old, lg$new, lg$total))
+  }
+
+  ## ------------------------------------------------------------------ ##
+  ## 13. tagsUsed.csv / tagsRepeat.csv at the root of expDir            ##
+  ##                                                                    ##
+  ## tagsUsed.csv : quad, subquad and tag of every record in any        ##
+  ##                trees.csv inside the data<quad> directories.        ##
+  ## tagsRepeat.csv : full trees.csv rows whose 'tag' appears in more   ##
+  ##                than one record (even across directories) --- i.e.  ##
+  ##                the existing record and the newly added one.        ##
+  ## ------------------------------------------------------------------ ##
+  treesFiles <- list.files(expDir, pattern = "trees\\.csv$",
+                           recursive = TRUE, full.names = TRUE)
+  ## keep only those inside the per-quadrat directories (data*)
+  if (length(treesFiles) > 0L) {
+    dnames <- basename(dirname(treesFiles))
+    treesFiles <- treesFiles[startsWith(dnames, "data")]
+  }
+
+  treesAll <- data.frame()
+  if (length(treesFiles) > 0L) {
+    treesList <- lapply(treesFiles, function(tf) {
+      dd <- readCsvSafe(tf)
+      if (nrow(dd) == 0L) return(NULL)
+      if (!"quad"    %in% names(dd)) dd$quad    <- sub("^data", "", basename(dirname(tf)))
+      if (!"subquad" %in% names(dd)) dd$subquad <- NA_character_
+      if (!"tag"     %in% names(dd)) dd$tag     <- NA_character_
+      dd
+    })
+    treesAll <- bindRows(treesList)
+  }
+
+  if (nrow(treesAll) > 0L) {
+    ## ---- tagsUsed.csv ------------------------------------------------- ##
+    tagsNew <- data.frame(
+      quad    = as.character(treesAll$quad),
+      subquad = as.character(treesAll$subquad),
+      tag     = as.character(treesAll$tag),
+      stringsAsFactors = FALSE
+    )
+    tagsNew <- tagsNew[!is.na(tagsNew$tag) & nzchar(tagsNew$tag), , drop = FALSE]
+    tagsNew <- tagsNew[!duplicated(tagsNew), , drop = FALSE]
+
+    tagsUsedPath <- file.path(expDir, "tagsUsed.csv")
+    if (file.exists(tagsUsedPath)) {
+      oldTags <- readCsvSafe(tagsUsedPath)
+      if (all(c("quad", "subquad", "tag") %in% names(oldTags))) {
+        oldTags <- oldTags[, c("quad", "subquad", "tag"), drop = FALSE]
+        oldTags[] <- lapply(oldTags, as.character)
+        tagsNew <- rbind(oldTags, tagsNew)
+        tagsNew <- tagsNew[!duplicated(tagsNew), , drop = FALSE]
+      }
+    }
+    utils::write.csv(tagsNew, tagsUsedPath, row.names = FALSE, na = "")
+    message(sprintf("\ntagsUsed.csv: %d tag(s) registrada(s).", nrow(tagsNew)))
+
+    ## ---- tagsRepeat.csv ---------------------------------------------- ##
+    ## A tag is "repeated" when its value occurs in more than one row of
+    ## trees.csv (regardless of directory). Both records are copied.
+    tagChr <- as.character(treesAll$tag)
+    repSel <- !is.na(tagChr) & nzchar(tagChr) &
+      (duplicated(tagChr) | duplicated(tagChr, fromLast = TRUE))
+    tagsRepeat <- treesAll[repSel, , drop = FALSE]
+
+    if (nrow(tagsRepeat) > 0L) {
+      tagsRepeatPath <- file.path(expDir, "tagsRepeat.csv")
+      if (file.exists(tagsRepeatPath)) {
+        oldRep <- readCsvSafe(tagsRepeatPath)
+        if (nrow(oldRep) > 0L) tagsRepeat <- bindRows(list(oldRep, tagsRepeat))
+      }
+      tagsRepeat <- tagsRepeat[!duplicated(tagsRepeat), , drop = FALSE]
+      utils::write.csv(tagsRepeat, tagsRepeatPath, row.names = FALSE, na = "")
+      message(sprintf("tagsRepeat.csv: %d registro(s) com tag repetida.",
+                      nrow(tagsRepeat)))
+    } else {
+      message("tagsRepeat.csv: nenhuma tag repetida.")
+    }
   }
 
   ## ------------------------------------------------------------------ ##
