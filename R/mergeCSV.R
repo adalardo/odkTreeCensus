@@ -7,9 +7,14 @@
 #'
 #' Output is split by quadrat: each quadrat gets its own sub-directory inside
 #' \code{expDir}, named \code{data<quadrat>} (e.g. \code{dataA00}). When the
-#' destination file already exists, the new records are merged into it without
-#' discarding the existing ones, and a summary of how many records were found
-#' and how many were added is printed for every file.
+#' destination file already exists, the existing records are kept and only the
+#' new records that are not already present are added (never overwrites and
+#' never duplicates). A summary of how many records were found and how many
+#' were added is printed for every file.
+#'
+#' No file inside \code{expDir} is ever overwritten: files that already exist
+#' are read, compared with the incoming data and only the rows that are not
+#' already present are appended.
 #'
 #' Two extra files are kept at the root of \code{expDir}:
 #' \itemize{
@@ -22,29 +27,24 @@
 #'     existing and the newly added records.
 #' }
 #'
-#' \code{trees.csv} is never allowed to hold duplicated records: a new row
-#' identical (in all fields) to an existing one is not included again.
+#' No output file is allowed to hold duplicated records: a new row identical
+#' (in all fields) to an existing one is not included again.
 #'
 #' Media files that live under a \code{media} folder (possibly with
 #' sub-directories) are copied, flattened, into \code{expDir/media}; file
 #' names stored in the data are rewritten as \code{file.path("media", "x.jpg")}
-#' so they can be opened directly from a spreadsheet.
+#' so they can be opened directly from a spreadsheet. Files that already exist
+#' in the destination are not overwritten.
 #'
 #' @param csvDir Character. Directory that contains the CSV files exported by
 #'   \code{readInstancesXML}.
 #' @param expDir Character. Export directory. Defaults to \code{csvDir}.
 #' @param mediaDir Character. Directory that contains the \code{media} folder
 #'   with sub-directories. Defaults to \code{csvDir}.
-#' @param overwrite Logical. Default \code{FALSE}. When \code{FALSE} and the
-#'   destination file already exists, the new records are merged into the
-#'   existing ones (no data loss). When \code{TRUE} and the session is
-#'   interactive, the user is asked whether to merge, overwrite or skip ---
-#'   overwriting is never done silently because it discards the record count
-#'   stored in the existing file.
 #'
 #' @return Invisibly, the path to \code{expDir}.
 #' @export
-mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) {
+mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
 
   if (is.null(expDir))   expDir   <- csvDir
   if (is.null(mediaDir)) mediaDir <- csvDir
@@ -530,60 +530,27 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
   ## ------------------------------------------------------------------ ##
   ## 12. Write the merged files, split by quadrat                       ##
   ##     one directory per quadrat:  expDir/data<quad>/                 ##
-  ##     overwrite defaults to FALSE                                    ##
-  ##     never silently overwrite; ask before losing records            ##
-  ##     merge without data loss and report record counts               ##
+  ##     existing files are never overwritten; only records that are    ##
+  ##     not already present are appended; record counts are reported   ##
   ## ------------------------------------------------------------------ ##
 
-  writeOneWithMerge <- function(df, dirOut, name, overwrite, dedup = FALSE) {
+  writeOneWithMerge <- function(df, dirOut, name) {
     path <- file.path(dirOut, name)
 
     oldExists <- file.exists(path)
     old <- if (oldExists) readCsvSafe(path) else data.frame()
     nOld <- nrow(old)
 
-    ## (trees.csv) drop rows already present in the incoming data, so the
-    ## file never ends up with duplicated records.
-    if (dedup && nrow(df) > 0L) {
+    ## Drop duplicated rows from the incoming data itself
+    if (nrow(df) > 0L) {
       df <- df[!duplicated(df), , drop = FALSE]
     }
 
     if (oldExists) {
-      doMerge <- TRUE
-      if (isTRUE(overwrite)) {
-        msg <- sprintf(
-          paste0("O arquivo '%s' j\u00e1 existe com %d registro(s). ",
-                 "Sobrescrever descarta esses %d registro(s). ",
-                 "Mesclar, sobrescrever ou pular? [m/o/s]: "),
-          path, nOld, nOld)
-        ans <- if (interactive()) tolower(trimws(readline(msg))) else "m"
-        if (!interactive()) {
-          message("  (overwrite = TRUE, sessao nao interativa: mesclando para ",
-                  "nao perder os ", nOld, " registro(s) existentes.)")
-        }
-        if (startsWith(ans, "o")) {
-          doMerge <- FALSE
-        } else if (startsWith(ans, "s")) {
-          message(sprintf("  - %s: mantido (%d registro(s)).", name, nOld))
-          return(list(file = name, old = nOld, new = 0L, total = nOld,
-                      action = "skip"))
-        } else {
-          doMerge <- TRUE
-        }
-      }
-
-      if (!doMerge) {
-        utils::write.csv(df, path, row.names = FALSE, na = "")
-        message(sprintf("  - %s: sobrescrito (%d -> %d registro(s)).",
-                        name, nOld, nrow(df)))
-        return(list(file = name, old = nOld, new = nrow(df), total = nrow(df),
-                    action = "overwrite"))
-      }
-
+      ## Keep everything that already exists and add only the new rows
       merged <- bindRows(list(old, df))
       if (ncol(merged) == 0L) merged <- df
-      ## (trees.csv) remove perfect duplicates coming from old + new
-      if (dedup && nrow(merged) > 0L) {
+      if (nrow(merged) > 0L) {
         merged <- merged[!duplicated(merged), , drop = FALSE]
       }
       utils::write.csv(merged, path, row.names = FALSE, na = "")
@@ -635,8 +602,7 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
       ## treesFound / multStem only when this quadrat has records
       if (nrow(dd) == 0L && nm %in% c("treesFound.csv", "multStem.csv")) next
 
-      lg <- writeOneWithMerge(dd, dirOut, nm, overwrite,
-                              dedup = identical(nm, "trees.csv"))
+      lg <- writeOneWithMerge(dd, dirOut, nm)
       lg$quad <- q
       lg$dir  <- dirName
       allLogs[[length(allLogs) + 1L]] <- lg
@@ -738,7 +704,8 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = FALSE) 
     mfiles <- list.files(mediaSrc, recursive = TRUE, full.names = TRUE)
     mfiles <- mfiles[!dir.exists(mfiles)]
     for (mf in mfiles) {
-      file.copy(mf, file.path(mediaDst, basename(mf)), overwrite = overwrite)
+      ## never overwrite a media file that already exists
+      file.copy(mf, file.path(mediaDst, basename(mf)), overwrite = FALSE)
     }
   }
 

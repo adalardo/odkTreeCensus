@@ -29,23 +29,34 @@ A função extrai os dados que estão em `instance/treeCensusForm_*.xml` para o 
 
 
 ```{r }
+#| echo: true
+#| eval: false
 
 library(odkTreeCensus)
 
-dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkOut2026"
+dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkOut2026/campoOut2026"
+## diretorios onde estão os dados retirados dos tablets, com o padrao "tab1_09out2026"
 tabsDir <- dir(dataDir)
-nTabs <- length(tabsDir)
-iDir <- file.path(dataDir, tabsDir, "instances")
+## dados de tablets ja lidos, salvos seguindo o padrao "tab1_data" no diretorio exportado
+tabsReaded <- gsub(".csv", "", list.files(eDir, pattern = "2026.csv",include.dirs = FALSE))
+## diretorios de tablets que ainda nao foram lidos
+tabs2Read <- tabsDir[!(tabsDir %in% tabsReaded)]
+# numero de diretorios de dados para ler
+nTabs <- length(tabs2Read)
+## diretorio de instancias para serem lidas 
+iDir <- file.path(dataDir, tabs2Read, "instances")
+## diretorio onde os arquivos csv de dados brutos serao salvos
 eDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
+## diretorio de medias
 mediaDir <- file.path(eDir, "media")
 
 for(i in 1:nTabs)
 {
-    readInstancesXML(instancesDir = iDir[i], expDir = eDir, mediaOutDir = mediaDir, formBase = tabsDir[i], overwrite = TRUE)
+    readInstancesXML(instancesDir = iDir[i], expDir = eDir, mediaOutDir = mediaDir, formBase = tabsDir[i], overwrite = TRUE, formPath = "/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/odk/treeCensusForm.xml")
 }
 
 
-readInstancesXML(instancesDir = instDir, expDir = eDir, mediaOutDir = mediaDir, formBase = base, overwrite = TRUE)
+
 
 
 ```
@@ -71,7 +82,26 @@ sub-directories) are copied, flattened, into \code{expDir/media}.
    
 
 ```{r }
+#| echo: true
+#| eval: false
 
+rm(list = ls())
+library(odkTreeCensus)
+csvdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
+expdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
+
+mergeCSV(csvDir = csvdir , expDir = expdir , mediaDir = expdir , overwrite = FALSE)
+
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+quarto::quarto_render("vignettes/exportODKCollect.qmd")
+
+rlang::last_trace()
 
 
 ```
