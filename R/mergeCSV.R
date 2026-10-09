@@ -43,8 +43,29 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL, overwrite = TRUE) {
   ## Final variable name: keep only the part after the last "."
   tidyName <- function(x) sub("^.*\\.", "", x)
 
+  ## TRUE when the CSV file has no usable content (empty or only blank lines)
+  isEmptyCsv <- function(path) {
+    ## 0 bytes: clearly empty
+    sz <- suppressWarnings(file.info(path)$size)
+    if (!is.na(sz) && sz == 0) return(TRUE)
+
+    ## Any non-blank line? (header alone counts as content, but a file with
+    ## only blank lines would still make read.csv fail)
+    lines <- suppressWarnings(readLines(path, warn = FALSE))
+    if (length(lines) == 0L) return(TRUE)
+    !any(nzchar(trimws(lines)))
+  }
+
   readOne <- function(f) {
-    d <- utils::read.csv(file.path(csvDir, f),
+    path <- file.path(csvDir, f)
+
+    ## Skip files without records/header to avoid
+    ## "primeiras cinco linhas estão vazias: desistindo"
+    if (isEmptyCsv(path)) {
+      return(data.frame())
+    }
+
+    d <- utils::read.csv(path,
                          stringsAsFactors = FALSE,
                          check.names      = FALSE)
     names(d) <- tidyName(names(d))
