@@ -1,8 +1,8 @@
-<?xml version="1"?>
+<?xml version="1.0"?>
 <h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:odk="http://www.opendatakit.org/xforms">
   <h:head>
     <h:title>treeCensusForm</h:title>
-    <model>
+    <model odk:xforms-version="1.0.0">
       <itext>
         <translation lang="Português (pt)" default="true()">
           <text id="parcela-0">
@@ -5604,7 +5604,7 @@
         </translation>
       </itext>
       <instance>
-        <data id="treeCensusForm" version="1">
+        <data id="treeCensusForm" version="20261006.01">
           <today/>
           <start/>
           <end/>
@@ -7163,7 +7163,7 @@
       <bind nodeset="/data/subquad/tree/dead_tree" relevant=" ../ttree/tree_type ='plaq_dead' and  ../ttree/tree_type  != 'not_tree'"/>
       <bind nodeset="/data/subquad/tree/dead_tree/tag_dead" type="string"/>
       <bind nodeset="/data/subquad/tree/dead_tree/dead_obs" type="string"/>
-      <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary"/>
+      <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/tree_recenso" relevant="( ../ttree/tree_type ='plaqueada' or  ../ttree/tree_type  ='plaq_dead' or  ../ttree/tree_type  = 'plaq_sec') or ( ../ttree/tree_type  ='plaq_ileg' and  ../tag_map/tree_tag_map !='') and  ../ttag/tree_tag_seminfo  = ''"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/tree_tag" type="string" calculate="if( ../../ttag/tree_tag0  !='',  ../../ttag/tree_tag0 , if( ../../ttag/tree_tag00  !='',  ../../ttag/tree_tag00 , if( ../../ttag/tree_tag000  !='',  ../../ttag/tree_tag000 , if( ../../tag_map/tree_tag_map !='',  ../../tag_map/tree_tag_map , ''))))"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_pom" type="string" calculate="pulldata('lastCensus', 'pom', 'tag',  ../tree_tag )"/>
@@ -7190,7 +7190,7 @@
       <bind nodeset="/data/subquad/tree/tag_new/new_tag0" type="string" constraint="(string-length(.) =  /data/local/tag_dig  and regex(., '^[0-9]+$')) and not(selected( ../newtags_sofar , .)) and number(.) &gt;=  /data/local/tag_min  and number(.) &lt;=  /data/local/tag_max " jr:constraintMsg="jr:itext('/data/subquad/tree/tag_new/new_tag0:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/tag_new/new_tag0:jr:requiredMsg')" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'"/>
       <bind nodeset="/data/subquad/tree/tag_new/ndig" type="string" relevant=" ../new_tag0  !=''" calculate="if( /data/local/tag_dig =4, 260000, 0)"/>
       <bind nodeset="/data/subquad/tree/tag_new/new_tag" type="string" relevant=" ../new_tag0  !=''" calculate=" ../ndig  +  ../new_tag0 "/>
-      <bind nodeset="/data/subquad/tree/tag_new/new_tag_picture" type="binary" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'"/>
+      <bind nodeset="/data/subquad/tree/tag_new/new_tag_picture" type="binary" relevant=" ../../tree_recenso/tag_ok  = 'no' or  ../../ttree/tree_type  = 'plaq_ileg' or  ../../ttree/tree_type ='sem_info'" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/tree_map_conf" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/tree_map_conf:jr:requiredMsg')" relevant=" ../tree_recenso/old_qx  !=''"/>
       <bind nodeset="/data/subquad/tree/map" relevant="( ../tree_map_conf ='map_no' or  ../tree_map_conf  = 'map_null' or  ../ttree/tree_type ='sem_info' or  ../ttag/tree_tag_seminfo  != '' or ( ../ttree/tree_type  = 'plaq_ileg' and  ../tag_map/tree_tag_map  = '')) and  ../ttree/tree_type !='plaq_dead' and  ../ttree/tree_type  != 'not_tree' and  ../ttree/tree_type  != 'notag_dead'"/>
       <bind nodeset="/data/subquad/tree/map/xy" type="string" constraint=".!=''" jr:constraintMsg="jr:itext('/data/subquad/tree/map/xy:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/map/xy:jr:requiredMsg')"/>
@@ -7251,8 +7251,8 @@
       <bind nodeset="/data/subquad/tree/sec_stem/mult_stem_seq" type="string" calculate="position(..)"/>
       <bind nodeset="/data/subquad/tree/sec_stem/plaq_sec" type="string"/>
       <bind nodeset="/data/subquad/tree/sec_stem/tag_plaq_sec" type="int" required="true()" relevant=" ../plaq_sec = 'yes'"/>
-      <bind nodeset="/data/subquad/tree/sec_stem/sec_picture" type="binary" required="true()" relevant=" ../plaq_sec = 'yes'"/>
-      <bind nodeset="/data/subquad/tree/sec_stem/stem01_picture" type="binary" required="true()" relevant=" ../plaq_sec  = 'yes'"/>
+      <bind nodeset="/data/subquad/tree/sec_stem/sec_picture" type="binary" required="true()" relevant=" ../plaq_sec = 'yes'" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/sec_stem/stem01_picture" type="binary" required="true()" relevant=" ../plaq_sec  = 'yes'" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/sec_stem/mult_note" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/tree/sec_stem/sec_pom" type="decimal" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/sec_stem/sec_pom:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/tree/sec_stem/pom_type_sec" type="string" relevant=" ../../new_dbh/dbh_pom  &lt; 1.25 or  ../../new_dbh/dbh_pom  &gt; 1.35"/>
@@ -7277,11 +7277,11 @@
       <bind nodeset="/data/subquad/tree/new_id/indet_type" type="string" required="true()" relevant=" ../new_sp  ='' or regex( ../new_sp , 'sp_indet')"/>
       <bind nodeset="/data/subquad/tree/new_id/id_same" type="int" required="true()" relevant=" ../det_type  = 'sameid_as'"/>
       <bind nodeset="/data/subquad/tree/new_id/nickname_morfo" type="string" required="true()" relevant=" ../det_type  = 'nickname'"/>
-      <bind nodeset="/data/subquad/tree/new_id/id_picture" type="binary" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_id/id_picture:jr:requiredMsg')" relevant=" ../det_type  = 'few_leaves' or  ../det_type  = 'field' or  ../det_type  = 'nickname' or  ../det_type  = 'same_as'"/>
-      <bind nodeset="/data/subquad/tree/new_id/id_picture02" type="binary" relevant=" ../id_picture !=''"/>
-      <bind nodeset="/data/subquad/tree/new_id/id_picture03" type="binary" relevant=" ../id_picture02 !=''"/>
-      <bind nodeset="/data/subquad/tree/new_id/id_picture04" type="binary" relevant=" ../id_picture03 !=''"/>
-      <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''"/>
+      <bind nodeset="/data/subquad/tree/new_id/id_picture" type="binary" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_id/id_picture:jr:requiredMsg')" relevant=" ../det_type  = 'few_leaves' or  ../det_type  = 'field' or  ../det_type  = 'nickname' or  ../det_type  = 'same_as'" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/new_id/id_picture02" type="binary" relevant=" ../id_picture !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/new_id/id_picture03" type="binary" relevant=" ../id_picture02 !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/new_id/id_picture04" type="binary" relevant=" ../id_picture03 !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/coleta_depois" relevant=" ../ttree/recruta_id  = 'no' or ( ../ttree/tree_type  = 'sem_info' and  ../new_id/new_sp  ='')"/>
       <bind nodeset="/data/subquad/tree/coleta_depois/fita_coleta_depois" type="string" required="true()"/>
       <bind nodeset="/data/subquad/tree/conf_info/map_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if(( ../../map/mapxy  != ''),  ../../map/mapxy ,  ../../tree_recenso/old_xy )"/>
@@ -7300,11 +7300,11 @@
       <bind nodeset="/data/subquad/tree/conf_info/conf_det" readonly="true()" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree' and  ../sp_final  !='' and  ../../ttree/recruta_id  !='no'"/>
       <bind nodeset="/data/subquad/tree/conf_info/conf_id_type" readonly="true()" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'"/>
       <bind nodeset="/data/subquad/tree/conf_info/obs_tree" type="string"/>
-      <bind nodeset="/data/subquad/tree/conf_info/tree_picture01" type="binary" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'"/>
-      <bind nodeset="/data/subquad/tree/conf_info/tree_picture02" type="binary" relevant=" ../tree_picture01 !=''"/>
-      <bind nodeset="/data/subquad/tree/conf_info/tree_picture03" type="binary" relevant=" ../tree_picture02 !=''"/>
-      <bind nodeset="/data/subquad/tree/conf_info/tree_picture04" type="binary" relevant=" ../tree_picture03 !=''"/>
-      <bind nodeset="/data/subquad/tree/conf_info/tree_picture05" type="binary" relevant=" ../tree_picture04 !=''"/>
+      <bind nodeset="/data/subquad/tree/conf_info/tree_picture01" type="binary" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/conf_info/tree_picture02" type="binary" relevant=" ../tree_picture01 !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/conf_info/tree_picture03" type="binary" relevant=" ../tree_picture02 !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/conf_info/tree_picture04" type="binary" relevant=" ../tree_picture03 !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/tree/conf_info/tree_picture05" type="binary" relevant=" ../tree_picture04 !=''" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_tag" type="string" calculate=" ../../num_tag  !=''"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_ht" type="string" calculate=" ../ht_final  !=''"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_dbh" type="string" calculate=" ../dbh_final  !=''"/>
@@ -7355,7 +7355,7 @@
       <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag0_miss" type="string" constraint="(string-length(.) =  /data/local/tag_dig  and regex(., '^[0-9]+$')) and not(selected( ../newtags_sofar_miss , .)) and number(.) &gt;=  /data/local/tag_min  and number(.) &lt;=  /data/local/tag_max " jr:constraintMsg="jr:itext('/data/subquad/rep_miss/miss_new_tag/new_tag0_miss:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/miss_new_tag/new_tag0_miss:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/rep_miss/miss_new_tag/ndig_miss" type="string" relevant=" ../new_tag0_miss  !=''" calculate="if( /data/local/tag_dig =4, 260000, 0)"/>
       <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_miss" type="string" relevant=" ../new_tag0_miss  !=''" calculate=" ../ndig_miss  +  ../new_tag0_miss "/>
-      <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_picture_miss" type="binary" relevant=" ../../miss_found/tag_ok_miss  = 'no'"/>
+      <bind nodeset="/data/subquad/rep_miss/miss_new_tag/new_tag_picture_miss" type="binary" relevant=" ../../miss_found/tag_ok_miss  = 'no'" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss" relevant=" ../miss_found/tagmap_conf_miss ='map_no'"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss/xy_miss" type="string" constraint=".!=''" jr:constraintMsg="jr:itext('/data/subquad/rep_miss/map_miss/xy_miss:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/map_miss/xy_miss:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss/mapxy_miss" type="string" calculate="substring-before( ../xy_miss , '; .1')"/>
@@ -7426,11 +7426,11 @@
       <bind nodeset="/data/subquad/rep_miss/new_id_miss/indet_type_miss" type="string" required="true()" relevant=" ../new_sp_miss  =''"/>
       <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_same_miss" type="int" required="true()" relevant=" ../det_type_miss  = 'sameid_as'"/>
       <bind nodeset="/data/subquad/rep_miss/new_id_miss/nickname_morfo_miss" type="string" required="true()" relevant=" ../det_type_miss  = 'nickname'"/>
-      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture_miss" type="binary" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/new_id_miss/id_picture_miss:jr:requiredMsg')" relevant=" ../det_type_miss  = 'few_leaves' or  ../det_type_miss  = 'field' or  ../det_type_miss  = 'nickname' or  ../det_type_miss  = 'same_as'"/>
-      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture02_miss" type="binary" relevant=" ../id_picture_miss !=''"/>
-      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture03_miss" type="binary" relevant=" ../id_picture02_miss !=''"/>
-      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture04_miss" type="binary" relevant=" ../id_picture03_miss !=''"/>
-      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture05_miss" type="binary" relevant=" ../id_picture04_miss !=''"/>
+      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture_miss" type="binary" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/new_id_miss/id_picture_miss:jr:requiredMsg')" relevant=" ../det_type_miss  = 'few_leaves' or  ../det_type_miss  = 'field' or  ../det_type_miss  = 'nickname' or  ../det_type_miss  = 'same_as'" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture02_miss" type="binary" relevant=" ../id_picture_miss !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture03_miss" type="binary" relevant=" ../id_picture02_miss !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture04_miss" type="binary" relevant=" ../id_picture03_miss !=''" orx:max-pixels="1024"/>
+      <bind nodeset="/data/subquad/rep_miss/new_id_miss/id_picture05_miss" type="binary" relevant=" ../id_picture04_miss !=''" orx:max-pixels="1024"/>
       <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" jr:preload="uid"/>
     </model>
   </h:head>

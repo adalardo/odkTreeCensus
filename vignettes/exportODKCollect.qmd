@@ -51,3 +51,27 @@ readInstancesXML(instancesDir = instDir, expDir = eDir, mediaOutDir = mediaDir, 
 ```
 
 
+## Juntando os dados exportados
+
+Reads the `CSV` files produced by \code{\link{readInstancesXML}}, links the
+records through the \code{KEY} / \code{PARENT_KEY} columns, repeats the
+parent fields at the child level and writes a set of flat CSV files ---
+one row per lowest level record --- inside \code{expDir/rawData}.
+
+Media files that live under a \code{media} folder (possibly with
+sub-directories) are copied, flattened, into \code{expDir/media}.
+
+`csvDir` Character. Directory that contains the CSV files exported by
+  \code{readInstancesXML}.
+`expDir` Character. Export directory where the merged files and the
+  flattened \code{media} folder will be written. Defaults to \code{csvDir}.
+`mediaDir` Character. Directory that containsultsults to \code{csvDir}.
+`overwrite` Logical. Overwrite existing output files. Default
+   \code{TRUE}.
+   
+
+```{r }
+
+
+
+```
