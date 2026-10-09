@@ -28,8 +28,14 @@ jobs:
 
       - name: Instalar dependências do R
         run: |
-          options(repos = c(CRAN = "https://cloud.r-project.org"))
-          install.packages(c("knitr", "rmarkdown"))
+          # Confia nos repositórios configurados por setup-r (RSPM -> binários).
+          # NÃO sobrescreva options(repos), senão os pacotes com código compilado
+          # (ex.: rmarkdown) passam a vir do fonte e podem falhar silenciosamente.
+          install.packages(c("knitr", "rmarkdown"), Ncpus = 2)
+          faltando <- setdiff(c("knitr", "rmarkdown"), rownames(installed.packages()))
+          if (length(faltando) > 0) {
+            stop("Falha ao instalar pacotes: ", paste(faltando, collapse = ", "))
+          }
         shell: Rscript {0}
 
       - name: Instalar o Quarto

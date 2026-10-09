@@ -23,7 +23,7 @@ instalaPacote.rmd
 git.rmd
 testeForm.rmd
 xmlFormAtualizaPkg.rmd
-developExportODK.rmd
+develo*.rmd
 
 ## xlsx
 inst/odk/treeCensusForm.xlsx

@@ -24,17 +24,30 @@ vignette: >
  Reads all submission XMLs stored under an ODK Collect `instances/`
  directory and returns them as a named list of data frames (one per
  repeat level).
- 
+
+A função extrai os dados que estão em `instance/treeCensusForm_*.xml` para o diretório especificado no computador. São criados 7 arquivos `formBase-*.csv`, um para cada repetição de pergunta do formulário. Os arquivos `.csv` tem os nomes das instancias de repetição: `formBase`,`rep_cover`, `subquad`, `tree`, `sec_stem`, `miss`, `miss_sec_stem`.
+
+
 ```{r }
 
 library(odkTreeCensus)
 
-instDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/test01/instances"
-eDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/exportedData"
-base <- "testeA00"
-mediaDir <- "/home/aao/Ale2026/AleProjetos/Rpackages/odkExportDataTest/exportedData"
+dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkOut2026"
+tabsDir <- dir(dataDir)
+nTabs <- length(tabsDir)
+iDir <- file.path(dataDir, tabsDir, "instances")
+eDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
+mediaDir <- file.path(eDir, "media")
+
+for(i in 1:nTabs)
+{
+    readInstancesXML(instancesDir = iDir[i], expDir = eDir, mediaOutDir = mediaDir, formBase = tabsDir[i], overwrite = TRUE)
+}
+
 
 readInstancesXML(instancesDir = instDir, expDir = eDir, mediaOutDir = mediaDir, formBase = base, overwrite = TRUE)
 
 
 ```
+
+
