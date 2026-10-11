@@ -5604,7 +5604,7 @@
         </translation>
       </itext>
       <instance>
-        <data id="treeCensusForm" version="20261006.01">
+        <data id="treeCensusForm" version="20261011.01">
           <today/>
           <start/>
           <end/>
@@ -7177,7 +7177,7 @@
       <bind nodeset="/data/subquad/tree/tree_recenso/old_qy" type="string" calculate="pulldata('lastCensus', 'qy', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_dx" type="string" calculate="pulldata('lastCensus', 'dx', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_dy" type="string" calculate="pulldata('lastCensus', 'dy', 'tag',  ../tree_tag )"/>
-      <bind nodeset="/data/subquad/tree/tree_recenso/old_xy" type="string" calculate="concat( ../old_dx ,'; ',  ../old_dy  )"/>
+      <bind nodeset="/data/subquad/tree/tree_recenso/old_xy" type="string" calculate="concat( ../old_qx ,'; ',  ../old_qy  )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_fam" type="string" calculate="pulldata('lastCensus', 'fam', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_gen" type="string" calculate="pulldata('lastCensus', 'gen', 'tag',  ../tree_tag )"/>
       <bind nodeset="/data/subquad/tree/tree_recenso/old_sp" type="string" calculate="pulldata('lastCensus', 'species', 'tag',  ../tree_tag )"/>
@@ -7284,7 +7284,7 @@
       <bind nodeset="/data/subquad/tree/new_id/id_picture05" type="binary" relevant=" ../id_picture04 !=''" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/coleta_depois" relevant=" ../ttree/recruta_id  = 'no' or ( ../ttree/tree_type  = 'sem_info' and  ../new_id/new_sp  ='')"/>
       <bind nodeset="/data/subquad/tree/coleta_depois/fita_coleta_depois" type="string" required="true()"/>
-      <bind nodeset="/data/subquad/tree/conf_info/map_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if(( ../../map/mapxy  != ''),  ../../map/mapxy ,  ../../tree_recenso/old_xy )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/map_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate=" ../../map/mapxy "/>
       <bind nodeset="/data/subquad/tree/conf_info/ht_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if( ../../new_ht/ht_new_check ='',  ../../new_ht/ht_new ,  ../../new_ht/ht_new_check )"/>
       <bind nodeset="/data/subquad/tree/conf_info/dbh_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if( ../../new_dbh/check_dbh/dbh_new_check ='',  ../../new_dbh/dbh_new ,  ../../new_dbh/check_dbh/dbh_new_check )"/>
       <bind nodeset="/data/subquad/tree/conf_info/fam_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if(( ../../new_id/new_fam  !=''),  ../../new_id/new_fam ,  ../../tree_recenso/old_fam )"/>

@@ -85,12 +85,11 @@ sub-directories) are copied, flattened, into \code{expDir/media}.
 #| echo: true
 #| eval: false
 
-rm(list = ls())
 library(odkTreeCensus)
 csvdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
 expdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
 
-mergeCSV(csvDir = csvdir , expDir = expdir , mediaDir = expdir , overwrite = FALSE)
+mergeCSV(csvDir = csvdir , expDir = expdir , mediaDir = expdir)
 
 ```
 

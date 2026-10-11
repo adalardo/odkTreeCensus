@@ -402,8 +402,8 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
       fam      = getCol(tr, "fam_final"),
       species  = getCol(tr, "sp_final"),
       mapOk    = getCol(tr, "tree_map_conf"),
-      ## qxy -> dxy
-      dxy      = getCol(tr, "map_final"),
+      ## 
+      qxy      = getCol(tr, "map_final"),
       qxyOld   = getCol(tr, "old_xy"),
       dx       = dx,
       dy       = dy,
