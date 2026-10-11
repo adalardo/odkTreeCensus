@@ -339,8 +339,13 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
 
   ## dx / dy: subquad base + mapxy offset, only for rows with mapxy.
   ## subquad looks like "<prefix>_<X>x<Y>"; mapxy looks like "x = X; y = Y"
-  subqVal  <- as.character(getCol(tr, "subquad"))
-  mapxyVal <- as.character(getCol(tr, "mapxy"))
+  ##
+  ## Importante: tanto 'sel_subquad' quanto 'mapxy' podem estar apenas no
+  ## registro pai (repeat de subquad), e nao no repeat de arvores. Por isso
+  ## buscamos com fieldSelfOrAncestor (self ou ancestral), e nao com getCol
+  ## (que so enxerga o proprio registro e devolvia NA, zerando dx/dy).
+  subqVal  <- as.character(fieldSelfOrAncestor(tr, "sel_subquad"))
+  mapxyVal <- as.character(fieldSelfOrAncestor(tr, "mapxy"))
 
   baseX <- suppressWarnings(as.numeric(sub("^.*_([0-9.]+)x.*$",       "\\1", subqVal)))
   baseY <- suppressWarnings(as.numeric(sub("^.*_[0-9.]+x([0-9.]+).*$", "\\1", subqVal)))
