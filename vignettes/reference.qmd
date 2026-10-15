@@ -1,0 +1,353 @@
+---
+lang: pt
+toc: true
+pagetitle: "Referência das funções"
+---
+
+# Referência das funções
+
+Esta página reúne as funções exportadas pelo pacote **odkTreeCensus**, organizadas
+por etapa de uso. Cada função tem a sua própria seção, com descrição, argumentos
+e exemplo de uso. Para a documentação completa dentro do R, use
+`?nome_da_funcao`.
+
+::: {.callout-note}
+## Sobre as descrições
+As funções marcadas com *(descrição provisória)* ainda não têm `man/*.Rd` revisado
+e tiveram a descrição inferida a partir do nome. Serão revisadas em versões
+futuras do manual.
+:::
+
+| Etapa | Funções |
+|---|---|
+| [Preparação dos dados](#preparacao-dos-dados) | `lastCensusODK()`, `spList()`, `subqTags()`, `mapData()`, `subqKey()`, `selSubq()`, `svgMap()`, `svgGrid()`, `ordersvg()`, `auditsvg()` |
+| [Subparcelas e coordenadas](#subparcelas-e-coordenadas) | `subplotXY()`, `splitPlot()`, `splitPlotData()`, `splitPlotXY()`, `xyMin()` |
+| [Formulário e traduções](#formulario-e-traducoes) | `xmlForm()`, `createMultiLangForm()`, `extractTranslations()`, `insertQuestion()`, `checkTranslations()`, `checkXlsformTranslations()` |
+| [Envio para o dispositivo](#envio-para-o-dispositivo) | `checkODKConnection()`, `pushToODKCollect()`, `mediaToODK()` |
+| [Exportação, junção e auditoria](#exportacao-juncao-auditoria) | `readInstancesXML()`, `mergeCSV()`, `mergeData()`, `joinODK()`, `expODK()`, `readAudit.csvODK()`, `censoAudit()`, `prestaConta()` |
+
+## Preparação dos dados {#preparacao-dos-dados}
+
+Estas funções criam os arquivos de apoio (CSV, mapas e grids SVG) que acompanham
+o formulário no ODK Collect.
+
+### `lastCensusODK()` {#lastcensusodk}
+
+Gera o arquivo `lastcensus.csv` com os dados do censo anterior, no formato
+esperado pelo formulário.
+
+```r
+lastCensus <- lastCensusODK(
+  data          = peicCensus2019,
+  splitX = 5, splitY = 5, maxX = 20, maxY = 20,
+  subPlotCodeX  = xCode,
+  subPlotCodeY  = yCode,
+  dirData       = dirODK,
+  save          = TRUE
+)
+```
+
+- **`data`**: data frame dos dados do censo anterior.
+- **`splitX`, `splitY`, `maxX`, `maxY`**: subdivisão e limites da parcela.
+- **`subPlotCodeX`, `subPlotCodeY`**: códigos das subparcelas nos eixos x e y.
+- **`dirData`**: diretório onde o `lastcensus.csv` será salvo.
+- **`save`**: se `TRUE`, grava o arquivo em disco.
+
+### `spList()` {#splist}
+
+Gera a lista de espécies (`splist.csv`) com nomes válidos, morfotipos e `indet`
+para todos os níveis taxonômicos a partir de família.
+
+```r
+splist <- spList(data = lastCensus, dirData = dirODK, saveFile = TRUE)
+```
+
+- **`data`**: dados do último censo.
+- **`dirData`**: diretório onde o `splist.csv` será salvo.
+- **`saveFile`**: se `TRUE`, grava o arquivo em disco.
+
+### `subqTags()` {#subqtags}
+
+Gera o arquivo com todas as tags por subquadrat, usado na listagem de tags não
+encontradas. O resultado tem as colunas `subq` e `tags` (tags separadas por
+espaço no mesmo campo).
+
+```r
+subqTags(data = lastCensus, dirData = dirODK, saveFile = TRUE)
+```
+
+### `mapData()` {#mapdata}
+
+Constrói o objeto de dados de mapa das árvores do censo anterior. Este objeto é
+a base para os SVGs de mapa e para a chave de subquadrats. Por ser grande,
+recomenda-se gerá-lo apenas para as subparcelas (colunas) que serão usadas.
+
+```r
+mapdata <- mapData(
+  lastCensus[lastCensus$status == "A", ],
+  subplotCodes = subplot,
+  splitX = 5, splitY = 5, maxX = 20, maxY = 20,
+  buffer = 2
+)
+```
+
+### `subqKey()` {#subqkey}
+
+Gera a chave de subquadrats (`subqKey.csv`) a partir do objeto de mapa.
+
+```r
+sk <- subqKey(dataMap = mapdata, dirData = dirODK, saveFile = TRUE)
+```
+
+### `selSubq()` {#selsubq}
+
+Gera o SVG de seleção do subquadrat, com os quadrantes numerados para seleção
+direta no mapa do formulário.
+
+```r
+selSubq(
+  xmax = 20, ymax = 20,
+  subqX = 5, subqY = 5,
+  mapSize = c(10, 10), fontSize = 14,
+  wd2save = dirODK
+)
+```
+
+### `svgMap()` {#svgmap}
+
+Gera o SVG com a localização das árvores do censo anterior para uma subparcela.
+
+```r
+svgMap(
+  mapdataA,
+  subPlotCode = i,
+  mapSize = c(12, 12), fontSize = 12,
+  wd2save = file.path(dirODK, "subplotA")
+)
+```
+
+### `svgGrid()` {#svggrid}
+
+Gera o SVG do grid de mapeamento (células de 0,2 m) usado para posicionar
+árvores novas ou com problema de localização.
+
+```r
+svgGrid(
+  censoData = lastCensus,
+  subPlotCode = i,
+  mapSize = c(12, 12), fontSize = 12,
+  wd2save = file.path(dirODK, "subplotA")
+)
+```
+
+### `ordersvg()` {#ordersvg}
+
+*(descrição provisória)* Ordena as camadas de um arquivo SVG gerado pelo
+pacote, garantindo que a sobreposição entre grid, árvores e rótulos seja
+consistente.
+
+```r
+ordersvg(svgFile = "mapA00_0x0.svg")
+```
+
+### `auditsvg()` {#auditsvg}
+
+*(descrição provisória)* Verifica os arquivos SVG gerados (existência,
+dimensões e elementos esperados) para uso no formulário.
+
+```r
+auditsvg(svgDir = file.path(dirODK, "subplotA"))
+```
+
+## Subparcelas e coordenadas {#subparcelas-e-coordenadas}
+
+Funções para dividir a parcela em subparcelas e trabalhar com as coordenadas
+cartesianas usadas nos mapas e nos cálculos do censo.
+
+### `subplotXY()` {#subplotxy}
+
+Gera um data frame com as coordenadas de referência (`xlim`, `ylim`) das
+subparcelas, a partir dos códigos de linha e coluna.
+
+```r
+subplotXY(
+  xcode = LETTERS[1:16],
+  ycode = c(paste0("0", 0:9), 10:15),
+  xsub  = 20, ysub = 20
+)
+```
+
+### `splitPlot()` {#splitplot}
+
+*(descrição provisória)* Divide uma parcela (20 x 20 m) em subparcelas de
+trabalho (10 x 10 m ou 5 x 5 m), dada a subdivisão nos eixos x e y.
+
+### `splitPlotData()` {#splitplotdata}
+
+*(descrição provisória)* Divide os dados de um censo em subparcelas de trabalho,
+acrescentando a cada registro o código da subparcela correspondente.
+
+### `splitPlotXY()` {#splitplotxy}
+
+*(descrição provisória)* Divide as coordenadas XY de uma parcela nas
+subparcelas de trabalho.
+
+### `xyMin()` {#xymin}
+
+*(descrição provisória)* Retorna as coordenadas mínimas de x e y de uma
+subparcela, usadas como referência de origem em mapas e grids.
+
+## Formulário e traduções {#formulario-e-traducoes}
+
+Funções para gerar o formulário XLSForm/XML e gerenciar suas traduções.
+
+### `xmlForm()` {#xmlform}
+
+Converte o formulário `.xlsx` (LibreOffice) para `.xml` usando o `pyxform`.
+
+```r
+xlsxFile <- system.file("odk/treeCensusForm.xlsx", package = "odkTreeCensus")
+xmlForm(xlsxPath = xlsxFile, xmlPath = "treeCensusForm.xml")
+```
+
+### `createMultiLangForm()` {#createmultilangform}
+
+Cria um formulário XML multilingue a partir de um formulário base e de um
+arquivo de traduções.
+
+```r
+createMultiLangForm(
+  baseForm        = "treeCensusForm.xml",
+  translationFile = "translations.csv",
+  outputFile      = "treeCensusForm_multi.xml"
+)
+```
+
+### `extractTranslations()` {#extracttranslations}
+
+*(descrição provisória)* Extrai os textos (labels, hints, constraints e
+mensagens) do formulário XLSForm para um arquivo de traduções editável.
+
+### `insertQuestion()` {#insertquestion}
+
+*(descrição provisória)* Insere uma nova questão em um formulário XLSForm/XML,
+respeitando a estrutura de grupos e repetições existentes.
+
+### `checkTranslations()` {#checktranslations}
+
+*(descrição provisória)* Confere se o arquivo de traduções cobre todos os
+textos do formulário e se não há entradas órfãs.
+
+### `checkXlsformTranslations()` {#checkxlsformtranslations}
+
+*(descrição provisória)* Confere as traduções diretamente dentro de um arquivo
+XLSForm, garantindo que todos os idiomas tenham os mesmos campos preenchidos.
+
+## Envio para o dispositivo {#envio-para-o-dispositivo}
+
+Funções para verificar o dispositivo e transferir o formulário e as mídias para
+o ODK Collect.
+
+### `checkODKConnection()` {#checkodkconnection}
+
+Verifica se o `adb` está instalado e se há dispositivo Android conectado e
+autorizado. Útil para diagnosticar problemas antes de enviar arquivos.
+
+```r
+checkODKConnection()
+```
+
+### `pushToODKCollect()` {#pushtoodkcollect}
+
+Envia o formulário XML (e demais arquivos do diretório local) para o
+ODK Collect no dispositivo conectado.
+
+```r
+pushToODKCollect(localDir = xmlDir, formName = "treeCensusForm")
+```
+
+### `mediaToODK()` {#mediatoodk}
+
+Envia todos os arquivos de mídia de `localMediaDir` (incluindo subdiretórios)
+para a pasta de mídias do ODK Collect no dispositivo.
+
+```r
+mediaToODK(localMediaDir = dirODK, formName = "treeCensusForm")
+```
+
+## Exportação, junção e auditoria {#exportacao-juncao-auditoria}
+
+Funções para ler as submissões do ODK Collect, consolidá-las em arquivos CSV e
+auditar o resultado.
+
+### `readInstancesXML()` {#readinstancesxml}
+
+Lê todos os XMLs de submissão em um diretório `instances/` do ODK Collect e
+exporta um CSV por nível de repetição do formulário (`formBase`, `rep_cover`,
+`subquad`, `tree`, `sec_stem`, `miss`, `miss_sec_stem`).
+
+```r
+readInstancesXML(
+  instancesDir = iDir[i],
+  expDir       = eDir,
+  mediaOutDir  = mediaDir,
+  formBase     = tabsDir[i],
+  overwrite    = TRUE,
+  formPath     = "caminho/para/treeCensusForm.xml"
+)
+```
+
+- **`instancesDir`**: diretório `instances/` gerado pelo ODK Collect.
+- **`expDir`**: diretório onde os CSVs serão salvos.
+- **`mediaOutDir`**: diretório onde as mídias serão copiadas.
+- **`formBase`**: prefixo usado para nomear os arquivos de saída.
+- **`overwrite`**: sobrescreve arquivos já existentes.
+- **`formPath`**: caminho do XML do formulário usado na coleta.
+
+### `mergeCSV()` {#mergecsv}
+
+Lê os CSVs gerados por `readInstancesXML()`, liga os registros pelas colunas
+`KEY`/`PARENT_KEY` e replica os campos do nível pai nos níveis filhos,
+escrevendo um conjunto de CSVs achatados (uma linha por registro do nível mais
+baixo) em `expDir/rawData`. Também copia as mídias de `media/` para
+`expDir/media`.
+
+```r
+mergeCSV(csvDir = csvdir, expDir = expdir, mediaDir = expdir)
+```
+
+- **`csvDir`**: diretório com os CSVs exportados por `readInstancesXML()`.
+- **`expDir`**: diretório de destino dos arquivos agrupados e da pasta `media`.
+- **`mediaDir`**: diretório que contém as mídias.
+- **`overwrite`**: sobrescreve arquivos já existentes (padrão `TRUE`).
+
+### `mergeData()` {#mergedata}
+
+*(descrição provisória)* Junta arquivos de dados exportados, unificando colunas
+comuns entre os níveis de repetição do formulário.
+
+### `joinODK()` {#joinodk}
+
+*(descrição provisória)* Junta os dados de um formulário ODK, ligando os níveis
+por `KEY`/`PARENT_KEY` de forma equivalente ao `mergeCSV()`.
+
+### `expODK()` {#expodk}
+
+*(descrição provisória)* Exporta os dados de um formulário ODK para um formato
+consolidado.
+
+### `readAudit.csvODK()` {#readauditcsvodk}
+
+*(descrição provisória)* Lê o arquivo CSV de auditoria gerado pelo ODK Collect
+e devolve os registros de log de preenchimento em data frame.
+
+### `censoAudit()` {#censoaudit}
+
+*(descrição provisória)* Audita os dados de um censo, sinalizando
+inconsistências (coordenadas, medições e identificação) antes da análise.
+
+### `prestaConta()` {#prestaconta}
+
+*(descrição provisória)* Gera um resumo do esforço de coleta (parcelas,
+subparcelas e árvores processadas) para conferência ao final de um ciclo de
+censo.

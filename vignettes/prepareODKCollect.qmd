@@ -7,14 +7,14 @@ vignette: >
 ---
 
 
+:::: {.content-visible when-format="pdf"}
 ```{=latex}
-
 \input{latex/capa.tex}
 \clearpage
 \tableofcontents
 \clearpage
-
 ```
+::::
 
 
 ## Instalando pacote odkTreeCensus
@@ -57,7 +57,7 @@ Todos os arquivos de dados que acompanham o formulário no ODK Collect devem ser
 ## Importante
 
 
- Use  o caminho do objeto `dirODK` para um diretório local do seu computador onde pretende salvar os arquivos de media do `OKD Collect`. Este vai se o diretório de onde os arquivos sẽrão transferidos do computador para o dispositivo móvel com o `ODK Collect`.
+ Use  o caminho do objeto `dirODK` para um diretório local do seu computador onde pretende salvar os arquivos de media do `OKD Collect`. Este vai se o diretório de onde os arquivos serão transferidos do computador para o dispositivo móvel com o `ODK Collect`.
 
 
 :::
@@ -194,7 +194,6 @@ sk <- subqKey(dataMap = mapdata, dirData = dirODK, saveFile = TRUE)
 str(sk)
 sk[sk$subq == "A00_0x0", ]
 
-
 ```
 
 
@@ -302,19 +301,19 @@ sudo pacman -S android-tools
 No windows, consulte: [android debug bridge](https://developer.android.com/tools/adb?hl=pt-br)
 
 
-## Preparando o dispositivo móvel{#sec:preparando_o_dispositivo_movel}
+## Preparando o dispositivo móvel {#sec-preparando-o-dispositivo-movel}
 
-O \href{https://opendatakit.org/}{Open Data Kit} tem um mecanismo próprio para instalar formulários e retornar os dados coletados, chamado \textbf{ODK Central} que precisa estar instalado em um servidor para se comunicar com o \textbf{ODK Collect}. O servidor \href{https://odk.ib.usp.br} tem o \textbf{ODK Central} configurado para testes, sempre guarde uma cópia local dos  arquivos originais coletados pelo dispositivo móvel, antes de apagá-los. 
+O [Open Data Kit](https://opendatakit.org/) tem um mecanismo próprio para instalar formulários e retornar os dados coletados, chamado **ODK Central** que precisa estar instalado em um servidor para se comunicar com o **ODK Collect**. O servidor [odk.ib.usp.br](https://odk.ib.usp.br) tem o **ODK Central** configurado para testes, sempre guarde uma cópia local dos arquivos originais coletados pelo dispositivo móvel, antes de apagá-los.
 
 ### Criando um projeto ODK Collect
 
-Entre no aplicativo \textbf{ODK Collect} e siga os passos solicitado para criar um novo projeto inserindo os dados diretamente no app selecionando a opção \textbf{Entrar com os detalhes do projeto manualmente} (Figura~\ref{fig:criaODK} a).
-Além de um usuário e senha, que precisam ser criados, há a necessidade de incluir uma url para a conexão com o \textbf{ODK Central}. Aqui inclua a url do \textbf{ODK Central} em nosso servido  (http://odk.ib.usp.br). Não se preocupe com nenhum desses dados iniciais, apenas crie o projeto e preencha os campos solicitados (Figura~\ref{fig:criaODK} b). Caso seja solicitado, permita que o ODK Collect emita notificações no seu dispositivo móvel (Figura~\ref{fig:criaODK} c) 
+Entre no aplicativo **ODK Collect** e siga os passos solicitado para criar um novo projeto inserindo os dados diretamente no app selecionando a opção **Entrar com os detalhes do projeto manualmente** (Figura @fig-criaODK a).
+Além de um usuário e senha, que precisam ser criados, há a necessidade de incluir uma url para a conexão com o **ODK Central**. Aqui inclua a url do **ODK Central** em nosso servido (http://odk.ib.usp.br). Não se preocupe com nenhum desses dados iniciais, apenas crie o projeto e preencha os campos solicitados (Figura @fig-criaODK b). Caso seja solicitado, permita que o ODK Collect emita notificações no seu dispositivo móvel (Figura @fig-criaODK c)
 
-Para incluir o formulário no \textbf{ODK Collect} precisamos de um projeto criado no app e acesso à memoria interna do dispositivo Android com permissão para edição das pastas do \textbf{ODK Collect}.
+Para incluir o formulário no **ODK Collect** precisamos de um projeto criado no app e acesso à memoria interna do dispositivo Android com permissão para edição das pastas do **ODK Collect**.
 
+:::: {.content-visible when-format="pdf"}
 ```{=latex}
-
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
@@ -336,10 +335,20 @@ Para incluir o formulário no \textbf{ODK Collect} precisamos de um projeto cria
     \end{subfigure}
     \caption{Criando conta manualmente no ODK Collect}\label{fig:criaODK}
 \end{figure}
-
 ```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-criaODK layout-ncol=3}
+![Detalhes do projeto manualmente](media/enterProjectManual.png){#fig-enterManual}
 
+![Preencher usuário e senha](media/criaContaODK.png){#fig-contaODK}
+
+![Permitir notificações](media/perNota.png){#fig-perNota}
+
+Criando conta manualmente no ODK Collect
+:::
+:::
 
 ## Conectando o Dispositivo Android
 

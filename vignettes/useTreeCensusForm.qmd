@@ -6,87 +6,84 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
+:::: {.content-visible when-format="pdf"}
 ```{=latex}
+\input{latex/capa.tex}
+\clearpage
+\tableofcontents
+\clearpage
+```
+::::
 
-\subsubsection{Usando o formulário treeCensusForm}
-\label{sec:usando_o_formulario_treecensus}
+### Usando o formulário treeCensusForm {#sec-usando-o-formulario-treecensus}
 
-Para usar o formulário \textbf{treeCensusPlot} é preciso preparar os arquivos de dados, mapas e grids de mapeamentos. Para instruções sobre como gerar esses arquivos e  
-Abra o aplicativo e siga a sequência de eventos e seleções descritas abaixo. 
+Para usar o formulário **treeCensusPlot** é preciso preparar os arquivos de dados, mapas e grids de mapeamentos. Para instruções sobre como gerar esses arquivos e
+Abra o aplicativo e siga a sequência de eventos e seleções descritas abaixo.
 
+::: {.callout-tip}
+## Dicas:
 
-\begin{center}
-\begin{tikzpicture}
-  \node[fill=gray!10!white,rounded corners=5pt,text width=1\textwidth] {
-\subsubsection*{Dicas:}
+1. Para avançar entre as páginas do formulário pode se usar o gesto do indicador da esquerda para a direita ou clicar no caixa *Próximo/Next*
+2. Para excluir algum valor coletado errado clique no valor até aparecer a caixa com a opção de exclusão.
+:::
 
-\begin{enumerate}
-  
-\item Para avançar entre as páginas do formulário pode se usar o gesto do indicador da esquerda para a direita ou clicar no caixa \textit{Próximo/Next}
-\item Para excluir algum valor coletado errado clique no valor até aparecer a caixa com a opção de exclusão como mostra a Figura~\ref{fig:deletar}.
-\end{enumerate}
-  
-};
+### Pagina inicial {#sec-pagina-inicial}
 
+No ***Menu Principal*** do ODK Collect selecione a opção: **Preencher novo formulário**.
 
-
-\end{tikzpicture}
-\end{center}
-
-
-\subsubsection{Pagina inicial}
-\label{sec:pagina_inicial}
-
-
-No \textbf{\emph{\underline{Menu Principal}}} do ODK Collect selecione a opção:\lstset{frame=single} \textbf{Preencher novo formulário}.
-
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{SCfigure}
   \centering
   \includegraphics[keepaspectratio=true,width=0.3\textwidth]{media/preencherForm}
   \caption{Para Iniciar o preenchimento de formulário selecione \textit{Preencher novo formulário} }
   \label{fig:newForm}
 \end{SCfigure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+![Para Iniciar o preenchimento de formulário selecione *Preencher novo formulário*](media/preencherForm.png){#fig-newForm}
+:::
 
+Na página seguinte deve aparecer o nome do formulário xml que foi copiado para o dispositivo. Caso não apareça, houve algum problema, verifique se foi copiado na pasta correta. Caso haja a opção selecione: **treeCensusPlot**
 
-
-Na página seguinte deve aparecer o nome do formulário xml que foi copiado para o dispositivo. Caso não apareça, houve algum problema, verifique se foi copiado na pasta correta. Caso haja a opção selecione: \textbf{treeCensusPlot}
-
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{SCfigure}
   \centering
   \includegraphics[keepaspectratio=true,width=0.3\textwidth]{media/formPPSP}
   \caption{Página de seleção de formulários para iniciar a coleta de dados}
   \label{fig:formPPSP}
 \end{SCfigure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+![Página de seleção de formulários para iniciar a coleta de dados](media/formPPSP.png){#fig-formPPSP}
+:::
 
-% \raggedleft\includegraphics[keepaspectratio=true,width=0.5\textwidth]{odkTelaIncial}
+### Coordenada GPS {#sec-coordenada-gps}
 
-% \raggedright\includegraphics[keepaspectratio=true,width=0.5\textwidth]{odkSelForm}
+Aqui é possível coletar o ponto de GPS caso seu dispositivo tenha essa funcionalidade. Não precisamos, mas caso queira coletar, faça no ponto de inicio da sub-parcela [^1]. O processo pode demorar alguns minutos, portanto, faça isso logo que chegar ao inicio da subparcela, enquanto organizam a equipe.
 
-
-\subsubsection{Coordenada GPS}
-\label{sec:coordenada_gps}
-
-
-Aqui é possível coletar o ponto de GPS caso seu dispositivo tenha essa funcionalidade. Não precisamos, mas caso queira coletar, faça no ponto de inicio da sub-parcela \footnote{canto inferior esquerdo em relação a origem da parcela A00}. O processo pode demorar alguns minutos, portanto, faça isso logo que chegar ao inicio da subparcela, enquanto organizam a equipe.\lstset{frame=single}
-
+[^1]: canto inferior esquerdo em relação a origem da parcela A00
 
 Siga passando a página de georreferenciamento, sem selecionar.
 
 Caso tenha incluído algum registro errado ou onde não deveria, para apagar, inclusive em barra de rodagem ou novo grupo criado por engano, é preciso segurar o toque do dedo no registro por alguns segundos para aparecer a opção de apagar na tela.
 
-\subsubsection{Localidade da Parcela}
+### Localidade da Parcela
 
-Selecione a parcela em que o censo está ocorrendo. Caso a parcela não pertença ao  Projeto Parcelas Permanentes de São Paulo (PPSP), selecione a opção \textit{Parcela não cadastrada} e em seguida forneça o nome ou código da parcela (Figura~\ref{fig:local}). Além disso, forneça as seguintes informações:
-\begin{itemize}
-\item{Número de digitos das placas}: o número de dígitos devera compreender apenas os dígtios variáveis, códigos fixo para o censo devem ser desperezados (p.ex: '26' ao início para indicar o ano da coleta de dados)
-\item{Menor e Maior valor de placa nova}: aqui deve-se restringir ao máximo os valores das placas, indicando a sequência de placas que estão sendo levandas a campo no dia de trabalho, o aplicativo não permitira a entrada de valores diferentes do que foi definido nesta parte. Como padrão de valores estão os limites de numeração das placas que foram feitas para o censo de 2025
-\item{A unidade de trabalho em campo}: aqui indique o tamanho do subquadrat que representa a unidade de trabalho, por enquanto só temos implementadas as unidades de 10x10 ou 5x5m
-\item{Diâmetro de inclusão}: confira se o diâmetro mínimo de inclusão da parcela está correta, não será possível entrar valores menores, a menos que seja checado e justificado
-\end{itemize}
+Selecione a parcela em que o censo está ocorrendo. Caso a parcela não pertença ao Projeto Parcelas Permanentes de São Paulo (PPSP), selecione a opção *Parcela não cadastrada* e em seguida forneça o nome ou código da parcela (@fig-local). Além disso, forneça as seguintes informações:
 
+* **Número de digitos das placas**: o número de dígitos deverá compreender apenas os dígitos variáveis, códigos fixos para o censo devem ser desprezados (p.ex: '26' ao início para indicar o ano da coleta de dados)
+* **Menor e Maior valor de placa nova**: aqui deve-se restringir ao máximo os valores das placas, indicando a sequência de placas que estão sendo levadas a campo no dia de trabalho, o aplicativo não permitirá a entrada de valores diferentes do que foi definido nesta parte. Como padrão de valores estão os limites de numeração das placas que foram feitas para o censo de 2025
+* **A unidade de trabalho em campo**: aqui indique o tamanho do subquadrat que representa a unidade de trabalho, por enquanto só temos implementadas as unidades de 10x10 ou 5x5m
+* **Diâmetro de inclusão**: confira se o diâmetro mínimo de inclusão da parcela está correto, não será possível entrar valores menores, a menos que seja checado e justificado
+
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
   \centering
   \begin{subfigure}[b]{0.4\textwidth}
@@ -101,15 +98,25 @@ Selecione a parcela em que o censo está ocorrendo. Caso a parcela não pertenç
   \end{subfigure}
   \caption{Localidade da Parcela}\label{fig:local}
 \end{figure}
-    
-    
+```
+::::
 
-\subsubsection{Equipe}
-\label{sec:equipe}
+::: {.content-visible when-format="html"}
+::: {#fig-local layout-ncol=2}
+![Seleção da localidade da parcela](media/selLocalPlot01.png){#fig-local-sel}
 
+![Incluindo localidade não cadastrada](media/selLocalPlot02.png){#fig-newlocal}
 
-Aqui é selecionado o nome da equipe que irá coletar os dados e o responsável pela equipe. Ambos são campos que devem ser selecionados, a equipe permite múltipla seleção e o responsável apenas um dos selecionados no item equipe.  O cadastro de nomes dos integrantes da equipe deve ser feito no arquivo \textit{team.csv}, previamente ao uso do formulário.
+Localidade da Parcela
+:::
+:::
 
+### Equipe {#sec-equipe}
+
+Aqui é selecionado o nome da equipe que irá coletar os dados e o responsável pela equipe. Ambos são campos que devem ser selecionados, a equipe permite múltipla seleção e o responsável apenas um dos selecionados no item equipe.  O cadastro de nomes dos integrantes da equipe deve ser feito no arquivo *team.csv*, previamente ao uso do formulário.
+
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
@@ -124,19 +131,27 @@ Aqui é selecionado o nome da equipe que irá coletar os dados e o responsável 
     \end{subfigure}
     \caption{ Páginas (a) da seleção da equipe de campo que irá coletar os dados  e (b) campo de cadastro de novo nome }\label{fig:equipe}
   \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-equipe layout-ncol=2}
+![Seleção da equipe de campo](media/equipePage.png){#fig-equipe-page}
 
-  
+![Campo de cadastro de novo nome](media/equipeCadastrar.png){#fig-equipe-cadastrar}
 
+Páginas (a) da seleção da equipe de campo que irá coletar os dados e (b) campo de cadastro de novo nome
+:::
+:::
 
-\subsubsection{Parcela}
-\label{sec:parcela}
+### Parcela {#sec-parcela}
 
+Selecione a ***Coluna da Parcela*** e ***Linha da Parcela*** da parcela de 20 x 20 m que irá trabalhar. As colunas são designadas por letras de A a P e as linhas por números de 00 a 15. A ***Condição do piquete*** e ***Observações sobre o quadrat*** não são campos obrigatórios. Preencha se sentir necessidade.
 
-Selecione a \textbf{\underline{Coluna da Parcela}} e \textbf{\underline{Linha da Parcela}} da parcela de 20 x 20 m que irá trabalhar. As colunas são designadas por letras de A a P e as linhas por números de 00 a 15. A \textbf{\underline{Condição do piquete}} e \textbf{\underline{Observações sobre o quadrat}} não são campos obrigatórios. Preencha se sentir necessidade.
+Selecione em seguida o quadrat de 10x10 m ou 5x5 m correspondente a unidade de trabalho em campo, diretamente no mapa da tela. Confira se a seleção está correta no campo ***Selecionado:*** abaixo do mapa.
 
-Selecione em seguida o quadrat de 10x10 m ou 5x5 m correspondente a unidade de trabalho em campo, diretamente no mapa da tela. Confira se a seleção está correta no campo \textbf{\underline{Selecionado:}} abaixo do mapa.
-
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
@@ -151,25 +166,30 @@ Selecione em seguida o quadrat de 10x10 m ou 5x5 m correspondente a unidade de t
     \end{subfigure}
     \caption{ Páginas (a) da seleção da subparcela de 20x20  e (b) da unidade de trabalho de 5x5m }\label{fig:subPar}
 \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-subPar layout-ncol=2}
+![Seleção da subparcela de 20x20](media/selPlotA06.png){#fig-selPar}
 
+![Unidade de trabalho de 5x5m](media/selSubPlot00.png){#fig-selSubPar}
 
-% \raggedleft\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkSelParc}
+Páginas (a) da seleção da subparcela de 20x20 e (b) da unidade de trabalho de 5x5m
+:::
+:::
 
-% \raggedright\includegraphics[keepaspectratio=true,width=0.8\textwidth]{}
+### Árvores {#sec-arvores}
 
+As informações coletadas para cada árvores, em parte, depende de algumas condições, a principal delas é a presença ou não da placa e se o indivíduo está ou não morto. A primeira seleção ao iniciar a coleta de dados de uma árvore é definir esses estados, como mostra a @fig-treeStart a.
 
-\subsubsection{Árvores}
-\label{sec:arvores}
+Caso a árvore já esteja plaqueada é preciso indicar o número da placa. A primeira página da árvore do tipo ***plaqueada*** apresenta os números de placa que estavam presentes nessa mesma unidade de trabalho no censo anterior. Caso o número não esteja nessa lista, siga para a página seguinte que apresenta todos os números de placas do censo anterior na localidade. Por fim, se o número ainda não estiver listado siga para a página que permite a inclusão do número de placa antigo que não esteja listada.  Nessa páginas é listada também o números que já foram anotados em ***Árvores já anotadas:***, para evitar que o mesmo número seja anotado mais de uma vez.
 
+Na página seguinte é preciso responder se ***A placa está em boas condições?***. Verifique se a placa está legível e bem fixadas, caso contrário anote ***não*** e siga para os próximos passos que inclui a  troca da placa por um novo número (@fig-treeStart d).
+Nessa página é possível também tirar uma foto ou escolher uma imagem do dispositivo, aqui é desejável que seja **fotografada a nova placa fixa na árvore junto com a antiga, para eventuais checagens**.
 
-As informações coletadas para cada árvores, em parte, depende de algumas condições, a principal delas é a presença ou não da placa e se o indivíduo está ou não morto. A primeira seleção ao iniciar a coleta de dados de uma árvore é definir esses estados, como mostra a Figura~\ref{fig:treeStart}a.
-
-Caso a árvore já esteja plaqueada é preciso indicar o número da placa. A primeira página da árvore do tipo \underline{\textit{plaqueada}} apresenta os números de placa que estavam presentes nessa mesma unidade de trabalho no censo anterior. Caso o número não esteja nessa lista, siga para a página seguinte que apresenta todos os números de placas do censo anterior na localidade. Por fim, se o número ainda não estiver listado siga para a página que permite a inclusão do número de placa antigo que não esteja listada.  Nessa páginas é listada também o números que já foram anotados em {\underline{Árvores já anotadas:}}, para evitar que o mesmo número seja anotado mais de uma vez. 
-
-Na página seguinte é preciso responder se \textit{\underline{A placa está em boas condições?}}. Verifique se a placa está legível e bem fixadas, caso contrário anote \textbf{\underline{não}} e siga para os próximos passos que inclui a  troca da placa por um novo número (Figura~\ref{fig:treeStart}d).
-Nessa página é possível também tirar uma foto ou escolher uma imagem do dispositivo, aqui é desejável que seja \textcolor{Cyan}{fotografada a nova placa fixa na árvore junto com a antiga, para eventuais checagens}.
-
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
@@ -196,45 +216,52 @@ Nessa página é possível também tirar uma foto ou escolher uma imagem do disp
     \caption{ Páginas (a) da seleção da estado da árvore, (b) do número da placa, (c) da seleção da localização no mapa, (d) inclusão de nova placa }
     \label{fig:treeStart}
 \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-treeStart layout-ncol=4}
+![Seleção da estado da árvore](media/selTreeType.png){#fig-selTreeType}
 
+![Seleção do número da placa](media/selTag.png){#fig-selTag}
 
-% \includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkTreePlaca}
+![Seleção da localização no mapa](media/selTreeMap.png){#fig-selTreeMap}
 
-% \includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkTagNumbI}
+![Inclusão de nova placa](media/newTag_plaq.png){#fig-newTagPlaq}
 
-% \includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkNewNumbTag}
+Páginas (a) da seleção da estado da árvore, (b) do número da placa, (c) da seleção da localização no mapa, (d) inclusão de nova placa
+:::
+:::
 
+### Mapeamento {#sec-mapeamento}
 
-
-\subsubsection{Mapeamento}
-\label{sec:mapeamento}
-
-
-%\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkMapea}
-
-
-Caso seja uma árvores ingressante, plaqueada com número antigo mas não listado no censo anterior ou com problemas de localização, a equipe deve fazer o mapeamento da árvore. Nestes casos, aparecerá um mapa com um grid em intervalos de 0,5 m. Esse grid representa a subparcela de 5 x 5 m. Deve-se selecionar a posição da árvore nesse grid, o que fornece uma precisão no mapeamento suficiente para análises que necessitam da posição da árvore. Ao selecionar alguma célula do grid, as coordenadas irão aparecer abaixo da imagem. Caso necessário utilize a trena em campo para confirmar a seleção no grid (Figura~\ref{fig:mapear}).   
+Caso seja uma árvores ingressante, plaqueada com número antigo mas não listado no censo anterior ou com problemas de localização, a equipe deve fazer o mapeamento da árvore. Nestes casos, aparecerá um mapa com um grid em intervalos de 0,5 m. Esse grid representa a subparcela de 5 x 5 m. Deve-se selecionar a posição da árvore nesse grid, o que fornece uma precisão no mapeamento suficiente para análises que necessitam da posição da árvore. Ao selecionar alguma célula do grid, as coordenadas irão aparecer abaixo da imagem. Caso necessário utilize a trena em campo para confirmar a seleção no grid (@fig-mapear).
 
 Caso a árvore já tenha sido mapeada em censos anteriores irá aparecer o mapa da parcela com a localização das árvores para confirmar o mapeamento. Caso não seja confirmado o mapeamento antigo, será solicitado que a árvore seja mapeada novamente, seguindo o mesmo procedimento de uma árvores nova.
 
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{SCfigure}
   \centering
   \includegraphics[keepaspectratio=true,width=0.5\textwidth]{media/selGrid10}
   \caption{Página com o grid de mapeamento de 10x10 m, cada célula representa 20 cm dentro da unidade de trabalho de 10x10 m. Abaixo da figura é apresentado as coordenadas da célula selecionada, que representará as coordenadas cartesianas para a árvore. }
   \label{fig:mapear}
 \end{SCfigure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+![Página com o grid de mapeamento de 10x10 m, cada célula representa 20 cm dentro da unidade de trabalho de 10x10 m. Abaixo da figura é apresentado as coordenadas da célula selecionada, que representará as coordenadas cartesianas para a árvore.](media/selGrid10.png){#fig-mapear}
+:::
 
-\subsubsection{Altura }
-\label{sec:altura_e_tipo_de_medida}
+### Altura {#sec-altura_e_tipo_de_medida}
 
+A página de coleta de altura da árvore apresenta duas escalas. Na primeira e utilizada ***se a altura é até 10m***. Nesta escala é possível selecionar valores entre 1.5 m até 10 m em intervalos de 0.5. Na barra de seleção ***se a altura é mais de 10m*** a escala tem intervalos de 1m. Não é possível incluir valores em ambas as escalas, caso necessário remova a resposta clicando no valor até aparecer a janela com a opção de *Remover a resposta*.
 
-A página de coleta de altura da árvore apresenta duas escalas. Na primeira e utilizada \textit{\underline{se a altura é até 10m}}. Nesta escala é possível selecionar valores entre 1.5 m até 10 m em intervalos de 0.5. Na barra de seleção \textit{\underline{se a altura é mais de 10m}} a escala tem intervalos de 1m. Não é possível incluir valores em ambas as escalas, caso necessário remova a resposta clicando no valor até aparecer a janela com a opção de \textit{Remover a resposta}. 
+Caso a altura seja menor ou muito maior do que o valor anotado no censo anterior, aparecerá a informação que há inconsistência no valor e será solicitado  a equipe coletar novamente a altura da árvore. Em seguida será solicitado que a equipe indique o motivo da inconsistência e confirme o novo valor coletado.
 
-Caso a altura seja menor ou muito maior do que o valor anotado no censo anterior, aparecerá a informação que há inconsistência no valor e será solicitado  a equipe coletar novamente a altura da árvore. Em seguida será solicitado que a equipe indique o motivo da inconsistência e confirme o novo valor coletado. 
-
-
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
@@ -256,42 +283,39 @@ Caso a altura seja menor ou muito maior do que o valor anotado no censo anterior
     \caption{ Páginas (a) seleção da escala e do valor de altura (b) caso haja discrepância entre o valor de altura anotado e o valor do censo anterior é necessário indicar o motivo e anotar novamente o valor da altura, (c) e seguida é necessário confirmar o valor informado.}
     \label{fig:alt}
 \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-alt layout-ncol=3}
+![Seleção da escala e do valor de altura](media/colAlt01.png){#fig-colAlt01}
 
+![Indicar o motivo da discrepância e anotar novamente o valor da altura](media/colAlt02.png){#fig-colAlt02}
 
+![Confirmar o valor informado](media/colAlt03.png){#fig-colAlt03}
 
+Páginas (a) seleção da escala e do valor de altura (b) caso haja discrepância entre o valor de altura anotado e o valor do censo anterior é necessário indicar o motivo e anotar novamente o valor da altura, (c) e seguida é necessário confirmar o valor informado.
+:::
+:::
 
+### Medida de DAP ou PAP {#sec-medida_de_dap_ou_pap}
 
-\subsubsection{Medida de DAP ou PAP}
-\label{sec:medida_de_dap_ou_pap}
+A medida do diâmetro ou perímetro é tomado a 1,3 m do solo (altura do peito) o ponto de medida padrão. Entretanto, há três tipos básicos de medidas possíveis, duas associadas ao DAP (diâmetro a altura do peito) e uma associada ao PAP (perímetro a altura do peito), por isso a primeira fase da medida de DAP/PAP é selecionar o ***tipo de medida*** (@fig-papDap a):
 
+* ***DAP com paquímetro***: árvores pequenas, com menos de 5 cm (50 mm) de diâmetro **devem** ser medidas com paquímetro. O aplicativo permite que até diâmetros de 8 cm sejam medidos com paquímetro, diâmetros maiores devem necessariamente ser medidos com outro método. A medida aqui é feita em **mm** inteiros, sem casas decimais (@fig-papDap b).
 
-A medida do diâmetro ou perímetro é tomado a 1,3 m do solo (altura do peito) o ponto de medida padrão. Entretanto, há três tipos básicos de medidas possíveis, duas associadas ao DAP (diâmetro a altura do peito) e uma associada ao PAP (perímetro a altura do peito), por isso a primeira fase da medida de DAP/PAP é selecionar o \textit{\underline{tipo de medida}} (Figura~\ref{fig:papDap} a):
+* ***DAP com fita diamétrica***: um tipo especial de fita cuja escala retorna o diâmetro associado ao perímetro medido, ou seja uma fita com escala de $\pi$ cm.
 
+* ***PAP com fita métrica***: fita métrica normal, que mede o perímetro da árvores (cm).
 
-\begin{itemize}
-  \item \textbf{\underline{DAP com paquímetro}}: árvores pequenas, com menos de 5 cm (50 mm) de diâmetro \textbf{devem} ser medidas com paquímetro. O aplicativo permite que até diâmetros de 8 cm sejam medidos com paquímetro, diâmetros maiores devem necessariamente ser medidos com outro método. A medida aqui é feita em \textbf{mm} inteiros, sem casas decimais (Figura~\ref{fig:papDap} b).
-\end{itemize}
+Meça o diâmetro ou perímetro conforme o método de medida definido. Lembre-se que as escalas podem estar em *cm* ou *mm*, verifique se está anotando na escala correta.
 
-\begin{itemize}
-  \item \textbf{\underline{DAP com fita diamétrica}}: um tipo especial de fita cuja escala retorna o diâmetro associado ao perímetro medido, ou seja uma fita com escala de $\pi$ cm.  
-\end{itemize}
+Caso haja discrepância na medida de DAP/PAP com relação ao censo anterior será solicitado à equipe que refaça a medida, indique possíveis causas da discrepância e confirme a nova medida (@fig-papDap c e d), semelhante ao que foi feito com discrepâncias na medida de altura.
 
-\begin{itemize}
-  \item \textbf{\underline{PAP com fita métrica}}: fita métrica normal, que mede o perímetro da árvores (cm).  
-\end{itemize}
+Ao final responda à pergunta ***Árvore com um fuste?*** (tronco principal). Anote ***não*** se a árvores tiver mais de um fuste (tronco) principal.
 
-
-
-%\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkDAP}
-
-Meça o diâmetro ou perímetro conforme o método de medida definido. Lembre-se que as escalas podem estar em \emph{cm} ou \emph{mm}, verifique se está anotando na escala correta. 
-
-Caso haja discrepância na medida de DAP/PAP com relação ao censo anterior será solicitado à equipe que refaça a medida, indique possíveis causas da discrepância e confirme a nova medida (Figura~\ref{fig:papDap} c e d) ,  semelhante ao que foi feito com discrepâncias na medida de altura.
-
-Ao final responda à pergunta  \textbf{\underline{Árvore com um fuste?}} (tronco principal). Anote \textbf{\underline{não}} se a árvores tiver mais de um fuste (tronco) principal.
-
-
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
@@ -318,22 +342,33 @@ Ao final responda à pergunta  \textbf{\underline{Árvore com um fuste?}} (tronc
     \caption{ Páginas (a) da seleção do tipo de medida DAP/PAP, (b) inclusão da medida, (c) checagem de discrepância com o censo anterior, (d) possível causa da discrepância na medida de DAP/PAP }
     \label{fig:papDap}
 \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-papDap layout-ncol=4}
+![Seleção do tipo de medida DAP/PAP](media/tipoMed.png){#fig-tipoMed}
 
+![Inclusão da medida](media/medidaDap.png){#fig-medidaDap}
 
-\subsubsection{{Fuste secundario}}
-\label{sec:fuste_secundario}
+![Checagem de discrepância com o censo anterior](media/checkDap.png){#fig-checkDap}
 
+![Possível causa da discrepância na medida de DAP/PAP](media/erroDap.png){#fig-erroDap}
 
-%\includegraphics[keepaspectratio=true,width=0.8\textwidth]{odkMedSecFuste}
+Páginas (a) da seleção do tipo de medida DAP/PAP, (b) inclusão da medida, (c) checagem de discrepância com o censo anterior, (d) possível causa da discrepância na medida de DAP/PAP
+:::
+:::
 
+### Fuste secundario {#sec-fuste_secundario}
 
-Caso tenha anotado \textbf{\underline{não}} para fuste único, o aplicativo iniciará um ciclo de medidas de fustes. A cada ciclo aparecerá a página \textbf{\underline{Adicionar ``Multiplos Fustes''?}}. Selecione  \textbf{\underline{Adicionar}}, caso tenha mais fustes para serem medidos (Figura~\ref{fig:fuste}b).
+Caso tenha anotado ***não*** para fuste único, o aplicativo iniciará um ciclo de medidas de fustes. A cada ciclo aparecerá a página ***Adicionar "Multiplos Fustes"?***. Selecione ***Adicionar***, caso tenha mais fustes para serem medidos (@fig-fuste b).
 
-Após medir todos os  fustes deve selecionar \textbf{\underline{Não adicionar}} nessa janela, para prosseguir.
+Após medir todos os  fustes deve selecionar ***Não adicionar*** nessa janela, para prosseguir.
 
-Para cada fuste deve ser indicado o tipo de medida e tomada a medida de diâmetro (paquímetro ou fita diamétrica) ou perímetro (fita métrica). Não há checagem de discrepâncias na tomada dessas medidas pois os fustes não são plaqueados (Figura~\ref{fig:fuste}a).
+Para cada fuste deve ser indicado o tipo de medida e tomada a medida de diâmetro (paquímetro ou fita diamétrica) ou perímetro (fita métrica). Não há checagem de discrepâncias na tomada dessas medidas pois os fustes não são plaqueados (@fig-fuste a).
 
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
@@ -350,15 +385,25 @@ Para cada fuste deve ser indicado o tipo de medida e tomada a medida de diâmetr
     \caption{ Páginas (a) coleta de DAP/PAP fuste secundário e (b) janela de inclusão de novo fuste.}
     \label{fig:fuste}
 \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-fuste layout-ncol=2}
+![Coleta de DAP/PAP fuste secundário](media/fusteSec.png){#fig-fusteSec}
 
+![Janela de inclusão de novo fuste](media/newFuste.png){#fig-newFuste}
 
-\subsubsection{{Identificão Botânica}}
-\label{sec:identificaao_botanica}
+Páginas (a) coleta de DAP/PAP fuste secundário e (b) janela de inclusão de novo fuste.
+:::
+:::
 
+### Identificão Botânica {#sec-identificaao_botanica}
 
-Para identificação botânica será apresentada primeiro a identificação do censo  anterior, quando houver, solicitando para ser confirmada. Caso não seja confirmada ou a árvore é uma recruta irá aparecer a lista de famílias, gêneros e espécies nessa ordem, sempre que o nível hierárquico acima tenha sido identificado. Caso a família não tenha sido identificada é necessário selecionar \textit{{famindet}}. Caso a família seja selecionada, aparecerá a lista de gêneros e se o gênero for selecionado a lista de espécies para aquele gênero. Caso não tenha certeza da identificação em qualquer nível, selecione a opção \textit{\underline{indet}}.
+Para identificação botânica será apresentada primeiro a identificação do censo  anterior, quando houver, solicitando para ser confirmada. Caso não seja confirmada ou a árvore é uma recruta irá aparecer a lista de famílias, gêneros e espécies nessa ordem, sempre que o nível hierárquico acima tenha sido identificado. Caso a família não tenha sido identificada é necessário selecionar *famindet*. Caso a família seja selecionada, aparecerá a lista de gêneros e se o gênero for selecionado a lista de espécies para aquele gênero. Caso não tenha certeza da identificação em qualquer nível, selecione a opção ***indet***.
 
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.2\textwidth}
@@ -385,17 +430,31 @@ Para identificação botânica será apresentada primeiro a identificação do c
     \caption{ Páginas de identificação da árvore.}
     \label{fig:bot}
 \end{figure}
+```
+::::
 
+::: {.content-visible when-format="html"}
+::: {#fig-bot layout-ncol=4}
+![Confirmação da identificação existente](media/confId.png){#fig-confId}
 
+![Seleção de família](media/selFam.png){#fig-selFam}
 
-Em seguida aparecerá a janela \textbf{\underline{Coletar amostra botânica}} que não precisa ser anotada.
+![Confirmação de gênero](media/confGen.png){#fig-confGen}
 
-\subsubsection{{Confere Árvore}}
-\label{sec:confere_arvore}
+![Seleção de espécie](media/selSP.png){#fig-selSP}
 
+Páginas de identificação da árvore.
+:::
+:::
 
-O registro de dados de cada árvore se fecha com a tela com todos os dados anotados para a árvore para serem conferidos e confirmados. Caso todos os dados estejam corretos siga selecionando \textbf{\underline{Sim e adicionar árvore}} caso ainda tenham árvores na sub-parcela para serem anotados, ou \textbf{\underline{Sim, não há mais árvores}} caso seja a última árvore para tomar dados na parcela. Nesse caso, aparecerá a janela que pergunta se quer incluir novo grupo de árvore ou sub-parcelas. Depois de responder não a todos os grupos aparecerá a janela solicitando \textbf{\underline{Salvar e Sair}}.  Antes de sair, indique no nome do formulário a ser salvo a parcela e sub-parcela a que se refere, por exemplo: \textbf{\underline{assis2025A00-5-15}} indicando que os dados se referem a sub-parcela \textbf{\underline{5 x 15}} da parcela \textbf{\underline{A00}} em Assis.
+Em seguida aparecerá a janela ***Coletar amostra botânica*** que não precisa ser anotada.
 
+### Confere Árvore {#sec-confere_arvore}
+
+O registro de dados de cada árvore se fecha com a tela com todos os dados anotados para a árvore para serem conferidos e confirmados. Caso todos os dados estejam corretos siga selecionando ***Sim e adicionar árvore*** caso ainda tenham árvores na sub-parcela para serem anotados, ou ***Sim, não há mais árvores*** caso seja a última árvore para tomar dados na parcela. Nesse caso, aparecerá a janela que pergunta se quer incluir novo grupo de árvore ou sub-parcelas. Depois de responder não a todos os grupos aparecerá a janela solicitando ***Salvar e Sair***.  Antes de sair, indique no nome do formulário a ser salvo a parcela e sub-parcela a que se refere, por exemplo: ***assis2025A00-5-15*** indicando que os dados se referem a sub-parcela ***5 x 15*** da parcela ***A00*** em Assis.
+
+:::: {.content-visible when-format="pdf"}
+```{=latex}
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.3\textwidth}
@@ -422,19 +481,28 @@ O registro de dados de cada árvore se fecha com a tela com todos os dados anota
     \caption{ Páginas (a,b) dados coletados da árvore para serem confirmados, (c) janela para inclusão de nova parcela de 20x20 e (d) salvar o formulário finalizado.}
     \label{fig:close}
 \end{figure}
-
-
-
-
-\subsubsection{{Extraindo os dados do ODK}}
-\label{sec:encaminhando_os_dados}
-
-
-Cada equipe deve, ao final da atividade todos os dias, salvar a pasta do projeto \textbf{\underline{ODK Collect}} do dispositivo móvel \footnote{/Android/data/org.odk.collect.android/files/projects/} com todas as subpastas em um arquivo no computador que tenha a localidade e datacomo por exemplo ``assis19fev2024A06'', faça backup deste arquivo. Em breve iremos fazer um guia para mostrar  como extrair os dados usando o pacote do R desenvolvido para isso. 
-
-
-
 ```
+::::
+
+::: {.content-visible when-format="html"}
+::: {#fig-close layout-ncol=3}
+![Dados coletados da árvore para serem confirmados](media/confTreeData01.png){#fig-confTreeData01}
+
+![Dados coletados da árvore para serem confirmados](media/confTreeData02.png){#fig-confTreeData02}
+
+![Janela para inclusão de nova parcela de 20x20](media/odkNewSubQuad.png){#fig-odkNewSubQuad}
+
+![Salvar o formulário finalizado](media/odkSalvaForm.png){#fig-odkSalvaForm}
+
+Páginas (a,b) dados coletados da árvore para serem confirmados, (c) janela para inclusão de nova parcela de 20x20 e (d) salvar o formulário finalizado.
+:::
+:::
+
+### Extraindo os dados do ODK {#sec-encaminhando_os_dados}
+
+Cada equipe deve, ao final da atividade todos os dias, salvar a pasta do projeto ***ODK Collect*** do dispositivo móvel [^2] com todas as subpastas em um arquivo no computador que tenha a localidade e data como por exemplo ``assis19fev2024A06``, faça backup deste arquivo. Em breve iremos fazer um guia para mostrar como extrair os dados usando o pacote do R desenvolvido para isso.
+
+[^2]: /Android/data/org.odk.collect.android/files/projects/
 
 
 ```{r}

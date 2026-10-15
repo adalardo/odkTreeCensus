@@ -12,6 +12,10 @@
 /build/
 /temp/
 
+# Quarto
+.quarto/
+_site/
+
 # Keep but don't track large media files
 /media/
 !/media/readme.md
@@ -27,4 +31,3 @@ develo*.rmd
 
 ## xlsx
 inst/odk/treeCensusForm.xlsx
-

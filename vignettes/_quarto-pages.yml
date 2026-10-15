@@ -1,9 +1,28 @@
 project:
+  type: website
   output-dir: _site
-  render:
-    - index.qmd
-    - prepareODKCollect.qmd
-    - useTreeCensusForm.qmd
+  resources:
+    - media/
+
+website:
+  title: "Manual odkTreeCensus"
+  site-url: "https://adalardo.github.io/odkTreeCensus/"
+  repo-url: "https://github.com/adalardo/odkTreeCensus"
+  repo-actions: [issue]
+  page-navigation: true
+  navbar:
+    background: primary
+    left:
+      - text: "Início"
+        href: index.qmd
+      - text: "Preparando o ODK Collect"
+        href: prepareODKCollect.qmd
+      - text: "Exportando os dados"
+        href: exportODKCollect.qmd
+      - text: "Usando o formulário"
+        href: useTreeCensusForm.qmd
+      - text: "Referência das funções"
+        href: reference.qmd
 
 format:
   html:
@@ -14,3 +33,4 @@ format:
     number-sections: false
     code-copy: true
     fig-cap-location: bottom
+    lang: pt

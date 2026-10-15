@@ -7,14 +7,14 @@ vignette: >
 ---
 
 
+:::: {.content-visible when-format="pdf"}
 ```{=latex}
-
 \input{latex/capa.tex}
 \clearpage
 \tableofcontents
 \clearpage
-
 ```
+::::
 
 ## Exportando os dados do `ODK Collect`
 

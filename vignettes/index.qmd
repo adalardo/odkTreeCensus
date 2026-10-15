@@ -55,7 +55,7 @@ pagetitle: "Manual odkTreeCensus"
 }
 .docs-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
   max-width: 900px;
   margin: 1rem auto 3rem auto;
@@ -82,6 +82,11 @@ pagetitle: "Manual odkTreeCensus"
   margin-bottom: 0;
   color: #555;
   font-size: 0.95rem;
+}
+.docs-grid code {
+  background: #eef3f5;
+  padding: 0 0.25rem;
+  border-radius: 4px;
 }
 @media (max-width: 700px) {
   .docs-grid { grid-template-columns: 1fr; }
@@ -110,9 +115,22 @@ pagetitle: "Manual odkTreeCensus"
 <h3>Preparando o ODK Collect</h3>
 <p>Instalação do pacote, criação dos arquivos auxiliares (csv, mapas e grids SVG) e envio do formulário para o dispositivo Android.</p>
 </a>
+<a href="exportODKCollect.html">
+<h3>Exportando os dados do ODK Collect</h3>
+<p>Leitura dos XMLs de instância com <code>readInstancesXML()</code> e junção dos arquivos CSV com <code>mergeCSV()</code>.</p>
+</a>
 <a href="useTreeCensusForm.html">
-<h3>Usando o formulário CensoPPSP2025</h3>
+<h3>Usando o formulário TreeCensusForm</h3>
 <p>Guia passo a passo do preenchimento do formulário no aplicativo ODK Collect.</p>
+</a>
+</div>
+
+## Referência das funções
+
+<div class="docs-grid">
+<a href="reference.html">
+<h3>Lista das funções</h3>
+<p>Todas as funções exportadas pelo pacote, organizadas por etapa de uso, com descrição, argumentos e exemplos.</p>
 </a>
 </div>
 
