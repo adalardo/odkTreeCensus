@@ -23,7 +23,7 @@ _site/
 
 ## rmd
 testForm.rmd
-instalaPacote.rmd
+instalaPacote.*
 git.rmd
 testeForm.rmd
 xmlFormAtualizaPkg.rmd
@@ -31,3 +31,10 @@ develo*.rmd
 
 ## xlsx
 inst/odk/treeCensusForm.xlsx
+
+# Arquivos temporarios e pastas de saida do Quarto / Knitr / RMarkdown
+/*_files/
+vignettes/*_files/
+vignettes/*.html
+*.utf8.md
+*.knit.md
