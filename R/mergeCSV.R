@@ -39,16 +39,13 @@
 #' @param csvDir Character. Directory that contains the CSV files exported by
 #'   \code{readInstancesXML}.
 #' @param expDir Character. Export directory. Defaults to \code{csvDir}.
-#' @param mediaDir Character. Directory that contains the \code{media} folder
 #'   with sub-directories. Defaults to \code{csvDir}.
 #'
 #' @return Invisibly, the path to \code{expDir}.
 #' @export
-mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
+mergeCSV <- function(csvDir, expDir = NULL) {
 
-  if (is.null(expDir))   expDir   <- csvDir
-  if (is.null(mediaDir)) mediaDir <- csvDir
-
+  if (is.null(expDir))   expDir   <- getwd()
   if (!dir.exists(csvDir)) {
     stop("The directory 'csvDir' does not exist: ", csvDir)
   }
@@ -766,18 +763,22 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
   ## ------------------------------------------------------------------ ##
   ## 15. Flatten every "media" folder into expDir/media                 ##
   ## ------------------------------------------------------------------ ##
-  candMedia <- c(file.path(mediaDir, "media"), file.path(csvDir, "media"))
-  mediaSrc <- NULL
-  for (cm in candMedia) if (dir.exists(cm)) { mediaSrc <- cm; break }
 
-  if (!is.null(mediaSrc)) {
-    mfiles <- list.files(mediaSrc, recursive = TRUE, full.names = TRUE)
-    mfiles <- mfiles[!dir.exists(mfiles)]
-    for (mf in mfiles) {
+    mediaExpDir <- file.path(expDir, "media")
+    mediaOrigDir <- file.path(csvDir, "media")
+    filesOrig <- list.files(mediaOrigDir, recursive = TRUE, full.names = TRUE)
+    filesExp <- list.files(mediaExpDir, recursive = TRUE, full.names = TRUE)
+
+    filesOrigName <- basename(filesOrig)
+    filesExpName <- basename(filesExp)
+
+    filesToExp <- filesOrig[!filesOrigName %in% filesExpName]
+    for (mf in filesToExp) {
       ## never overwrite a media file that already exists
-      file.copy(mf, file.path(mediaDst, basename(mf)), overwrite = FALSE)
+      file.copy(mf, file.path(mediaExpDir, basename(mf)), overwrite = FALSE)
     }
-  }
+
+
 
   invisible(expDir)
 }

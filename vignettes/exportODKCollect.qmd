@@ -94,7 +94,7 @@ csvdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
 expdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
 
 
-mergeCSV(csvDir = csvdir , expDir = expdir , mediaDir = expdir)
+mergeCSV(csvDir = csvdir , expDir = expdir )
 
 ```
 
