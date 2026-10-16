@@ -32,9 +32,9 @@ A função extrai os dados que estão em `instance/treeCensusForm_*.xml` para o 
 #| echo: true
 #| eval: false
 
+search()
 library(odkTreeCensus)
-
-dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkOut2026/campoOut2026"
+dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkOut2026"
 ## diretorios onde estão os dados retirados dos tablets, com o padrao "tab1_09out2026"
 tabsDir <- dir(dataDir)
 ## diretorio onde os arquivos csv de dados brutos serao salvos
@@ -54,7 +54,7 @@ iDir <- file.path(dataDir, tabs2Read, "instances")
 
 for(i in 1:nTabs)
 {
-    readInstancesXML(instancesDir = iDir[i], expDir = eDir, mediaOutDir = mediaDir, formBase = tabsDir[i], overwrite = TRUE, formPath = "/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/odk/treeCensusForm.xml")
+    readInstancesXML(instancesDir = iDir[i], expDir = eDir, mediaOutDir = mediaDir, formBase = tabs2Read[i], overwrite = TRUE, formPath = "/home/aao/R/x86_64-pc-linux-gnu-library/4.6/odkTreeCensus/odk/treeCensusForm.xml")
 }
 
 
@@ -82,6 +82,8 @@ sub-directories) are copied, flattened, into \code{expDir/media}.
 `overwrite` Logical. Overwrite existing output files. Default
    \code{TRUE}.
    
+Antes de ler os arquivos do `csvDir` verifica no arquivo `filesDataMerged.csv` os nomes dos arquivos já agrupados, para não refazer a leitura.
+
 
 ```{r }
 #| echo: true
@@ -90,6 +92,7 @@ sub-directories) are copied, flattened, into \code{expDir/media}.
 library(odkTreeCensus)
 csvdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
 expdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
+
 
 mergeCSV(csvDir = csvdir , expDir = expdir , mediaDir = expdir)
 

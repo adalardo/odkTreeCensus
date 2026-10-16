@@ -174,12 +174,61 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
     )
   }
 
+  ## Root name used to identify a tablet/file: strips the "-<suffix>" part
+  ## and the ".csv" extension (e.g. "dataA00-subquad-tree.csv" -> "dataA00").
+  baseName <- function(f) gsub("-.*|\\.csv", "", f)
+
+  ## Read the (optional) list of base names already merged in previous runs
+  readMergedBaseNames <- function(path) {
+    if (!file.exists(path)) return(character(0))
+    oldFiles <- readCsvSafe(path)
+    if (nrow(oldFiles) == 0L) return(character(0))
+    colOld <- if ("fileNames" %in% names(oldFiles)) {
+      as.character(oldFiles$fileNames)
+    } else {
+      as.character(oldFiles[[1L]])
+    }
+    colOld[!is.na(colOld) & nzchar(colOld)]
+  }
+
   ## ------------------------------------------------------------------ ##
   ## 1. Read every CSV and tidy the column names                        ##
   ## ------------------------------------------------------------------ ##
   csvFiles <- list.files(csvDir, pattern = "\\.[Cc][Ss][Vv]$", full.names = FALSE)
   if (length(csvFiles) == 0L) {
     stop("No CSV files were found in 'csvDir': ", csvDir)
+  }
+
+  ## 1a. Control files written by mergeCSV itself must never be treated
+  ##     as data (filesDataMerged.csv / legacy tabsDataMerged.csv).
+  isControl <- grepl("^(filesDataMerged|tabsDataMerged)\\.csv$",
+                     csvFiles, ignore.case = TRUE)
+  if (any(isControl)) {
+    message("Skipping ", sum(isControl),
+            " mergeCSV control file(s): ",
+            paste(csvFiles[isControl], collapse = ", "))
+    csvFiles <- csvFiles[!isControl]
+  }
+
+  ## 1b. Drop files whose base name was already merged in a previous run,
+  ##     so nothing is read/processed twice. The list lives at the root
+  ##     of expDir (filesDataMerged.csv).
+  filesMergedPath <- file.path(expDir, "filesDataMerged.csv")
+  mergedBase      <- readMergedBaseNames(filesMergedPath)
+
+  if (length(mergedBase) > 0L && length(csvFiles) > 0L) {
+    alreadyMerged <- baseName(csvFiles) %in% mergedBase
+    if (any(alreadyMerged)) {
+      message("Skipping ", sum(alreadyMerged),
+              " file(s) already merged in a previous run: ",
+              paste(csvFiles[alreadyMerged], collapse = ", "))
+      csvFiles <- csvFiles[!alreadyMerged]
+    }
+  }
+
+  if (length(csvFiles) == 0L) {
+    message("No new CSV file to merge.")
+    return(invisible(expDir))
   }
 
   ## Drop empty files (0 bytes, BOM-only or only blank lines) before reading.
@@ -699,7 +748,23 @@ mergeCSV <- function(csvDir, expDir = NULL, mediaDir = NULL) {
   }
 
   ## ------------------------------------------------------------------ ##
-  ## 16. Flatten every "media" folder into expDir/media                 ##
+  ## 14. filesDataMerged.csv at the root of expDir                      ##
+  ##     Incremental record of the base names already merged, so the    ##
+  ##     next run can skip them (see step 1b).                          ##
+  ## ------------------------------------------------------------------ ##
+  filesReaded <- unique(baseName(csvFiles))
+  filesReaded <- filesReaded[!is.na(filesReaded) & nzchar(filesReaded)]
+
+  filesReaded <- unique(c(mergedBase, filesReaded))
+  filesReaded <- filesReaded[!is.na(filesReaded) & nzchar(filesReaded)]
+
+  utils::write.csv(data.frame(fileNames = filesReaded),
+                   filesMergedPath, row.names = FALSE, na = "")
+  message(sprintf("filesDataMerged.csv: %d nome(s) base registrado(s).",
+                  length(filesReaded)))
+
+  ## ------------------------------------------------------------------ ##
+  ## 15. Flatten every "media" folder into expDir/media                 ##
   ## ------------------------------------------------------------------ ##
   candMedia <- c(file.path(mediaDir, "media"), file.path(csvDir, "media"))
   mediaSrc <- NULL
