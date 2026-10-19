@@ -12,9 +12,13 @@
 #' never duplicates). A summary of how many records were found and how many
 #' were added is printed for every file.
 #'
-#' No file inside \code{expDir} is ever overwritten: files that already exist
-#' are read, compared with the incoming data and only the rows that are not
-#' already present are appended.
+#' By default every CSV in \code{csvDir} is (re)processed on each run --- the
+#' row-level de-duplication inside \code{.writeOneWithMerge} keeps the result
+#' idempotent. The \code{filesDataMerged.csv} file is only an audit log now.
+#' Pass \code{force = TRUE} to delete the previous per-quadrat outputs and the
+#' control files before merging, so the resulting CSVs are rebuilt from
+#' scratch (this is what fixes an old/incorrect output produced by an earlier
+#' version of \code{mergeCSV}).
 #'
 #' Two extra files are kept at the root of \code{expDir}:
 #' \itemize{
@@ -39,11 +43,17 @@
 #' @param csvDir Character. Directory that contains the CSV files exported by
 #'   \code{readInstancesXML}.
 #' @param expDir Character. Export directory. Defaults to \code{csvDir}.
-#'   with sub-directories. Defaults to \code{csvDir}.
+#' @param force Logical. When TRUE, the previous per-quadrat outputs
+#'   (\code{data*}/) and the control files (\code{tagsUsed.csv},
+#'   \code{tagsRepeat.csv}, \code{filesDataMerged.csv}) are removed before
+#'   merging, so the outputs are rebuilt from scratch. This is the recommended
+#'   way to fix a stale output (e.g. an old \code{multStem.csv} with empty
+#'   \code{tag}/\code{stem} columns written by a previous version of
+#'   \code{mergeCSV}). Default FALSE.
 #'
 #' @return Invisibly, the path to \code{expDir}.
 #' @export
-mergeCSV <- function(csvDir, expDir = NULL) {
+mergeCSV <- function(csvDir, expDir = NULL, force = FALSE) {
 
   if (is.null(expDir))   expDir <- getwd()
   if (!dir.exists(csvDir)) {
@@ -58,11 +68,21 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     dir.create(mediaDst, recursive = TRUE)
   }
 
-  ## Os helpers que antes eram closures locais desta função agora vivem
-  ## em R/helperFunctions.R (seção 3) com o prefixo "." e recebem por
-  ## parâmetro qualquer informação que antes vinha do ambiente local
-  ## (csvDir, csvFiles, dataList, keyEnv). Isso permite que outras
-  ## funções do pacote os reutilizem.
+  ## ------------------------------------------------------------------ ##
+  ## 0. force = TRUE: wipe previous outputs so they are rebuilt         ##
+  ## ------------------------------------------------------------------ ##
+  if (isTRUE(force)) {
+    oldDirs <- list.dirs(expDir, recursive = FALSE, full.names = TRUE)
+    if (length(oldDirs) > 0L) {
+      oldDirs <- oldDirs[startsWith(basename(oldDirs), "data")]
+      for (d in oldDirs) unlink(d, recursive = TRUE)
+    }
+    unlink(file.path(expDir, "tagsUsed.csv"))
+    unlink(file.path(expDir, "tagsRepeat.csv"))
+    unlink(file.path(expDir, "filesDataMerged.csv"))
+    message("force = TRUE: previous per-quadrat outputs and control ",
+            "files were removed.")
+  }
 
   ## ------------------------------------------------------------------ ##
   ## 1. Read every CSV and tidy the column names                        ##
@@ -83,28 +103,23 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     csvFiles <- csvFiles[!isControl]
   }
 
-  ## 1b. Drop files whose base name was already merged in a previous run,
-  ##     so nothing is read/processed twice. The list lives at the root
-  ##     of expDir (filesDataMerged.csv).
-  filesMergedPath <- file.path(expDir, "filesDataMerged.csv")
-  mergedBase      <- .readMergedBaseNames(filesMergedPath)
+  ## 1b. NOTE: we no longer skip CSVs whose base name was already merged.
+  ##
+  ##     The old logic used `.baseName()` = gsub("-.*|\\.csv", "", f),
+  ##     which returns just "treeCensusForm" for EVERY CSV of the form
+  ##     (treeCensusForm.csv, treeCensusForm-subquad-tree.csv,
+  ##     treeCensusForm-subquad-tree-sec_stem.csv, ...). As soon as one
+  ##     run recorded "treeCensusForm" in filesDataMerged.csv, EVERY
+  ##     subsequent run silently skipped all CSVs of that form, so a
+  ##     corrected mergeCSV never had a chance to rewrite an earlier
+  ##     incorrect output (e.g. an old multStem.csv with empty
+  ##     tag/stem columns).
+  ##
+  ##     The row-level de-duplication inside `.writeOneWithMerge` is
+  ##     already idempotent, so reprocessing a CSV is safe. The
+  ##     `filesDataMerged.csv` file is kept as an audit log only.
+  mergedBase <- character(0)
 
-  if (length(mergedBase) > 0L && length(csvFiles) > 0L) {
-    alreadyMerged <- .baseName(csvFiles) %in% mergedBase
-    if (any(alreadyMerged)) {
-      message("Skipping ", sum(alreadyMerged),
-              " file(s) already merged in a previous run: ",
-              paste(csvFiles[alreadyMerged], collapse = ", "))
-      csvFiles <- csvFiles[!alreadyMerged]
-    }
-  }
-
-  if (length(csvFiles) == 0L) {
-    message("No new CSV file to merge.")
-    return(invisible(expDir))
-  }
-
-  ## Drop empty files (0 bytes, BOM-only or only blank lines) before reading.
   fileEmpty <- vapply(csvFiles,
                       function(f) .isEmptyCsvFile(file.path(csvDir, f)),
                       logical(1))
@@ -362,20 +377,22 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## 10. multStem.csv                                                   ##
   ##                                                                    ##
   ## multStem reune os fustes secundarios de DOIS ramos do XForm:      ##
-  ##   - 'subquad/tree/sec_stem'        (fustes de arvores do censo)   ##
-  ##   - 'subquad/rep_miss/sec_stem_miss' (fustes de arvores encontradas) ##
+  ##   - 'subquad/tree/sec_stem'             (arvores do censo)         ##
+  ##   - 'subquad/rep_miss/sec_stem_miss'    (arvores encontradas)      ##
   ##                                                                    ##
   ## Como os dois ramos usam nomes de colunas diferentes (ja unificados ##
   ## acima por sub("_miss$","",names)), precisamos lembrar que:         ##
-  ##   * o numero sequencial do fuste e 'mult_stem_seq' (apos o strip),##
-  ##     nunca 'mult_stem_sec';                                       ##
+  ##   * o numero sequencial do fuste e 'mult_stem_seq' (apos o strip), ##
+  ##     nunca 'mult_stem_sec'. O fallback para 'mult_stem_sec' fica    ##
+  ##     apenas como defesa contra CSVs antigos;                        ##
   ##   * a placa da arvore-mae NAO esta em 'sec_stem'/'sec_stem_miss'. ##
-  ##     No ramo 'tree' ela vem do ancestral 'num_tag'; no ramo        ##
+  ##     No ramo 'tree' ela vem do ancestral 'num_tag'; no ramo         ##
   ##     'rep_miss' ela vem do ancestral 'miss_num'. Por isso usamos    ##
   ##     .fieldSelfOrAncestor (busca na cadeia KEY/PARENT_KEY), com     ##
-  ##     fallback de 'num_tag' para 'miss_num'.                        ##
+  ##     fallback de 'num_tag' para 'miss_num'.                         ##
   ## ------------------------------------------------------------------ ##
   ms <- multStemDf
+
   dbhMm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_mm_sec")))
   dbhCm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_cm_sec")))
   papCm <- suppressWarnings(as.numeric(.getCol(ms, "pap_cm_sec")))
@@ -395,12 +412,46 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   tagStem <- ifelse(is.na(tagStem) | !nzchar(tagStem), tagMiss, tagStem)
   tagStem[is.na(tagStem)] <- ""
 
+  ## stem: 'mult_stem_seq' e o nome correto (apos sub("_miss$","",names)).
+  ## Se por algum motivo o CSV antigo trouxe 'mult_stem_sec', caimos nele
+  ## como fallback (defesa contra bancos gerados por versoes anteriores).
+  stemSeq <- as.character(.getCol(ms, "mult_stem_seq"))
+  if (nrow(ms) > 0L &&
+      all(is.na(stemSeq) | !nzchar(stemSeq))) {
+    altSeq <- as.character(.getCol(ms, "mult_stem_sec"))
+    if (!all(is.na(altSeq) | !nzchar(altSeq))) {
+      stemSeq <- altSeq
+    }
+  }
+  stemSeq[is.na(stemSeq)] <- ""
+
+  ## Diagnostic messages (very useful to spot a stale cache vs a
+  ## real capture problem in readInstancesXML).
+  if (nrow(ms) > 0L) {
+    message(sprintf(
+      "multStem: %d registros; num_tag preenchido=%d/%d; mult_stem_seq preenchido=%d/%d",
+      nrow(ms),
+      sum(nzchar(tagStem)),     nrow(ms),
+      sum(nzchar(stemSeq)),     nrow(ms)
+    ))
+    if (sum(nzchar(stemSeq)) == 0L) {
+      message("  -> nenhum mult_stem_seq preenchido. Verifique se os CSVs ",
+              "'*-sec_stem.csv' / '*-sec_stem_miss.csv' em csvDir tem a coluna ",
+              "'mult_stem_seq' com valores.")
+    }
+    if (sum(nzchar(tagStem)) == 0L) {
+      message("  -> nenhum num_tag/miss_num preenchido. Verifique se o CSV ",
+              "'*-subquad-tree.csv' (ou '*-subquad-rep_miss.csv') esta na ",
+              "mesma pasta de csvDir e contem a coluna com o valor.")
+    }
+  }
+
   multStemOut <- cbind(
     .contextDf(ms, keyEnv),
     data.frame(
       tag     = tagStem,
-      ## numero sequencial do fuste (apos unificacao do sufixo "_miss")
-      stem    = .getCol(ms, "mult_stem_seq"),
+      ## numero sequencial do fuste
+      stem    = stemSeq,
       tagMult = .getCol(ms, "tag_plaq_sec"),
       pom     = .getCol(ms, "sec_pom"),
       dbh     = dbh,
@@ -524,7 +575,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     tagsNew <- tagsNew[!duplicated(tagsNew), , drop = FALSE]
 
     tagsUsedPath <- file.path(expDir, "tagsUsed.csv")
-    if (file.exists(tagsUsedPath)) {
+    if (file.exists(tagsUsedPath) && !isTRUE(force)) {
       oldTags <- .readCsvSafe(tagsUsedPath)
       if (all(c("quad", "subquad", "tag") %in% names(oldTags))) {
         oldTags <- oldTags[, c("quad", "subquad", "tag"), drop = FALSE]
@@ -546,7 +597,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
     if (nrow(tagsRepeat) > 0L) {
       tagsRepeatPath <- file.path(expDir, "tagsRepeat.csv")
-      if (file.exists(tagsRepeatPath)) {
+      if (file.exists(tagsRepeatPath) && !isTRUE(force)) {
         oldRep <- .readCsvSafe(tagsRepeatPath)
         if (nrow(oldRep) > 0L) tagsRepeat <- .bindRows(list(oldRep, tagsRepeat))
       }
@@ -561,8 +612,8 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
   ## ------------------------------------------------------------------ ##
   ## 14. filesDataMerged.csv at the root of expDir                      ##
-  ##     Incremental record of the base names already merged, so the    ##
-  ##     next run can skip them (see step 1b).                          ##
+  ##     Audit log with the base names that appear in csvDir.           ##
+  ##     It is NOT used any more to skip CSVs (see section 1b).         ##
   ## ------------------------------------------------------------------ ##
   filesReaded <- unique(.baseName(csvFiles))
   filesReaded <- filesReaded[!is.na(filesReaded) & nzchar(filesReaded)]
@@ -571,7 +622,8 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   filesReaded <- filesReaded[!is.na(filesReaded) & nzchar(filesReaded)]
 
   utils::write.csv(data.frame(fileNames = filesReaded),
-                   filesMergedPath, row.names = FALSE, na = "")
+                   file.path(expDir, "filesDataMerged.csv"),
+                   row.names = FALSE, na = "")
   message(sprintf("filesDataMerged.csv: %d nome(s) base registrado(s).",
                   length(filesReaded)))
 
