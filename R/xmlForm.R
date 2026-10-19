@@ -34,7 +34,8 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
     pyxformXls2json <- reticulate::import("pyxform.xls2json")
     pyxformBuilder <- reticulate::import("pyxform.builder")
   }, error = function(e) {
-    stop("Could not import 'pyxform' from the bundled package directory. Error: ", e$message)
+    stop("Could not import 'pyxform' from the bundled package directory. Error: ",
+         conditionMessage(e))
   })
 
   message("Converting ", xlsxPath, " to XML...")
@@ -51,7 +52,7 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
     survey$print_xform_to_file(xmlPath)
     message("XML successfully generated at: ", xmlPath)
   }, error = function(e) {
-    stop("Error during pyxform conversion: ", e$message)
+    stop("Error during pyxform conversion: ", conditionMessage(e))
   })
 
   # 6. Verify XML integrity and return problems if any
@@ -62,7 +63,8 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
         xmlDoc <- xml2::read_xml(xmlPath)
         message("Integrity check: XML is valid and well-formed.")
       }, error = function(e) {
-        warning("XML was generated but failed integrity validation: ", e$message)
+        warning("XML was generated but failed integrity validation: ",
+                conditionMessage(e))
       })
     } else {
       message("Install the 'xml2' package to enable advanced XML integrity validation.")
@@ -72,49 +74,4 @@ xmlForm <- function(xlsxPath, xmlPath = NULL) {
   }
 
   return(invisible(xmlPath))
-}
-
-
-setupPyEnv <- function() {
-  pkg_name <- "odkTreeCensus"
-# 1. Tenta o caminho de desenvolvimento (pasta local do projeto)
-  dev_path <- file.path("inst", "python")
-
-  # 2. Se a pasta local 'inst/python' existir (modo dev), usa ela.
-  # Caso contrário, usa o caminho padrão do pacote instalado.
-  if (dir.exists(dev_path)) {
-    wheels_dir <- dev_path
-  } else {
-    wheels_dir <- system.file("python", package = pkg_name)
-  }
-
-  # Validação simples
-  if (wheels_dir == "" || !dir.exists(wheels_dir)) {
-    stop("Erro: A pasta 'inst/python' (dev) ou 'python' (instalado) não foi encontrada.")
-  }
-
-  # Caminho para salvar o virtualenv no cache do usuário
-  venv_path <- file.path(tools::R_user_dir(pkg_name, "cache"), "python_env")
-
-  # Instalação offline caso o ambiente Python não exista no cache
-  if (!reticulate::virtualenv_exists(envname = venv_path)) {
-    message("Criando ambiente Python offline...")
-    reticulate::virtualenv_create(envname = venv_path)
-
-    wheels <- list.files(wheels_dir, pattern = "\\.whl$", full.names = TRUE)
-
-    if (length(wheels) == 0) {
-      stop(paste("Nenhum arquivo .whl encontrado em:", wheels_dir))
-    }
-
-    # Instala os wheels sem usar a internet
-    reticulate::py_install(
-      packages = wheels,
-      envname = venv_path,
-      pip_options = c("--no-index", paste0("--find-links=", wheels_dir))
-    )
-  }
-
-  # Ativa o virtualenv na sessão
-  reticulate::use_virtualenv(virtualenv = venv_path, required = TRUE)
 }

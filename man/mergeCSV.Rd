@@ -4,15 +4,13 @@
 \alias{mergeCSV}
 \title{Merge and tidy the CSV files exported by readInstancesXML}
 \usage{
-mergeCSV(csvDir, expDir = NULL, mediaDir = NULL)
+mergeCSV(csvDir, expDir = NULL)
 }
 \arguments{
 \item{csvDir}{Character. Directory that contains the CSV files exported by
 \code{readInstancesXML}.}
 
-\item{expDir}{Character. Export directory. Defaults to \code{csvDir}.}
-
-\item{mediaDir}{Character. Directory that contains the \code{media} folder
+\item{expDir}{Character. Export directory. Defaults to \code{csvDir}.
 with sub-directories. Defaults to \code{csvDir}.}
 }
 \value{

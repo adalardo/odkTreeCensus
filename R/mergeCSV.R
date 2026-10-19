@@ -45,7 +45,7 @@
 #' @export
 mergeCSV <- function(csvDir, expDir = NULL) {
 
-  if (is.null(expDir))   expDir   <- getwd()
+  if (is.null(expDir))   expDir <- getwd()
   if (!dir.exists(csvDir)) {
     stop("The directory 'csvDir' does not exist: ", csvDir)
   }
@@ -58,135 +58,11 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     dir.create(mediaDst, recursive = TRUE)
   }
 
-  ## ------------------------------------------------------------------ ##
-  ## Helpers                                                            ##
-  ## ------------------------------------------------------------------ ##
-
-  ## Final variable name: keep only the part after the last "."
-  tidyName <- function(x) sub("^.*\\.", "", x)
-
-  ## Numeric conversion rounded to one decimal place (NA stays NA)
-  round1 <- function(x) {
-    x <- suppressWarnings(as.numeric(x))
-    ifelse(is.na(x), NA_real_, round(x, 1))
-  }
-
-  ## Turn a file name into a path inside the "media" folder, so the link
-  ## opens when the CSV is read in a spreadsheet. NA / "" are kept as-is.
-  asMediaPath <- function(x) {
-    x <- as.character(x)
-    ok <- !is.na(x) & nzchar(x)
-    x[ok] <- file.path("media", x[ok])
-    x
-  }
-
-  ## Byte-level check for "empty" CSV files. Immune to encoding issues
-  ## (which is what makes gsub()/trimws() unreliable for the UTF-8 BOM).
-  ## Returns TRUE when the file has no content other than an optional
-  ## leading UTF-8 BOM and whitespace (space, tab, CR, LF).
-  ##
-  ## This is what catches the little 3-byte files (a lone BOM) that the
-  ## ODK export produces when a repeat has no records, and which make
-  ## read.table fail with "primeiras cinco linhas estão vazias".
-  isEmptyCsvFile <- function(path) {
-    sz <- suppressWarnings(file.size(path))
-    if (is.na(sz) || sz <= 0L) return(TRUE)
-
-    bytes <- tryCatch(readBin(path, what = "raw", n = sz),
-                      error = function(e) raw(0))
-    if (length(bytes) == 0L) return(TRUE)
-
-    ## Strip a leading UTF-8 BOM (EF BB BF)
-    if (length(bytes) >= 3L &&
-        bytes[1L] == as.raw(0xEF) &&
-        bytes[2L] == as.raw(0xBB) &&
-        bytes[3L] == as.raw(0xBF)) {
-      bytes <- bytes[-(1L:3L)]
-    }
-    if (length(bytes) == 0L) return(TRUE)
-
-    ## Only whitespace bytes left -> treat as empty
-    all(as.integer(bytes) %in% c(0x09L, 0x0AL, 0x0DL, 0x20L))
-  }
-
-  readOne <- function(f) {
-    path <- file.path(csvDir, f)
-
-    ## Skip files that are empty or contain only a BOM / blank lines.
-    if (isEmptyCsvFile(path)) {
-      return(data.frame())
-    }
-
-    ## Read lines and drop a possible BOM at the start of the first line
-    ## (byte level, to avoid encoding surprises) and blank lines.
-    lines <- tryCatch(readLines(path, warn = FALSE),
-                      error = function(e) character(0))
-    lines <- lines[!is.na(lines)]
-    if (length(lines) > 0L) {
-      lines[1L] <- sub("^\xef\xbb\xbf", "", lines[1L], useBytes = TRUE)
-    }
-    lines <- lines[vapply(lines, function(x) nzchar(trimws(x)), logical(1))]
-
-    if (length(lines) == 0L) {
-      return(data.frame())
-    }
-
-    ## Feed the cleaned lines to read.csv via `text=`. The tryCatch is a
-    ## final safety net so a single bad file never aborts the whole merge.
-    d <- tryCatch(
-      utils::read.csv(text = paste(lines, collapse = "\n"),
-                      stringsAsFactors = FALSE,
-                      check.names      = FALSE),
-      error = function(e) data.frame()
-    )
-
-    if (ncol(d) > 0L) names(d) <- tidyName(names(d))
-    d
-  }
-
-  ## Get a column by (tidied) name; NA vector when the column is absent
-  getCol <- function(d, nm, default = NA) {
-    if (nm %in% names(d)) return(d[[nm]])
-    rep(default, nrow(d))
-  }
-
-  ## Row-bind data.frames that may have different columns
-  bindRows <- function(lst) {
-    lst <- lst[vapply(lst, function(x) !is.null(x) && nrow(x) > 0L, logical(1))]
-    if (length(lst) == 0L) return(data.frame())
-    allCols <- unique(unlist(lapply(lst, names)))
-    lst <- lapply(lst, function(d) {
-      miss <- setdiff(allCols, names(d))
-      for (m in miss) d[[m]] <- NA
-      d[, allCols, drop = FALSE]
-    })
-    do.call(rbind, lst)
-  }
-
-  ## Safe read of a CSV; returns an empty data.frame on any error
-  readCsvSafe <- function(path) {
-    tryCatch(
-      utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
-      error = function(e) data.frame()
-    )
-  }
-
-  ## Root name used to identify a tablet/file: strips the "-<suffix>" part
-  ## and the ".csv" extension (e.g. "dataA00-subquad-tree.csv" -> "dataA00").
-  baseName <- function(f) gsub("-.*|\\.csv", "", f)
-
-  ## Read the (optional) list of base names already merged in previous runs
-  readMergedBaseNames <- function(path) {
-    if (!file.exists(path)) return(character(0))
-    oldFiles <- readCsvSafe(path)
-    if (nrow(oldFiles) == 0L) return(character(0))
-    colOld <- if ("fileNames" %in% names(oldFiles)) {
-      as.character(oldFiles$fileNames)
-    } else {
-      as.character(oldFiles[[1L]])
-    }
-    colOld[!is.na(colOld) & nzchar(colOld)]
-  }
+  ## Os helpers que antes eram closures locais desta função agora vivem
+  ## em R/helperFunctions.R (seção 3) com o prefixo "." e recebem por
+  ## parâmetro qualquer informação que antes vinha do ambiente local
+  ## (csvDir, csvFiles, dataList, keyEnv). Isso permite que outras
+  ## funções do pacote os reutilizem.
 
   ## ------------------------------------------------------------------ ##
   ## 1. Read every CSV and tidy the column names                        ##
@@ -211,10 +87,10 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ##     so nothing is read/processed twice. The list lives at the root
   ##     of expDir (filesDataMerged.csv).
   filesMergedPath <- file.path(expDir, "filesDataMerged.csv")
-  mergedBase      <- readMergedBaseNames(filesMergedPath)
+  mergedBase      <- .readMergedBaseNames(filesMergedPath)
 
   if (length(mergedBase) > 0L && length(csvFiles) > 0L) {
-    alreadyMerged <- baseName(csvFiles) %in% mergedBase
+    alreadyMerged <- .baseName(csvFiles) %in% mergedBase
     if (any(alreadyMerged)) {
       message("Skipping ", sum(alreadyMerged),
               " file(s) already merged in a previous run: ",
@@ -230,7 +106,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
   ## Drop empty files (0 bytes, BOM-only or only blank lines) before reading.
   fileEmpty <- vapply(csvFiles,
-                      function(f) isEmptyCsvFile(file.path(csvDir, f)),
+                      function(f) .isEmptyCsvFile(file.path(csvDir, f)),
                       logical(1))
   if (any(fileEmpty)) {
     message("Skipping ", sum(fileEmpty), " empty CSV file(s): ",
@@ -242,7 +118,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     return(invisible(expDir))
   }
 
-  dataList <- lapply(csvFiles, readOne)
+  dataList <- lapply(csvFiles, .readOne, csvDir = csvDir)
   names(dataList) <- csvFiles
 
   ## ------------------------------------------------------------------ ##
@@ -260,75 +136,24 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     }
   }
 
-  ancestorValue <- function(parentKey, field) {
-    cur <- as.character(parentKey)
-    hops <- 0L
-    while (!is.na(cur) && nzchar(cur) && hops < 100L) {
-      entry <- keyEnv[[cur]]
-      if (is.null(entry)) break
-      row <- entry$row
-      if (field %in% names(row)) {
-        v <- row[[field]][1]
-        if (!is.na(v) && nzchar(as.character(v))) return(v)
-      }
-      if ("PARENT_KEY" %in% names(row)) {
-        cur <- as.character(row$PARENT_KEY[1])
-      } else {
-        break
-      }
-      hops <- hops + 1L
-    }
-    NA_character_
-  }
-
-  ## Value from the row itself, or from the closest ancestor if missing
-  fieldSelfOrAncestor <- function(d, field) {
-    self <- if (field %in% names(d)) as.character(d[[field]]) else
-      rep(NA_character_, nrow(d))
-    pk <- if ("PARENT_KEY" %in% names(d)) as.character(d$PARENT_KEY) else
-      rep(NA_character_, nrow(d))
-    for (i in seq_along(self)) {
-      if (is.na(self[i]) || !nzchar(self[i])) {
-        self[i] <- as.character(ancestorValue(pk[i], field))
-      }
-    }
-    self
-  }
-
-  ## Common context columns for every output file
-  contextDf <- function(d) {
-    n <- nrow(d)
-    data.frame(
-      date   = rep(format(Sys.Date()), n),
-      plot   = fieldSelfOrAncestor(d, "plot_name"),
-      quad   = fieldSelfOrAncestor(d, "quadrat"),
-      subquad = fieldSelfOrAncestor(d, "sel_subquad"),
-      team   = fieldSelfOrAncestor(d, "equipe_nomes"),
-      stringsAsFactors = FALSE
-    )
-  }
-
   ## ------------------------------------------------------------------ ##
   ## 3. Group the CSV files                                             ##
   ## ------------------------------------------------------------------ ##
   filesNoExt <- sub("\\.[Cc][Ss][Vv]$", "", csvFiles)
-  pick <- function(pattern) csvFiles[grepl(pattern, csvFiles, ignore.case = TRUE)]
 
   rootF   <- csvFiles[!grepl("-", filesNoExt)]             # roots (no "-")
-  subqF   <- pick("-subquad\\.csv$")                       # *-subquad.csv
-  coverF  <- pick("-subquad-cobertura-rep_cover\\.csv$")   # cobertura
-  treeF   <- pick("-subquad-tree\\.csv$")                  # trees
-  treeNFF <- pick("-subquad-rep_miss\\.csv$")              # not found
-  stemF   <- pick("sec_stem\\.csv$")                       # multStem (main)
-  stemMF  <- pick("sec_stem_miss\\.csv$")                  # multStem (missing)
+  subqF   <- .pick("-subquad\\.csv$",                     csvFiles)  # *-subquad.csv
+  coverF  <- .pick("-subquad-cobertura-rep_cover\\.csv$", csvFiles)  # cobertura
+  treeF   <- .pick("-subquad-tree\\.csv$",                csvFiles)  # trees
+  treeNFF <- .pick("-subquad-rep_miss\\.csv$",            csvFiles)  # not found
+  stemF   <- .pick("sec_stem\\.csv$",                     csvFiles)  # multStem (main)
+  stemMF  <- .pick("sec_stem_miss\\.csv$",                csvFiles)  # multStem (missing)
 
-  getOne <- function(f) dataList[[f]]
-
-  fieldSession <- bindRows(lapply(rootF,   getOne))
-  subquadDf    <- bindRows(lapply(subqF,   getOne))
-  coverDf      <- bindRows(lapply(coverF,  getOne))
-  treesDf      <- bindRows(lapply(treeF,   getOne))
-  treeNFDf     <- bindRows(lapply(treeNFF, getOne))
+  fieldSession <- .bindRows(lapply(rootF,   .getOne, dataList = dataList))
+  subquadDf    <- .bindRows(lapply(subqF,   .getOne, dataList = dataList))
+  coverDf      <- .bindRows(lapply(coverF,  .getOne, dataList = dataList))
+  treesDf      <- .bindRows(lapply(treeF,   .getOne, dataList = dataList))
+  treeNFDf     <- .bindRows(lapply(treeNFF, .getOne, dataList = dataList))
 
   ## multStem: combine sec_stem and sec_stem_miss, stripping "_miss" from names
   stemList <- lapply(c(stemF, stemMF), function(f) {
@@ -336,7 +161,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     names(d) <- sub("_miss$", "", names(d))
     d
   })
-  multStemDf <- bindRows(stemList)
+  multStemDf <- .bindRows(stemList)
 
   dropKeys <- c("KEY", "PARENT_KEY")
 
@@ -349,7 +174,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   fsCols <- fsCols[!grepl("generate_note", fsCols, ignore.case = TRUE)]
 
   fieldSessionOut <- cbind(
-    contextDf(fieldSession),
+    .contextDf(fieldSession, keyEnv),
     fieldSession[, fsCols, drop = FALSE]
   )
 
@@ -357,7 +182,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## 5. subquad.csv                                                     ##
   ## ------------------------------------------------------------------ ##
   subquadOut <- cbind(
-    contextDf(subquadDf),
+    .contextDf(subquadDf, keyEnv),
     subquadDf[, setdiff(names(subquadDf), dropKeys), drop = FALSE]
   )
 
@@ -365,10 +190,10 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## 6. coverSubq.csv                                                   ##
   ## ------------------------------------------------------------------ ##
   coverOut <- cbind(
-    contextDf(coverDf),
+    .contextDf(coverDf, keyEnv),
     data.frame(
-      coverType = getCol(coverDf, "name_cover"),
-      coverArea = getCol(coverDf, "area_cover"),
+      coverType = .getCol(coverDf, "name_cover"),
+      coverArea = .getCol(coverDf, "area_cover"),
       stringsAsFactors = FALSE
     )
   )
@@ -380,7 +205,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   nTr <- nrow(tr)
 
   ## tag_old: "sem info" -> NA
-  tagOld <- as.character(getCol(tr, "tag_old"))
+  tagOld <- as.character(.getCol(tr, "tag_old"))
   tagOld[grepl("sem info", tagOld, ignore.case = TRUE)] <- NA
 
   ## dx / dy: subquad base + mapxy offset, only for rows with mapxy.
@@ -388,10 +213,10 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ##
   ## Importante: tanto 'sel_subquad' quanto 'mapxy' podem estar apenas no
   ## registro pai (repeat de subquad), e nao no repeat de arvores. Por isso
-  ## buscamos com fieldSelfOrAncestor (self ou ancestral), e nao com getCol
+  ## buscamos com .fieldSelfOrAncestor (self ou ancestral), e nao com .getCol
   ## (que so enxerga o proprio registro e devolvia NA, zerando dx/dy).
-  subqVal  <- as.character(fieldSelfOrAncestor(tr, "sel_subquad"))
-  mapxyVal <- as.character(fieldSelfOrAncestor(tr, "mapxy"))
+  subqVal  <- as.character(.fieldSelfOrAncestor(tr, "sel_subquad", keyEnv))
+  mapxyVal <- as.character(.fieldSelfOrAncestor(tr, "mapxy",       keyEnv))
 
   baseX <- suppressWarnings(as.numeric(sub("^.*_([0-9.]+)x.*$",       "\\1", subqVal)))
   baseY <- suppressWarnings(as.numeric(sub("^.*_[0-9.]+x([0-9.]+).*$", "\\1", subqVal)))
@@ -415,51 +240,51 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       r <- as.character(r)
       r <- r[!is.na(r) & nzchar(r)]
       if (length(r) == 0L) NA_character_ else
-        paste(asMediaPath(r), collapse = "; ")
+        paste(.asMediaPath(r), collapse = "; ")
     })
   }
 
   ## dbhDif with a single decimal; htDif sourced from ht_dif, also one decimal
-  dbhDif <- round1(getCol(tr, "difdbh"))
-  htDif  <- round1(getCol(tr, "ht_dif"))
+  dbhDif <- .round1(.getCol(tr, "difdbh"))
+  htDif  <- .round1(.getCol(tr, "ht_dif"))
 
   treesOut <- cbind(
-    contextDf(tr),
+    .contextDf(tr, keyEnv),
     data.frame(
-      obsType  = getCol(tr, "tree_type"),
-      tag      = getCol(tr, "num_tag"),
-      tagOK    = getCol(tr, "tag_ok"),
+      obsType  = .getCol(tr, "tree_type"),
+      tag      = .getCol(tr, "num_tag"),
+      tagOK    = .getCol(tr, "tag_ok"),
       tagOld   = tagOld,
-      tagMap   = getCol(tr, "tree_tag_map"),
-      pom      = getCol(tr, "dbh_pom"),
-      dbh      = getCol(tr, "dbh_new"),
+      tagMap   = .getCol(tr, "tree_tag_map"),
+      pom      = .getCol(tr, "dbh_pom"),
+      dbh      = .getCol(tr, "dbh_new"),
       ## dbhOld right after dbh
-      dbhOld   = getCol(tr, "old_dbh"),
+      dbhOld   = .getCol(tr, "old_dbh"),
       ## single decimal
       dbhDif   = dbhDif,
-      dbhCheck = getCol(tr, "dbh_new_check"),
-      dbhObs   = getCol(tr, "dbh_cause"),
-      ht       = getCol(tr, "ht_new"),
+      dbhCheck = .getCol(tr, "dbh_new_check"),
+      dbhObs   = .getCol(tr, "dbh_cause"),
+      ht       = .getCol(tr, "ht_new"),
       ## htOld right after ht
-      htOld    = getCol(tr, "old_ht"),
+      htOld    = .getCol(tr, "old_ht"),
       ## htDif from ht_dif, single decimal
       htDif    = htDif,
-      htCheck  = getCol(tr, "ht_new_check"),
-      nstem    = getCol(tr, "new_nstem"),
-      nstemOld = getCol(tr, "old_nstem"),
-      nstemObs = getCol(tr, "nstem_diff"),
+      htCheck  = .getCol(tr, "ht_new_check"),
+      nstem    = .getCol(tr, "new_nstem"),
+      nstemOld = .getCol(tr, "old_nstem"),
+      nstemObs = .getCol(tr, "nstem_diff"),
       ## confirmId -> idOk
-      idOk     = getCol(tr, "info_id"),
-      fam      = getCol(tr, "fam_final"),
-      species  = getCol(tr, "sp_final"),
-      mapOk    = getCol(tr, "tree_map_conf"),
+      idOk     = .getCol(tr, "info_id"),
+      fam      = .getCol(tr, "fam_final"),
+      species  = .getCol(tr, "sp_final"),
+      mapOk    = .getCol(tr, "tree_map_conf"),
       ## 
-      qxy      = getCol(tr, "map_final"),
-      qxyOld   = getCol(tr, "old_xy"),
+      qxy      = .getCol(tr, "map_final"),
+      qxyOld   = .getCol(tr, "old_xy"),
       dx       = dx,
       dy       = dy,
       ## media path for the new tag picture
-      pictureNewTag = asMediaPath(getCol(tr, "new_tag_picture")),
+      pictureNewTag = .asMediaPath(.getCol(tr, "new_tag_picture")),
       pictures = pictures,
       stringsAsFactors = FALSE
     )
@@ -468,25 +293,25 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## ------------------------------------------------------------------ ##
   ## 8. idCheck.csv                                                     ##
   ## ------------------------------------------------------------------ ##
-  infoId <- as.character(getCol(tr, "info_id"))
+  infoId <- as.character(.getCol(tr, "info_id"))
   selId  <- is.na(infoId) | infoId != "yes"
 
   idCheckOut <- cbind(
-    contextDf(tr),
+    .contextDf(tr, keyEnv),
     data.frame(
-      tag       = getCol(tr, "num_tag"),
-      obsType   = getCol(tr, "tree_type"),
-      idRecruits = getCol(tr, "recruta_id"),
-      famOld    = getCol(tr, "old_fam"),
-      spOld     = getCol(tr, "old_sp"),
-      famOk     = getCol(tr, "fam_final"),
-      spOk      = getCol(tr, "sp_final"),
-      famNew    = getCol(tr, "new_fam"),
-      genNew    = getCol(tr, "new_gen"),
-      spNew     = getCol(tr, "new_sp"),
-      detType   = getCol(tr, "det_type"),
-      idType    = getCol(tr, "indet_type"),
-      toCollect = getCol(tr, "fita_coleta_depois"),
+      tag       = .getCol(tr, "num_tag"),
+      obsType   = .getCol(tr, "tree_type"),
+      idRecruits = .getCol(tr, "recruta_id"),
+      famOld    = .getCol(tr, "old_fam"),
+      spOld     = .getCol(tr, "old_sp"),
+      famOk     = .getCol(tr, "fam_final"),
+      spOk      = .getCol(tr, "sp_final"),
+      famNew    = .getCol(tr, "new_fam"),
+      genNew    = .getCol(tr, "new_gen"),
+      spNew     = .getCol(tr, "new_sp"),
+      detType   = .getCol(tr, "det_type"),
+      idType    = .getCol(tr, "indet_type"),
+      toCollect = .getCol(tr, "fita_coleta_depois"),
       pictures  = pictures,
       stringsAsFactors = FALSE
     )
@@ -497,16 +322,16 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## 9. missTrees.csv / treesFound.csv                                  ##
   ##    treesNotFound.csv is NOT created any more.                      ##
   ## ------------------------------------------------------------------ ##
-  missTrue <- suppressWarnings(as.numeric(getCol(treeNFDf, "miss_true")))
-  missConf <- as.character(getCol(treeNFDf, "miss_conf"))
+  missTrue <- suppressWarnings(as.numeric(.getCol(treeNFDf, "miss_true")))
+  missConf <- as.character(.getCol(treeNFDf, "miss_conf"))
 
   ## missTrees: miss_true == 1 & miss_conf == "miss"
   selMiss <- !is.na(missTrue) & missTrue == 1 &
     !is.na(missConf) & missConf == "miss"
   missTreesOut <- cbind(
-    contextDf(treeNFDf),
+    .contextDf(treeNFDf, keyEnv),
     data.frame(
-      tag         = getCol(treeNFDf, "miss_num"),
+      tag         = .getCol(treeNFDf, "miss_num"),
       missConfirm = rep("tree_not_found", nrow(treeNFDf)),
       stringsAsFactors = FALSE
     )
@@ -528,18 +353,18 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
   ## media paths inside treesFound as well
   tnPicCols <- names(tn)[grepl("picture", names(tn), ignore.case = TRUE)]
-  for (pc in tnPicCols) tn[[pc]] <- asMediaPath(tn[[pc]])
+  for (pc in tnPicCols) tn[[pc]] <- .asMediaPath(tn[[pc]])
 
-  treesFoundOut <- cbind(contextDf(treeNFDf), tn)
+  treesFoundOut <- cbind(.contextDf(treeNFDf, keyEnv), tn)
   treesFoundOut <- treesFoundOut[selFound, , drop = FALSE]
 
   ## ------------------------------------------------------------------ ##
   ## 10. multStem.csv                                                   ##
   ## ------------------------------------------------------------------ ##
   ms <- multStemDf
-  dbhMm <- suppressWarnings(as.numeric(getCol(ms, "dbh_mm_sec")))
-  dbhCm <- suppressWarnings(as.numeric(getCol(ms, "dbh_cm_sec")))
-  papCm <- suppressWarnings(as.numeric(getCol(ms, "pap_cm_sec")))
+  dbhMm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_mm_sec")))
+  dbhCm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_cm_sec")))
+  papCm <- suppressWarnings(as.numeric(.getCol(ms, "pap_cm_sec")))
 
   dbh <- rep(NA_real_, nrow(ms))
   dbh[!is.na(dbhMm)] <- dbhMm[!is.na(dbhMm)]
@@ -548,16 +373,16 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   dbh <- round(dbh, 1)
 
   multStemOut <- cbind(
-    contextDf(ms),
+    .contextDf(ms, keyEnv),
     data.frame(
-      tag     = getCol(ms, "num_tag"),
-      stem    = getCol(ms, "mult_stem_sec"),
-      tagMult = getCol(ms, "tag_plaq_sec"),
-      pom     = getCol(ms, "sec_pom"),
+      tag     = .getCol(ms, "num_tag"),
+      stem    = .getCol(ms, "mult_stem_sec"),
+      tagMult = .getCol(ms, "tag_plaq_sec"),
+      pom     = .getCol(ms, "sec_pom"),
       dbh     = dbh,
-      ht      = getCol(ms, "sec_ht_new"),
+      ht      = .getCol(ms, "sec_ht_new"),
       ## media path
-      picture = asMediaPath(getCol(ms, "sec_picture")),
+      picture = .asMediaPath(.getCol(ms, "sec_picture")),
       stringsAsFactors = FALSE
     )
   )
@@ -584,40 +409,6 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ##     existing files are never overwritten; only records that are    ##
   ##     not already present are appended; record counts are reported   ##
   ## ------------------------------------------------------------------ ##
-
-  writeOneWithMerge <- function(df, dirOut, name) {
-    path <- file.path(dirOut, name)
-
-    oldExists <- file.exists(path)
-    old <- if (oldExists) readCsvSafe(path) else data.frame()
-    nOld <- nrow(old)
-
-    ## Drop duplicated rows from the incoming data itself
-    if (nrow(df) > 0L) {
-      df <- df[!duplicated(df), , drop = FALSE]
-    }
-
-    if (oldExists) {
-      ## Keep everything that already exists and add only the new rows
-      merged <- bindRows(list(old, df))
-      if (ncol(merged) == 0L) merged <- df
-      if (nrow(merged) > 0L) {
-        merged <- merged[!duplicated(merged), , drop = FALSE]
-      }
-      utils::write.csv(merged, path, row.names = FALSE, na = "")
-      nTotal <- nrow(merged)
-      nAdded <- max(0L, nTotal - nOld)
-      message(sprintf("  - %s: mesclado (%d + %d = %d registro(s)).",
-                      name, nOld, nAdded, nTotal))
-      return(list(file = name, old = nOld, new = nAdded, total = nTotal,
-                  action = "merge"))
-    }
-
-    utils::write.csv(df, path, row.names = FALSE, na = "")
-    nNew <- nrow(df)
-    message(sprintf("  - %s: criado (%d registro(s)).", name, nNew))
-    list(file = name, old = 0L, new = nNew, total = nNew, action = "create")
-  }
 
   ## Collect every quadrat present across the outputs
   quads <- unique(unlist(lapply(outputs, function(d) {
@@ -653,7 +444,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       ## treesFound / multStem only when this quadrat has records
       if (nrow(dd) == 0L && nm %in% c("treesFound.csv", "multStem.csv")) next
 
-      lg <- writeOneWithMerge(dd, dirOut, nm)
+      lg <- .writeOneWithMerge(dd, dirOut, nm)
       lg$quad <- q
       lg$dir  <- dirName
       allLogs[[length(allLogs) + 1L]] <- lg
@@ -687,14 +478,14 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   treesAll <- data.frame()
   if (length(treesFiles) > 0L) {
     treesList <- lapply(treesFiles, function(tf) {
-      dd <- readCsvSafe(tf)
+      dd <- .readCsvSafe(tf)
       if (nrow(dd) == 0L) return(NULL)
       if (!"quad"    %in% names(dd)) dd$quad    <- sub("^data", "", basename(dirname(tf)))
       if (!"subquad" %in% names(dd)) dd$subquad <- NA_character_
       if (!"tag"     %in% names(dd)) dd$tag     <- NA_character_
       dd
     })
-    treesAll <- bindRows(treesList)
+    treesAll <- .bindRows(treesList)
   }
 
   if (nrow(treesAll) > 0L) {
@@ -710,7 +501,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
     tagsUsedPath <- file.path(expDir, "tagsUsed.csv")
     if (file.exists(tagsUsedPath)) {
-      oldTags <- readCsvSafe(tagsUsedPath)
+      oldTags <- .readCsvSafe(tagsUsedPath)
       if (all(c("quad", "subquad", "tag") %in% names(oldTags))) {
         oldTags <- oldTags[, c("quad", "subquad", "tag"), drop = FALSE]
         oldTags[] <- lapply(oldTags, as.character)
@@ -732,8 +523,8 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     if (nrow(tagsRepeat) > 0L) {
       tagsRepeatPath <- file.path(expDir, "tagsRepeat.csv")
       if (file.exists(tagsRepeatPath)) {
-        oldRep <- readCsvSafe(tagsRepeatPath)
-        if (nrow(oldRep) > 0L) tagsRepeat <- bindRows(list(oldRep, tagsRepeat))
+        oldRep <- .readCsvSafe(tagsRepeatPath)
+        if (nrow(oldRep) > 0L) tagsRepeat <- .bindRows(list(oldRep, tagsRepeat))
       }
       tagsRepeat <- tagsRepeat[!duplicated(tagsRepeat), , drop = FALSE]
       utils::write.csv(tagsRepeat, tagsRepeatPath, row.names = FALSE, na = "")
@@ -749,7 +540,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ##     Incremental record of the base names already merged, so the    ##
   ##     next run can skip them (see step 1b).                          ##
   ## ------------------------------------------------------------------ ##
-  filesReaded <- unique(baseName(csvFiles))
+  filesReaded <- unique(.baseName(csvFiles))
   filesReaded <- filesReaded[!is.na(filesReaded) & nzchar(filesReaded)]
 
   filesReaded <- unique(c(mergedBase, filesReaded))
