@@ -276,6 +276,10 @@ readInstancesXML <- function(instancesDir,
   ## 7. Optionally save CSVs. The output file name is derived from the
   ##    internal name, translating the root sentinel to "" here (and
   ##    only here). This is what makes "<formBase>.csv" come out correct.
+  ##
+  ##    Skip policy when the file already exists and overwrite = FALSE:
+  ##      warn that the file exists and skip it. Pass overwrite = TRUE
+  ##      to force updating the file.
   if (!is.null(expDir)) {
     if (!dir.exists(expDir)) {
       dir.create(expDir, recursive = TRUE)
@@ -284,13 +288,16 @@ readInstancesXML <- function(instancesDir,
       nm <- names(dfs)[k]
       suffix <- if (identical(nm, ROOT_KEY)) "" else paste0("-", gsub("/", "-", nm))
       fname  <- file.path(expDir, paste0(formBase, suffix, ".csv"))
+      df <- dfs[[k]]
+      nNew <- NROW(df)
+
       if (file.exists(fname) && !overwrite) {
         warning("File exists, skipping: ", fname)
         next
       }
-      df <- dfs[[k]]
+
       utils::write.csv(df, fname, row.names = FALSE, na = "")
-      message("Wrote ", nrow(df), " row(s) to ", fname)
+      message("Wrote ", nNew, " row(s) to ", fname)
     }
   }
 
