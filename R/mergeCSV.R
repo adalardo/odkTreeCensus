@@ -154,10 +154,18 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   treesDf      <- .bindRows(lapply(treeF,   .getOne, dataList = dataList))
   treeNFDf     <- .bindRows(lapply(treeNFF, .getOne, dataList = dataList))
 
-  ## multStem: combine sec_stem and sec_stem_miss, stripping "_miss" from names
+  ## multStem: combine sec_stem and sec_stem_miss, stripping "_miss" from names.
+  ##
+  ## A coluna interna '.stemSource' registra de qual arquivo cada linha veio,
+  ## pois a origem determina o preenchimento de 'tagOld':
+  ##   - 'tree'     -> 'tag_old'  do repeat 'tree'
+  ##   - 'rep_miss' -> 'miss_num' do repeat 'rep_miss'
+  ## (coluna auxiliar, removida antes da saída)
   stemList <- lapply(c(stemF, stemMF), function(f) {
     d <- dataList[[f]]
+    isMiss <- f %in% stemMF
     names(d) <- sub("_miss$", "", names(d))
+    d$.stemSource <- if (isMiss) "rep_miss" else "tree"
     d
   })
   multStemDf <- .bindRows(stemList)
@@ -368,12 +376,21 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## acima por sub("_miss$","",names)), precisamos lembrar que:         ##
   ##   * o numero sequencial do fuste e 'mult_stem_seq' (apos o strip), ##
   ##     nunca 'mult_stem_sec'.                                         ##
-  ##   * a placa da arvore-mae NAO esta em 'sec_stem'/'sec_stem_miss'. ##
+  ##   * a placa da arvore-mae NAO esta em 'sec_stem'/'sec_stem_miss'.  ##
   ##     No ramo 'tree' ela vem do ancestral 'num_tag'; no ramo         ##
   ##     'rep_miss' ela vem do ancestral 'miss_num'. Se a arvore        ##
   ##     encontrada foi replaqueada, o novo numero esta no ancestral    ##
   ##     'miss_new_tag.new_tag_miss' e substitui 'miss_num' em 'tag'    ##
   ##     enquanto 'tagOld' mantem 'miss_num'.                           ##
+  ##                                                                    ##
+  ## A coluna 'tagOld' reflete a placa antiga da arvore-mae:            ##
+  ##   * origem 'tree'     -> 'tag_old'  do repeat 'tree'               ##
+  ##                          (vazio ou "sem info" -> NA; senao numero) ##
+  ##   * origem 'rep_miss' -> 'miss_num' do repeat 'rep_miss'           ##
+  ## Os dois repeat sao independentes (ambos filhos de 'subquad');      ##
+  ## nao ha preponderancia entre eles. Se o mesmo numero de arvore     ##
+  ## aparecer nas duas origens, os dois registros sao mantidos e um    ##
+  ## 'warning' e emitido para conferencia.                              ##
   ## ------------------------------------------------------------------ ##
   ms <- multStemDf
 
@@ -388,7 +405,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   i3 <- is.na(dbh) & !is.na(papCm); dbh[i3] <- papCm[i3] / (pi * 10)
   dbh <- round(dbh, 1)
 
-  ## ------- tag / tagOld --------------------------------------------- ##
+  ## ------- tag ------------------------------------------------------ ##
   ## sec_stem      -> ancestor 'num_tag'  (repeat 'tree')
   ## sec_stem_miss -> ancestor 'miss_num' (repeat 'rep_miss')
   tagNum  <- as.character(.fieldSelfOrAncestor(ms, "num_tag",  keyEnv))
@@ -396,17 +413,63 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   tagNew  <- as.character(.fieldSelfOrAncestor(ms, "miss_new_tag.new_tag_miss",
                                                keyEnv))
 
-  ## tagOld: 'num_tag' quando existir, senao 'miss_num'
-  tagOld <- tagNum
-  fill   <- is.na(tagOld) | !nzchar(tagOld)
-  tagOld[fill] <- tagMiss[fill]
-  tagOld[is.na(tagOld)] <- ""
+  ## base do tag: 'num_tag' quando existir, senao 'miss_num'
+  tagBase <- tagNum
+  fill    <- is.na(tagBase) | !nzchar(tagBase)
+  tagBase[fill] <- tagMiss[fill]
+  tagBase[is.na(tagBase)] <- ""
 
-  ## tag: igual a tagOld, mas substitui por 'new_tag_miss' quando existir
-  tag    <- tagOld
+  ## tag: igual a tagBase, mas substitui por 'new_tag_miss' quando existir
+  tag    <- tagBase
   hasNew <- !is.na(tagNew) & nzchar(tagNew)
   tag[hasNew] <- tagNew[hasNew]
   tag[is.na(tag)] <- ""
+
+  ## ------- tagOld --------------------------------------------------- ##
+  ## Placa antiga da arvore-mae:
+  ##   origem 'tree'     -> 'tag_old'  (repeat 'tree')
+  ##   origem 'rep_miss' -> 'miss_num' (repeat 'rep_miss')
+  tagOldTree <- as.character(.fieldSelfOrAncestor(ms, "tag_old", keyEnv))
+  tagOldMiss <- as.character(.fieldSelfOrAncestor(ms, "miss_num", keyEnv))
+
+  srcVec <- if (".stemSource" %in% names(ms)) as.character(ms$.stemSource) else
+    rep(NA_character_, nrow(ms))
+  isTreeSrc <- !is.na(srcVec) & srcVec == "tree"
+  isMissSrc <- !is.na(srcVec) & srcVec == "rep_miss"
+
+  tagOldSrc <- rep(NA_character_, nrow(ms))
+  tagOldSrc[isTreeSrc] <- tagOldTree[isTreeSrc]
+  tagOldSrc[isMissSrc] <- tagOldMiss[isMissSrc]
+
+  ## normaliza: trim; vazio / "sem info" -> NA
+  tagOldSrc <- trimws(tagOldSrc)
+  tagOldSrc[!is.na(tagOldSrc) &
+              grepl("sem info", tagOldSrc, ignore.case = TRUE)] <- NA_character_
+  tagOldSrc[!is.na(tagOldSrc) & !nzchar(tagOldSrc)] <- NA_character_
+
+  ## converte para numérico; o que não for número vira NA com aviso
+  tagOld <- suppressWarnings(as.numeric(tagOldSrc))
+  nonNum <- !is.na(tagOldSrc) & is.na(tagOld)
+  if (any(nonNum)) {
+    warning(sprintf(
+      paste0("multStem: %d valor(es) de 'tagOld' não numérico(s), ",
+             "convertido(s) para NA: %s"),
+      sum(nonNum), paste(unique(tagOldSrc[nonNum]), collapse = ", ")),
+      call. = FALSE)
+  }
+
+  ## alerta quando o mesmo número de árvore aparece nas duas origens
+  treeVals <- unique(tagOld[isTreeSrc & !is.na(tagOld)])
+  missVals <- unique(tagOld[isMissSrc & !is.na(tagOld)])
+  dupBoth  <- intersect(treeVals, missVals)
+  if (length(dupBoth) > 0L) {
+    warning(sprintf(
+      paste0("multStem: valor(es) de 'tagOld' presente(s) em 'tree' e em ",
+             "'rep_miss': %s. Os dois registros foram mantidos; ",
+             "confira se há duplicação."),
+      paste(sort(dupBoth), collapse = ", ")),
+      call. = FALSE)
+  }
 
   ## ------- stem ----------------------------------------------------- ##
   ## Numero sequencial do fuste, mantendo a grafia do XForm.
