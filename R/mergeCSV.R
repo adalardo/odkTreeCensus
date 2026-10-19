@@ -360,6 +360,20 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
   ## ------------------------------------------------------------------ ##
   ## 10. multStem.csv                                                   ##
+  ##                                                                    ##
+  ## multStem reune os fustes secundarios de DOIS ramos do XForm:      ##
+  ##   - 'subquad/tree/sec_stem'        (fustes de arvores do censo)   ##
+  ##   - 'subquad/rep_miss/sec_stem_miss' (fustes de arvores encontradas) ##
+  ##                                                                    ##
+  ## Como os dois ramos usam nomes de colunas diferentes (ja unificados ##
+  ## acima por sub("_miss$","",names)), precisamos lembrar que:         ##
+  ##   * o numero sequencial do fuste e 'mult_stem_seq' (apos o strip),##
+  ##     nunca 'mult_stem_sec';                                       ##
+  ##   * a placa da arvore-mae NAO esta em 'sec_stem'/'sec_stem_miss'. ##
+  ##     No ramo 'tree' ela vem do ancestral 'num_tag'; no ramo        ##
+  ##     'rep_miss' ela vem do ancestral 'miss_num'. Por isso usamos    ##
+  ##     .fieldSelfOrAncestor (busca na cadeia KEY/PARENT_KEY), com     ##
+  ##     fallback de 'num_tag' para 'miss_num'.                        ##
   ## ------------------------------------------------------------------ ##
   ms <- multStemDf
   dbhMm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_mm_sec")))
@@ -372,11 +386,21 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   i3 <- is.na(dbh) & !is.na(papCm); dbh[i3] <- papCm[i3] / (pi * 10)
   dbh <- round(dbh, 1)
 
+  ## tag: 'num_tag' (arvores do censo) com fallback para 'miss_num'
+  ## (arvores encontradas dentro de 'rep_miss'). Ambos vivem em
+  ## ancestrais do repeat de fustes, por isso buscamos via
+  ## .fieldSelfOrAncestor.
+  tagStem <- as.character(.fieldSelfOrAncestor(ms, "num_tag",  keyEnv))
+  tagMiss <- as.character(.fieldSelfOrAncestor(ms, "miss_num", keyEnv))
+  tagStem <- ifelse(is.na(tagStem) | !nzchar(tagStem), tagMiss, tagStem)
+  tagStem[is.na(tagStem)] <- ""
+
   multStemOut <- cbind(
     .contextDf(ms, keyEnv),
     data.frame(
-      tag     = .getCol(ms, "num_tag"),
-      stem    = .getCol(ms, "mult_stem_sec"),
+      tag     = tagStem,
+      ## numero sequencial do fuste (apos unificacao do sufixo "_miss")
+      stem    = .getCol(ms, "mult_stem_seq"),
       tagMult = .getCol(ms, "tag_plaq_sec"),
       pom     = .getCol(ms, "sec_pom"),
       dbh     = dbh,
