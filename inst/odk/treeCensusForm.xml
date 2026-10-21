@@ -943,6 +943,36 @@
           <text id="/data/subquad/tree/new_dbh/pap_new_cm:hint">
             <value> #### pap no censo anterior: (<output value=" ../../tree_recenso/old_papcm "/>) cm </value>
           </text>
+          <text id="/data/subquad/tree/new_dbh/ht_type:jr:requiredMsg">
+            <value>é necessário selecionar um estrato de altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_type:label">
+            <value>Selecione o estrato de altura da árvore</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/note_ht0:label">
+            <value>###Anote a altura da árvore</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:jr:requiredMsg">
+            <value>é preciso anotar a altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:label">
+            <value>### se a altura é &lt;span style="color:red"&gt;até 10m&lt;/span&gt;</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:hint">
+            <value> #### placa antiga <output value=" ../../tag_old "/>, altura no censo anterior: <output value=" ../ht_old "/> m </value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:jr:requiredMsg">
+            <value>é preciso anotar a altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:label">
+            <value>### se a altura é &lt;span style="color:red"&gt;mais de 10m&lt;/span&gt;</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:hint">
+            <value> #### placa antiga <output value=" ../../tag_old "/>, altura no censo anterior: <output value=" ../ht_old "/> m </value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_met:label">
+            <value>Selecione o método utilizado para tomar a altura:</value>
+          </text>
           <text id="/data/subquad/tree/new_dbh/check_dbh/dbh_check_note:label">
             <value>###Há inconsistência no valor do dap ou pap, refaça a medida no campo abaixo!</value>
           </text>
@@ -1033,47 +1063,17 @@
           <text id="/data/subquad/tree/new_ht:label">
             <value>ht_censo</value>
           </text>
-          <text id="/data/subquad/tree/new_ht/ht_type:jr:requiredMsg">
-            <value>é necessário selecionar um estrato de altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_type:label">
-            <value>Selecione o estrato de altura da árvore</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/note_ht0:label">
-            <value>###Anote a altura da árvore</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:jr:requiredMsg">
-            <value>é preciso anotar a altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:label">
-            <value>### se a altura é &lt;span style="color:red"&gt;até 10m&lt;/span&gt;</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:hint">
-            <value> #### placa antiga <output value=" ../../tag_old "/>, altura no censo anterior: <output value=" ../ht_old "/> m </value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:jr:requiredMsg">
-            <value>é preciso anotar a altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:label">
-            <value>### se a altura é &lt;span style="color:red"&gt;mais de 10m&lt;/span&gt;</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:hint">
-            <value> #### placa antiga <output value=" ../../tag_old "/>, altura no censo anterior: <output value=" ../ht_old "/> m </value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_met:label">
-            <value>Selecione o método utilizado para tomar a altura:</value>
-          </text>
           <text id="/data/subquad/tree/new_ht/ht_check_note:label">
             <value>### Há inconsistência no valor da altura em relação ao censo anterior! Refaça a medida no campo abaixo:</value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_check_note:hint">
-            <value> ####altura no censo anterior: <output value=" ../ht_old "/> m </value>
+            <value> ####altura no censo anterior: <output value=" ../../new_dbh/ht_old "/> m </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max0_check:label">
             <value>Anote a altura se a árvore tem &lt;span style="color:red"&gt;até 10m&lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max0_check:hint">
-            <value> ####placa antiga <output value=" ../../tag_old "/>, altura no censo anterior: <output value=" ../ht_old "/> m </value>
+            <value> ####placa antiga <output value=" ../../tag_old "/>, altura no censo anterior: <output value=" ../../new_dbh/ht_old "/> m </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max1_check:label">
             <value>&lt;span style="color:red"&gt;mais de 10m&lt;/span&gt;</value>
@@ -1085,7 +1085,7 @@
             <value> ### Possível causa da discrepância de medidas (censo anterior = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause:hint">
-            <value> ### A primeira medida foi &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; e a checagem &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### A primeira medida foi &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; e a checagem &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause_other:jr:requiredMsg">
             <value>descreva a evidência</value>
@@ -1094,7 +1094,7 @@
             <value> ### Evidência na discrepância de medida (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause_other:hint">
-            <value> ### A primeira medida foi &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; e a checagem &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### A primeira medida foi &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; e a checagem &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/dif_htOK:jr:constraintMsg">
             <value>Retorne para a medida de altura e refaça!</value>
@@ -1106,7 +1106,7 @@
             <value> ### Confirme o valor da altura (censo anterior = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;) </value>
           </text>
           <text id="/data/subquad/tree/new_ht/dif_htOK:hint">
-            <value> ### A primeira medida foi &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; e a checagem &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### A primeira medida foi &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; e a checagem &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/mult_stem:jr:requiredMsg">
             <value>um ou mais fustes</value>
@@ -1360,7 +1360,7 @@
           <text id="/data/subquad/tree/conf_info/tree_picture05:label">
             <value> Foto da planta <output value=" ../../num_tag "/> </value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_319:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
             <value> ### A árvore <output value=" ../../num_tag "/> está morta </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg">
@@ -1375,22 +1375,22 @@
           <text id="/data/subquad/tree/conf_info/conf_ok:hint">
             <value>Caso as informações não estejam corretas, clique no icone &lt;span style="color:red"&gt; seta.ponto &lt;/span&gt; e ajuste os dados.</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
             <value>### Não há informação sobre o número da &lt;span style="color:red"&gt; placa &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_324:label">
             <value>### Não há informação sobre a &lt;span style="color:red"&gt; altura &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_325:label">
             <value>### Não há informação sobre o &lt;span style="color:red"&gt; dap &lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/miss_tree:label">
             <value>Árvores desaparecidas</value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:label">
+          <text id="/data/subquad/miss_tree/generated_note_name_338:label">
             <value> ### Árvores encontradas <output value=" ../n_sel "/> de <output value=" ../n_tags "/> listadas. </value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:hint">
+          <text id="/data/subquad/miss_tree/generated_note_name_338:hint">
             <value> Árvores no subquadrat: <output value=" ../tags_subq "/>; encontradas: <output value=" ../../tag_selected "/> </value>
           </text>
           <text id="/data/subquad/rep_miss:label">
@@ -1403,10 +1403,10 @@
             <value> ### Selecione a placa (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt;) no mapa </value>
             <value form="image"> jr://images/<output value=" /data/subquad/mapname "/> </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:label">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_351:label">
             <value> ### Dados da árvore &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt; - <output value=" ../old_sp_miss "/> (<output value=" ../old_fam_miss "/>): </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_351:hint">
             <value> ### dap: <output value=" ../old_dbh_miss "/> mm; altura: <output value=" ../old_ht_miss "/> m </value>
           </text>
           <text id="/data/subquad/rep_miss/conf_miss/miss_conf:label">
@@ -1473,7 +1473,7 @@
           <text id="/data/subquad/rep_miss/map_miss/xy_miss:hint">
             <value>Selecione a posição:</value>
           </text>
-          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_381:label">
+          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_383:label">
             <value> ## selecionado: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy_miss "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg">
@@ -2776,6 +2776,36 @@
           <text id="/data/subquad/tree/new_dbh/pap_new_cm:hint">
             <value> #### pbh in previous census: (<output value=" ../../tree_recenso/old_papcm "/>) cm </value>
           </text>
+          <text id="/data/subquad/tree/new_dbh/ht_type:jr:requiredMsg">
+            <value>é necessário selecionar um estrato de altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_type:label">
+            <value>Select the tree height stratum</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/note_ht0:label">
+            <value>###Record the tree height</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:jr:requiredMsg">
+            <value>é preciso anotar a altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:label">
+            <value>### if height is &lt;span style="color:red"&gt;up to 10m&lt;/span&gt;</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:hint">
+            <value> #### old tag <output value=" ../../tag_old "/>, height in previous census: <output value=" ../ht_old "/> m </value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:jr:requiredMsg">
+            <value>é preciso anotar a altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:label">
+            <value>### if height is &lt;span style="color:red"&gt;more than 10m&lt;/span&gt;</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:hint">
+            <value> #### old tag <output value=" ../../tag_old "/>, height in previous census: <output value=" ../ht_old "/> m </value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_met:label">
+            <value>Select the method used to measure height:</value>
+          </text>
           <text id="/data/subquad/tree/new_dbh/check_dbh/dbh_check_note:label">
             <value>###There is inconsistency in the dbh or pbh value, redo the measurement in the field below!</value>
           </text>
@@ -2866,47 +2896,17 @@
           <text id="/data/subquad/tree/new_ht:label">
             <value>height_census</value>
           </text>
-          <text id="/data/subquad/tree/new_ht/ht_type:jr:requiredMsg">
-            <value>é necessário selecionar um estrato de altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_type:label">
-            <value>Select the tree height stratum</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/note_ht0:label">
-            <value>###Record the tree height</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:jr:requiredMsg">
-            <value>é preciso anotar a altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:label">
-            <value>### if height is &lt;span style="color:red"&gt;up to 10m&lt;/span&gt;</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:hint">
-            <value> #### old tag <output value=" ../../tag_old "/>, height in previous census: <output value=" ../ht_old "/> m </value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:jr:requiredMsg">
-            <value>é preciso anotar a altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:label">
-            <value>### if height is &lt;span style="color:red"&gt;more than 10m&lt;/span&gt;</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:hint">
-            <value> #### old tag <output value=" ../../tag_old "/>, height in previous census: <output value=" ../ht_old "/> m </value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_met:label">
-            <value>Select the method used to measure height:</value>
-          </text>
           <text id="/data/subquad/tree/new_ht/ht_check_note:label">
             <value>### There is inconsistency in the height value compared to previous census! Redo the measurement in the field below:</value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_check_note:hint">
-            <value> ####height in previous census: <output value=" ../ht_old "/> m </value>
+            <value> ####height in previous census: <output value=" ../../new_dbh/ht_old "/> m </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max0_check:label">
             <value>Record height if tree is &lt;span style="color:red"&gt;up to 10m&lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max0_check:hint">
-            <value> ####old tag <output value=" ../../tag_old "/>, height in previous census: <output value=" ../ht_old "/> m </value>
+            <value> ####old tag <output value=" ../../tag_old "/>, height in previous census: <output value=" ../../new_dbh/ht_old "/> m </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max1_check:label">
             <value>&lt;span style="color:red"&gt;more than 10m&lt;/span&gt;</value>
@@ -2918,7 +2918,7 @@
             <value> ### Possible cause of measurement discrepancy (previous census = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause:hint">
-            <value> ### First measurement was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; and check was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### First measurement was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; and check was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause_other:jr:requiredMsg">
             <value>descreva a evidência</value>
@@ -2927,7 +2927,7 @@
             <value> ### Evidence in measurement discrepancy (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause_other:hint">
-            <value> ### First measurement was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; and check was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### First measurement was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; and check was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/dif_htOK:jr:constraintMsg">
             <value>Return to the height measurement and redo it!</value>
@@ -2939,7 +2939,7 @@
             <value> ### Confirm the height value (previous census = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;) </value>
           </text>
           <text id="/data/subquad/tree/new_ht/dif_htOK:hint">
-            <value> ### First measurement was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; and check was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### First measurement was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; and check was &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/mult_stem:jr:requiredMsg">
             <value>um ou mais fustes</value>
@@ -3193,7 +3193,7 @@
           <text id="/data/subquad/tree/conf_info/tree_picture05:label">
             <value> Plant photo <output value=" ../../num_tag "/> </value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_319:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
             <value> ### Tree <output value=" ../../num_tag "/> is dead </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg">
@@ -3208,22 +3208,22 @@
           <text id="/data/subquad/tree/conf_info/conf_ok:hint">
             <value>If the information is not correct, click on the &lt;span style="color:red"&gt; arrow.point &lt;/span&gt; icon and adjust the data.</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
             <value>### No information about the &lt;span style="color:red"&gt; tag &lt;/span&gt; number</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_324:label">
             <value>### No information about the &lt;span style="color:red"&gt; height &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_325:label">
             <value>### No information about the &lt;span style="color:red"&gt; dbh &lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/miss_tree:label">
             <value>Missing trees</value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:label">
+          <text id="/data/subquad/miss_tree/generated_note_name_338:label">
             <value> ### Trees found <output value=" ../n_sel "/> of <output value=" ../n_tags "/> listed. </value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:hint">
+          <text id="/data/subquad/miss_tree/generated_note_name_338:hint">
             <value> Trees in subquadrat: <output value=" ../tags_subq "/>; found: <output value=" ../../tag_selected "/> </value>
           </text>
           <text id="/data/subquad/rep_miss:label">
@@ -3236,10 +3236,10 @@
             <value> ### Select the tag (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt;) on the map </value>
             <value form="image"> jr://images/<output value=" /data/subquad/mapname "/> </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:label">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_351:label">
             <value> ### Data for tree &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt; - <output value=" ../old_sp_miss "/> (<output value=" ../old_fam_miss "/>): </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_351:hint">
             <value> ### dbh: <output value=" ../old_dbh_miss "/> mm; height: <output value=" ../old_ht_miss "/> m </value>
           </text>
           <text id="/data/subquad/rep_miss/conf_miss/miss_conf:label">
@@ -3306,7 +3306,7 @@
           <text id="/data/subquad/rep_miss/map_miss/xy_miss:hint">
             <value>Select the position:</value>
           </text>
-          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_381:label">
+          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_383:label">
             <value> ## selected: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy_miss "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg">
@@ -4639,6 +4639,36 @@
           <text id="/data/subquad/tree/new_dbh/pap_new_cm:hint">
             <value> #### pap en el censo anterior: (<output value=" ../../tree_recenso/old_papcm "/>) cm </value>
           </text>
+          <text id="/data/subquad/tree/new_dbh/ht_type:jr:requiredMsg">
+            <value>é necessário selecionar um estrato de altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_type:label">
+            <value>Seleccione el estrato de altura del árbol</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/note_ht0:label">
+            <value>###Anote la altura del árbol</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:jr:requiredMsg">
+            <value>é preciso anotar a altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:label">
+            <value>### si la altura es &lt;span style="color:red"&gt;hasta 10m&lt;/span&gt;</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max0:hint">
+            <value> #### placa antigua <output value=" ../../tag_old "/>, altura en el censo anterior: <output value=" ../ht_old "/> m </value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:jr:requiredMsg">
+            <value>é preciso anotar a altura</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:label">
+            <value>### si la altura es &lt;span style="color:red"&gt;más de 10m&lt;/span&gt;</value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_max1:hint">
+            <value> #### placa antigua <output value=" ../../tag_old "/>, altura en el censo anterior: <output value=" ../ht_old "/> m </value>
+          </text>
+          <text id="/data/subquad/tree/new_dbh/ht_met:label">
+            <value>Seleccione el método utilizado para medir la altura:</value>
+          </text>
           <text id="/data/subquad/tree/new_dbh/check_dbh/dbh_check_note:label">
             <value>###¡Hay inconsistencia en el valor del dap o pap, rehaga la medida en el campo de abajo!</value>
           </text>
@@ -4729,47 +4759,17 @@
           <text id="/data/subquad/tree/new_ht:label">
             <value>altura_censo</value>
           </text>
-          <text id="/data/subquad/tree/new_ht/ht_type:jr:requiredMsg">
-            <value>é necessário selecionar um estrato de altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_type:label">
-            <value>Seleccione el estrato de altura del árbol</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/note_ht0:label">
-            <value>###Anote la altura del árbol</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:jr:requiredMsg">
-            <value>é preciso anotar a altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:label">
-            <value>### si la altura es &lt;span style="color:red"&gt;hasta 10m&lt;/span&gt;</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max0:hint">
-            <value> #### placa antigua <output value=" ../../tag_old "/>, altura en el censo anterior: <output value=" ../ht_old "/> m </value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:jr:requiredMsg">
-            <value>é preciso anotar a altura</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:label">
-            <value>### si la altura es &lt;span style="color:red"&gt;más de 10m&lt;/span&gt;</value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_max1:hint">
-            <value> #### placa antigua <output value=" ../../tag_old "/>, altura en el censo anterior: <output value=" ../ht_old "/> m </value>
-          </text>
-          <text id="/data/subquad/tree/new_ht/ht_met:label">
-            <value>Seleccione el método utilizado para medir la altura:</value>
-          </text>
           <text id="/data/subquad/tree/new_ht/ht_check_note:label">
             <value>### ¡Hay inconsistencia en el valor de la altura respecto al censo anterior! Rehaga la medida en el campo de abajo:</value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_check_note:hint">
-            <value> ####altura en el censo anterior: <output value=" ../ht_old "/> m </value>
+            <value> ####altura en el censo anterior: <output value=" ../../new_dbh/ht_old "/> m </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max0_check:label">
             <value>Anote la altura si el árbol tiene &lt;span style="color:red"&gt;hasta 10m&lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max0_check:hint">
-            <value> ####placa antigua <output value=" ../../tag_old "/>, altura en el censo anterior: <output value=" ../ht_old "/> m </value>
+            <value> ####placa antigua <output value=" ../../tag_old "/>, altura en el censo anterior: <output value=" ../../new_dbh/ht_old "/> m </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_max1_check:label">
             <value>&lt;span style="color:red"&gt;más de 10m&lt;/span&gt;</value>
@@ -4781,7 +4781,7 @@
             <value> ### Posible causa de la discrepancia de medidas (censo anterior = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause:hint">
-            <value> ### La primera medida fue &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; y la verificación &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### La primera medida fue &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; y la verificación &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause_other:jr:requiredMsg">
             <value>descreva a evidência</value>
@@ -4790,7 +4790,7 @@
             <value> ### Evidencia en la discrepancia de medida (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;): </value>
           </text>
           <text id="/data/subquad/tree/new_ht/ht_cause_other:hint">
-            <value> ### La primera medida fue &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; y la verificación &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### La primera medida fue &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; y la verificación &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/dif_htOK:jr:constraintMsg">
             <value>¡Regrese a la medida de altura y rehágala!</value>
@@ -4802,7 +4802,7 @@
             <value> ### Confirme el valor de la altura (censo anterior = &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../tree_recenso/old_ht "/>&lt;/span&gt;) </value>
           </text>
           <text id="/data/subquad/tree/new_ht/dif_htOK:hint">
-            <value> ### La primera medida fue &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new "/>&lt;/span&gt; y la verificación &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
+            <value> ### La primera medida fue &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../new_dbh/ht_new "/>&lt;/span&gt; y la verificación &lt;span style=&quot;color:red&quot;&gt;<output value=" ../ht_new_check "/>&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/new_ht/mult_stem:jr:requiredMsg">
             <value>um ou mais fustes</value>
@@ -5056,7 +5056,7 @@
           <text id="/data/subquad/tree/conf_info/tree_picture05:label">
             <value> Foto de la planta <output value=" ../../num_tag "/> </value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_319:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
             <value> ### El árbol <output value=" ../../num_tag "/> está muerto </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg">
@@ -5071,22 +5071,22 @@
           <text id="/data/subquad/tree/conf_info/conf_ok:hint">
             <value>Si la información no es correcta, haga clic en el icono &lt;span style="color:red"&gt; flecha.punto &lt;/span&gt; y ajuste los datos.</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_321:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
             <value>### No hay información sobre el número de la &lt;span style="color:red"&gt; placa &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_322:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_324:label">
             <value>### No hay información sobre la &lt;span style="color:red"&gt; altura &lt;/span&gt;</value>
           </text>
-          <text id="/data/subquad/tree/conf_info/generated_note_name_323:label">
+          <text id="/data/subquad/tree/conf_info/generated_note_name_325:label">
             <value>### No hay información sobre el &lt;span style="color:red"&gt; dap &lt;/span&gt;</value>
           </text>
           <text id="/data/subquad/miss_tree:label">
             <value>Árboles desaparecidos</value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:label">
+          <text id="/data/subquad/miss_tree/generated_note_name_338:label">
             <value> ### Árboles encontrados <output value=" ../n_sel "/> de <output value=" ../n_tags "/> listados. </value>
           </text>
-          <text id="/data/subquad/miss_tree/generated_note_name_336:hint">
+          <text id="/data/subquad/miss_tree/generated_note_name_338:hint">
             <value> Árboles en el subcuadrante: <output value=" ../tags_subq "/>; encontradas: <output value=" ../../tag_selected "/> </value>
           </text>
           <text id="/data/subquad/rep_miss:label">
@@ -5099,10 +5099,10 @@
             <value> ### Seleccione la placa (&lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt;) en el mapa </value>
             <value form="image"> jr://images/<output value=" /data/subquad/mapname "/> </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:label">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_351:label">
             <value> ### Datos del árbol &lt;span style=&quot;color:red&quot;&gt;<output value=" ../../miss_num "/>&lt;/span&gt; - <output value=" ../old_sp_miss "/> (<output value=" ../old_fam_miss "/>): </value>
           </text>
-          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint">
+          <text id="/data/subquad/rep_miss/conf_miss/generated_note_name_351:hint">
             <value> ### dap: <output value=" ../old_dbh_miss "/> mm; altura: <output value=" ../old_ht_miss "/> m </value>
           </text>
           <text id="/data/subquad/rep_miss/conf_miss/miss_conf:label">
@@ -5169,7 +5169,7 @@
           <text id="/data/subquad/rep_miss/map_miss/xy_miss:hint">
             <value>Seleccione la posición:</value>
           </text>
-          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_381:label">
+          <text id="/data/subquad/rep_miss/map_miss/generated_note_name_383:label">
             <value> ## seleccionado: &lt;span style=&quot;color:red&quot;&gt;<output value=" ../mapxy_miss "/> &lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg">
@@ -5771,6 +5771,14 @@
                 <difdbh/>
                 <diffdbh_prop/>
                 <dbh_rec_high/>
+                <ht_old/>
+                <ht_type/>
+                <note_ht0/>
+                <ht_max0/>
+                <ht_max1/>
+                <ht_new/>
+                <ht_dif/>
+                <ht_met>ht_view</ht_met>
                 <check_dbh>
                   <dbh_check_note/>
                   <dbh_check_note01/>
@@ -5786,14 +5794,6 @@
                 </check_dbh>
               </new_dbh>
               <new_ht>
-                <ht_old/>
-                <ht_type/>
-                <note_ht0/>
-                <ht_max0/>
-                <ht_max1/>
-                <ht_new/>
-                <ht_dif/>
-                <ht_met>ht_view</ht_met>
                 <ht_check_note/>
                 <ht_max0_check/>
                 <ht_max1_check/>
@@ -5873,11 +5873,11 @@
                 <yes_det/>
                 <yes_all/>
                 <yes_dead/>
-                <generated_note_name_319/>
-                <conf_ok/>
                 <generated_note_name_321/>
-                <generated_note_name_322/>
+                <conf_ok/>
                 <generated_note_name_323/>
+                <generated_note_name_324/>
+                <generated_note_name_325/>
               </conf_info>
             </tree>
             <tree_end/>
@@ -5887,7 +5887,7 @@
               <n_tags/>
               <n_miss/>
               <tag_selected_miss/>
-              <generated_note_name_336/>
+              <generated_note_name_338/>
             </miss_tree>
             <rep_miss jr:template="">
               <miss_num/>
@@ -5898,7 +5898,7 @@
                 <old_fam_miss/>
                 <old_sp_miss/>
                 <miss_tag_key/>
-                <generated_note_name_349/>
+                <generated_note_name_351/>
                 <miss_conf/>
               </conf_miss>
               <miss_found>
@@ -5927,7 +5927,7 @@
               <map_miss>
                 <xy_miss/>
                 <mapxy_miss/>
-                <generated_note_name_381/>
+                <generated_note_name_383/>
               </map_miss>
               <new_ht_miss>
                 <ht_type_miss/>
@@ -6120,6 +6120,14 @@
                 <difdbh/>
                 <diffdbh_prop/>
                 <dbh_rec_high/>
+                <ht_old/>
+                <ht_type/>
+                <note_ht0/>
+                <ht_max0/>
+                <ht_max1/>
+                <ht_new/>
+                <ht_dif/>
+                <ht_met>ht_view</ht_met>
                 <check_dbh>
                   <dbh_check_note/>
                   <dbh_check_note01/>
@@ -6135,14 +6143,6 @@
                 </check_dbh>
               </new_dbh>
               <new_ht>
-                <ht_old/>
-                <ht_type/>
-                <note_ht0/>
-                <ht_max0/>
-                <ht_max1/>
-                <ht_new/>
-                <ht_dif/>
-                <ht_met>ht_view</ht_met>
                 <ht_check_note/>
                 <ht_max0_check/>
                 <ht_max1_check/>
@@ -6222,11 +6222,11 @@
                 <yes_det/>
                 <yes_all/>
                 <yes_dead/>
-                <generated_note_name_319/>
-                <conf_ok/>
                 <generated_note_name_321/>
-                <generated_note_name_322/>
+                <conf_ok/>
                 <generated_note_name_323/>
+                <generated_note_name_324/>
+                <generated_note_name_325/>
               </conf_info>
             </tree>
             <tree_end/>
@@ -6236,7 +6236,7 @@
               <n_tags/>
               <n_miss/>
               <tag_selected_miss/>
-              <generated_note_name_336/>
+              <generated_note_name_338/>
             </miss_tree>
             <rep_miss>
               <miss_num/>
@@ -6247,7 +6247,7 @@
                 <old_fam_miss/>
                 <old_sp_miss/>
                 <miss_tag_key/>
-                <generated_note_name_349/>
+                <generated_note_name_351/>
                 <miss_conf/>
               </conf_miss>
               <miss_found>
@@ -6276,7 +6276,7 @@
               <map_miss>
                 <xy_miss/>
                 <mapxy_miss/>
-                <generated_note_name_381/>
+                <generated_note_name_383/>
               </map_miss>
               <new_ht_miss>
                 <ht_type_miss/>
@@ -7217,6 +7217,14 @@
       <bind nodeset="/data/subquad/tree/new_dbh/difdbh" type="string" relevant=" ../../tree_recenso/tree_tag  !=''" calculate=" ../dbh_new  -  ../../tree_recenso/old_dbh "/>
       <bind nodeset="/data/subquad/tree/new_dbh/diffdbh_prop" type="string" relevant=" ../../tree_recenso/tree_tag  !=''" calculate=" ../difdbh  div  ../../tree_recenso/old_dbh "/>
       <bind nodeset="/data/subquad/tree/new_dbh/dbh_rec_high" type="string" relevant=" ../../ttree/tree_type  = 'sem_info'" calculate="if( /data/local/min_dbh  &lt; 20,  /data/local/min_dbh  * 5,  /data/local/min_dbh  * 2.5)"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_old" type="string" calculate="if( ../../tree_recenso/tree_tag  !='',  ../../tree_recenso/old_ht , 'sem info')"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_type" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_dbh/ht_type:jr:requiredMsg')"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/note_ht0" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_max0" type="decimal" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_dbh/ht_max0:jr:requiredMsg')" relevant=" ../ht_type ='minus_10'"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_max1" type="int" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_dbh/ht_max1:jr:requiredMsg')" relevant=" ../ht_type ='plus_10'"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_new" type="string" calculate="if(( ../ht_max0  =''),  ../ht_max1 ,  ../ht_max0 )"/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_dif" type="string" calculate=" ../ht_new  -  ../../tree_recenso/old_ht "/>
+      <bind nodeset="/data/subquad/tree/new_dbh/ht_met" type="string" required="true()"/>
       <bind nodeset="/data/subquad/tree/new_dbh/check_dbh" relevant=" ../difdbh  &lt; 0 or  ../difdbh  &gt; 20 or  ../diffdbh_prop  &gt; 0.4 or  ../dbh_new  &lt;  /data/local/min_dbh  or ( ../../ttree/tree_type  = 'sem_info' and  ../dbh_new  &gt;  ../dbh_rec_high )"/>
       <bind nodeset="/data/subquad/tree/new_dbh/check_dbh/dbh_check_note" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/tree/new_dbh/check_dbh/dbh_check_note01" readonly="true()" type="string" relevant=" ../../dbh_new  &lt;=  /data/local/min_dbh "/>
@@ -7230,21 +7238,13 @@
       <bind nodeset="/data/subquad/tree/new_dbh/check_dbh/dif_dbhOK" type="string" constraint=".='yes'" jr:constraintMsg="jr:itext('/data/subquad/tree/new_dbh/check_dbh/dif_dbhOK:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_dbh/check_dbh/dif_dbhOK:jr:requiredMsg')" relevant=" ../difdbh_check  &lt; 0"/>
       <bind nodeset="/data/subquad/tree/new_dbh/check_dbh/min_dbhOK" type="string" constraint=".='yes'" jr:constraintMsg="jr:itext('/data/subquad/tree/new_dbh/check_dbh/min_dbhOK:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_dbh/check_dbh/min_dbhOK:jr:requiredMsg')" relevant=" ../../dbh_new  &lt;=  /data/local/min_dbh "/>
       <bind nodeset="/data/subquad/tree/new_ht" relevant=" ../ttree/tree_type  != 'plaq_dead' and  ../ttree/tree_type  != 'not_tree' and  ../ttree/tree_type  != 'notag_dead'"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_old" type="string" calculate="if( ../../tree_recenso/tree_tag  !='',  ../../tree_recenso/old_ht , 'sem info')"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_type" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/ht_type:jr:requiredMsg')"/>
-      <bind nodeset="/data/subquad/tree/new_ht/note_ht0" readonly="true()" type="string"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_max0" type="decimal" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/ht_max0:jr:requiredMsg')" relevant=" ../ht_type ='minus_10'"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_max1" type="int" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/ht_max1:jr:requiredMsg')" relevant=" ../ht_type ='plus_10'"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_new" type="string" calculate="if(( ../ht_max0  =''),  ../ht_max1 ,  ../ht_max0 )"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_dif" type="string" calculate=" ../ht_new  -  ../../tree_recenso/old_ht "/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_met" type="string" required="true()"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_check_note" readonly="true()" type="string" relevant="( ../ht_dif  &lt; 0 or  ../ht_dif  &gt; 5)"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_max0_check" type="decimal" required="true()" relevant="( ../ht_dif  &lt; 0 or  ../ht_dif  &gt; 5) and  ../ht_type ='minus_10'"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_max1_check" type="int" required="true()" relevant="( ../ht_dif  &lt; 0 or  ../ht_dif  &gt; 5) and  ../ht_type ='plus_10'"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_new_check" type="string" relevant=" ../ht_dif  &lt; 0 or  ../ht_dif  &gt; 5" calculate="if(( ../ht_max0_check  =''),  ../ht_max1_check ,  ../ht_max0_check )"/>
-      <bind nodeset="/data/subquad/tree/new_ht/ht_cause" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/ht_cause:jr:requiredMsg')" relevant=" ../ht_dif  &lt; 0 or  ../ht_dif  &gt; 5"/>
+      <bind nodeset="/data/subquad/tree/new_ht/ht_check_note" readonly="true()" type="string" relevant="( ../../new_dbh/ht_dif  &lt; 0 or  ../../new_dbh/ht_dif  &gt; 5)"/>
+      <bind nodeset="/data/subquad/tree/new_ht/ht_max0_check" type="decimal" required="true()" relevant="( ../../new_dbh/ht_dif  &lt; 0 or  ../../new_dbh/ht_dif  &gt; 5) and  ../../new_dbh/ht_type ='minus_10'"/>
+      <bind nodeset="/data/subquad/tree/new_ht/ht_max1_check" type="int" required="true()" relevant="( ../../new_dbh/ht_dif  &lt; 0 or  ../../new_dbh/ht_dif  &gt; 5) and  ../../new_dbh/ht_type ='plus_10'"/>
+      <bind nodeset="/data/subquad/tree/new_ht/ht_new_check" type="string" relevant=" ../../new_dbh/ht_dif  &lt; 0 or  ../../new_dbh/ht_dif  &gt; 5" calculate="if(( ../ht_max0_check  =''),  ../ht_max1_check ,  ../ht_max0_check )"/>
+      <bind nodeset="/data/subquad/tree/new_ht/ht_cause" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/ht_cause:jr:requiredMsg')" relevant=" ../../new_dbh/ht_dif  &lt; 0 or  ../../new_dbh/ht_dif  &gt; 5"/>
       <bind nodeset="/data/subquad/tree/new_ht/ht_cause_other" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/ht_cause_other:jr:requiredMsg')" relevant="selected( ../ht_cause , 'dif_error')"/>
-      <bind nodeset="/data/subquad/tree/new_ht/dif_htOK" type="string" constraint=".='yes'" jr:constraintMsg="jr:itext('/data/subquad/tree/new_ht/dif_htOK:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/dif_htOK:jr:requiredMsg')" relevant=" ../ht_dif  &lt; 0 or  ../ht_dif  &gt; 5"/>
+      <bind nodeset="/data/subquad/tree/new_ht/dif_htOK" type="string" constraint=".='yes'" jr:constraintMsg="jr:itext('/data/subquad/tree/new_ht/dif_htOK:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/dif_htOK:jr:requiredMsg')" relevant=" ../../new_dbh/ht_dif  &lt; 0 or  ../../new_dbh/ht_dif  &gt; 5"/>
       <bind nodeset="/data/subquad/tree/new_ht/mult_stem" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/new_ht/mult_stem:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/tree/new_ht/nstem_ok" type="string" constraint=".!='no'" jr:constraintMsg="jr:itext('/data/subquad/tree/new_ht/nstem_ok:jr:constraintMsg')" required="true()" relevant=" ../../tree_recenso/old_nstem  &gt;=2 and  ../mult_stem  = 'no'"/>
       <bind nodeset="/data/subquad/tree/sec_stem" relevant=" ../new_ht/mult_stem ='yes'"/>
@@ -7285,7 +7285,7 @@
       <bind nodeset="/data/subquad/tree/coleta_depois" relevant=" ../ttree/recruta_id  = 'no' or ( ../ttree/tree_type  = 'sem_info' and  ../new_id/new_sp  ='')"/>
       <bind nodeset="/data/subquad/tree/coleta_depois/fita_coleta_depois" type="string" required="true()"/>
       <bind nodeset="/data/subquad/tree/conf_info/map_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if(( ../../map/mapxy  != ''),  ../../map/mapxy ,  ../../tree_recenso/old_xy )"/>
-      <bind nodeset="/data/subquad/tree/conf_info/ht_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if( ../../new_ht/ht_new_check ='',  ../../new_ht/ht_new ,  ../../new_ht/ht_new_check )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/ht_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if( ../../new_ht/ht_new_check ='',  ../../new_dbh/ht_new ,  ../../new_ht/ht_new_check )"/>
       <bind nodeset="/data/subquad/tree/conf_info/dbh_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if( ../../new_dbh/check_dbh/dbh_new_check ='',  ../../new_dbh/dbh_new ,  ../../new_dbh/check_dbh/dbh_new_check )"/>
       <bind nodeset="/data/subquad/tree/conf_info/fam_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if(( ../../new_id/new_fam  !=''),  ../../new_id/new_fam ,  ../../tree_recenso/old_fam )"/>
       <bind nodeset="/data/subquad/tree/conf_info/sp_final" type="string" relevant=" ../../ttree/tree_type  != 'plaq_dead' and  ../../ttree/tree_type  != 'notag_dead' and  ../../ttree/tree_type  != 'not_tree'" calculate="if( ../../new_id/new_sp  !='',  ../../new_id/new_sp , if(( ../../new_id/new_fam = 'fam_indet' or  ../../new_id/new_gen  = 'gen_indet'), 'sp_indet', ../../tree_recenso/old_sp ))"/>
@@ -7312,18 +7312,18 @@
       <bind nodeset="/data/subquad/tree/conf_info/yes_det" type="string" calculate="( ../sp_final  !='' or  ../../ttree/recruta_id  = 'no')"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_all" type="string" calculate="( ../yes_tag  and  ../yes_ht  and  ../yes_dbh  and  ../yes_map  and  ../yes_det )"/>
       <bind nodeset="/data/subquad/tree/conf_info/yes_dead" type="string" calculate=" ../../ttree/tree_type  = 'plaq_dead' or  ../../ttree/tree_type  = 'notag_dead'"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_319" readonly="true()" type="string" relevant=" ../yes_dead "/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_321" readonly="true()" type="string" relevant=" ../yes_dead "/>
       <bind nodeset="/data/subquad/tree/conf_info/conf_ok" type="string" constraint=" ../yes_all  or  ../yes_dead  or ( ../../ttree/tree_type  = 'not_tree')" jr:constraintMsg="jr:itext('/data/subquad/tree/conf_info/conf_ok:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/conf_info/conf_ok:jr:requiredMsg')"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_321" readonly="true()" type="string" relevant="not( ../yes_tag )"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_322" readonly="true()" type="string" relevant="not( ../yes_ht )"/>
-      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_323" readonly="true()" type="string" relevant="not( ../yes_dbh )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_323" readonly="true()" type="string" relevant="not( ../yes_tag )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_324" readonly="true()" type="string" relevant="not( ../yes_ht )"/>
+      <bind nodeset="/data/subquad/tree/conf_info/generated_note_name_325" readonly="true()" type="string" relevant="not( ../yes_dbh )"/>
       <bind nodeset="/data/subquad/tree_end" type="string" calculate="indexed-repeat( ../tree/conf_info/conf_ok ,  /data/subquad/tree , count( ../tree/conf_info/conf_ok ),  /data/subquad ,  ../n_sub )"/>
       <bind nodeset="/data/subquad/miss_tree/n_sel" type="string" calculate="count-selected( ../../tag_selected )"/>
       <bind nodeset="/data/subquad/miss_tree/tags_subq" type="string" calculate="pulldata('subqtags', 'tags', 'subq',  ../../sel_subquad )"/>
       <bind nodeset="/data/subquad/miss_tree/n_tags" type="string" calculate="count-selected( ../tags_subq )"/>
       <bind nodeset="/data/subquad/miss_tree/n_miss" type="string" calculate=" ../n_tags  -  ../n_sel "/>
       <bind nodeset="/data/subquad/miss_tree/tag_selected_miss" type="string" calculate="join(' ',  ../../rep_miss/miss_num )"/>
-      <bind nodeset="/data/subquad/miss_tree/generated_note_name_336" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/miss_tree/generated_note_name_338" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/rep_miss" relevant=" ../tree_end  = 'yes_end'"/>
       <bind nodeset="/data/subquad/rep_miss/miss_num" type="string" calculate="selected-at( ../../miss_tree/tags_subq , position(..) - 1)"/>
       <bind nodeset="/data/subquad/rep_miss/miss_true" type="string" calculate="not(selected( ../../tag_selected ,  ../miss_num ))"/>
@@ -7333,7 +7333,7 @@
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_fam_miss" type="string" calculate="pulldata('lastCensus', 'fam', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/old_sp_miss" type="string" calculate="pulldata('lastCensus', 'species', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/miss_tag_key" type="string"/>
-      <bind nodeset="/data/subquad/rep_miss/conf_miss/generated_note_name_349" readonly="true()" type="string"/>
+      <bind nodeset="/data/subquad/rep_miss/conf_miss/generated_note_name_351" readonly="true()" type="string"/>
       <bind nodeset="/data/subquad/rep_miss/conf_miss/miss_conf" type="string" required="true()"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found" relevant=" ../conf_miss/miss_conf ='found'"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/miss_alive" type="string" required="true()"/>
@@ -7359,7 +7359,7 @@
       <bind nodeset="/data/subquad/rep_miss/map_miss" relevant=" ../miss_found/tagmap_conf_miss ='map_no'"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss/xy_miss" type="string" constraint=".!=''" jr:constraintMsg="jr:itext('/data/subquad/rep_miss/map_miss/xy_miss:jr:constraintMsg')" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/map_miss/xy_miss:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/rep_miss/map_miss/mapxy_miss" type="string" calculate="substring-before( ../xy_miss , '; .1')"/>
-      <bind nodeset="/data/subquad/rep_miss/map_miss/generated_note_name_381" readonly="true()" type="string" relevant=" ../xy_miss  !=''"/>
+      <bind nodeset="/data/subquad/rep_miss/map_miss/generated_note_name_383" readonly="true()" type="string" relevant=" ../xy_miss  !=''"/>
       <bind nodeset="/data/subquad/rep_miss/new_ht_miss" relevant=" ../miss_found/miss_alive  = 'yes'"/>
       <bind nodeset="/data/subquad/rep_miss/new_ht_miss/ht_type_miss" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/new_ht_miss/ht_type_miss:jr:requiredMsg')"/>
       <bind nodeset="/data/subquad/rep_miss/new_ht_miss/note_ht0_miss" readonly="true()" type="string"/>
@@ -7822,6 +7822,31 @@
                 <label ref="jr:itext('/data/subquad/tree/new_dbh/pap_new_cm:label')"/>
                 <hint ref="jr:itext('/data/subquad/tree/new_dbh/pap_new_cm:hint')"/>
               </input>
+              <select1 ref="/data/subquad/tree/new_dbh/ht_type">
+                <label ref="jr:itext('/data/subquad/tree/new_dbh/ht_type:label')"/>
+                <itemset nodeset="instance('ht_layer')/root/item">
+                  <value ref="name"/>
+                  <label ref="jr:itext(itextId)"/>
+                </itemset>
+              </select1>
+              <input ref="/data/subquad/tree/new_dbh/note_ht0">
+                <label ref="jr:itext('/data/subquad/tree/new_dbh/note_ht0:label')"/>
+              </input>
+              <range ref="/data/subquad/tree/new_dbh/ht_max0" start="1.5" end="10" step="0.5">
+                <label ref="jr:itext('/data/subquad/tree/new_dbh/ht_max0:label')"/>
+                <hint ref="jr:itext('/data/subquad/tree/new_dbh/ht_max0:hint')"/>
+              </range>
+              <range ref="/data/subquad/tree/new_dbh/ht_max1" start="10" end="40" step="1">
+                <label ref="jr:itext('/data/subquad/tree/new_dbh/ht_max1:label')"/>
+                <hint ref="jr:itext('/data/subquad/tree/new_dbh/ht_max1:hint')"/>
+              </range>
+              <select1 ref="/data/subquad/tree/new_dbh/ht_met">
+                <label ref="jr:itext('/data/subquad/tree/new_dbh/ht_met:label')"/>
+                <itemset nodeset="instance('type_ht')/root/item">
+                  <value ref="name"/>
+                  <label ref="jr:itext(itextId)"/>
+                </itemset>
+              </select1>
               <group appearance="field-list" ref="/data/subquad/tree/new_dbh/check_dbh">
                 <input ref="/data/subquad/tree/new_dbh/check_dbh/dbh_check_note">
                   <label ref="jr:itext('/data/subquad/tree/new_dbh/check_dbh/dbh_check_note:label')"/>
@@ -7874,31 +7899,6 @@
             </group>
             <group appearance="field-list" ref="/data/subquad/tree/new_ht">
               <label ref="jr:itext('/data/subquad/tree/new_ht:label')"/>
-              <select1 ref="/data/subquad/tree/new_ht/ht_type">
-                <label ref="jr:itext('/data/subquad/tree/new_ht/ht_type:label')"/>
-                <itemset nodeset="instance('ht_layer')/root/item">
-                  <value ref="name"/>
-                  <label ref="jr:itext(itextId)"/>
-                </itemset>
-              </select1>
-              <input ref="/data/subquad/tree/new_ht/note_ht0">
-                <label ref="jr:itext('/data/subquad/tree/new_ht/note_ht0:label')"/>
-              </input>
-              <range ref="/data/subquad/tree/new_ht/ht_max0" start="1.5" end="10" step="0.5">
-                <label ref="jr:itext('/data/subquad/tree/new_ht/ht_max0:label')"/>
-                <hint ref="jr:itext('/data/subquad/tree/new_ht/ht_max0:hint')"/>
-              </range>
-              <range ref="/data/subquad/tree/new_ht/ht_max1" start="10" end="40" step="1">
-                <label ref="jr:itext('/data/subquad/tree/new_ht/ht_max1:label')"/>
-                <hint ref="jr:itext('/data/subquad/tree/new_ht/ht_max1:hint')"/>
-              </range>
-              <select1 ref="/data/subquad/tree/new_ht/ht_met">
-                <label ref="jr:itext('/data/subquad/tree/new_ht/ht_met:label')"/>
-                <itemset nodeset="instance('type_ht')/root/item">
-                  <value ref="name"/>
-                  <label ref="jr:itext(itextId)"/>
-                </itemset>
-              </select1>
               <input ref="/data/subquad/tree/new_ht/ht_check_note">
                 <label ref="jr:itext('/data/subquad/tree/new_ht/ht_check_note:label')"/>
                 <hint ref="jr:itext('/data/subquad/tree/new_ht/ht_check_note:hint')"/>
@@ -8158,8 +8158,8 @@
               <upload ref="/data/subquad/tree/conf_info/tree_picture05" mediatype="image/*">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/tree_picture05:label')"/>
               </upload>
-              <input ref="/data/subquad/tree/conf_info/generated_note_name_319">
-                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_319:label')"/>
+              <input ref="/data/subquad/tree/conf_info/generated_note_name_321">
+                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_321:label')"/>
               </input>
               <select1 ref="/data/subquad/tree/conf_info/conf_ok">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/conf_ok:label')"/>
@@ -8169,23 +8169,23 @@
                   <label ref="jr:itext(itextId)"/>
                 </itemset>
               </select1>
-              <input ref="/data/subquad/tree/conf_info/generated_note_name_321">
-                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_321:label')"/>
-              </input>
-              <input ref="/data/subquad/tree/conf_info/generated_note_name_322">
-                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_322:label')"/>
-              </input>
               <input ref="/data/subquad/tree/conf_info/generated_note_name_323">
                 <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_323:label')"/>
+              </input>
+              <input ref="/data/subquad/tree/conf_info/generated_note_name_324">
+                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_324:label')"/>
+              </input>
+              <input ref="/data/subquad/tree/conf_info/generated_note_name_325">
+                <label ref="jr:itext('/data/subquad/tree/conf_info/generated_note_name_325:label')"/>
               </input>
             </group>
           </repeat>
         </group>
         <group appearance="field-list" ref="/data/subquad/miss_tree">
           <label ref="jr:itext('/data/subquad/miss_tree:label')"/>
-          <input ref="/data/subquad/miss_tree/generated_note_name_336">
-            <label ref="jr:itext('/data/subquad/miss_tree/generated_note_name_336:label')"/>
-            <hint ref="jr:itext('/data/subquad/miss_tree/generated_note_name_336:hint')"/>
+          <input ref="/data/subquad/miss_tree/generated_note_name_338">
+            <label ref="jr:itext('/data/subquad/miss_tree/generated_note_name_338:label')"/>
+            <hint ref="jr:itext('/data/subquad/miss_tree/generated_note_name_338:hint')"/>
           </input>
         </group>
         <group ref="/data/subquad/rep_miss">
@@ -8200,9 +8200,9 @@
                   <value>tag_key</value>
                 </item>
               </select1>
-              <input ref="/data/subquad/rep_miss/conf_miss/generated_note_name_349">
-                <label ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_349:label')"/>
-                <hint ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_349:hint')"/>
+              <input ref="/data/subquad/rep_miss/conf_miss/generated_note_name_351">
+                <label ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_351:label')"/>
+                <hint ref="jr:itext('/data/subquad/rep_miss/conf_miss/generated_note_name_351:hint')"/>
               </input>
               <select1 ref="/data/subquad/rep_miss/conf_miss/miss_conf">
                 <label ref="jr:itext('/data/subquad/rep_miss/conf_miss/miss_conf:label')"/>
@@ -8265,8 +8265,8 @@
                   <value>xyid</value>
                 </item>
               </select1>
-              <input ref="/data/subquad/rep_miss/map_miss/generated_note_name_381">
-                <label ref="jr:itext('/data/subquad/rep_miss/map_miss/generated_note_name_381:label')"/>
+              <input ref="/data/subquad/rep_miss/map_miss/generated_note_name_383">
+                <label ref="jr:itext('/data/subquad/rep_miss/map_miss/generated_note_name_383:label')"/>
               </input>
             </group>
             <group appearance="field-list" ref="/data/subquad/rep_miss/new_ht_miss">

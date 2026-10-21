@@ -10,8 +10,7 @@ mergeCSV(csvDir, expDir = NULL)
 \item{csvDir}{Character. Directory that contains the CSV files exported by
 \code{readInstancesXML}.}
 
-\item{expDir}{Character. Export directory. Defaults to \code{csvDir}.
-with sub-directories. Defaults to \code{csvDir}.}
+\item{expDir}{Character. Export directory. Defaults to \code{csvDir}.}
 }
 \value{
 Invisibly, the path to \code{expDir}.

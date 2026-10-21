@@ -588,11 +588,67 @@ setupPyEnv <- function() {
 }
 
 
+#' Normalise a date value to "YYYY-MM-DD"
+#'
+#' The date stored in the `date` column of every output file must be the
+#' **collection** date, i.e. the value of the form field `today`, and
+#' never the date on which \code{mergeCSV} happened to be run. ODK
+#' stores such values in different shapes depending on the form:
+#' \itemize{
+#'   \item a plain date, e.g. `"2024-05-10"`;
+#'   \item an ISO datetime, e.g. `"2024-05-10T00:00:00.000-03:00"`;
+#'   \item a date in some other human format accepted by
+#'     \code{as.Date} (e.g. `"10/05/2024"`).
+#' }
+#' Only the calendar date part is kept. Missing/empty/unparseable
+#' values fall back to the current date so that legacy data (collected
+#' before `today` existed in the form) do not end up with `NA`.
+#'
+#' @param x A character vector of date values.
+#' @return A character vector of `"YYYY-MM-DD"` values, same length as
+#'   `x`.
+#' @keywords internal
+.normalizeDate <- function(x) {
+  n <- length(x)
+  if (n == 0L) return(character(0))
+
+  x <- as.character(x)
+  x[is.na(x)] <- ""
+  x <- trimws(x)
+
+  out <- rep(NA_character_, n)
+
+  ## 1. ISO date or ISO datetime: keep only the YYYY-MM-DD part
+  iso <- grepl("^[0-9]{4}-[0-9]{2}-[0-9]{2}", x)
+  out[iso] <- substr(x[iso], 1L, 10L)
+
+  ## 2. Anything else non-empty: let as.Date try to parse it
+  rest <- !iso & nzchar(x)
+  if (any(rest)) {
+    alt <- suppressWarnings(as.Date(x[rest]))
+    out[rest] <- ifelse(is.na(alt), NA_character_, format(alt))
+  }
+
+  ## 3. Last resort: current date (legacy data without `today`)
+  miss <- is.na(out) | !nzchar(out)
+  out[miss] <- format(Sys.Date())
+
+  out
+}
+
+
 #' @noRd
 .contextDf <- function(d, keyEnv) {
   n <- nrow(d)
+
+  ## 'date' must be the collection date (form field 'today'), never the
+  ## processing date. As with plot/quad/subquad/team, 'today' may live
+  ## only on the parent record (root), so it is resolved through the
+  ## PARENT_KEY chain.
+  today <- .fieldSelfOrAncestor(d, "today", keyEnv)
+
   data.frame(
-    date    = rep(format(Sys.Date()), n),
+    date    = .normalizeDate(today),
     plot    = .fieldSelfOrAncestor(d, "plot_name",   keyEnv),
     quad    = .fieldSelfOrAncestor(d, "quadrat",     keyEnv),
     subquad = .fieldSelfOrAncestor(d, "sel_subquad", keyEnv),
