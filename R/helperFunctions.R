@@ -648,7 +648,7 @@ setupPyEnv <- function() {
   today <- .fieldSelfOrAncestor(d, "today", keyEnv)
 
   data.frame(
-    date    = .normalizeDate(today),
+    date    = .normalizeDate(today)q,
     plot    = .fieldSelfOrAncestor(d, "plot_name",   keyEnv),
     quad    = .fieldSelfOrAncestor(d, "quadrat",     keyEnv),
     subquad = .fieldSelfOrAncestor(d, "sel_subquad", keyEnv),

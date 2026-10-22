@@ -57,11 +57,10 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     dir.create(mediaDst, recursive = TRUE)
   }
 
-  ## Os helpers que antes eram closures locais desta função agora vivem
-  ## em R/helperFunctions.R (seção 3) com o prefixo "." e recebem por
-  ## parâmetro qualquer informação que antes vinha do ambiente local
-  ## (csvDir, csvFiles, dataList, keyEnv). Isso permite que outras
-  ## funções do pacote os reutilizem.
+  ## Helpers used below live in R/helperFunctions.R (section 3) with the
+  ## "." prefix; everything they used to capture from this function's
+  ## environment (csvDir, csvFiles, dataList, keyEnv) is now passed as a
+  ## parameter, so other functions can reuse them.
 
   ## ------------------------------------------------------------------ ##
   ## 1. Read every CSV and tidy the column names                        ##
@@ -157,41 +156,37 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   dropKeys <- c("KEY", "PARENT_KEY")
 
   ## ------------------------------------------------------------------ ##
-  ## 3b. multStem: prepara as duas origens e o 'tagOld'                 ##
+  ## 3b. multStem: prepare both sources and 'tagOld'                    ##
   ##                                                                    ##
-  ## multStem reune os fustes secundarios de DOIS ramos independentes   ##
-  ## do XForm, ambos filhos diretos de 'subquad':                       ##
-  ##   - 'subquad/tree/sec_stem'          (arvores do censo)             ##
-  ##   - 'subquad/rep_miss/sec_stem_miss' (arvores encontradas)          ##
+  ## multStem gathers secondary stems from two independent XForm        ##
+  ## branches (both direct children of 'subquad'):                      ##
+  ##   - 'subquad/tree/sec_stem'          (census trees)                 ##
+  ##   - 'subquad/rep_miss/sec_stem_miss' (found trees)                  ##
   ##                                                                    ##
-  ## 'tagOld' e a placa ANTIGA da arvore-mae. Por isso ela e resolvida  ##
-  ## a partir do repeat PAI de cada ramo, ANTES de empilhar os          ##
-  ## arquivos:                                                          ##
-  ##   * origem 'tree'     -> 'tag_old'  do repeat 'tree'               ##
-  ##                          (vazio ou "sem info" -> NA; senao numero) ##
-  ##   * origem 'rep_miss' -> 'miss_num' do repeat 'rep_miss'           ##
+  ## 'tagOld' is the OLD tag of the parent tree, so it is resolved      ##
+  ## from each branch's PARENT repeat BEFORE stacking:                  ##
+  ##   * 'tree'     -> 'tag_old'  (empty / "sem info" -> NA)            ##
+  ##   * 'rep_miss' -> 'miss_num'                                       ##
   ##                                                                    ##
-  ## Resolver antes do empilhamento dispensa uma coluna auxiliar de     ##
-  ## origem --- que nao pode sequer ser criada quando o arquivo vem     ##
-  ## vazio (data.frame 0 x 0) --- e impede contaminacao entre os ramos, ##
-  ## pois a cadeia de PARENT_KEY de 'sec_stem' nunca passa por um       ##
-  ## 'rep_miss' e vice-versa.                                           ##
+  ## Resolving first avoids an auxiliary source column (impossible to   ##
+  ## create for a 0 x 0 file) and prevents cross-branch contamination,  ##
+  ## since the PARENT_KEY chain never crosses branches.                 ##
   ## ------------------------------------------------------------------ ##
   prepStem <- function(f, field) {
     d   <- dataList[[f]]
     out <- d
-    ## o ramo 'rep_miss' sufixa as colunas com "_miss"; unifica os nomes
+    ## 'rep_miss' suffixes columns with "_miss"; unify the names
     names(out) <- sub("_miss$", "", names(out))
 
-    ## 'tag_old' (ramo tree) ou 'miss_num' (ramo rep_miss) do ancestral
+    ## 'tag_old' (tree branch) or 'miss_num' (rep_miss branch) from ancestor
     raw <- as.character(.fieldSelfOrAncestor(d, field, keyEnv))
 
-    ## vazio ou "sem info" -> NA
+    ## empty or "sem info" -> NA
     raw <- trimws(raw)
     raw[!is.na(raw) & grepl("sem info", raw, ignore.case = TRUE)] <- NA_character_
     raw[!is.na(raw) & !nzchar(raw)] <- NA_character_
 
-    ## numero; o que nao for numero vira NA (avisado logo abaixo)
+    ## numeric; non-numeric becomes NA (warned below)
     num <- suppressWarnings(as.numeric(raw))
 
     out$tagOld <- num
@@ -201,7 +196,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   stemTreeL <- lapply(stemF,  prepStem, field = "tag_old")   # repeat 'tree'
   stemMissL <- lapply(stemMF, prepStem, field = "miss_num")  # repeat 'rep_miss'
 
-  ## ---- avisos ------------------------------------------------------- ##
+  ## ---- warnings ----------------------------------------------------- ##
   rawAll <- c(unlist(lapply(stemTreeL, `[[`, "raw"), use.names = FALSE),
               unlist(lapply(stemMissL, `[[`, "raw"), use.names = FALSE))
   numAll <- c(unlist(lapply(stemTreeL, `[[`, "num"), use.names = FALSE),
@@ -216,8 +211,8 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       call. = FALSE)
   }
 
-  ## o mesmo numero de arvore pode aparecer nas duas origens; nesse caso
-  ## os dois registros sao mantidos e um aviso pede conferencia
+  ## the same tree number may appear in both sources; both records are
+  ## kept and a warning asks for review
   tagOldTreeVec <- unlist(lapply(stemTreeL, `[[`, "num"), use.names = FALSE)
   tagOldMissVec <- unlist(lapply(stemMissL, `[[`, "num"), use.names = FALSE)
   dupBoth <- intersect(unique(tagOldTreeVec[!is.na(tagOldTreeVec)]),
@@ -231,7 +226,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       call. = FALSE)
   }
 
-  ## empilha somente depois de resolver 'tagOld' em cada origem
+  ## stack only after resolving 'tagOld' per source
   multStemDf <- .bindRows(c(lapply(stemTreeL, `[[`, "df"),
                             lapply(stemMissL, `[[`, "df")))
 
@@ -281,10 +276,10 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## dx / dy: subquad base + mapxy offset, only for rows with mapxy.
   ## subquad looks like "<prefix>_<X>x<Y>"; mapxy looks like "x = X; y = Y"
   ##
-  ## Importante: tanto 'sel_subquad' quanto 'mapxy' podem estar apenas no
-  ## registro pai (repeat de subquad), e nao no repeat de arvores. Por isso
-  ## buscamos com .fieldSelfOrAncestor (self ou ancestral), e nao com .getCol
-  ## (que so enxerga o proprio registro e devolvia NA, zerando dx/dy).
+  ## Note: both 'sel_subquad' and 'mapxy' may live only on the parent
+  ## record (subquad repeat), not on the tree repeat. We therefore use
+  ## .fieldSelfOrAncestor (self or ancestor) rather than .getCol (which
+  ## only sees the own record and returned NA, zeroing dx/dy).
   subqVal  <- as.character(.fieldSelfOrAncestor(tr, "sel_subquad", keyEnv))
   mapxyVal <- as.character(.fieldSelfOrAncestor(tr, "mapxy",       keyEnv))
 
@@ -348,7 +343,6 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       fam      = .getCol(tr, "fam_final"),
       species  = .getCol(tr, "sp_final"),
       mapOk    = .getCol(tr, "tree_map_conf"),
-      ## 
       qxy      = .getCol(tr, "map_final"),
       qxyOld   = .getCol(tr, "old_xy"),
       dx       = dx,
@@ -412,6 +406,22 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   selFound <- !is.na(missTrue) & missTrue == 1 &
     (is.na(missConf) | missConf != "miss")
 
+  ## ------------------------------------------------------------------ ##
+  ## 9b. treesFound.csv                                                 ##
+  ##     Same columns/names as trees.csv. The source is the 'rep_miss'  ##
+  ##     repeat, whose columns carry the "_miss" suffix; that suffix    ##
+  ##     is stripped below so that field names match those used when    ##
+  ##     building trees.csv.                                            ##
+  ##                                                                    ##
+  ##     Source differences relative to trees.csv (same output name,    ##
+  ##     different source field):                                       ##
+  ##       obsType = "plaqueada" / "plaq_dead"  (from 'miss_alive')     ##
+  ##       tag     = 'miss_num' overwritten by 'new_tag' when present   ##
+  ##       tagOld  = 'miss_num'                                         ##
+  ##       tagMap  = 'miss_tag_key' ("tag_<n>.1" -> <n>)                ##
+  ##       fam     = 'new_fam' ; species = 'new_sp'                     ##
+  ##       mapOk   = 'tagmap_conf' ; qxy = 'mapxy'                      ##
+  ## ------------------------------------------------------------------ ##
   tnNames <- names(treeNFDf)
   tnNames <- sub("_miss$", "", tnNames)
   tnNames <- sub("miss$",  "", tnNames)
@@ -419,40 +429,162 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   names(tn) <- tnNames
   keep <- !grepl("note_name", names(tn))
   tn <- tn[, keep, drop = FALSE]
-  tn <- tn[, setdiff(names(tn), dropKeys), drop = FALSE]
 
-  ## media paths inside treesFound as well
-  tnPicCols <- names(tn)[grepl("picture", names(tn), ignore.case = TRUE)]
-  for (pc in tnPicCols) tn[[pc]] <- .asMediaPath(tn[[pc]])
+  ## 'KEY'/'PARENT_KEY' are not dropped here: .fieldSelfOrAncestor
+  ## needs 'PARENT_KEY'. Those columns simply do not enter the final
+  ## treesFoundOut assembly.
 
-  treesFoundOut <- cbind(.contextDf(treeNFDf, keyEnv), tn)
+  nTf <- nrow(tn)
+
+  ## context (also reused for the idCheck rows below)
+  ctxF <- .contextDf(tn, keyEnv)
+
+  ## ---- obsType ----------------------------------------------------- ##
+  ## alive ("yes") -> "plaqueada"; 'miss_alive' missing -> "plaq_dead"
+  missAlive <- as.character(.getCol(tn, "miss_alive"))
+  obsTypeF  <- rep(NA_character_, nTf)
+  obsTypeF[!is.na(missAlive) & missAlive == "yes"] <- "plaqueada"
+  obsTypeF[is.na(missAlive)]                       <- "plaq_dead"
+
+  ## ---- tag / tagOld ------------------------------------------------ ##
+  ## tag = miss_num, overwritten by new_tag when present;
+  ## tagOld = miss_num (old tag)
+  tagNumF <- as.character(.getCol(tn, "miss_num"))
+  tagNewF <- as.character(.getCol(tn, "new_tag"))
+  tagF    <- tagNumF
+  hasNewF <- !is.na(tagNewF) & nzchar(tagNewF)
+  tagF[hasNewF] <- tagNewF[hasNewF]
+
+  ## ---- tagMap from miss_tag_key ("tag_<n>.1" -> <n>) --------------- ##
+  tagKeyF <- as.character(.getCol(tn, "miss_tag_key"))
+  tagMapF <- suppressWarnings(as.integer(gsub("tag_|\\.1", "", tagKeyF)))
+
+  ## ---- dx / dy: subquad base + mapxy offset (same as trees) --------- ##
+  subqValF  <- as.character(ctxF$subquad)
+  mapxyValF <- as.character(.fieldSelfOrAncestor(tn, "mapxy", keyEnv))
+
+  baseXF <- suppressWarnings(as.numeric(sub("^.*_([0-9.]+)x.*$",       "\\1", subqValF)))
+  baseYF <- suppressWarnings(as.numeric(sub("^.*_[0-9.]+x([0-9.]+).*$", "\\1", subqValF)))
+  mapXF  <- suppressWarnings(as.numeric(sub("^.*x\\s*=\\s*([-0-9.]+).*$", "\\1", mapxyValF)))
+  mapYF  <- suppressWarnings(as.numeric(sub("^.*y\\s*=\\s*([-0-9.]+).*$", "\\1", mapxyValF)))
+
+  hasMapF <- !is.na(mapxyValF) & nzchar(mapxyValF)
+  dxF <- rep(NA_real_, nTf)
+  dyF <- rep(NA_real_, nTf)
+  dxF[hasMapF] <- round(baseXF[hasMapF] + mapXF[hasMapF], 1)
+  dyF[hasMapF] <- round(baseYF[hasMapF] + mapYF[hasMapF], 1)
+
+  ## ---- pictures (every *picture* column, except the tag photo) ------ ##
+  picColsF <- names(tn)[grepl("picture", names(tn), ignore.case = TRUE) &
+                          !grepl("tag_picture", names(tn), ignore.case = TRUE)]
+  picturesF <- if (nTf == 0L) {
+    character(0)
+  } else if (length(picColsF) == 0L) {
+    rep(NA_character_, nTf)
+  } else {
+    apply(tn[, picColsF, drop = FALSE], 1, function(r) {
+      r <- as.character(r)
+      r <- r[!is.na(r) & nzchar(r)]
+      if (length(r) == 0L) NA_character_ else
+        paste(.asMediaPath(r), collapse = "; ")
+    })
+  }
+
+  treesFoundOut <- cbind(
+    ctxF,
+    data.frame(
+      obsType  = obsTypeF,
+      tag      = tagF,
+      tagOK    = .getCol(tn, "tag_ok"),
+      tagOld   = tagNumF,
+      tagMap   = tagMapF,
+      pom      = .getCol(tn, "dbh_pom"),
+      dbh      = .getCol(tn, "dbh_new"),
+      dbhOld   = .getCol(tn, "old_dbh"),
+      dbhDif   = .round1(.getCol(tn, "difdbh")),
+      dbhCheck = .getCol(tn, "dbh_new_check"),
+      dbhObs   = .getCol(tn, "dbh_cause"),
+      ht       = .getCol(tn, "ht_new"),
+      htOld    = .getCol(tn, "old_ht"),
+      htDif    = .round1(.getCol(tn, "difht")),
+      htCheck  = .getCol(tn, "ht_new_check"),
+      nstem    = .getCol(tn, "new_nstem"),
+      nstemOld = .getCol(tn, "old_nstem"),
+      nstemObs = .getCol(tn, "nstem_diff"),
+      idOk     = .getCol(tn, "info_id"),
+      fam      = .getCol(tn, "new_fam"),
+      species  = .getCol(tn, "new_sp"),
+      mapOk    = .getCol(tn, "tagmap_conf"),
+      qxy      = .getCol(tn, "mapxy"),
+      qxyOld   = .getCol(tn, "old_xy"),
+      dx       = dxF,
+      dy       = dyF,
+      pictureNewTag = .asMediaPath(.getCol(tn, "new_tag_picture")),
+      pictures = picturesF,
+      stringsAsFactors = FALSE
+    )
+  )
   treesFoundOut <- treesFoundOut[selFound, , drop = FALSE]
+
+  ## ------------------------------------------------------------------ ##
+  ## 9c. idCheck.csv also receives the treesFound.csv records that     ##
+  ##     need identification: 'info_id' != "yes" and                   ##
+  ##     'obsType' == "plaqueada". Only columns already present in     ##
+  ##     idCheck.csv are filled (no new column is created).            ##
+  ## ------------------------------------------------------------------ ##
+  idOkF <- as.character(.getCol(tn, "info_id"))
+  condIdFound <- selFound &
+    (is.na(idOkF) | idOkF != "yes") &
+    !is.na(obsTypeF) & obsTypeF == "plaqueada"
+
+  if (any(condIdFound)) {
+    tfId <- tn[condIdFound, , drop = FALSE]
+    nIdF <- nrow(tfId)
+
+    idFoundOut <- cbind(
+      ctxF[condIdFound, , drop = FALSE],
+      data.frame(
+        tag        = tagF[condIdFound],
+        obsType    = obsTypeF[condIdFound],
+        idRecruits = rep(NA_character_, nIdF),
+        famOld     = .getCol(tfId, "old_fam"),
+        spOld      = .getCol(tfId, "old_sp"),
+        famOk      = rep(NA_character_, nIdF),
+        spOk       = rep(NA_character_, nIdF),
+        famNew     = .getCol(tfId, "new_fam"),
+        genNew     = .getCol(tfId, "new_gen"),
+        spNew      = .getCol(tfId, "new_sp"),
+        detType    = .getCol(tfId, "det_type"),
+        idType     = .getCol(tfId, "indet_type"),
+        toCollect  = .getCol(tfId, "fita_coleta_depois"),
+        pictures   = picturesF[condIdFound],
+        stringsAsFactors = FALSE
+      )
+    )
+
+    idCheckOut <- .bindRows(list(idCheckOut, idFoundOut))
+  }
 
   ## ------------------------------------------------------------------ ##
   ## 10. multStem.csv                                                   ##
   ##                                                                    ##
-  ## multStem reune os fustes secundarios de DOIS ramos do XForm:      ##
-  ##   - 'subquad/tree/sec_stem'             (arvores do censo)         ##
-  ##   - 'subquad/rep_miss/sec_stem_miss'    (arvores encontradas)      ##
+  ## Secondary stems from the two XForm branches (census trees:         ##
+  ## 'subquad/tree/sec_stem'; found trees:                              ##
+  ## 'subquad/rep_miss/sec_stem_miss'). Column names were already       ##
+  ## unified in step 3b. Note:                                          ##
+  ##   * the stem sequential number is 'mult_stem_seq' (after the       ##
+  ##     "_miss" strip), never 'mult_stem_sec'.                         ##
+  ##   * the parent tree tag is not in 'sec_stem'/'sec_stem_miss': it   ##
+  ##     comes from ancestor 'num_tag' (tree) or 'miss_num'             ##
+  ##     (rep_miss). A re-tagged found tree stores the new number in    ##
+  ##     ancestor 'miss_new_tag.new_tag_miss', which replaces           ##
+  ##     'miss_num' in 'tag' while 'tagOld' keeps the old tag.          ##
   ##                                                                    ##
-  ## Como os dois ramos usam nomes de colunas diferentes (ja unificados ##
-  ## no item 3b por sub("_miss$","",names)), precisamos lembrar que:    ##
-  ##   * o numero sequencial do fuste e 'mult_stem_seq' (apos o strip), ##
-  ##     nunca 'mult_stem_sec'.                                         ##
-  ##   * a placa da arvore-mae NAO esta em 'sec_stem'/'sec_stem_miss'.  ##
-  ##     No ramo 'tree' ela vem do ancestral 'num_tag'; no ramo         ##
-  ##     'rep_miss' ela vem do ancestral 'miss_num'. Se a arvore        ##
-  ##     encontrada foi replaqueada, o novo numero esta no ancestral    ##
-  ##     'miss_new_tag.new_tag_miss' e substitui 'miss_num' em 'tag'    ##
-  ##     enquanto 'tagOld' mantem a placa antiga.                       ##
-  ##                                                                    ##
-  ## A coluna 'tagOld' ja chega pronta do item 3b:                      ##
-  ##   * origem 'tree'     -> 'tag_old'  do repeat 'tree'               ##
-  ##   * origem 'rep_miss' -> 'miss_num' do repeat 'rep_miss'           ##
+  ## 'tagOld' was already resolved in step 3b, per source.              ##
   ## ------------------------------------------------------------------ ##
   ms <- multStemDf
 
-  ## dap (mm -> cm -> pap)
+  ## dbh (mm -> cm -> pap)
   dbhMm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_mm_sec")))
   dbhCm <- suppressWarnings(as.numeric(.getCol(ms, "dbh_cm_sec")))
   papCm <- suppressWarnings(as.numeric(.getCol(ms, "pap_cm_sec")))
@@ -471,26 +603,26 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   tagNew  <- as.character(.fieldSelfOrAncestor(ms, "miss_new_tag.new_tag_miss",
                                                keyEnv))
 
-  ## base do tag: 'num_tag' quando existir, senao 'miss_num'
+  ## tag base: 'num_tag' when present, otherwise 'miss_num'
   tagBase <- tagNum
   fill    <- is.na(tagBase) | !nzchar(tagBase)
   tagBase[fill] <- tagMiss[fill]
   tagBase[is.na(tagBase)] <- ""
 
-  ## tag: igual a tagBase, mas substitui por 'new_tag_miss' quando existir
+  ## tag: same as tagBase, but replaced by 'new_tag_miss' when present
   tag    <- tagBase
   hasNew <- !is.na(tagNew) & nzchar(tagNew)
   tag[hasNew] <- tagNew[hasNew]
   tag[is.na(tag)] <- ""
 
   ## ------- tagOld --------------------------------------------------- ##
-  ## Resolvido no item 3b, por origem ('tag_old' de 'tree' ou 'miss_num'
-  ## de 'rep_miss'), com NA para vazio / "sem info".
+  ## Resolved in step 3b, per source ('tag_old' from 'tree' or
+  ## 'miss_num' from 'rep_miss'), with NA for empty / "sem info".
   tagOld <- .getCol(ms, "tagOld")
 
   ## ------- stem ----------------------------------------------------- ##
-  ## Numero sequencial do fuste, mantendo a grafia do XForm.
-  ## Apos o strip de "_miss" o nome e 'mult_stem_seq' em ambos os ramos.
+  ## Stem sequential number, keeping the XForm spelling.
+  ## After the "_miss" strip the name is 'mult_stem_seq' in both branches.
   stemSeq <- as.character(.getCol(ms, "mult_stem_seq"))
   stemSeq[is.na(stemSeq)] <- ""
 

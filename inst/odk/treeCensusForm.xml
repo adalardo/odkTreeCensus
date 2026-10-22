@@ -1316,7 +1316,7 @@
             <value> ### Mapeamento: &lt;span style=&quot;color:red&quot;&gt; <output value=" ../../../sel_subquad "/> (<output value=" ../map_final "/>)&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_map:hint">
-            <value> #### Coordenadas anteriores: <output value=" ../../tree_recenso/old_quad "/>: x = <output value=" ../../tree_recenso/old_dx "/>; y = <output value=" ../../tree_recenso/old_dy "/> </value>
+            <value> #### Coordenadas anteriores: <output value=" ../../tree_recenso/old_quad "/>: x = <output value=" ../../tree_recenso/old_qx "/>; y = <output value=" ../../tree_recenso/old_qy "/> </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_dbh:label">
             <value> ### Diametro do fuste principal (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" ../dbh_final "/> &lt;/span&gt; </value>
@@ -1437,7 +1437,7 @@
             <value>### Confirme o mapeamento:</value>
           </text>
           <text id="/data/subquad/rep_miss/miss_found/tagmap_conf_miss:hint">
-            <value> ## Coordenas na parcela <output value=" /data/parcela/quadrat "/>: x = <output value=" ../old_dx_miss "/> e y = <output value=" ../old_dy_miss "/> </value>
+            <value> ## Coordenas na parcela <output value=" /data/parcela/quadrat "/>: x = <output value=" ../old_qx_miss "/> e y = <output value=" ../old_qy_miss "/> </value>
           </text>
           <text id="/data/subquad/rep_miss/miss_new_tag:label">
             <value>Replaqueada</value>
@@ -3149,7 +3149,7 @@
             <value> ### Mapping: &lt;span style=&quot;color:red&quot;&gt; <output value=" ../../../sel_subquad "/> (<output value=" ../map_final "/>)&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_map:hint">
-            <value> #### Previous coordinates: <output value=" ../../tree_recenso/old_quad "/>: x = <output value=" ../../tree_recenso/old_dx "/>; y = <output value=" ../../tree_recenso/old_dy "/> </value>
+            <value> #### Previous coordinates: <output value=" ../../tree_recenso/old_quad "/>: x = <output value=" ../../tree_recenso/old_qx "/>; y = <output value=" ../../tree_recenso/old_qy "/> </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_dbh:label">
             <value> ### Main stem diameter (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" ../dbh_final "/> &lt;/span&gt; </value>
@@ -3270,7 +3270,7 @@
             <value>### Confirm mapping:</value>
           </text>
           <text id="/data/subquad/rep_miss/miss_found/tagmap_conf_miss:hint">
-            <value> ## Coordinates in plot <output value=" /data/parcela/quadrat "/>: x = <output value=" ../old_dx_miss "/> and y = <output value=" ../old_dy_miss "/> </value>
+            <value> ## Coordinates in plot <output value=" /data/parcela/quadrat "/>: x = <output value=" ../old_qx_miss "/> and y = <output value=" ../old_qy_miss "/> </value>
           </text>
           <text id="/data/subquad/rep_miss/miss_new_tag:label">
             <value>Retagged</value>
@@ -5012,7 +5012,7 @@
             <value> ### Mapeo: &lt;span style=&quot;color:red&quot;&gt; <output value=" ../../../sel_subquad "/> (<output value=" ../map_final "/>)&lt;/span&gt; </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_map:hint">
-            <value> #### Coordenadas anteriores: <output value=" ../../tree_recenso/old_quad "/>: x = <output value=" ../../tree_recenso/old_dx "/>; y = <output value=" ../../tree_recenso/old_dy "/> </value>
+            <value> #### Coordenadas anteriores: <output value=" ../../tree_recenso/old_quad "/>: x = <output value=" ../../tree_recenso/old_qx "/>; y = <output value=" ../../tree_recenso/old_qy "/> </value>
           </text>
           <text id="/data/subquad/tree/conf_info/conf_dbh:label">
             <value> ### Diámetro del fuste principal (mm): &lt;span style=&quot;color:red&quot;&gt;<output value=" ../dbh_final "/> &lt;/span&gt; </value>
@@ -5133,7 +5133,7 @@
             <value>### Confirme el mapeo:</value>
           </text>
           <text id="/data/subquad/rep_miss/miss_found/tagmap_conf_miss:hint">
-            <value> ## Coordenadas en la parcela <output value=" /data/parcela/quadrat "/>: x = <output value=" ../old_dx_miss "/> e y = <output value=" ../old_dy_miss "/> </value>
+            <value> ## Coordenadas en la parcela <output value=" /data/parcela/quadrat "/>: x = <output value=" ../old_qx_miss "/> e y = <output value=" ../old_qy_miss "/> </value>
           </text>
           <text id="/data/subquad/rep_miss/miss_new_tag:label">
             <value>Replaqued</value>
@@ -5604,7 +5604,7 @@
         </translation>
       </itext>
       <instance>
-        <data id="treeCensusForm" version="20261012.01">
+        <data id="treeCensusForm" version="20261022.01">
           <today/>
           <start/>
           <end/>
@@ -5910,8 +5910,8 @@
                 <old_papcm_miss/>
                 <old_dbhmm_miss/>
                 <old_quad_miss/>
-                <old_dx_miss/>
-                <old_dy_miss/>
+                <old_qx_miss/>
+                <old_qy_miss/>
                 <old_xy_miss/>
                 <old_nstem_miss/>
                 <old_nsec_miss/>
@@ -6259,8 +6259,8 @@
                 <old_papcm_miss/>
                 <old_dbhmm_miss/>
                 <old_quad_miss/>
-                <old_dx_miss/>
-                <old_dy_miss/>
+                <old_qx_miss/>
+                <old_qy_miss/>
                 <old_xy_miss/>
                 <old_nstem_miss/>
                 <old_nsec_miss/>
@@ -7161,7 +7161,7 @@
       <bind nodeset="/data/subquad/tree/ttag/tree_tag000" type="string" relevant="string-length( ../tree_tag0 ) = 0 and string-length( ../tree_tag00 ) = 0"/>
       <bind nodeset="/data/subquad/tree/ttag/tree_tag_seminfo" type="int" required="true()" jr:requiredMsg="jr:itext('/data/subquad/tree/ttag/tree_tag_seminfo:jr:requiredMsg')" relevant="string-length( ../tree_tag0 ) = 0 and string-length( ../tree_tag00 ) = 0 and string-length( ../tree_tag000 ) = 0"/>
       <bind nodeset="/data/subquad/tree/dead_tree" relevant=" ../ttree/tree_type ='plaq_dead' and  ../ttree/tree_type  != 'not_tree'"/>
-      <bind nodeset="/data/subquad/tree/dead_tree/tag_dead" type="string"/>
+      <bind nodeset="/data/subquad/tree/dead_tree/tag_dead" type="string" required="true()"/>
       <bind nodeset="/data/subquad/tree/dead_tree/dead_obs" type="string"/>
       <bind nodeset="/data/subquad/tree/dead_tree/dead_picture" type="binary" orx:max-pixels="1024"/>
       <bind nodeset="/data/subquad/tree/tree_recenso" relevant="( ../ttree/tree_type ='plaqueada' or  ../ttree/tree_type  ='plaq_dead' or  ../ttree/tree_type  = 'plaq_sec') or ( ../ttree/tree_type  ='plaq_ileg' and  ../tag_map/tree_tag_map !='') and  ../ttag/tree_tag_seminfo  = ''"/>
@@ -7344,9 +7344,9 @@
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_papcm_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate=" ../old_dbhcm_miss * pi()"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_dbhmm_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate=" ../old_dbhcm_miss  * 10"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_quad_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'quad', 'tag',  ../../miss_num )"/>
-      <bind nodeset="/data/subquad/rep_miss/miss_found/old_dx_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'dx', 'tag',  ../../miss_num )"/>
-      <bind nodeset="/data/subquad/rep_miss/miss_found/old_dy_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'dy', 'tag',  ../../miss_num )"/>
-      <bind nodeset="/data/subquad/rep_miss/miss_found/old_xy_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="concat( ../old_dx_miss ,'; ',  ../old_dy_miss  )"/>
+      <bind nodeset="/data/subquad/rep_miss/miss_found/old_qx_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'qx', 'tag',  ../../miss_num )"/>
+      <bind nodeset="/data/subquad/rep_miss/miss_found/old_qy_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'qy', 'tag',  ../../miss_num )"/>
+      <bind nodeset="/data/subquad/rep_miss/miss_found/old_xy_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="concat( ../old_qx_miss ,'; ',  ../old_qy_miss  )"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_nstem_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate="pulldata('lastCensus', 'nstem', 'tag',  ../../miss_num )"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/old_nsec_miss" type="string" relevant=" ../miss_alive = 'yes'" calculate=" ../old_nstem_miss  - 1"/>
       <bind nodeset="/data/subquad/rep_miss/miss_found/tagmap_conf_miss" type="string" required="true()" jr:requiredMsg="jr:itext('/data/subquad/rep_miss/miss_found/tagmap_conf_miss:jr:requiredMsg')" relevant=" ../miss_alive = 'yes'"/>
