@@ -743,11 +743,22 @@ setupPyEnv <- function() {
   d
 }
 
-#' Row-bind two data.frames while preserving the union of columns
+#' Stack two data.frames row-wise while preserving the union of columns
 #'
-#' Equivalent to `merge(x, y, all = TRUE)`, but without a join key (which
-#' would produce a Cartesian product). A row identifier is used as the key:
-#' rows are simply stacked and columns missing on one side are set to `NA`.
+#' This helper implements the "merge all = TRUE" *intent* used by
+#' joinData: no row and no variable is lost. It does NOT call
+#' \code{merge()}, because when \code{by} is supplied, \code{merge()}
+#' treats every other same-named column as a non-key collision and
+#' suffixes it with \code{.x}/\code{.y}. For files that all carry the
+#' same columns (e.g. \code{date}, \code{quad}, \code{subquad}), that
+#' produced \code{date.x}/\code{date.y} on the first pass and
+#' \code{date.x.1}/\code{date.x.2} on subsequent ones, filling the
+#' whole table with \code{NA}.
+#'
+#' The correct behaviour for "combine files with the same schema" is a
+#' row-wise stack with the union of the columns (missing columns become
+#' \code{NA}). That is what the general-purpose \code{.bindRows} helper
+#' (section 3) does, so this function delegates to it.
 #' @noRd
 .jdMergeAll <- function(x, y) {
 
@@ -758,17 +769,10 @@ setupPyEnv <- function() {
   if (!xOk) return(y)
   if (!yOk) return(x)
 
-  id <- ".jdRowId"
-  while (id %in% names(x) || id %in% names(y)) id <- paste0(id, "_")
-
-  x[[id]] <- seq_len(nrow(x))
-  y[[id]] <- nrow(x) + seq_len(nrow(y))
-
-  out <- merge(x, y, by = id, all = TRUE, sort = FALSE)
-  out <- out[order(out[[id]]), , drop = FALSE]
-  out[[id]] <- NULL
+  ## Row-wise stack, keeping the union of the columns. Never creates
+  ## suffixed duplicates (date.x/date.y) as merge(..., by =) would.
+  out <- .bindRows(list(x, y))
   rownames(out) <- NULL
-
   out
 }
 
