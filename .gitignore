@@ -5,8 +5,11 @@
 *~
 \#*
 *\#
-.\#*
-
+.#*.R
+.#*.r
+.#*.Rmd
+.#*.rmd
+.#*.qmd
 
 # Ignore build artifacts
 /build/
@@ -32,7 +35,7 @@ develo*.rmd
 ## xlsx
 inst/odk/treeCensusForm.xlsx
 
-# Arquivos temporarios e pastas de saida do Quarto / Knitr / RMarkdown
+# Temporary files and output folders from Quarto / Knitr / RMarkdown
 /*_files/
 vignettes/*_files/
 vignettes/*.html

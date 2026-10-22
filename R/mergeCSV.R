@@ -57,10 +57,11 @@ mergeCSV <- function(csvDir, expDir = NULL) {
     dir.create(mediaDst, recursive = TRUE)
   }
 
-  ## Helpers used below live in R/helperFunctions.R (section 3) with the
-  ## "." prefix; everything they used to capture from this function's
-  ## environment (csvDir, csvFiles, dataList, keyEnv) is now passed as a
-  ## parameter, so other functions can reuse them.
+  ## The helpers used below live in R/helperFunctions.R (general
+  ## utilities) and in R/helperMergeCSV.R (mergeCSV-specific ones).
+  ## Everything they used to capture from this function's environment
+  ## (csvDir, csvFiles, dataList, keyEnv) is now passed as a parameter,
+  ## so other functions can reuse them.
 
   ## ------------------------------------------------------------------ ##
   ## 1. Read every CSV and tidy the column names                        ##
@@ -205,8 +206,8 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   badVals <- unique(rawAll[!is.na(rawAll) & is.na(numAll)])
   if (length(badVals) > 0L) {
     warning(sprintf(
-      paste0("multStem: valor(es) de 'tagOld' nao numerico(s), ",
-             "convertido(s) para NA: %s"),
+      paste0("multStem: non-numeric 'tagOld' value(s), ",
+             "converted to NA: %s"),
       paste(badVals, collapse = ", ")),
       call. = FALSE)
   }
@@ -219,9 +220,9 @@ mergeCSV <- function(csvDir, expDir = NULL) {
                        unique(tagOldMissVec[!is.na(tagOldMissVec)]))
   if (length(dupBoth) > 0L) {
     warning(sprintf(
-      paste0("multStem: valor(es) de 'tagOld' presente(s) em 'tree' e em ",
-             "'rep_miss': %s. Os dois registros foram mantidos; ",
-             "confira se ha duplicacao."),
+      paste0("multStem: 'tagOld' value(s) present in both 'tree' and ",
+             "'rep_miss': %s. Both records were kept; ",
+             "please check for duplication."),
       paste(sort(dupBoth), collapse = ", ")),
       call. = FALSE)
   }
@@ -627,7 +628,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   stemSeq[is.na(stemSeq)] <- ""
 
   if (nrow(ms) > 0L) {
-    message(sprintf("multStem: %d registro(s); tag preenchido=%d; stem preenchido=%d",
+    message(sprintf("multStem: %d record(s); tag filled=%d; stem filled=%d",
                     nrow(ms), sum(nzchar(tag)), sum(nzchar(stemSeq))))
   }
 
@@ -714,7 +715,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
   ## ---- Final record summary ----------------------------------------- ##
   message("\nRecord summary (how many existed / were added / total):")
   for (lg in allLogs) {
-    message(sprintf("  %s/%s: %d existente(s) + %d novo(s) = %d total.",
+    message(sprintf("  %s/%s: %d existing + %d new = %d total.",
                     lg$dir, lg$file, lg$old, lg$new, lg$total))
   }
 
@@ -770,7 +771,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       }
     }
     utils::write.csv(tagsNew, tagsUsedPath, row.names = FALSE, na = "")
-    message(sprintf("\ntagsUsed.csv: %d tag(s) registrada(s).", nrow(tagsNew)))
+    message(sprintf("\ntagsUsed.csv: %d tag(s) recorded.", nrow(tagsNew)))
 
     ## ---- tagsRepeat.csv ---------------------------------------------- ##
     ## A tag is "repeated" when its value occurs in more than one row of
@@ -788,10 +789,10 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       }
       tagsRepeat <- tagsRepeat[!duplicated(tagsRepeat), , drop = FALSE]
       utils::write.csv(tagsRepeat, tagsRepeatPath, row.names = FALSE, na = "")
-      message(sprintf("tagsRepeat.csv: %d registro(s) com tag repetida.",
+      message(sprintf("tagsRepeat.csv: %d record(s) with repeated tag.",
                       nrow(tagsRepeat)))
     } else {
-      message("tagsRepeat.csv: nenhuma tag repetida.")
+      message("tagsRepeat.csv: no repeated tag.")
     }
   }
 
@@ -808,7 +809,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
 
   utils::write.csv(data.frame(fileNames = filesReaded),
                    filesMergedPath, row.names = FALSE, na = "")
-  message(sprintf("filesDataMerged.csv: %d nome(s) base registrado(s).",
+  message(sprintf("filesDataMerged.csv: %d base name(s) recorded.",
                   length(filesReaded)))
 
   ## ------------------------------------------------------------------ ##

@@ -6,13 +6,17 @@ Authors@R:
 Description: Use and edit ODK forms, edit, push and retrieve data from android devices to census trees.
 Depends:
     R (>= 3.5.0)
+Imports:
+    grid,
+    gridSVG,
+    reticulate,
+    xml2
 Suggests:
     quarto,
     knitr,
     rmarkdown
 Config/Needs/website: quarto, rmarkdown
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 Config/roxygen2/version: 8.0.0

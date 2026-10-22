@@ -1,20 +1,21 @@
 # ====================================================================
-# Funções auxiliares internas do pacote odkTreeCensus
+# Internal helper functions of the odkTreeCensus package
 # ====================================================================
 #
-# Este arquivo reúne as funções auxiliares (helpers) usadas
-# internamente pelas funções públicas do pacote. Todas essas funções
-# são de uso interno e, por convenção, usam o prefixo "." (ponto) no
-# nome, sinalizando que não fazem parte da API pública do pacote.
+# This file gathers the helper functions used internally by the public
+# functions of the package. All of them are for internal use and, by
+# convention, use a "." (dot) prefix in their names, signalling that
+# they are not part of the package's public API.
 #
-# Organização:
-#   1. Helpers de leitura de instâncias XML (usados por readInstancesXML)
-#   2. Helper de conversão XLSForm -> XML (usado por xmlForm)
-#   3. Helpers de mesclagem de CSV (usados por mergeCSV)
+# Organisation:
+#   1. XML instance reading helpers (used by readInstancesXML)
+#   2. XLSForm -> XML conversion helper (used by xmlForm)
+#   3. CSV merging helpers (used by mergeCSV)
+#   4. Data merging helpers (used by joinData)
 
 
 # --------------------------------------------------------------------
-# 1. Helpers de leitura de instâncias XML (readInstancesXML)
+# 1. XML instance reading helpers (readInstancesXML)
 # --------------------------------------------------------------------
 
 #' Derive the form base name from a submission file name
@@ -369,43 +370,43 @@
 
 
 # --------------------------------------------------------------------
-# 2. Helper de conversão XLSForm -> XML (xmlForm)
+# 2. XLSForm -> XML conversion helper (xmlForm)
 # --------------------------------------------------------------------
 
 #' @noRd
 setupPyEnv <- function() {
   pkg_name <- "odkTreeCensus"
-  # 1. Tenta o caminho de desenvolvimento (pasta local do projeto)
+  # 1. Try the development path (local project folder)
   dev_path <- file.path("inst", "python")
 
-  # 2. Se a pasta local 'inst/python' existir (modo dev), usa ela.
-  # Caso contrário, usa o caminho padrão do pacote instalado.
+  # 2. If the local 'inst/python' folder exists (dev mode), use it.
+  # Otherwise, use the default path of the installed package.
   if (dir.exists(dev_path)) {
     wheels_dir <- dev_path
   } else {
     wheels_dir <- system.file("python", package = pkg_name)
   }
 
-  # Validação simples
+  # Simple validation
   if (wheels_dir == "" || !dir.exists(wheels_dir)) {
-    stop("Erro: A pasta 'inst/python' (dev) ou 'python' (instalado) não foi encontrada.")
+    stop("Error: the 'inst/python' (dev) or 'python' (installed) folder was not found.")
   }
 
-  # Caminho para salvar o virtualenv no cache do usuário
+  # Path to save the virtualenv in the user cache
   venv_path <- file.path(tools::R_user_dir(pkg_name, "cache"), "python_env")
 
-  # Instalação offline caso o ambiente Python não exista no cache
+  # Offline installation when the Python environment does not exist in cache
   if (!reticulate::virtualenv_exists(envname = venv_path)) {
-    message("Criando ambiente Python offline...")
+    message("Creating offline Python environment...")
     reticulate::virtualenv_create(envname = venv_path)
 
     wheels <- list.files(wheels_dir, pattern = "\\.whl$", full.names = TRUE)
 
     if (length(wheels) == 0) {
-      stop(paste("Nenhum arquivo .whl encontrado em:", wheels_dir))
+      stop(paste("No .whl file found in:", wheels_dir))
     }
 
-    # Instala os wheels sem usar a internet
+    # Install the wheels without using the internet
     reticulate::py_install(
       packages = wheels,
       envname = venv_path,
@@ -413,18 +414,18 @@ setupPyEnv <- function() {
     )
   }
 
-  # Ativa o virtualenv na sessão
+  # Activate the virtualenv in the session
   reticulate::use_virtualenv(virtualenv = venv_path, required = TRUE)
 }
 
 
 # --------------------------------------------------------------------
-# 3. Helpers de mesclagem de CSV (mergeCSV)
+# 3. CSV merging helpers (mergeCSV)
 # --------------------------------------------------------------------
 #
-# Estas funções eram definidas como closures locais dentro de mergeCSV.
-# Ao serem promovidas para o nível do pacote, recebem por parâmetro
-# tudo o que antes vinha capturado pelo ambiente de mergeCSV:
+# These functions used to be defined as local closures inside mergeCSV.
+# Once promoted to package level, they receive as arguments everything
+# that was previously captured by the mergeCSV environment:
 #   - csvDir, csvFiles, dataList, keyEnv, etc.
 
 #' @noRd
@@ -691,7 +692,7 @@ setupPyEnv <- function() {
     utils::write.csv(merged, path, row.names = FALSE, na = "")
     nTotal <- nrow(merged)
     nAdded <- max(0L, nTotal - nOld)
-    message(sprintf("  - %s: mesclado (%d + %d = %d registro(s)).",
+    message(sprintf("  - %s: merged (%d + %d = %d record(s)).",
                     name, nOld, nAdded, nTotal))
     return(list(file = name, old = nOld, new = nAdded, total = nTotal,
                 action = "merge"))
@@ -699,6 +700,108 @@ setupPyEnv <- function() {
 
   utils::write.csv(df, path, row.names = FALSE, na = "")
   nNew <- nrow(df)
-  message(sprintf("  - %s: criado (%d registro(s)).", name, nNew))
+  message(sprintf("  - %s: created (%d record(s)).", name, nNew))
   list(file = name, old = 0L, new = nNew, total = nNew, action = "create")
+}
+
+
+# --------------------------------------------------------------------
+# 4. Data merging helpers (joinData)
+# --------------------------------------------------------------------
+#
+# Specific to joinData. The ".jd" prefix keeps them clearly distinct
+# from the general-purpose CSV helpers in section 3 (e.g. .jdMergeAll
+# versus .bindRows), so that a future reader does not mistake one for
+# the other.
+
+#' Output files and their corresponding source files
+#' @noRd
+.jdTargets <- function() {
+  list(
+    "treesAll.csv"        = c("trees.csv", "treesFound.csv"),
+    "multStemAll.csv"     = c("multStem.csv"),
+    "missTreesAll.csv"    = c("missTrees.csv"),
+    "idCheckAll.csv"      = c("idCheck.csv"),
+    "fieldSessionAll.csv" = c("fieldSession.csv")
+  )
+}
+
+#' Read a CSV tolerating missing, empty, or invalid files
+#' @noRd
+.jdReadCsv <- function(path) {
+  if (!file.exists(path)) return(data.frame())
+
+  sz <- suppressWarnings(file.size(path))
+  if (is.na(sz) || sz <= 0L) return(data.frame())
+
+  d <- tryCatch(
+    utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE),
+    error = function(e) data.frame()
+  )
+
+  if (is.null(d) || ncol(d) == 0L) return(data.frame())
+  d
+}
+
+#' Row-bind two data.frames while preserving the union of columns
+#'
+#' Equivalent to `merge(x, y, all = TRUE)`, but without a join key (which
+#' would produce a Cartesian product). A row identifier is used as the key:
+#' rows are simply stacked and columns missing on one side are set to `NA`.
+#' @noRd
+.jdMergeAll <- function(x, y) {
+
+  xOk <- !is.null(x) && ncol(x) > 0L && nrow(x) > 0L
+  yOk <- !is.null(y) && ncol(y) > 0L && nrow(y) > 0L
+
+  if (!xOk && !yOk) return(data.frame())
+  if (!xOk) return(y)
+  if (!yOk) return(x)
+
+  id <- ".jdRowId"
+  while (id %in% names(x) || id %in% names(y)) id <- paste0(id, "_")
+
+  x[[id]] <- seq_len(nrow(x))
+  y[[id]] <- nrow(x) + seq_len(nrow(y))
+
+  out <- merge(x, y, by = id, all = TRUE, sort = FALSE)
+  out <- out[order(out[[id]]), , drop = FALSE]
+  out[[id]] <- NULL
+  rownames(out) <- NULL
+
+  out
+}
+
+#' List the files of interest in a data directory
+#'
+#' Preserves the order in which names appear in `fileNames`
+#' (e.g. `trees.csv` before `treesFound.csv`).
+#' @noRd
+.jdFilesInDir <- function(quadDir, fileNames) {
+  allFiles <- list.files(quadDir, recursive = TRUE, full.names = TRUE)
+  if (length(allFiles) == 0L) return(character(0))
+
+  allFiles <- allFiles[!dir.exists(allFiles)]
+  allFiles <- allFiles[basename(allFiles) %in% fileNames]
+  if (length(allFiles) == 0L) return(character(0))
+
+  ord <- match(basename(allFiles), fileNames)
+  allFiles[order(ord, allFiles)]
+}
+
+#' Collect and stack records from several data directories
+#' @noRd
+.jdCollect <- function(quadDirs, fileNames) {
+  out <- data.frame()
+
+  for (qd in quadDirs) {
+    files <- .jdFilesInDir(qd, fileNames)
+    for (f in files) {
+      d <- .jdReadCsv(f)
+      if (nrow(d) == 0L) next
+      out <- .jdMergeAll(out, d)
+    }
+  }
+
+  out
 }
