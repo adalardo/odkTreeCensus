@@ -34,12 +34,28 @@
 #'   processing, rebuilding every output file from scratch.
 #'   Default: \code{FALSE}.
 #' @param quiet Logical. If \code{TRUE}, suppresses progress messages.
+#' @param pictureLinks Logical. If \code{TRUE}, one companion column is
+#'   added for every column whose name contains \code{"picture"}
+#'   (case-insensitive) and is not itself a \code{*Link} column, i.e.
+#'   \code{pictureNewTag} -> \code{pictureNewTagLink} and
+#'   \code{pictures} -> \code{picturesLink}. The companion column
+#'   holds an Excel/LibreOffice hyperlink formula
+#'   (\code{=HYPERLINK("file:///<abs>","media/x.jpg")}) pointing to
+#'   the file resolved as \code{file.path(dataDir, value)}. The source
+#'   column is kept with the plain \code{media/x.jpg} paths so that
+#'   the CSVs remain programmatically readable in R. When a
+#'   \code{pictures} cell holds several paths separated by ";", the
+#'   link column concatenates several \code{HYPERLINK()} formulas
+#'   (Excel/LibreOffice show a single clickable link per cell, so only
+#'   the first one is typically clickable - this is a limitation of
+#'   the format, not of the package). Default: \code{FALSE}.
 #'
 #' @return Invisibly, a \code{data.frame} with the registry of scanned
 #'   directories (\code{mergedDir}, \code{runDate} and \code{stopDate}).
 #'
 #' @export
-joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
+joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE,
+                     pictureLinks = FALSE) {
 
   msg <- function(...) if (!isTRUE(quiet)) message(...)
 
@@ -121,7 +137,33 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
 
     outPath  <- file.path(dataDir, nm)
     existing <- if (isTRUE(overwrite)) data.frame() else .jdReadCsv(outPath)
-    nOld     <- nrow(existing)
+
+    ## Backward compatibility: an earlier version of joinData wrote the
+    ## HYPERLINK formula directly into the source column. Undo that
+    ## here so that (a) the source column keeps plain media paths and
+    ## (b) deduplication keeps working consistently.
+    if (nrow(existing) > 0L) {
+      for (col in .pictureColumns(existing)) {
+        existing[[col]] <- .pictureUnlinkCell(existing[[col]])
+      }
+    }
+
+    ## Drop any '<col>Link' columns carried over from a previous run
+    ## (when pictureLinks = TRUE): they are recomputed at write time
+    ## from the source column, so they must not interfere with the
+    ## record-level deduplication below.
+    if (isTRUE(pictureLinks) && nrow(existing) > 0L) {
+      linkCols <- intersect(
+        vapply(.pictureColumns(existing), .pictureLinkName, character(1)),
+        names(existing)
+      )
+      if (length(linkCols) > 0L) {
+        existing <- existing[, setdiff(names(existing), linkCols),
+                             drop = FALSE]
+      }
+    }
+
+    nOld <- nrow(existing)
 
     incoming <- .jdCollect(quadDirs, targets[[nm]])
 
@@ -149,9 +191,30 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
     nDup <- (nOld + nrow(incoming)) - nrow(combined)
     totalNew <- totalNew + max(0L, nNew)
 
+    ## Add '<col>Link' columns alongside each 'pictures*' source column.
+    ## The source column itself is left untouched (plain media paths),
+    ## so the CSV remains readable in R.
+    toWrite <- combined
+    if (isTRUE(pictureLinks) && nrow(toWrite) > 0L) {
+      srcCols <- .pictureColumns(toWrite)
+      if (length(srcCols) > 0L) {
+        for (col in srcCols) {
+          target <- .pictureLinkName(col)
+          toWrite[[target]] <- .pictureLinkCell(toWrite[[col]], dataDir)
+        }
+        ## Keep the '<col>Link' column immediately after its source.
+        newOrder <- character(0)
+        for (cn in names(combined)) {
+          newOrder <- c(newOrder, cn)
+          if (cn %in% srcCols) newOrder <- c(newOrder, .pictureLinkName(cn))
+        }
+        toWrite <- toWrite[, unique(newOrder), drop = FALSE]
+      }
+    }
+
     ## 'na = ""' keeps NA cells empty in the CSV, consistent with
     ## .writeOneWithMerge() and the rest of the package outputs.
-    utils::write.csv(combined, outPath, row.names = FALSE, na = "")
+    utils::write.csv(toWrite, outPath, row.names = FALSE, na = "")
 
     msg(sprintf(
       "  %s: %d new record(s) added; %d duplicate(s) skipped ",

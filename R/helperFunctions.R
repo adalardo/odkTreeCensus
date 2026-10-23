@@ -12,6 +12,7 @@
 #   2. XLSForm -> XML conversion helper (used by xmlForm)
 #   3. CSV merging helpers (used by mergeCSV)
 #   4. Data merging helpers (used by joinData)
+#   5. Picture link helpers (used by joinData)
 
 
 # --------------------------------------------------------------------
@@ -191,7 +192,7 @@
   ## for a deep rp such as "subquad/tree/sec_stem", the ancestor
   ## "subquad" would still be in the candidate pool, and
   ## startsWith(rp, "subquad/") would be TRUE, wrongly classifying
-  ## that rp as a non-direct child of "subquad/tree". That bug made
+  ## that rp as a non-direct child of "subquad". That bug made
   ## the walk skip deeper repeats entirely (e.g. sec_stem and
   ## sec_stem_miss), producing empty CSVs for them.
   candPool <- desc
@@ -844,4 +845,138 @@ setupPyEnv <- function() {
   }
 
   out
+}
+
+
+# --------------------------------------------------------------------
+# 5. Picture link helpers (joinData)
+# --------------------------------------------------------------------
+#
+# A CSV file stores only text: a cell like "media/1791379097616.jpg"
+# cannot be clicked in Excel or LibreOffice. The usual workaround is
+# to build a HYPERLINK formula pointing to a file:///absolute/path,
+# which both programs render as a clickable link. Rather than
+# overwriting the original 'pictures' / 'pictureNewTag' columns (which
+# would force every output file to be rebuilt), joinData writes the
+# formula into *new* '<column>Link' columns, leaving the source
+# columns untouched.
+#
+# A 'pictures' cell may contain several media paths separated by ';'.
+# Excel/LibreOffice accept only one real hyperlink per cell, so when
+# there are multiple paths the helper concatenates several HYPERLINK
+# calls with ' & ' - the cell displays "a; b; c", and in most
+# spreadsheet versions only the first link remains clickable. This is
+# a limitation of the CSV/formula format, not of the code.
+
+#' Columns to be linked (matches "pictures" and "pictureNewTag")
+#'
+#' Returns the names of the source columns whose values are media
+#' paths, i.e. any column whose name contains "picture" (case
+#' insensitive) and is not itself a generated '<col>Link' column.
+#'
+#' @param d A data.frame.
+#' @return A character vector of column names (possibly empty).
+#' @keywords internal
+.pictureColumns <- function(d) {
+  nm <- names(d)
+  if (length(nm) == 0L) return(character(0))
+  isPic  <- grepl("picture", nm, ignore.case = TRUE)
+  isLink <- grepl("Link$", nm, ignore.case = FALSE)
+  nm[isPic & !isLink]
+}
+
+#' Name of the '<col>Link' companion column
+#'
+#' @param col Source column name, e.g. \code{"pictures"}.
+#' @return The target column name, e.g. \code{"picturesLink"}.
+#' @keywords internal
+.pictureLinkName <- function(col) paste0(col, "Link")
+
+#' Convert an absolute path to a file:// URL
+#'
+#' On Unix, "/home/user/x.jpg" becomes "file:///home/user/x.jpg".
+#' On Windows, "C:/Users/x.jpg" becomes "file:///C:/Users/x.jpg".
+#' Forward slashes are used in both cases.
+#' @noRd
+.fileUrl <- function(path) {
+  p <- tryCatch(
+    normalizePath(path, winslash = "/", mustWork = FALSE),
+    error = function(e) as.character(path)
+  )
+  if (.Platform$OS.type == "windows" && !startsWith(p, "/")) {
+    p <- paste0("/", p)
+  }
+  paste0("file://", p)
+}
+
+#' Build HYPERLINK formulas from one or several media paths
+#'
+#' Each cell may hold one path ("media/x.jpg") or several separated
+#' by ";". One \code{HYPERLINK("file:///<abs>","<label>")} is built
+#' per path; when there is more than one, the calls are concatenated
+#' with \code{ & "; " & } so that the formula is syntactically valid.
+#' See the section header above for the (unavoidable) limitation
+#' regarding multi-link clickability.
+#'
+#' Cells already starting with "=HYPERLINK(" are skipped (idempotent).
+#' Empty/NA cells are left untouched.
+#'
+#' @param x Character vector of media paths.
+#' @param baseDir Directory the paths are relative to (usually the
+#'   \code{dataDir} where the \code{media/} folder lives).
+#' @return A character vector with HYPERLINK formulas.
+#' @keywords internal
+.pictureLinkCell <- function(x, baseDir) {
+  x <- as.character(x)
+  for (i in seq_along(x)) {
+    if (is.na(x[i]) || !nzchar(x[i])) next
+    if (startsWith(x[i], "=HYPERLINK(")) next
+
+    parts <- trimws(strsplit(x[i], ";", fixed = TRUE)[[1]])
+    parts <- parts[nzchar(parts)]
+    if (length(parts) == 0L) next
+
+    hlinks <- vapply(parts, function(p) {
+      absPath <- file.path(baseDir, p)
+      url     <- .fileUrl(absPath)
+      label   <- gsub('"', '""', p)
+      sprintf('HYPERLINK("%s","%s")', url, label)
+    }, character(1))
+
+    x[i] <- if (length(hlinks) == 1L) {
+      paste0("=", hlinks)
+    } else {
+      paste0("=", paste(hlinks, collapse = ' & "; " & '))
+    }
+  }
+  x
+}
+
+#' Reverse of .pictureLinkCell: extract the label(s) from HYPERLINK(s)
+#'
+#' Handles both the single-link form
+#' \code{'=HYPERLINK("file:///...","media/x.jpg")'} -> \code{"media/x.jpg"}
+#' and the concatenated multi-link form
+#' \code{'=HYPERLINK(...,"a") & "; " & HYPERLINK(...,"b")'} -> \code{"a; b"}.
+#' Non-formula cells are left unchanged. This keeps deduplication
+#' working even when a previous output has already stored formulas.
+#'
+#' @param x Character vector.
+#' @return Character vector with the paths re-extracted from the
+#'   formulas.
+#' @keywords internal
+.pictureUnlinkCell <- function(x) {
+  x <- as.character(x)
+  isLink <- !is.na(x) & startsWith(x, "=HYPERLINK(")
+  for (i in which(isLink)) {
+    m <- gregexpr('HYPERLINK\\("[^"]*","((?:[^"]|"")*)"\\)', x[i],
+                  perl = TRUE)
+    hits <- regmatches(x[i], m)[[1]]
+    if (length(hits) == 0L) next
+    labels <- sub('^HYPERLINK\\("[^"]*","((?:[^"]|"")*)"\\)$',
+                  "\\1", hits, perl = TRUE)
+    labels <- gsub('""', '"', labels)
+    x[i] <- paste(labels, collapse = "; ")
+  }
+  x
 }
