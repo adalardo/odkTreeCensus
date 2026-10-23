@@ -104,8 +104,9 @@ mergeCSV(csvDir = csvdir , expDir = expdir)
 
 ```{r }
 
+library(odkTreeCensus)
 datadir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
-joinData(dataDir = datadir )
+joinData(dataDir = datadir, picutreLinks = TRUE)
 
 
 
