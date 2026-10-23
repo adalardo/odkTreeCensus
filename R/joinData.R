@@ -39,16 +39,19 @@
 #'   (case-insensitive) and is not itself a \code{*Link} column, i.e.
 #'   \code{pictureNewTag} -> \code{pictureNewTagLink} and
 #'   \code{pictures} -> \code{picturesLink}. The companion column
-#'   holds an Excel/LibreOffice hyperlink formula
-#'   (\code{=HYPERLINK("file:///<abs>","media/x.jpg")}) pointing to
-#'   the file resolved as \code{file.path(dataDir, value)}. The source
-#'   column is kept with the plain \code{media/x.jpg} paths so that
-#'   the CSVs remain programmatically readable in R. When a
-#'   \code{pictures} cell holds several paths separated by ";", the
-#'   link column concatenates several \code{HYPERLINK()} formulas
-#'   (Excel/LibreOffice show a single clickable link per cell, so only
-#'   the first one is typically clickable - this is a limitation of
-#'   the format, not of the package). Default: \code{FALSE}.
+#'   holds the absolute \code{file:///.../media/x.jpg} URL, following
+#'   the value resolved as \code{file.path(dataDir, value)}. Both
+#'   LibreOffice and Excel recognise this URL as a clickable link when
+#'   the CSV is opened (unlike a \code{=HYPERLINK(...)} formula, which
+#'   LibreOffice only evaluates when the "Evaluate formulas" option is
+#'   manually enabled on import). The source column is kept with the
+#'   plain \code{media/x.jpg} paths so the CSVs remain programmatically
+#'   readable in R. When a \code{pictures} cell holds several paths
+#'   separated by ";", each becomes its own URL in the link column,
+#'   rejoined with "; " (LibreOffice/Excel support only one clickable
+#'   link per cell, so in multi-path cells only the first URL is
+#'   typically clickable - a limitation of the CSV format, not of the
+#'   package). Default: \code{FALSE}.
 #'
 #' @return Invisibly, a \code{data.frame} with the registry of scanned
 #'   directories (\code{mergedDir}, \code{runDate} and \code{stopDate}).
@@ -139,9 +142,10 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE,
     existing <- if (isTRUE(overwrite)) data.frame() else .jdReadCsv(outPath)
 
     ## Backward compatibility: an earlier version of joinData wrote the
-    ## HYPERLINK formula directly into the source column. Undo that
-    ## here so that (a) the source column keeps plain media paths and
-    ## (b) deduplication keeps working consistently.
+    ## HYPERLINK formula (and, later, raw file:// URLs) directly into
+    ## the source column. Undo that here so that (a) the source column
+    ## keeps plain media paths and (b) deduplication keeps working
+    ## consistently.
     if (nrow(existing) > 0L) {
       for (col in .pictureColumns(existing)) {
         existing[[col]] <- .pictureUnlinkCell(existing[[col]])
@@ -209,6 +213,12 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE,
           if (cn %in% srcCols) newOrder <- c(newOrder, .pictureLinkName(cn))
         }
         toWrite <- toWrite[, unique(newOrder), drop = FALSE]
+        msg(sprintf("  %s: '%s' link column(s) added: %s.",
+                    nm, length(srcCols), paste(srcCols, collapse = ", ")))
+      } else {
+        msg(sprintf("  %s: no columns matching 'picture' found; ",
+                    nm),
+            "no link columns created for this file.")
       }
     }
 

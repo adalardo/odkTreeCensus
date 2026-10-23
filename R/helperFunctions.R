@@ -852,21 +852,25 @@ setupPyEnv <- function() {
 # 5. Picture link helpers (joinData)
 # --------------------------------------------------------------------
 #
-# A CSV file stores only text: a cell like "media/1791379097616.jpg"
-# cannot be clicked in Excel or LibreOffice. The usual workaround is
-# to build a HYPERLINK formula pointing to a file:///absolute/path,
-# which both programs render as a clickable link. Rather than
-# overwriting the original 'pictures' / 'pictureNewTag' columns (which
-# would force every output file to be rebuilt), joinData writes the
-# formula into *new* '<column>Link' columns, leaving the source
-# columns untouched.
+# A CSV file stores only text. Building a "=HYPERLINK(...)" formula in
+# a CSV cell only works when the reader (Excel/LibreOffice) evaluates
+# formulas on import. LibreOffice, by default, does NOT: with
+# "Evaluate formulas" disabled (the CSV-import default) the raw text
+# of the formula is shown and the cell is not clickable. That is why
+# the previous approach failed there.
+#
+# The portable solution - the one that matches a link created through
+# the LibreOffice "Hyperlink" dialog and then exported to CSV - is to
+# store the bare "file:///absolute/path" URL as the cell content.
+# LibreOffice and Excel both recognise such URLs in a CSV as
+# clickable hyperlinks on open, regardless of the formula setting.
 #
 # A 'pictures' cell may contain several media paths separated by ';'.
-# Excel/LibreOffice accept only one real hyperlink per cell, so when
-# there are multiple paths the helper concatenates several HYPERLINK
-# calls with ' & ' - the cell displays "a; b; c", and in most
-# spreadsheet versions only the first link remains clickable. This is
-# a limitation of the CSV/formula format, not of the code.
+# Each path becomes its own file:// URL, and they are joined back with
+# '; '. Neither LibreOffice nor Excel supports several independent
+# hyperlinks inside a single cell, so in multi-path cells only the
+# first URL is generally clickable - a limitation of the CSV format,
+# not of the code.
 
 #' Columns to be linked (matches "pictures" and "pictureNewTag")
 #'
@@ -909,66 +913,66 @@ setupPyEnv <- function() {
   paste0("file://", p)
 }
 
-#' Build HYPERLINK formulas from one or several media paths
+#' Build file:// URLs from one or several media paths
 #'
 #' Each cell may hold one path ("media/x.jpg") or several separated
-#' by ";". One \code{HYPERLINK("file:///<abs>","<label>")} is built
-#' per path; when there is more than one, the calls are concatenated
-#' with \code{ & "; " & } so that the formula is syntactically valid.
-#' See the section header above for the (unavoidable) limitation
+#' by ";". Each path is resolved to its absolute file:// URL; when
+#' there is more than one, the URLs are rejoined with "; " so the
+#' cell keeps the same shape as the source 'pictures' column. See
+#' the section header above for the (unavoidable) limitation
 #' regarding multi-link clickability.
 #'
-#' Cells already starting with "=HYPERLINK(" are skipped (idempotent).
-#' Empty/NA cells are left untouched.
+#' Cells already starting with "file://" are skipped (idempotent).
+#' A legacy "=HYPERLINK(...)" cell is also skipped here - it will be
+#' cleaned up by .pictureUnlinkCell() before this is called (see
+#' joinData). Empty/NA cells are left untouched.
 #'
 #' @param x Character vector of media paths.
 #' @param baseDir Directory the paths are relative to (usually the
 #'   \code{dataDir} where the \code{media/} folder lives).
-#' @return A character vector with HYPERLINK formulas.
+#' @return A character vector with file:// URLs.
 #' @keywords internal
 .pictureLinkCell <- function(x, baseDir) {
   x <- as.character(x)
   for (i in seq_along(x)) {
     if (is.na(x[i]) || !nzchar(x[i])) next
+    if (startsWith(x[i], "file://")) next
     if (startsWith(x[i], "=HYPERLINK(")) next
 
     parts <- trimws(strsplit(x[i], ";", fixed = TRUE)[[1]])
     parts <- parts[nzchar(parts)]
     if (length(parts) == 0L) next
 
-    hlinks <- vapply(parts, function(p) {
-      absPath <- file.path(baseDir, p)
-      url     <- .fileUrl(absPath)
-      label   <- gsub('"', '""', p)
-      sprintf('HYPERLINK("%s","%s")', url, label)
+    urls <- vapply(parts, function(p) {
+      .fileUrl(file.path(baseDir, p))
     }, character(1))
 
-    x[i] <- if (length(hlinks) == 1L) {
-      paste0("=", hlinks)
-    } else {
-      paste0("=", paste(hlinks, collapse = ' & "; " & '))
-    }
+    x[i] <- paste(urls, collapse = "; ")
   }
   x
 }
 
 #' Reverse of .pictureLinkCell: extract the label(s) from HYPERLINK(s)
 #'
-#' Handles both the single-link form
+#' Handles the legacy single-link form
 #' \code{'=HYPERLINK("file:///...","media/x.jpg")'} -> \code{"media/x.jpg"}
-#' and the concatenated multi-link form
+#' and the legacy concatenated multi-link form
 #' \code{'=HYPERLINK(...,"a") & "; " & HYPERLINK(...,"b")'} -> \code{"a; b"}.
-#' Non-formula cells are left unchanged. This keeps deduplication
-#' working even when a previous output has already stored formulas.
+#' It also flattens "file://.../media/x.jpg" URLs back to "media/x.jpg"
+#' (label relative to the 'media/' folder). Non-formula/non-URL cells
+#' are left unchanged, so deduplication keeps working even when a
+#' previous output has already stored formulas or URLs in the source
+#' column.
 #'
 #' @param x Character vector.
-#' @return Character vector with the paths re-extracted from the
-#'   formulas.
+#' @return Character vector with the paths re-extracted.
 #' @keywords internal
 .pictureUnlinkCell <- function(x) {
   x <- as.character(x)
-  isLink <- !is.na(x) & startsWith(x, "=HYPERLINK(")
-  for (i in which(isLink)) {
+
+  ## Legacy: '=HYPERLINK("url","label")' concatenated with ' & '.
+  isFormula <- !is.na(x) & startsWith(x, "=HYPERLINK(")
+  for (i in which(isFormula)) {
     m <- gregexpr('HYPERLINK\\("[^"]*","((?:[^"]|"")*)"\\)', x[i],
                   perl = TRUE)
     hits <- regmatches(x[i], m)[[1]]
@@ -978,5 +982,17 @@ setupPyEnv <- function() {
     labels <- gsub('""', '"', labels)
     x[i] <- paste(labels, collapse = "; ")
   }
+
+  ## URLs written in the source column (should not normally happen):
+  ## flatten "file://.../media/x.jpg" back to "media/x.jpg" so that
+  ## deduplication against the incoming data keeps working.
+  isUrl <- !is.na(x) & startsWith(x, "file://")
+  for (i in which(isUrl)) {
+    parts <- trimws(strsplit(x[i], ";", fixed = TRUE)[[1]])
+    parts <- parts[nzchar(parts)]
+    parts <- sub("^file://.*?/(media/[^/]+)$", "\\1", parts)
+    x[i] <- paste(parts, collapse = "; ")
+  }
+
   x
 }
