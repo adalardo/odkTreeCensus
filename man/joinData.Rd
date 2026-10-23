@@ -12,14 +12,14 @@ Default: \code{getwd()}.}
 
 \item{overwrite}{Logical. If \code{TRUE}, removes
 \code{dataQuadMerged.csv} and the \code{*All.csv} files before
-processing, reprocessing every data directory from scratch.
+processing, rebuilding every output file from scratch.
 Default: \code{FALSE}.}
 
 \item{quiet}{Logical. If \code{TRUE}, suppresses progress messages.}
 }
 \value{
 Invisibly, a \code{data.frame} with the registry of processed
-directories (\code{mergedDir} and \code{date}).
+directories (\code{mergedDir}, \code{runDate} and \code{stopDate}).
 }
 \description{
 Combines, into single files at the root of \code{dataDir}, the files
@@ -29,11 +29,21 @@ found in the data subdirectories (pattern \code{data<quadrat>},
 e.g. \code{dataA00}, \code{dataA01}).
 }
 \details{
-Rows are combined with \code{merge(..., all = TRUE)} so that no variable
-is lost: rows are stacked and columns missing on one side are filled
-with \code{NA}.
+New records (from data directories not yet processed) are added,
+\strong{regardless of their date}, to the existing combined files. When
+\code{overwrite = FALSE}, records that are already present in the
+output files (all fields equal) are discarded; when
+\code{overwrite = TRUE}, the output files are rebuilt from scratch
+from the current data directories.
 
 Which data directories have already been processed is tracked in the
-\code{dataQuadMerged.csv} file (columns \code{mergedDir} and
-\code{date}). Only directories not yet registered are processed.
+\code{dataQuadMerged.csv} file (columns \code{mergedDir},
+\code{runDate} and \code{stopDate}):
+\itemize{
+\item \code{runDate}: timestamp of when the directory was merged;
+\item \code{stopDate}: most recent date found in the \code{date}
+column of that directory's \code{trees.csv} (or \code{NA} when
+the column/file is absent).
+}
+Only directories not yet registered are processed.
 }

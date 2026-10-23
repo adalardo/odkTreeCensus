@@ -98,7 +98,7 @@
 }
 
 
-#' Detect repeat paths in an XForm (or, as a fallback, in an instance)
+#' Detect repeat paths in a XForm (or, as a fallback, in an instance)
 #'
 #' A form's repeat structure is authoritative and must be read from the
 #' **XForm**. This function first reads the `nodeset` of every
@@ -743,22 +743,22 @@ setupPyEnv <- function() {
   d
 }
 
-#' Stack two data.frames row-wise while preserving the union of columns
+#' Combine two data.frames with `merge(..., all = TRUE)`
 #'
-#' This helper implements the "merge all = TRUE" *intent* used by
-#' joinData: no row and no variable is lost. It does NOT call
-#' \code{merge()}, because when \code{by} is supplied, \code{merge()}
-#' treats every other same-named column as a non-key collision and
-#' suffixes it with \code{.x}/\code{.y}. For files that all carry the
-#' same columns (e.g. \code{date}, \code{quad}, \code{subquad}), that
-#' produced \code{date.x}/\code{date.y} on the first pass and
-#' \code{date.x.1}/\code{date.x.2} on subsequent ones, filling the
-#' whole table with \code{NA}.
+#' Uses exactly the approach that was validated locally:
 #'
-#' The correct behaviour for "combine files with the same schema" is a
-#' row-wise stack with the union of the columns (missing columns become
-#' \code{NA}). That is what the general-purpose \code{.bindRows} helper
-#' (section 3) does, so this function delegates to it.
+#' \preformatted{
+#'   trees <- data.frame()
+#'   for (i in files) {
+#'       tt    <- read.table(i, header = TRUE, sep = ",")
+#'       trees <- merge(tt, trees, all = TRUE)
+#'   }
+#' }
+#'
+#' When `by` is not supplied, `merge()` uses every same-named column as
+#' a natural key. For files that share the same schema (all `trees.csv`
+#' of different quadrats, for example), this stacks the rows without
+#' creating `date.x`/`date.y` columns.
 #' @noRd
 .jdMergeAll <- function(x, y) {
 
@@ -769,11 +769,47 @@ setupPyEnv <- function() {
   if (!xOk) return(y)
   if (!yOk) return(x)
 
-  ## Row-wise stack, keeping the union of the columns. Never creates
-  ## suffixed duplicates (date.x/date.y) as merge(..., by =) would.
-  out <- .bindRows(list(x, y))
+  ## Same call the user tested locally: merge(x, y, all = TRUE),
+  ## with no explicit `by`.
+  out <- merge(x, y, all = TRUE)
   rownames(out) <- NULL
   out
+}
+
+#' Most recent \code{date} value found in a quad's \code{trees.csv}
+#'
+#' Scans every \code{trees.csv} under `quadDir` (recursively) and
+#' returns the most recent value of its \code{date} column as a
+#' \code{"YYYY-MM-DD"} string. Returns \code{NA_character_} when no
+#' \code{trees.csv} (or no \code{date} column / no dates) is found.
+#'
+#' ISO-shaped dates (the format produced by \code{.normalizeDate}) are
+#' parsed through the \code{YYYY-MM-DD} prefix. If none parse, the
+#' lexicographic maximum is returned as a last resort.
+#'
+#' @param quadDir Path to a data directory (e.g. \code{dataA00}).
+#' @return A character scalar with the most recent date, or
+#'   \code{NA_character_}.
+#' @keywords internal
+.jdStopDate <- function(quadDir) {
+  files <- list.files(quadDir, pattern = "^trees\\.csv$",
+                      recursive = TRUE, full.names = TRUE)
+  if (length(files) == 0L) return(NA_character_)
+
+  dates <- character(0)
+  for (f in files) {
+    d <- .jdReadCsv(f)
+    if (nrow(d) == 0L || !"date" %in% names(d)) next
+    v <- as.character(d$date)
+    v <- v[!is.na(v) & nzchar(v)]
+    dates <- c(dates, v)
+  }
+  if (length(dates) == 0L) return(NA_character_)
+
+  parsed <- suppressWarnings(as.Date(substr(dates, 1L, 10L)))
+  parsed <- parsed[!is.na(parsed)]
+  if (length(parsed) == 0L) return(max(dates))
+  format(max(parsed))
 }
 
 #' List the files of interest in a data directory

@@ -64,7 +64,7 @@ for(i in 1:nTabs)
 ```
 
 
-## Juntando os dados exportados
+## Criando os dados agrupados por quadrat 
 
 Reads the `CSV` files produced by \code{\link{readInstancesXML}}, links the
 records through the \code{KEY} / \code{PARENT_KEY} columns, repeats the
@@ -97,6 +97,21 @@ expdir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
 mergeCSV(csvDir = csvdir , expDir = expdir)
 
 ```
+
+
+## Agrupando dados dos quadrats 
+
+
+```{r }
+
+datadir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
+joinData(dataDir = datadir )
+
+
+
+
+```
+
 
 
 ```{r}

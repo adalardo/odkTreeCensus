@@ -2,7 +2,7 @@
 % Please edit documentation in R/helperFunctions.R
 \name{.detectRepeatPaths}
 \alias{.detectRepeatPaths}
-\title{Detect repeat paths in an XForm (or, as a fallback, in an instance)}
+\title{Detect repeat paths in a XForm (or, as a fallback, in an instance)}
 \usage{
 .detectRepeatPaths(formDoc)
 }
