@@ -6,23 +6,26 @@
 #' found in the data subdirectories (pattern \code{data<quadrat>},
 #' e.g. \code{dataA00}, \code{dataA01}).
 #'
-#' New records (from data directories not yet processed) are added,
-#' **regardless of their date**, to the existing combined files. When
-#' \code{overwrite = FALSE}, records that are already present in the
-#' output files (all fields equal) are discarded; when
-#' \code{overwrite = TRUE}, the output files are rebuilt from scratch
-#' from the current data directories.
-#'
-#' Which data directories have already been processed is tracked in the
-#' \code{dataQuadMerged.csv} file (columns \code{mergedDir},
-#' \code{runDate} and \code{stopDate}):
+#' All data directories are scanned on every call; the decision unit is
+#' the **record**, not the directory. When \code{overwrite = FALSE},
+#' records whose fields are all identical to a row already present in
+#' the output files are discarded, and every other record is added
+#' (regardless of its date). When \code{overwrite = TRUE}, the output
+#' files are rebuilt from scratch from the current data directories.
+#' The return value of \code{joinData} is a registry
+#' (\code{dataQuadMerged.csv}) with columns:
 #' \itemize{
-#'   \item \code{runDate}: timestamp of when the directory was merged;
+#'   \item \code{mergedDir}: name of a data subdirectory that was
+#'     scanned (e.g. \code{dataA00});
+#'   \item \code{runDate}: timestamp of the last \code{joinData} run
+#'     that scanned that directory;
 #'   \item \code{stopDate}: most recent date found in the \code{date}
 #'     column of that directory's \code{trees.csv} (or \code{NA} when
 #'     the column/file is absent).
 #' }
-#' Only directories not yet registered are processed.
+#' Progress messages report how many records were actually added per
+#' output file and how many duplicates were skipped, plus a grand total
+#' of new records at the end.
 #'
 #' @param dataDir Root directory containing the data subdirectories.
 #'   Default: \code{getwd()}.
@@ -32,7 +35,7 @@
 #'   Default: \code{FALSE}.
 #' @param quiet Logical. If \code{TRUE}, suppresses progress messages.
 #'
-#' @return Invisibly, a \code{data.frame} with the registry of processed
+#' @return Invisibly, a \code{data.frame} with the registry of scanned
 #'   directories (\code{mergedDir}, \code{runDate} and \code{stopDate}).
 #'
 #' @export
@@ -50,7 +53,7 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
   outFiles     <- file.path(dataDir, names(targets))
 
   ## ---------------------------------------------------------------------
-  ## 1. Registry of already processed directories
+  ## 1. Registry of scanned directories
   ## ---------------------------------------------------------------------
   emptyRegistry <- function() {
     data.frame(mergedDir = character(0),
@@ -62,8 +65,8 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
   if (isTRUE(overwrite)) {
     unlink(c(registryPath, outFiles))
     registry <- emptyRegistry()
-    msg("'overwrite = TRUE': previous files removed and all ",
-        "directories will be processed again.")
+    msg("'overwrite = TRUE': previous files removed; all output files ",
+        "will be rebuilt from the current data directories.")
   } else {
     registry <- .jdReadCsv(registryPath)
     if (ncol(registry) == 0L) {
@@ -87,11 +90,10 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
   registry$mergedDir <- as.character(registry$mergedDir)
   registry$runDate   <- as.character(registry$runDate)
   registry$stopDate  <- as.character(registry$stopDate)
-  processed <- unique(registry$mergedDir[!is.na(registry$mergedDir) &
-                                           nzchar(registry$mergedDir)])
 
   ## ---------------------------------------------------------------------
-  ## 2. Data directories (pattern 'data<quadrat>') not yet processed
+  ## 2. Every data directory (pattern 'data<quadrat>') is scanned;
+  ##    the unit of decision is the record, not the directory.
   ## ---------------------------------------------------------------------
   quadDirs  <- list.dirs(dataDir, recursive = FALSE, full.names = TRUE)
   quadNames <- basename(quadDirs)
@@ -103,31 +105,30 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
   quadDirs  <- quadDirs[ord]
   quadNames <- quadNames[ord]
 
-  newIdx   <- !(quadNames %in% processed)
-  newDirs  <- quadDirs[newIdx]
-  newNames <- quadNames[newIdx]
-
-  if (length(newDirs) == 0L) {
-    msg("No new data directories found in ", dataDir, ".")
+  if (length(quadDirs) == 0L) {
+    msg("No data directories (pattern 'data<quadrat>') found in ", dataDir, ".")
     return(invisible(registry))
   }
 
-  msg("New data directories: ", paste(newNames, collapse = ", "))
+  msg("Scanning ", length(quadDirs), " data directorie(s): ",
+      paste(quadNames, collapse = ", "))
 
   ## ---------------------------------------------------------------------
   ## 3. Merge the data files
   ## ---------------------------------------------------------------------
+  totalNew <- 0L
   for (nm in names(targets)) {
 
     outPath  <- file.path(dataDir, nm)
     existing <- if (isTRUE(overwrite)) data.frame() else .jdReadCsv(outPath)
     nOld     <- nrow(existing)
 
-    incoming <- .jdCollect(newDirs, targets[[nm]])
+    incoming <- .jdCollect(quadDirs, targets[[nm]])
 
     if (nrow(incoming) == 0L) {
-      msg(sprintf("  %s: no new records; file kept with %d record(s).",
-                  nm, nOld))
+      msg(sprintf("  %s: no records found in data directories; ",
+                  nm),
+          sprintf("file kept with %d record(s).", nOld))
       next
     }
 
@@ -146,6 +147,7 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
 
     nNew <- nrow(combined) - nOld
     nDup <- (nOld + nrow(incoming)) - nrow(combined)
+    totalNew <- totalNew + max(0L, nNew)
 
     ## 'na = ""' keeps NA cells empty in the CSV, consistent with
     ## .writeOneWithMerge() and the rest of the package outputs.
@@ -158,26 +160,29 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE) {
   }
 
   ## ---------------------------------------------------------------------
-  ## 4. Update the registry of processed directories
+  ## 4. Refresh the registry (one row per scanned directory)
   ## ---------------------------------------------------------------------
   procDate <- format(Sys.time(), "%Y-%m-%d %H:%M:%S")
   regNew   <- data.frame(
-    mergedDir = newNames,
+    mergedDir = quadNames,
     runDate   = procDate,
-    stopDate  = vapply(newDirs, .jdStopDate, character(1)),
+    stopDate  = vapply(quadDirs, .jdStopDate, character(1)),
     stringsAsFactors = FALSE
   )
 
   regOut <- if (nrow(registry) == 0L) {
     regNew
   } else {
-    rbind(registry, regNew)
+    ## Replace entries for the directories just scanned; keep the rest.
+    keepRows <- registry[!(registry$mergedDir %in% quadNames), , drop = FALSE]
+    rbind(keepRows, regNew)
   }
 
   utils::write.csv(regOut, registryPath, row.names = FALSE, na = "")
 
-  msg(sprintf("%d data directorie(s) processed. Registry saved to: %s",
-              length(newDirs), registryPath))
+  msg(sprintf("%d new record(s) added across %d output file(s). ",
+              totalNew, length(targets)),
+      sprintf("Registry saved to: %s", registryPath))
 
   invisible(regOut)
 }
