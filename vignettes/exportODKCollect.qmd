@@ -104,7 +104,16 @@ mergeCSV(csvDir = csvdir , expDir = expdir)
 
 ```{r }
 
+search()
 library(odkTreeCensus)
+
+##############
+## teste local
+##############
+detach( "package:odkTreeCensus")
+source("/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/R/joinData.R")
+source("/home/aao/Ale2026/AleProjetos/Rpackages/odkTreeCensus/R/helperFunctions.R")
+
 datadir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
 joinData(dataDir = datadir, pictureLinks = TRUE)
 
