@@ -847,6 +847,62 @@ setupPyEnv <- function() {
   out
 }
 
+#' Names of the generated '<col>Link' columns present in a data frame
+#'
+#' Returns the names of columns that follow the generated link naming
+#' rule (a source column name followed by \code{"Link"}, e.g.
+#' \code{picturesLink} next to \code{pictures}). A column is only
+#' treated as a generated link column when its base name (the part
+#' before the trailing \code{"Link"}) is itself a column of the data
+#' frame; this protects genuine source columns that happen to end in
+#' \code{"Link"}.
+#'
+#' @param d A data.frame.
+#' @return A character vector of column names (possibly empty).
+#' @keywords internal
+.generatedLinkCols <- function(d) {
+  nm <- names(d)
+  if (length(nm) == 0L) return(character(0))
+  isLink <- grepl("Link$", nm, ignore.case = FALSE)
+  base   <- sub("Link$", "", nm)
+  nm[isLink & base %in% nm]
+}
+
+#' Canonical per-row key for record-level deduplication
+#'
+#' The CSV round trip performed by \code{joinData} is not
+#' value-preserving for missing values, which breaks a naive
+#' \code{duplicated()}: \code{write.csv(..., na = "")} writes
+#' \code{NA} as an empty field, and \code{read.csv()} reads it back
+#' either as \code{NA} (numeric/logical columns) or as \code{""}
+#' (character columns). A source CSV may also store missing values as
+#' the literal \code{"NA"} (read back as \code{NA}). All these
+#' representations denote the same missing value, so this helper
+#' builds one string per row by converting every column to character,
+#' mapping \code{NA} to \code{""} and trimming whitespace. Generated
+#' \code{<col>Link} columns are ignored, since they are recomputed at
+#' write time from their source columns.
+#'
+#' @param df A data.frame.
+#' @return A character vector of keys, one per row of \code{df}.
+#' @keywords internal
+.jdRowKey <- function(df) {
+  if (nrow(df) == 0L) return(character(0))
+
+  dropCols <- .generatedLinkCols(df)
+  cols <- setdiff(names(df), dropCols)
+  ## Defensive: without data columns every row would be identical and
+  ## would collapse into a single record, which is never desired.
+  if (length(cols) == 0L) return(as.character(seq_len(nrow(df))))
+
+  pieces <- lapply(df[cols], function(x) {
+    x <- as.character(x)
+    x[is.na(x)] <- ""
+    trimws(x)
+  })
+  do.call(paste, c(pieces, sep = "\r"))
+}
+
 
 # --------------------------------------------------------------------
 # 5. Picture link helpers (joinData)

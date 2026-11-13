@@ -34,12 +34,12 @@ A função extrai os dados que estão em `instance/treeCensusForm_*.xml` para o 
 
 search()
 library(odkTreeCensus)
-dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkOut2026"
+dataDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosCampo2026/odkNov2026"
 ## diretorios onde estão os dados retirados dos tablets, com o padrao "tab1_09out2026"
 tabsDir <- dir(dataDir)
 ## diretorio onde os arquivos csv de dados brutos serao salvos
 eDir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/rawDataCSV"
-## diretorio de medias
+## diretorio de midias
 mediaDir <- file.path(eDir, "media")
 
 ## dados de tablets ja lidos, salvos seguindo o padrao "tab1_data" no diretorio exportado
@@ -106,7 +106,7 @@ mergeCSV(csvDir = csvdir , expDir = expdir)
 
 library(odkTreeCensus)
 datadir <- "/home/aao/Ale2026/AleProjetos/PPEIC/censo2026/dadosAgrupados"
-joinData(dataDir = datadir, picutreLinks = TRUE)
+joinData(dataDir = datadir, pictureLinks = TRUE)
 
 
 

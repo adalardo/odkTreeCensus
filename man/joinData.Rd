@@ -4,7 +4,12 @@
 \alias{joinData}
 \title{Merge data files from all data subdirectories}
 \usage{
-joinData(dataDir = getwd(), overwrite = FALSE, quiet = FALSE)
+joinData(
+  dataDir = getwd(),
+  overwrite = FALSE,
+  quiet = FALSE,
+  pictureLinks = FALSE
+)
 }
 \arguments{
 \item{dataDir}{Root directory containing the data subdirectories.
@@ -16,9 +21,28 @@ processing, rebuilding every output file from scratch.
 Default: \code{FALSE}.}
 
 \item{quiet}{Logical. If \code{TRUE}, suppresses progress messages.}
+
+\item{pictureLinks}{Logical. If \code{TRUE}, one companion column is
+added for every column whose name contains \code{"picture"}
+(case-insensitive) and is not itself a \code{*Link} column, i.e.
+\code{pictureNewTag} -> \code{pictureNewTagLink} and
+\code{pictures} -> \code{picturesLink}. The companion column
+holds the absolute \code{file:///.../media/x.jpg} URL, following
+the value resolved as \code{file.path(dataDir, value)}. Both
+LibreOffice and Excel recognise this URL as a clickable link when
+the CSV is opened (unlike a \code{=HYPERLINK(...)} formula, which
+LibreOffice only evaluates when the "Evaluate formulas" option is
+manually enabled on import). The source column is kept with the
+plain \code{media/x.jpg} paths so the CSVs remain programmatically
+readable in R. When a \code{pictures} cell holds several paths
+separated by ";", each becomes its own URL in the link column,
+rejoined with "; " (LibreOffice/Excel support only one clickable
+link per cell, so in multi-path cells only the first URL is
+typically clickable - a limitation of the CSV format, not of the
+package). Default: \code{FALSE}.}
 }
 \value{
-Invisibly, a \code{data.frame} with the registry of processed
+Invisibly, a \code{data.frame} with the registry of scanned
 directories (\code{mergedDir}, \code{runDate} and \code{stopDate}).
 }
 \description{
@@ -29,21 +53,28 @@ found in the data subdirectories (pattern \code{data<quadrat>},
 e.g. \code{dataA00}, \code{dataA01}).
 }
 \details{
-New records (from data directories not yet processed) are added,
-\strong{regardless of their date}, to the existing combined files. When
-\code{overwrite = FALSE}, records that are already present in the
-output files (all fields equal) are discarded; when
-\code{overwrite = TRUE}, the output files are rebuilt from scratch
-from the current data directories.
-
-Which data directories have already been processed is tracked in the
-\code{dataQuadMerged.csv} file (columns \code{mergedDir},
-\code{runDate} and \code{stopDate}):
+All data directories are scanned on every call; the decision unit is
+the \strong{record}, not the directory. When \code{overwrite = FALSE},
+records whose fields are all identical to a row already present in
+the output files are discarded, and every other record is added
+(regardless of its date). When \code{overwrite = TRUE}, the output
+files are rebuilt from scratch from the current data directories.
+Missing values are compared as a single category: \code{NA} and
+\code{""} are treated as equal, so a record that is already in the
+output file is never duplicated merely because the CSV round trip
+stored a missing value as an empty field instead of \code{NA}. The
+return value of \code{joinData} is a registry
+(\code{dataQuadMerged.csv}) with columns:
 \itemize{
-\item \code{runDate}: timestamp of when the directory was merged;
+\item \code{mergedDir}: name of a data subdirectory that was
+scanned (e.g. \code{dataA00});
+\item \code{runDate}: timestamp of the last \code{joinData} run
+that scanned that directory;
 \item \code{stopDate}: most recent date found in the \code{date}
 column of that directory's \code{trees.csv} (or \code{NA} when
 the column/file is absent).
 }
-Only directories not yet registered are processed.
+Progress messages report how many records were actually added per
+output file and how many duplicates were skipped, plus a grand total
+of new records at the end.
 }

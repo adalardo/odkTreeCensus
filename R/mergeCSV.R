@@ -345,7 +345,7 @@ mergeCSV <- function(csvDir, expDir = NULL) {
       species  = .getCol(tr, "sp_final"),
       mapOk    = .getCol(tr, "tree_map_conf"),
       qxy      = .getCol(tr, "map_final"),
-      qxyOld   = .getCol(tr, "old_xy"),
+      dxyOld   = .getCol(tr, "old_xy"),
       dx       = dx,
       dy       = dy,
       ## media path for the new tag picture

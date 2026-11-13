@@ -12,7 +12,11 @@
 #' the output files are discarded, and every other record is added
 #' (regardless of its date). When \code{overwrite = TRUE}, the output
 #' files are rebuilt from scratch from the current data directories.
-#' The return value of \code{joinData} is a registry
+#' Missing values are compared as a single category: \code{NA} and
+#' \code{""} are treated as equal, so a record that is already in the
+#' output file is never duplicated merely because the CSV round trip
+#' stored a missing value as an empty field instead of \code{NA}. The
+#' return value of \code{joinData} is a registry
 #' (\code{dataQuadMerged.csv}) with columns:
 #' \itemize{
 #'   \item \code{mergedDir}: name of a data subdirectory that was
@@ -156,15 +160,20 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE,
     ## (when pictureLinks = TRUE): they are recomputed at write time
     ## from the source column, so they must not interfere with the
     ## record-level deduplication below.
-    if (isTRUE(pictureLinks) && nrow(existing) > 0L) {
-      linkCols <- intersect(
-        vapply(.pictureColumns(existing), .pictureLinkName, character(1)),
-        names(existing)
-      )
+    if (nrow(existing) > 0L) {
+      linkCols <- .generatedLinkCols(existing)
       if (length(linkCols) > 0L) {
         existing <- existing[, setdiff(names(existing), linkCols),
                              drop = FALSE]
       }
+    }
+
+    ## Remove any duplicates already present in the file. This cleans
+    ## files produced by earlier versions of joinData (which compared
+    ## records with duplicated(), not robust to the NA/"" round trip)
+    ## and makes 'nOld' equal to the number of unique records.
+    if (nrow(existing) > 0L) {
+      existing <- existing[!duplicated(.jdRowKey(existing)), , drop = FALSE]
     }
 
     nOld <- nrow(existing)
@@ -188,7 +197,9 @@ joinData <- function(dataDir = getwd(), overwrite = FALSE, quiet = FALSE,
       .bindRows(list(existing, incoming))
     }
     if (nrow(combined) > 0L) {
-      combined <- combined[!duplicated(combined), , drop = FALSE]
+      ## .jdRowKey normalises NA/"" so that a record is recognised as
+      ## repeated no matter how the CSV stored its missing values.
+      combined <- combined[!duplicated(.jdRowKey(combined)), , drop = FALSE]
     }
 
     nNew <- nrow(combined) - nOld
